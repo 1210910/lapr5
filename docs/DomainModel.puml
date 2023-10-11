@@ -1,0 +1,87 @@
+@startuml
+
+skinparam packageStyle rectangle
+skinparam linetype ortho
+hide methods
+hide circle
+
+package User <<aggregate>> {
+   class User <<root>> 
+    class Admin
+    class GestorFrota
+    class GestorCampus
+    class Utente
+
+}
+
+package Edificio <<aggregate>> {
+    class Edificio <<root>>
+    class Piso
+    class Corredores
+    class Sala
+}
+
+class Campus 
+   
+
+package Robot <<aggregate>> {
+    class Robot <<root>>{
+        -SerialNumber
+        -Marca
+        -Id
+        -Nickname
+        }
+    class Droneisep
+    class Robisep
+}
+
+
+
+enum Função {
+    -Entrega
+    -Limpeza
+    -vigilância
+}
+
+class Tarefa{
+
+}
+
+User "1" <--- "1" Admin : é 
+User "1" <-- "1" GestorFrota: é 
+User "1" <--- "1" GestorCampus: é 
+User "1" <- "1" Utente: é 
+
+Admin "1" --> "1..*" User : gere
+
+Utente "1" --> "1..*" Tarefa : requesita 
+
+GestorCampus "1" --> "1..*" Campus : gere
+
+GestorFrota "1" --> "1..*" Robot : gere
+
+Campus "1" ---> "5..*" Edificio : constituído por
+
+Edificio "1" --> "1..*" Piso : têm
+Piso "1" --> "1..*" Corredores: têm
+Piso "1" --> "1..*" Sala: têm
+
+Robot "1" <-- "1" Droneisep: é 
+Robot "1" <-- "1" Robisep: é 
+
+
+Robisep "1" --> "1..*" Tarefa: realiza 
+Robisep "1" --> "1" Função : desempenha
+
+
+
+
+
+
+
+
+
+
+
+
+@enduml
