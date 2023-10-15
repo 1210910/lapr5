@@ -6,7 +6,7 @@ hide methods
 hide circle
 
 package User <<aggregate>> {
-   class User <<root>> 
+   class User <<root>>
     class Admin
     class GestorFrota
     class GestorCampus
@@ -15,18 +15,18 @@ package User <<aggregate>> {
 }
 
 package Edificio <<aggregate>> {
-    class Edificio <<root>>
+    class edificio <<root>>
     class Piso
     class Corredores
     class Sala
     class Elevador
 }
 
-class Campus 
-   
+class Campus
+
 
 package Robot <<aggregate>> {
-    class Robot <<root>>{
+    class robot <<root>>{
         -SerialNumber
         -Marca
         -Id
@@ -48,14 +48,14 @@ class Tarefa{
 
 }
 
-User "1" <--- "1" Admin : é 
-User "1" <-- "1" GestorFrota: é 
-User "1" <--- "1" GestorCampus: é 
-User "1" <- "1" Utente: é 
+User "1" <--- "1" Admin : é
+User "1" <-- "1" GestorFrota: é
+User "1" <--- "1" GestorCampus: é
+User "1" <- "1" Utente: é
 
 Admin "1" --> "1..*" User : gere
 
-Utente "1" --> "1..*" Tarefa : requesita 
+Utente "1" --> "1..*" Tarefa : requesita
 
 GestorCampus "1" --> "1..*" Campus : gere
 
@@ -63,16 +63,18 @@ GestorFrota "1" --> "1..*" Robot : gere
 
 Campus "1" ---> "5..*" Edificio : constituído por
 
+
 Edificio "1" --> "1..*" Piso : têm
 Edificio "1" --> "1..*" Elevador : têm
+
 Piso "1" --> "1..*" Corredores: têm
 Piso "1" --> "1..*" Sala: têm
 
-Robot "1" <-- "1" Droneisep: é 
-Robot "1" <-- "1" Robisep: é 
+robot "1"  <-- "1" Droneisep: é
+robot "1" <-- "1" Robisep: é
 
 
-Robisep "1" --> "1..*" Tarefa: realiza 
+Robisep "1" --> "1..*" Tarefa: realiza
 Robisep "1" --> "1" Função : desempenha
 
 
