@@ -48,6 +48,10 @@ export default {
     building: {
       name: "BuildingController",
       path: "../controllers/buildingController"
+    },
+    passagens: {
+      name: "PassagemController",
+      path: "../controllers/PassagemController"
     }
   },
 
@@ -63,6 +67,10 @@ export default {
     building: {
       name: "BuildingRepo",
       path: "../repos/buildingRepo"
+    },
+    passagens: {
+      name: "PassagemRepo",
+      path: "../repos/PassagemRepo"
     }
   },
 
@@ -74,6 +82,10 @@ export default {
     building: {
       name: "BuildingService",
       path: "../services/buildingService"
+    },
+    passagens: {
+      name: "PassagemService",
+      path: "../services/PassagemService"
     }
   },
 };
