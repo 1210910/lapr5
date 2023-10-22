@@ -10,6 +10,7 @@ export class PassagemMap extends Mapper<Passagem> {
 
     public static toDTO(passagem: Passagem): IPassagemDTO {
         return {
+            passageCode: passagem.passageCode,
             piso1: passagem.piso1,
             piso2: passagem.piso2
         } as IPassagemDTO;
@@ -29,6 +30,7 @@ export class PassagemMap extends Mapper<Passagem> {
     public static toPersistence(passagem: Passagem): any {
         return {
             domainId: passagem.id.toString(),
+            passageCode: passagem.passageCode,
             piso1: passagem.piso1,
             piso2: passagem.piso2
         }

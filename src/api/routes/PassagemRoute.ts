@@ -15,8 +15,9 @@ export default (app: Router) => {
     route.post('',
     celebrate({
         body: Joi.object({
-            name: Joi.string().required(),
-            description: Joi.string().required()
+            code: Joi.string().required(),
+            piso1: Joi.string().required(),
+            piso2: Joi.string().required(),
         }),
     }),
     (req,res,next) => passagemController.createPassagem(req,res,next) );

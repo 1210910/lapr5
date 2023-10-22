@@ -3,6 +3,7 @@ import { Service, Inject } from 'typedi';
 import IPassagemRepo from "../services/IRepos/IPassagemRepo";
 import { Passagem } from "../domain/Passagem";
 import { PassagemMap } from "../mappers/PassagemMap";
+import { PassagemId } from '../domain/PassagemId';
 
 import { Document, FilterQuery, Model } from 'mongoose';
 import { IPassagemPersistence } from '../dataschema/IPassagemPersistence';
@@ -22,11 +23,11 @@ export default class PassagemRepo implements IPassagemRepo {
         }
     }
 
-    public async exists(passagem: Passagem): Promise<boolean> {
-        const idX = passagem.id.toString();
+    public async exists(passagemId: PassagemId | string): Promise<boolean> {
+        const idX = passagemId instanceof PassagemId ? (<PassagemId>passagemId).id.toValue() : passagemId;
 
         const query = { domainId: idX };
-        const passagemDocument = await this.passagemSchema.findOne(query as FilterQuery<IPassagemPersistence & Document>);
+        const passagemDocument = await this.passagemSchema.findOne(query);
 
         return !!passagemDocument === true;
     }
@@ -61,6 +62,15 @@ export default class PassagemRepo implements IPassagemRepo {
         return passagemRecord.map((item) => {
             return PassagemMap.toDomain(item);
         });
+    }
+
+    public async findByCode(passageCode: Passagem | string): Promise<Passagem> {
+        const idX = passageCode instanceof Passagem ? (<Passagem>passageCode).id.toValue() : passageCode;
+
+        const query = { domainId: idX };
+        const passagemRecord = await this.passagemSchema.findOne(query);
+
+        return PassagemMap.toDomain(passagemRecord);
     }
 
 }
