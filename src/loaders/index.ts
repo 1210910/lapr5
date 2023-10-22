@@ -33,6 +33,11 @@ export default async ({ expressApp }) => {
     schema: '../persistence/schemas/passagewaySchema',
   };
 
+  const RoomSchema = {
+    name: 'RoomSchema',
+    schema: '../persistence/schemas/RoomSchema',
+  };
+
   // Controllers
 
   const roleController = {
@@ -48,6 +53,11 @@ export default async ({ expressApp }) => {
   const PassagewayController = {
     name: config.controllers.passageway.name,
     path: config.controllers.passageway.path
+  }
+
+  const RoomController = {
+    name: config.controllers.Room.name,
+    path: config.controllers.Room.path
   }
 
   // Repos
@@ -72,6 +82,11 @@ export default async ({ expressApp }) => {
     path: config.repos.passageway.path
   }
 
+  const RoomRepo = {
+    name: config.repos.Room.name,
+    path: config.repos.Room.path
+  }
+
   // Services
 
   const roleService = {
@@ -89,29 +104,39 @@ export default async ({ expressApp }) => {
     path: config.services.passageway.path
   }
 
+  const RoomService = {
+    name: config.services.Room.name,
+    path: config.services.Room.path
+  }
+
+
   await dependencyInjectorLoader({
     mongoConnection,
     schemas: [
       userSchema,
       roleSchema,
       buildingSchema,
-      PassagewaySchema
+      PassagewaySchema,
+      RoomSchema
     ],
     controllers: [
       roleController,
       buildingController,
-      PassagewayController
+      PassagewayController,
+      RoomController
     ],
     repos: [
       roleRepo,
       userRepo,
       buildingRepo,
-      PassagewayRepo
+      PassagewayRepo,
+      RoomRepo
     ],
     services: [
       roleService,
       buildingService,
-      PassagewayService
+      PassagewayService,
+      RoomService
     ]
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');
