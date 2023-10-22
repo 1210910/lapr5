@@ -25,21 +25,21 @@ package Building <<aggregate>> {
     }
     class Lift{
         - Code
-        - Building
+        - BuildingCode
     }
 }
 
 package Floor <<aggregate>> {
     class floor <<root>>{
         - Code
-        - Building
+        - BuildingCode
         - Description
         - FloorDimension
     }
 
     class Room{
         - Code
-        - Floor
+        - FloorCode
         - Location
         - Description
         - RoomDimension
@@ -57,8 +57,8 @@ package Floor <<aggregate>> {
 package Passageway <<aggregate>>{
     class passageway <<root>>{
         - Code
-        - Floor1
-        - Floor2
+        - Floor1Code
+        - Floor2Code
         - Description
     }
 }
