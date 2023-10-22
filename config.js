@@ -49,9 +49,9 @@ export default {
       name: "BuildingController",
       path: "../controllers/buildingController"
     },
-    passagens: {
-      name: "PassagemController",
-      path: "../controllers/PassagemController"
+    passageway: {
+      name: "PassagewayController",
+      path: "../controllers/PassagewayController"
     }
   },
 
@@ -68,9 +68,9 @@ export default {
       name: "BuildingRepo",
       path: "../repos/buildingRepo"
     },
-    passagens: {
-      name: "PassagemRepo",
-      path: "../repos/PassagemRepo"
+    passageway: {
+      name: "PassagewayRepo",
+      path: "../repos/PassagewayRepo"
     }
   },
 
@@ -83,9 +83,9 @@ export default {
       name: "BuildingService",
       path: "../services/buildingService"
     },
-    passagens: {
-      name: "PassagemService",
-      path: "../services/PassagemService"
+    passageway: {
+      name: "PassagewayService",
+      path: "../services/PassagewayService"
     }
   },
 };

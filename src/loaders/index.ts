@@ -28,6 +28,11 @@ export default async ({ expressApp }) => {
     schema: '../persistence/schemas/buildingSchema',
   };
 
+  const PassagewaySchema = {
+    name: 'passagewaySchema',
+    schema: '../persistence/schemas/passagewaySchema',
+  };
+
   // Controllers
 
   const roleController = {
@@ -38,6 +43,11 @@ export default async ({ expressApp }) => {
   const buildingController = {
     name: config.controllers.building.name,
     path: config.controllers.building.path
+  }
+
+  const PassagewayController = {
+    name: config.controllers.passageway.name,
+    path: config.controllers.passageway.path
   }
 
   // Repos
@@ -57,6 +67,11 @@ export default async ({ expressApp }) => {
     path: config.repos.building.path
   }
 
+  const PassagewayRepo = {
+    name: config.repos.passageway.name,
+    path: config.repos.passageway.path
+  }
+
   // Services
 
   const roleService = {
@@ -69,25 +84,34 @@ export default async ({ expressApp }) => {
     path: config.services.building.path
   }
 
+  const PassagewayService = {
+    name: config.services.passageway.name,
+    path: config.services.passageway.path
+  }
+
   await dependencyInjectorLoader({
     mongoConnection,
     schemas: [
       userSchema,
       roleSchema,
-      buildingSchema
+      buildingSchema,
+      PassagewaySchema
     ],
     controllers: [
       roleController,
-      buildingController
+      buildingController,
+      PassagewayController
     ],
     repos: [
       roleRepo,
       userRepo,
-      buildingRepo
+      buildingRepo,
+      PassagewayRepo
     ],
     services: [
       roleService,
-      buildingService
+      buildingService,
+      PassagewayService
     ]
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');

@@ -1,5 +1,5 @@
 import { Result } from "../../core/logic/Result";
-import IPisoDTO from "../../dto/IPisoDTO";
+import IPisoDTO from "../../dto/IFloorDTO";
 
 export default interface IPisoService  {
     createPiso(pisoDTO: IPisoDTO): Promise<Result<IPisoDTO>>;

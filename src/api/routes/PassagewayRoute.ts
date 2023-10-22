@@ -3,14 +3,14 @@ import { celebrate, Joi } from 'celebrate';
 
 import { Container } from 'typedi';
 import config from "../../../config";
-import IPassagemController from '../../controllers/IControllers/IPassagemController';
+import IPassagewayController from '../../controllers/IControllers/IPassagewayController';
 
 const route = Router();
 
 export default (app: Router) => {
-    app.use('/passagens',route);
+    app.use('/passageway',route);
 
-    const passagemController = Container.get(config.controllers.building.name) as IPassagemController;
+    const passagewayController = Container.get(config.controllers.passageway.name) as IPassagewayController;
 
     route.post('',
     celebrate({
@@ -20,6 +20,6 @@ export default (app: Router) => {
             piso2: Joi.string().required(),
         }),
     }),
-    (req,res,next) => passagemController.createPassagem(req,res,next) );
+    (req,res,next) => passagewayController.createPassageway(req,res,next) );
 
 };

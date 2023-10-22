@@ -3,7 +3,7 @@ import auth from './routes/userRoute';
 import user from './routes/userRoute';
 import role from './routes/roleRoute';
 import building from './routes/buildingRoute';
-import passagem from './routes/PassagemRoute';
+import passageway from './routes/PassagewayRoute';
 
 export default () => {
 	const app = Router();
@@ -12,7 +12,7 @@ export default () => {
 	user(app);
 	role(app);
 	building(app);
-	passagem(app);
+	passageway(app);
 	
 	return app
 }
