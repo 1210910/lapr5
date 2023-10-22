@@ -42,7 +42,11 @@ package Floor <<aggregate>> {
         - FloorCode
         - Location
         - Description
-        - RoomDimension
+    }
+
+    class RoomDimension <<Value Object>>{
+        - Width
+        - Length
     }
 
     enum Type {
@@ -110,6 +114,7 @@ building "1" --> "0..1" Lift : têm
 floor "1" --> "1..*" passageway: têm
 floor "1" --> "1..*" Room: têm
 Room "1" --> "1" Type: é
+Room "1" --> "1" RoomDimension: tem
 
 robot "1"  <-- "1" Droneisep: é
 robot "1" <-- "1" Robisep: é
