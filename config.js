@@ -52,6 +52,10 @@ export default {
     passageway: {
       name: "PassagewayController",
       path: "../controllers/PassagewayController"
+    },
+    room: {
+      name: "RoomController",
+      path: "../controllers/RoomController"
     }
   },
 
@@ -71,6 +75,10 @@ export default {
     passageway: {
       name: "PassagewayRepo",
       path: "../repos/PassagewayRepo"
+    },
+    room: {
+      name: "RoomRepo",
+      path: "../repos/RoomRepo"
     }
   },
 
@@ -86,6 +94,10 @@ export default {
     passageway: {
       name: "PassagewayService",
       path: "../services/PassagewayService"
+    },
+    room: {
+      name: "RoomService",
+      path: "../services/RoomService"
     }
   },
 };
