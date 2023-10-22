@@ -1,4 +1,4 @@
-@startuml
+@startuml DomainModel
 
 skinparam packageStyle rectangle
 skinparam linetype ortho
@@ -6,7 +6,7 @@ hide methods
 hide circle
 
 package User <<aggregate>> {
-   class User <<root>>
+    class user <<root>>
     class Admin
     class GestorFrota
     class GestorCampus
@@ -33,34 +33,31 @@ package Robot <<aggregate>> {
         }
     class Droneisep
     class Robisep
-}
-
-
-
 enum Função {
     -Entrega
     -Limpeza
     -vigilância
+}
 }
 
 class Tarefa{
 
 }
 
-User "1" <--- "1" Admin : é
-User "1" <-- "1" GestorFrota: é
-User "1" <--- "1" GestorCampus: é
-User "1" <- "1" Utente: é
+user "1" <--- "1" Admin : é
+user "1" <-- "1" GestorFrota: é
+user "1" <--- "1" GestorCampus: é
+user "1" <- "1" Utente: é
 
-Admin "1" --> "1..*" User : gere
+Admin "1" --> "1..*" user : gere
 
 Utente "1" --> "1..*" Tarefa : requesita
 
 GestorCampus "1" --> "1..*" Campus : gere
 
-GestorFrota "1" --> "1..*" Robot : gere
+GestorFrota "1" --> "1..*" robot : gere
 
-Campus "1" ---> "5..*" Edificio : constituído por
+Campus "1" ---> "5..*" edificio : constituído por
 
 edificio "1" --> "1..*" Piso : têm
 Piso "1" --> "1..*" Corredores: têm
