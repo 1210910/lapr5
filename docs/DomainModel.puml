@@ -1,4 +1,4 @@
-@startuml
+@startuml DomainModel
 
 skinparam packageStyle rectangle
 skinparam linetype ortho
@@ -6,7 +6,7 @@ hide methods
 hide circle
 
 package User <<aggregate>> {
-   class User <<root>>
+    class user <<root>>
     class Admin
     class GestorFrota
     class GestorCampus
@@ -14,13 +14,56 @@ package User <<aggregate>> {
 
 }
 
-package Edificio <<aggregate>> {
-    class edificio <<root>>
-    class Piso
-    class Corredores
-    class Sala
-    class Elevador
+package Building <<aggregate>> {
+    class building <<root>>{
+        - Code
+        - Name
+        - MaxFloorDimension
+        - MinFloorDimension
+        - Description
+
+    }
+    class Lift{
+        - Code
+        - Building
+    }
 }
+
+package Floor <<aggregate>> {
+    class floor <<root>>{
+        - Code
+        - Building
+        - Description
+        - FloorDimension
+    }
+
+    class Room{
+        - Code
+        - Floor
+        - Location
+        - Description
+        - RoomDimension
+    }
+
+    enum Type {
+            - Office
+            - Amphitheater
+            - Laboratory
+            - Other
+    }
+
+}
+
+package Passageway <<aggregate>>{
+    class passageway <<root>>{
+        - Code
+        - Floor1
+        - Floor2
+        - Description
+    }
+}
+
+
 
 class Campus
 
@@ -34,41 +77,39 @@ package Robot <<aggregate>> {
         }
     class Droneisep
     class Robisep
-}
-
-
-
 enum Função {
     -Entrega
     -Limpeza
     -vigilância
+}
 }
 
 class Tarefa{
 
 }
 
-User "1" <--- "1" Admin : é
-User "1" <-- "1" GestorFrota: é
-User "1" <--- "1" GestorCampus: é
-User "1" <- "1" Utente: é
+user "1" <--- "1" Admin : é
+user "1" <-- "1" GestorFrota: é
+user "1" <--- "1" GestorCampus: é
+user "1" <- "1" Utente: é
 
-Admin "1" --> "1..*" User : gere
+Admin "1" --> "1..*" user : gere
 
 Utente "1" --> "1..*" Tarefa : requesita
 
 GestorCampus "1" --> "1..*" Campus : gere
 
-GestorFrota "1" --> "1..*" Robot : gere
+GestorFrota "1" --> "1..*" robot : gere
 
-Campus "1" ---> "5..*" Edificio : constituído por
+Campus "1" ---> "5..*" building : constituído por
 
 
-Edificio "1" --> "1..*" Piso : têm
-Edificio "1" --> "1..*" Elevador : têm
+building "1" --> "1..*" floor : têm
+building "1" --> "0..1" Lift : têm
 
-Piso "1" --> "1..*" Corredores: têm
-Piso "1" --> "1..*" Sala: têm
+floor "1" --> "1..*" passageway: têm
+floor "1" --> "1..*" Room: têm
+Room "1" --> "1" Type: é
 
 robot "1"  <-- "1" Droneisep: é
 robot "1" <-- "1" Robisep: é
