@@ -2,9 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import { Inject, Service } from 'typedi';
 import config from "../../config";
 
-import IPisoController from "./IControllers/IPisoController";
-import IPisoService from '../services/IServices/IPisoService';
-import IPisoDTO from '../dto/IPisoDTO';
+import IPisoController from "./IControllers/IFloorController";
+import IPisoService from '../services/IServices/IFloorService';
+import IPisoDTO from '../dto/IFloorDTO';
 
 import { Result } from "../core/logic/Result";
 
