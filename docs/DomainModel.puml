@@ -19,6 +19,7 @@ package Edificio <<aggregate>> {
     class Piso
     class Corredores
     class Sala
+    class Elevador
 }
 
 class Campus
@@ -59,7 +60,10 @@ GestorFrota "1" --> "1..*" robot : gere
 
 Campus "1" ---> "5..*" edificio : constituído por
 
-edificio "1" --> "1..*" Piso : têm
+
+Edificio "1" --> "1..*" Piso : têm
+Edificio "1" --> "1..*" Elevador : têm
+
 Piso "1" --> "1..*" Corredores: têm
 Piso "1" --> "1..*" Sala: têm
 
