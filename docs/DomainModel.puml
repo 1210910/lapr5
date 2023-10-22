@@ -14,13 +14,56 @@ package User <<aggregate>> {
 
 }
 
-package Edificio <<aggregate>> {
-    class edificio <<root>>
-    class Piso
-    class Corredores
-    class Sala
-    class Elevador
+package Building <<aggregate>> {
+    class building <<root>>{
+        - Code
+        - Name
+        - MaxFloorDimension
+        - MinFloorDimension
+        - Description
+
+    }
+    class Lift{
+        - Code
+        - Building
+    }
 }
+
+package Floor <<aggregate>> {
+    class floor <<root>>{
+        - Code
+        - Building
+        - Description
+        - FloorDimension
+    }
+
+    class Room{
+        - Code
+        - Floor
+        - Location
+        - Description
+        - RoomDimension
+    }
+
+    enum Type {
+            - Office
+            - Amphitheater
+            - Laboratory
+            - Other
+    }
+
+}
+
+package Passageway <<aggregate>>{
+    class passageway <<root>>{
+        - Code
+        - Floor1
+        - Floor2
+        - Description
+    }
+}
+
+
 
 class Campus
 
@@ -58,14 +101,15 @@ GestorCampus "1" --> "1..*" Campus : gere
 
 GestorFrota "1" --> "1..*" robot : gere
 
-Campus "1" ---> "5..*" edificio : constituído por
+Campus "1" ---> "5..*" building : constituído por
 
 
-Edificio "1" --> "1..*" Piso : têm
-Edificio "1" --> "1..*" Elevador : têm
+building "1" --> "1..*" floor : têm
+building "1" --> "0..1" Lift : têm
 
-Piso "1" --> "1..*" Corredores: têm
-Piso "1" --> "1..*" Sala: têm
+floor "1" --> "1..*" passageway: têm
+floor "1" --> "1..*" Room: têm
+Room "1" --> "1" Type: é
 
 robot "1"  <-- "1" Droneisep: é
 robot "1" <-- "1" Robisep: é
