@@ -18,7 +18,7 @@ export default class FloorController implements IFloorController/* TODO: extends
         try {
             const pisoOrError = await this.pisoServiceInstance.createFloor(req.body as IFloorDTO) as Result<IFloorDTO>;
             if (pisoOrError.isFailure) {
-                return res.status(402).send();
+                return res.status(404).send();
             }
             const pisoDTO = pisoOrError.getValue();
             return res.json( pisoDTO ).status(201);

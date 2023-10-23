@@ -14,6 +14,7 @@ export default class FloorRepo implements IFloorRepo {
     
         constructor(
             @Inject('floorSchema') private floorSchema : Model<IFloorPersistence & Document>,
+             
         ) {}
 
         private createBaseQuery (): any {
