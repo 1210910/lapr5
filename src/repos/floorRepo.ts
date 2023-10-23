@@ -25,7 +25,7 @@ export default class FloorRepo implements IFloorRepo {
 
         public async exists(floor: Floor): Promise<boolean> {
 
-            const idX = floor.id instanceof Floor ? (<Floor>floor.id).toValue() : floor.id;
+            const idX = floor.id instanceof Floor ? (<Floor>floor.id): floor.id;
 
             const query = { domainId: idX};
             const floorDocument = await this.floorSchema.findOne( query as FilterQuery<IFloorPersistence & Document>);
@@ -46,7 +46,7 @@ export default class FloorRepo implements IFloorRepo {
 
                     return FloorMap.toDomain(floorCreated);
                 } else {
-                    floorDocument.name = floor.name;
+                    floorDocument.floorNumber = floor.floorNumber;
                     await floorDocument.save();
 
                     return floor;
@@ -75,18 +75,6 @@ export default class FloorRepo implements IFloorRepo {
 
 
         
-        public async findByName (floorName: string): Promise<Floor> {
-            const query = { name: floorName};
-            const floorRecord = await this.floorSchema.findOne( query as FilterQuery<IFloorPersistence & Document> );
-
-            if (floorRecord != null) {
-                return FloorMap.toDomain(floorRecord);
-            }
-
-            return null;
-        }
-
-
 
         public async findByBuildingId (buildingId: string): Promise<Floor[]> {
             const query = { buildingId: buildingId};
@@ -94,6 +82,17 @@ export default class FloorRepo implements IFloorRepo {
 
             if (floorRecords != null) {
                 return floorRecords.map((floor) => FloorMap.toDomain(floor));
+            }
+
+            return null;
+        }
+
+        public async findByfloorNumberAndBuildingId (floorNumber: number, buildingId: string): Promise<Floor> {
+            const query = { floorNumber: floorNumber, buildingId: buildingId};
+            const floorRecord = await this.floorSchema.findOne( query as FilterQuery<IFloorPersistence & Document> );
+
+            if (floorRecord != null) {
+                return FloorMap.toDomain(floorRecord);
             }
 
             return null;

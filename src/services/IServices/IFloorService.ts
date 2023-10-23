@@ -1,9 +1,9 @@
 import { Result } from "../../core/logic/Result";
-import IPisoDTO from "../../dto/IFloorDTO";
+import IFloorDTO from "../../dto/IFloorDTO";
 
-export default interface IPisoService  {
-    createPiso(pisoDTO: IPisoDTO): Promise<Result<IPisoDTO>>;
-    updatePiso(pisoDTO: IPisoDTO): Promise<Result<IPisoDTO>>;
+export default interface IFloorService  {
+    createFloor(pisoDTO: IFloorDTO): Promise<Result<IFloorDTO>>;
+    updateFloor(pisoDTO: IFloorDTO): Promise<Result<IFloorDTO>>;
     
-    getPiso (pisoId: string): Promise<Result<IPisoDTO>>;
+    getFloor (pisoId: string): Promise<Result<IFloorDTO>>;
 }
