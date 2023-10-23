@@ -7,6 +7,7 @@ import { Result } from "../core/logic/Result";
 
 
 interface FloorProps {
+    floorNumber: number;
     dimension: number;
     description: string;
     buildingID: string;
@@ -18,6 +19,10 @@ export class Floor extends AggregateRoot<FloorProps> {
     
     get id (): UniqueEntityID {
         return this._id;
+    }
+
+    get floorNumber (): number {
+        return this.props.floorNumber;
     }
 
 
@@ -50,13 +55,13 @@ export class Floor extends AggregateRoot<FloorProps> {
 
 
         if (!guardResult.succeeded) {
-            return Result.fail<Piso>(guardResult.message)
+            return Result.fail<Floor>(guardResult.message)
         } else {
-            const piso = new Piso({
+            const floor = new Floor({
                 ...props
             }, id);
 
-            return Result.ok<Piso>(piso);
+            return Result.ok<Floor>(floor);
         }
     }
     

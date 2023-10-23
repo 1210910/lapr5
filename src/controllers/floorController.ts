@@ -2,21 +2,21 @@ import { Request, Response, NextFunction } from 'express';
 import { Inject, Service } from 'typedi';
 import config from "../../config";
 
-import IPisoController from "./IControllers/IFloorController";
-import IPisoService from '../services/IServices/IFloorService';
-import IPisoDTO from '../dto/IFloorDTO';
+import IFloorController from "./IControllers/IFloorController";
+import IFloorService from '../services/IServices/IFloorService';
+import IFloorDTO from '../dto/IFloorDTO';
 
 import { Result } from "../core/logic/Result";
 
 @Service()
 
-export default class PisoController implements IPisoController/* TODO: extends ../core/infra/BaseController */ {
+export default class FloorController implements IFloorController/* TODO: extends ../core/infra/BaseController */ {
 
-    constructor(@Inject(config.services.piso.name) private pisoServiceInstance : IPisoService) {}
+    constructor(@Inject(config.services.piso.name) private pisoServiceInstance : IFloorService) {}
 
-    public async createPiso(req: Request, res: Response, next: NextFunction) {
+    public async createFloor(req: Request, res: Response, next: NextFunction) {
         try {
-            const pisoOrError = await this.pisoServiceInstance.createPiso(req.body as IPisoDTO) as Result<IPisoDTO>;
+            const pisoOrError = await this.pisoServiceInstance.createFloor(req.body as IFloorDTO) as Result<IFloorDTO>;
             if (pisoOrError.isFailure) {
                 return res.status(402).send();
             }
@@ -28,9 +28,9 @@ export default class PisoController implements IPisoController/* TODO: extends .
         }
     };
 
-    public async updatePiso(req: Request, res: Response, next: NextFunction) {
+    public async updateFloor(req: Request, res: Response, next: NextFunction) {
         try {
-            const pisoOrError = await this.pisoServiceInstance.updatePiso(req.body as IPisoDTO) as Result<IPisoDTO>;
+            const pisoOrError = await this.pisoServiceInstance.updateFloor(req.body as IFloorDTO) as Result<IFloorDTO>;
             if (pisoOrError.isFailure) {
                 return res.status(404).send();
             }
