@@ -24,7 +24,7 @@ export default (app: Router) => {
     }),
     (req,res,next) => floorController.createFloor(req,res,next) );
 
-    route.patch('/:floorId',
+    route.put('/:floorId',
     celebrate({
         body: Joi.object({
             floorNumber: Joi.number().required(),

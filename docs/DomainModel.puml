@@ -73,7 +73,21 @@ class Campus
 
 
 package Robot <<aggregate>> {
+
     class robot <<root>>{
+        -code
+        -name
+        -description
+    }
+
+    class robotType <<Value Object>>{
+        -code
+        -Brand 
+        -Model
+        -Description
+    }
+
+  /'class robot <<root>>{
         -SerialNumber
         -Marca
         -Id
@@ -85,10 +99,31 @@ enum Função {
     -Entrega
     -Limpeza
     -vigilância
-}
+}'/
+
 }
 
-class Tarefa{
+
+package Task <<aggregate>> {
+class Task{
+    -Code
+    -Description
+}
+
+class DeliveryTask{
+    -pickupRoom
+    -deliveryRoom
+    -deliveryName
+    -deliveryContact
+    -pickupName
+    -pickupContact
+    -confirmationCode
+}
+
+class SecurityTask{
+    -locations
+    -contact
+}
 
 }
 
@@ -99,7 +134,7 @@ user "1" <- "1" Utente: é
 
 Admin "1" --> "1..*" user : gere
 
-Utente "1" --> "1..*" Tarefa : requesita
+Utente "1" --> "1..*" Task : requests
 
 GestorCampus "1" --> "1..*" Campus : gere
 
@@ -116,12 +151,17 @@ floor "1" --> "1..*" Room: têm
 Room "1" --> "1" Type: é
 Room "1" --> "1" RoomDimension: tem
 
-robot "1"  <-- "1" Droneisep: é
-robot "1" <-- "1" Robisep: é
+'robot "1"  <-- "1" Droneisep: é
+'robot "1" <-- "1" Robisep: é
 
+robot "1" --> "1" robotType: has
+robotType "1" --> "1" Task: has 
 
-Robisep "1" --> "1..*" Tarefa: realiza
-Robisep "1" --> "1" Função : desempenha
+'Robisep "1" --> "1..*" Task: does
+'Robisep "1" --> "1" Função : desempenha
+
+Task "1" --> "1" DeliveryTask: is
+Task "1" --> "1" SecurityTask: is 
 
 
 
