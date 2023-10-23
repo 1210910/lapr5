@@ -12,7 +12,7 @@ import { Result } from "../core/logic/Result";
 export default class RoomController implements IRoomController {
        
     constructor(
-        @Inject(config.services.Room.name) private RoomServiceInstance : IRoomService
+        @Inject(config.services.room.name) private RoomServiceInstance : IRoomService
     ) {}
 
         public async createRoom(req: Request, res: Response, next: NextFunction){

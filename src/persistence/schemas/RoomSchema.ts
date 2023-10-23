@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 
 const Room = new mongoose.Schema(
     {
-        _id: { type: String, unique: true },
+        domainId: { type: String, unique: true },
         floor: { type: String },
         roomCode: { type: String, unique: true},
         location: { type: String },

@@ -14,7 +14,7 @@ export default class RoomRepo implements IRoomRepo {
     private models: any;
 
     constructor(
-        @Inject('roomSchema') private roomSchema: Model<IRoomPersistence & Document>,
+        @Inject('RoomSchema') private roomSchema: Model<IRoomPersistence & Document>,
     ) { }
 
     private createBaseQuery(): any {

@@ -10,7 +10,7 @@ const route = Router();
 export default (app: Router) => {
     app.use('/Room',route);
 
-    const RoomController = Container.get(config.controllers.Room.name) as IRoomController;
+    const RoomController = Container.get(config.controllers.room.name) as IRoomController;
 
     route.post('',
     celebrate({

@@ -56,8 +56,8 @@ export default async ({ expressApp }) => {
   }
 
   const RoomController = {
-    name: config.controllers.Room.name,
-    path: config.controllers.Room.path
+    name: config.controllers.room.name,
+    path: config.controllers.room.path
   }
 
   // Repos
@@ -83,8 +83,8 @@ export default async ({ expressApp }) => {
   }
 
   const RoomRepo = {
-    name: config.repos.Room.name,
-    path: config.repos.Room.path
+    name: config.repos.room.name,
+    path: config.repos.room.path
   }
 
   // Services
@@ -105,8 +105,8 @@ export default async ({ expressApp }) => {
   }
 
   const RoomService = {
-    name: config.services.Room.name,
-    path: config.services.Room.path
+    name: config.services.room.name,
+    path: config.services.room.path
   }
 
 
