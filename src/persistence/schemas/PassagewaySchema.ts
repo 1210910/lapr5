@@ -5,7 +5,8 @@ const Passageway = new mongoose.Schema(
     {
         domainId: { type: String, unique: true },
         floor1: { type: String },
-        floor2: { type: String }
+        floor2: { type: String },
+        passageCode: { type: String },
     },
     {
         timestamps: true

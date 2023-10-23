@@ -4,4 +4,5 @@ export default interface IPassagewayDTO{
     passageCode: string;
     floor1: Floor;
     floor2: Floor;
+    description: string;
 }
