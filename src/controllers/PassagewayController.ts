@@ -10,34 +10,37 @@ import { Result } from "../core/logic/Result";
 
 @Service()
 export default class PassagewayController implements IPassagewayController {
-       
+
     constructor(
-        @Inject(config.services.passageway.name) private passagewayServiceInstance : IPassagewayService
-    ) {}
+        @Inject(config.services.passageway.name) private passagewayServiceInstance: IPassagewayService
+    ) { }
 
-        public async createPassageway(req: Request, res: Response, next: NextFunction){
-            try{
-                const passagewayOrError = await this.passagewayServiceInstance.createPassageway(req.body as IPassagewayDTO) as Result<IPassagewayDTO>;
+    public async createPassageway(req: Request, res: Response, next: NextFunction) {
+        try {
+            const floor1 = req.params.floor1;
+            const floor2 = req.params.floor2;
 
-                if(passagewayOrError.isFailure) {
-                    return res.status(402).send();
-                }
+            const passagewayOrError = await this.passagewayServiceInstance.createPassageway(req.body as IPassagewayDTO, floor1, floor2) as Result<IPassagewayDTO>;
 
-                const passagewayDto = passagewayOrError.getValue();
-                return res.json(passagewayDto).status(201);
-
-            }catch (e){
-                return next(e);
+            if (passagewayOrError.isFailure) {
+                return res.status(402).send();
             }
-        };
 
-        public async updatePassageway(req: Request, res: Response, next: NextFunction){
-            console.log("Not implemented yet");
-            return null;
-        };
+            const passagewayDto = passagewayOrError.getValue();
+            return res.json(passagewayDto).status(201);
 
-        public async listPassageway(req: Request, res: Response, next: NextFunction){
-            console.log("Not implemented yet");
-            return null;
-        };
+        } catch (e) {
+            return next(e);
+        }
+    };
+
+    public async updatePassageway(req: Request, res: Response, next: NextFunction) {
+        console.log("Not implemented yet");
+        return null;
+    };
+
+    public async listPassageway(req: Request, res: Response, next: NextFunction) {
+        console.log("Not implemented yet");
+        return null;
+    };
 }

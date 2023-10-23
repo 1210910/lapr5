@@ -5,18 +5,22 @@ import { PassagewayMap } from "../mappers/PassagewayMap";
 import IPassagewayDTO from "../dto/IPassagewayDTO";
 import IPassagewayService from "./IServices/IPassagewayService";
 import IPassagewayRepo from "./IRepos/IPassagewayRepo";
+import IFloorRepo from "./IRepos/IFloorRepo";
 import { Result } from "../core/logic/Result";
+
 
 
 @Service()
 export default class PassagewayService implements IPassagewayService {
     constructor(
-        @Inject(config.repos.passageway.name) private passagewayRepo: IPassagewayRepo
+        @Inject(config.repos.passageway.name) private passagewayRepo: IPassagewayRepo,
+        //@Inject(config.repos.floor.name) private floorRepo: IFloorRepo
     ) { }
 
-    public async createPassageway(passagewayDTO: IPassagewayDTO): Promise<Result<IPassagewayDTO>> {
+    public async createPassageway(passagewayDTO: IPassagewayDTO, floor1: string, floor2: string): Promise<Result<IPassagewayDTO>> {
         try {
-
+            passagewayDTO.floor1 // = await this.floorRepo.findByDomainId(floor1);
+            passagewayDTO.floor2 // = await this.floorRepo.findByDomainId(floor2);
             const passagewayOrError = await Passageway.create(passagewayDTO);
 
             if (passagewayOrError.isFailure) {

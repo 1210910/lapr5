@@ -12,7 +12,8 @@ export class PassagewayMap extends Mapper<Passageway> {
         return {
             passageCode: passageway.passageCode,
             floor1: passageway.floor1,
-            floor2: passageway.floor2
+            floor2: passageway.floor2,
+            description: passageway.description
         } as IPassagewayDTO;
     }
 
@@ -32,7 +33,8 @@ export class PassagewayMap extends Mapper<Passageway> {
             domainId: passageway.id.toString(),
             passageCode: passageway.passageCode,
             floor1: passageway.floor1,
-            floor2: passageway.floor2
+            floor2: passageway.floor2,
+            description: passageway.description
         }
     }
 }
