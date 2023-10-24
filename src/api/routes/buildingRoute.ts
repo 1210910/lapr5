@@ -2,7 +2,6 @@ import { Router } from 'express';
 import { celebrate, Joi } from 'celebrate';
 
 import { Container } from 'typedi';
-import IBBuildingController from '../../controllers/IControllers/IBuildingController'; 
 
 import config from "../../../config";
 import IBuildingController from '../../controllers/IControllers/IBuildingController';
@@ -17,10 +16,15 @@ export default (app: Router) => {
     route.post('',
     celebrate({
         body: Joi.object({
-            name: Joi.string().required(),
-            description: Joi.string().required()
+            code: Joi.string().required(),
+            name: Joi.string(),
+            description: Joi.string(),
+            maxLength: Joi.number().required(),
+            maxWidth: Joi.number().required()
         }),
     }),
     (req,res,next) => buildingController.createBuilding(req,res,next) );
 
+    route.get('',
+    (req, res, next) => buildingController.getAllBuildings(req, res, next) );
 };
