@@ -3,25 +3,32 @@ import mongoose from 'mongoose';
 
 const Building = new mongoose.Schema(
     {
-      domainId: { 
+      domainId: {
         type: String,
-        unique: true
+        unique: true,
       },
-      
+      code: {
+        type: String,
+        unique: true,
+      },
       name: {
-         type: String, 
-         required: [true, 'Please enter the name'],
-         unique: true 
-        },
-  
+         type: String
+      },
       description: {
         type: String,
-        required: [false, 'Please enter the description'],
         index: true,
+        unique:true,
+      },
+      maxLength: {
+        type: Number,
+        unique: false,
+      },
+      maxWidth: {
+        type: Number,
+        unique: false,
       },
     },
     { timestamps: true },
   );
-  
+
   export default mongoose.model<IBuildingPersistence & mongoose.Document>('Building', Building);
-  

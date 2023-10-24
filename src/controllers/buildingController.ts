@@ -11,7 +11,7 @@ import { Result } from "../core/logic/Result";
 
 @Service()
 export default class BuildingController implements IBuildingController {
-   
+
     constructor(
         @Inject(config.services.building.name) private buildingServiceInstance : IBuildingService
     ) {}
@@ -21,7 +21,7 @@ export default class BuildingController implements IBuildingController {
                 const buildingOrError = await this.buildingServiceInstance.createBuilding(req.body as IBuildingDTO) as Result<IBuildingDTO>;
 
                 if(buildingOrError.isFailure) {
-                    return res.status(402).send();
+                    return res.status(409).send(buildingOrError.errorValue());
                 }
 
                 const buildingDto = buildingOrError.getValue();
@@ -32,6 +32,20 @@ export default class BuildingController implements IBuildingController {
             }
         };
 
+        public async getAllBuildings(req: Request, res: Response, next: NextFunction){
+            try{
+                const buildingsOrError = await this.buildingServiceInstance.getAllBuildings();
 
+                if(buildingsOrError.isFailure) {
+                    return res.status(500).send();
+                }
+
+                const buildingDto = buildingsOrError.getValue();
+                return res.status(200).json(buildingDto);
+
+            }catch (e){
+                return next(e);
+            }
+        };
 
 }
