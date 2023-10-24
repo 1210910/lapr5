@@ -2,14 +2,14 @@ import { Router} from 'express';
 import { celebrate, Joi } from 'celebrate';
 
 import { Container } from 'typedi';
+import config from "../../../config";
 import IFloorController from '../../controllers/IControllers/IFloorController';
 
-import config from "../../../config";
 
-const route = Router();
+const route = Router(); 
 
 export default (app: Router) => {
-    app.use('/floors',route);
+    app.use('/floor',route); 
 
     const floorController = Container.get(config.controllers.floor.name) as IFloorController;
 
@@ -24,9 +24,10 @@ export default (app: Router) => {
     }),
     (req,res,next) => floorController.createFloor(req,res,next) );
 
-    route.put('/:floorId',
+    route.put('/:id',
     celebrate({
         body: Joi.object({
+
             floorNumber: Joi.number().required(),
             dimension: Joi.number().required(),
             description: Joi.string().required(),

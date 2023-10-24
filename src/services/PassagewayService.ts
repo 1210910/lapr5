@@ -14,7 +14,7 @@ import { Result } from "../core/logic/Result";
 export default class PassagewayService implements IPassagewayService {
     constructor(
         @Inject(config.repos.passageway.name) private passagewayRepo: IPassagewayRepo,
-        //@Inject(config.repos.floor.name) private floorRepo: IFloorRepo
+        @Inject(config.repos.floor.name) private floorRepo: IFloorRepo 
     ) { }
 
     public async createPassageway(passagewayDTO: IPassagewayDTO, floor1: string, floor2: string): Promise<Result<IPassagewayDTO>> {

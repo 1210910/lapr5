@@ -7,20 +7,20 @@ import IFloorService from "./IServices/IFloorService";
 import IBuildingRepo from "../services/IRepos/IBuildingRepo"
 import {Result} from "../core/logic/Result";
 import {FloorMap} from "../mappers/floorMap";
-import { UniqueEntityID } from "../core/domain/UniqueEntityID";
+import {UniqueEntityID} from "../core/domain/UniqueEntityID";
 
 
 @Service()
 export default class FloorService implements IFloorService {
     constructor(
-        @Inject(config.repos.floor.name) private floorRepo: IFloorRepo,
+        @Inject(config.repos.floor.name) private FloorRepo: IFloorRepo,
         @Inject(config.repos.building.name) private buildingRepo : IBuildingRepo
     ) {
     }
 
     public async getFloor(floorId: string): Promise<Result<IFloorDTO>> {
         try {
-            const floor = await this.floorRepo.findByDomainId(floorId);
+            const floor = await this.FloorRepo.findByDomainId(floorId);
 
             if (floor === null) {
                 return Result.fail<IFloorDTO>("Floor not found");
@@ -37,15 +37,27 @@ export default class FloorService implements IFloorService {
     public async createFloor(floorDTO: IFloorDTO): Promise<Result<IFloorDTO>> {
         try {
             
-            const buildingExists = await this.buildingRepo.findById(floorDTO.buildingID);
+           // const buildingExists = await this.buildingRepo.findByCode(floorDTO.buildingID);
             
-            if (!buildingExists) {
-                return Result.fail<IFloorDTO>("Building not found");
-            }
+           //if (!buildingExists) {
+           //     return Result.fail<IFloorDTO>("Building not found");
+            //}
+            let Id = "FLR";
+            let i = 0;
+            
+           // check repo for last id and increment 
+           // while the id exists in the repo, increment a: 
 
-            const Id = floorIDGenerator();
+           while ( (await this.FloorRepo.existsByDomainId(Id + i)).valueOf() == true ) {
+               i++;
+           }
+            
+           let id = Id.concat(i.toString());
 
-            const floorOrError = await Floor.create(floorDTO, new UniqueEntityID(Id));
+        
+            
+
+            const floorOrError =  Floor.create(floorDTO, new UniqueEntityID(id));
 
             if (floorOrError.isFailure) {
                 return Result.fail<IFloorDTO>(floorOrError.errorValue());
@@ -53,12 +65,9 @@ export default class FloorService implements IFloorService {
 
             const floorResult = floorOrError.getValue();
 
-            function randomString(): string {
-                const length = (Math.random() < 0.5) ? 5 : 7;
-                return (Math.random() + 1).toString(36).substring(length);
-            }
-
-            await this.floorRepo.save(floorResult);
+        
+            
+            await this.FloorRepo.save(floorResult);
 
             const floorDTOResult = FloorMap.toDTO(floorResult) as IFloorDTO;
             return Result.ok<IFloorDTO>(floorDTOResult)
@@ -70,25 +79,34 @@ export default class FloorService implements IFloorService {
     
     public async updateFloor(floorDTO: IFloorDTO): Promise<Result<IFloorDTO>> {
         try {
-            const floor = await this.floorRepo.findByfloorNumberAndBuildingId(floorDTO.floorNumber, floorDTO.buildingID);
+            let floor = await this.FloorRepo.findByfloorNumberAndBuildingId(floorDTO.floorNumber, floorDTO.buildingID);
 
             if (floor === null) {
                 return Result.fail<IFloorDTO>("Floor not found");
             } else {
-                const buildingExists = await this.buildingRepo.findById(floorDTO.buildingID);
+                if (this.buildingRepo.findById(floorDTO.buildingID) == null) {
+                    return Result.fail<IFloorDTO>("Building not found");
+                }
+                const floorOrError = await Floor.update(floorDTO);
 
+                if (floorOrError.isFailure) {
+                    return Result.fail<IFloorDTO>(floorOrError.errorValue());
+                }
+
+                floor = floorOrError.getValue();
+
+                await this.FloorRepo.save(floor);
+                const floorDTOResult = FloorMap.toDTO(floor) as IFloorDTO;
+                return Result.ok<IFloorDTO>(floorDTOResult)
             }
+            
         } catch (e) {
             throw e;
         }
     }
+    
+   
+    
 }
-    function floorIDGenerator() : string {
-        let id = "FLR";
-        let i = 0;
-       // check repo for last id and increment
-       if (this.floorRepo.findByDomainId(id + i)==null) {
-            return id + i;
-       }
-    }
+
   

@@ -19,11 +19,11 @@ export class FloorMap extends Mapper<Floor> {
     }
 
     public static toDomain (floor: any | Model<IFloorPersistence & Document> ): Floor {
-        const floorOrError = floor.create(
+        const floorOrError =  Floor.create(
             floor,
             new UniqueEntityID(floor.domainId)
         );
-
+        console.log("floorMap.toDomain: " + floor.domainId);
         floorOrError.isFailure ? console.log(floorOrError.error) : '';
 
         return floorOrError.isSuccess ? floorOrError.getValue() : null;

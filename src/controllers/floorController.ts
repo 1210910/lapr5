@@ -9,14 +9,17 @@ import IFloorDTO from '../dto/IFloorDTO';
 import { Result } from "../core/logic/Result";
 
 @Service()
+export default class FloorController implements IFloorController {
 
-export default class FloorController implements IFloorController/* TODO: extends ../core/infra/BaseController */ {
-
-    constructor(@Inject(config.services.piso.name) private pisoServiceInstance : IFloorService) {}
+    constructor(@Inject(config.services.floor.name) private floorService : IFloorService) {}
 
     public async createFloor(req: Request, res: Response, next: NextFunction) {
         try {
-            const pisoOrError = await this.pisoServiceInstance.createFloor(req.body as IFloorDTO) as Result<IFloorDTO>;
+           // return res.status(201).json( "estou aqui" );
+            const pisoOrError = await this.floorService.createFloor(req.body as IFloorDTO) as Result<IFloorDTO>;
+
+            //return res.status(201).json( "estou aqui" );
+             
             if (pisoOrError.isFailure) {
                 return res.status(404).send();
             }
@@ -30,7 +33,9 @@ export default class FloorController implements IFloorController/* TODO: extends
 
     public async updateFloor(req: Request, res: Response, next: NextFunction) {
         try {
-            const pisoOrError = await this.pisoServiceInstance.updateFloor(req.body as IFloorDTO) as Result<IFloorDTO>;
+            const id = req.params.id;
+            
+            const pisoOrError = await this.floorService.updateFloor(req.body as IFloorDTO) as Result<IFloorDTO>;
             if (pisoOrError.isFailure) {
                 return res.status(404).send();
             }

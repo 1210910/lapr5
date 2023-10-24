@@ -93,26 +93,12 @@ export class Floor extends AggregateRoot<FloorProps> {
 
         const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
 
-
         if (!guardResult.succeeded) {
             return Result.fail<Floor>(guardResult.message)
         } else {
+            return Result.ok<Floor>(new Floor(props));
+        }
 
-            if (props.floorNumber!=null) {
-                set(this, 'props.floorNumber', props.floorNumber);
-            }
-            if (props.dimension!=null) {
-                set(this, 'props.dimension', props.dimension);
-            }
-            if (props.description!=null) {
-                set(this, 'props.description', props.description);
-            }
-            if (props.buildingID!=null) {
-                set(this, 'props.buildingID', props.buildingID);
-            }
-
-            return Result.ok<Floor>();
-        } 
-    } 
+    }
     
 }

@@ -5,6 +5,7 @@ import Logger from './logger';
 
 import config from '../../config';
 
+
 export default async ({ expressApp }) => {
   const mongoConnection = await mongooseLoader();
   Logger.info('✌️ DB loaded and connected!');
@@ -38,6 +39,11 @@ export default async ({ expressApp }) => {
     schema: '../persistence/schemas/RoomSchema',
   };
 
+  const floorSchema = {
+    name: 'floorSchema',
+    schema: '../persistence/schemas/floorSchema',
+  };
+
   // Controllers
 
   const roleController = {
@@ -60,6 +66,11 @@ export default async ({ expressApp }) => {
     path: config.controllers.room.path
   }
 
+  const floorController = {
+    name: config.controllers.floor.name,
+    path: config.controllers.floor.path
+  }
+
   // Repos
 
   const roleRepo = {
@@ -74,7 +85,7 @@ export default async ({ expressApp }) => {
 
   const buildingRepo = {
     name: config.repos.building.name,
-    path: config.repos.building.path
+    path: config.repos.building.path 
   }
 
   const PassagewayRepo = {
@@ -86,6 +97,12 @@ export default async ({ expressApp }) => {
     name: config.repos.room.name,
     path: config.repos.room.path
   }
+
+  const floorRepo = {
+    name: config.repos.floor.name,
+    path: config.repos.floor.path
+  }
+
 
   // Services
 
@@ -109,6 +126,11 @@ export default async ({ expressApp }) => {
     path: config.services.room.path
   }
 
+  const floorService = {
+    name: config.services.floor.name,
+    path: config.services.floor.path
+  }
+
 
   await dependencyInjectorLoader({
     mongoConnection,
@@ -117,26 +139,30 @@ export default async ({ expressApp }) => {
       roleSchema,
       buildingSchema,
       PassagewaySchema,
-      RoomSchema
+      RoomSchema,
+      floorSchema
     ],
     controllers: [
       roleController,
       buildingController,
       PassagewayController,
-      RoomController
+      RoomController,
+      floorController
     ],
     repos: [
       roleRepo,
       userRepo,
       buildingRepo,
       PassagewayRepo,
-      RoomRepo
+      RoomRepo,
+      floorRepo
     ],
     services: [
       roleService,
       buildingService,
       PassagewayService,
-      RoomService
+      RoomService,
+      floorService
     ]
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');

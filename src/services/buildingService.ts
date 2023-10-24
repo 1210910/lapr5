@@ -11,6 +11,7 @@ import { BuildingMap } from "../mappers/BuildingMap";
 export default class BuildingService implements IBuildingService{
     constructor(
         @Inject(config.repos.building.name) private buildingRepo : IBuildingRepo
+        
     ) {}
 
     public async createBuilding(buildingDTO: IBuildingDTO): Promise<Result<IBuildingDTO>> {

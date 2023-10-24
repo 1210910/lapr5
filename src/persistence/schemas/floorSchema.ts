@@ -1,15 +1,17 @@
 import { IFloorPersistence } from "../../dataschema/IFloorPersistence";
 import mongoose from 'mongoose';
 
-const FloorSchema = new mongoose.Schema(
+const Floor = new mongoose.Schema(
     {
-        _id: { type: String, unique: true },
+        domainId: { type: String, unique: true },
         floorNumber: { type: Number, unique: true },
-        dimension: { type: Number, unique: true },
-        description: { type: String, unique: true },
-        buildingID: { type: String, unique: true }
+        dimension: { type: Number},
+        description: { type: String},
+        buildingID: { type: String }
     },
     {
         timestamps: true
-    }
+    } 
     );
+
+    export default mongoose.model<IFloorPersistence & mongoose.Document>('Floor', Floor);

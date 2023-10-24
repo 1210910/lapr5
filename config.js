@@ -57,7 +57,6 @@ export default {
       name: "RoomController",
       path: "../controllers/RoomController"
     },
-
     floor: {
       name: "FloorController",
       path: "../controllers/floorController"
@@ -86,7 +85,7 @@ export default {
       path: "../repos/RoomRepo"
     },
     floor: {
-      name: "floorRepo",
+      name: "FloorRepo",
       path: "../repos/floorRepo"
     }
   },
@@ -108,7 +107,6 @@ export default {
       name: "RoomService",
       path: "../services/RoomService"
     },
-
     floor: {
       name: "FloorService",
       path: "../services/floorService"
