@@ -12,7 +12,7 @@ interface BuildingProps {
 
   export class Building extends AggregateRoot<BuildingProps> {
    
-    get id (): UniqueEntityID {
+    get id (): UniqueEntityID { 
         return this._id;
     }
 

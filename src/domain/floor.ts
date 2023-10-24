@@ -1,3 +1,4 @@
+import { set } from "lodash";
 import { AggregateRoot } from "../core/domain/AggregateRoot";
 import { UniqueEntityID } from "../core/domain/UniqueEntityID";
 import { Guard } from "../core/logic/Guard";
@@ -38,6 +39,22 @@ export class Floor extends AggregateRoot<FloorProps> {
         return this.props.dimension;
     }
 
+    set dimension (dimension: number) {
+        this.props.dimension = dimension;
+    }
+
+    set description (description: string) {
+        this.props.description = description;
+    }
+
+    set buildingID (buildingID: string) {
+        this.props.buildingID = buildingID;
+    }
+
+    set floorNumber (floorNumber: number) {
+        this.props.floorNumber = floorNumber;
+    }
+
 
     private constructor (props: FloorProps, id?: UniqueEntityID) {
         super(props, id);
@@ -46,6 +63,7 @@ export class Floor extends AggregateRoot<FloorProps> {
     public static create (props: FloorProps, id?: UniqueEntityID): Result<Floor> {
 
         const guardedProps = [
+            {argument :props.floorNumber, argumentName: 'floorNumber'},
             { argument: props.dimension, argumentName: 'dimension' },
             { argument: props.description, argumentName: 'description' },
             { argument: props.buildingID, argumentName: 'buildingID' },
@@ -59,10 +77,42 @@ export class Floor extends AggregateRoot<FloorProps> {
         } else {
             const floor = new Floor({
                 ...props
-            }, id);
+            }, id); 
 
             return Result.ok<Floor>(floor);
         }
     }
+
+    public static update (props:  FloorProps):Result<Floor> {
+        const guardedProps = [
+            {argument :props.floorNumber, argumentName: 'floorNumber'},
+            { argument: props.dimension, argumentName: 'dimension' },
+            { argument: props.description, argumentName: 'description' },
+            { argument: props.buildingID, argumentName: 'buildingID' },
+        ];
+
+        const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
+
+
+        if (!guardResult.succeeded) {
+            return Result.fail<Floor>(guardResult.message)
+        } else {
+
+            if (props.floorNumber!=null) {
+                set(this, 'props.floorNumber', props.floorNumber);
+            }
+            if (props.dimension!=null) {
+                set(this, 'props.dimension', props.dimension);
+            }
+            if (props.description!=null) {
+                set(this, 'props.description', props.description);
+            }
+            if (props.buildingID!=null) {
+                set(this, 'props.buildingID', props.buildingID);
+            }
+
+            return Result.ok<Floor>();
+        } 
+    } 
     
 }
