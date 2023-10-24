@@ -37,4 +37,13 @@ export class PassagewayMap extends Mapper<Passageway> {
             description: passageway.description
         }
     }
+
+    public static toDTOList(passageway: Array<Passageway>): Array<IPassagewayDTO> {
+        let passagewayDTOList: Array<IPassagewayDTO> = [];
+        passageway.forEach((passageway: Passageway) => {
+            passagewayDTOList.push(this.toDTO(passageway));
+        });
+
+        return passagewayDTOList;
+    }
 }

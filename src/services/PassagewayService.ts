@@ -43,9 +43,22 @@ export default class PassagewayService implements IPassagewayService {
         return null;
     }
     
-    public async listPassageway(): Promise<Result<IPassagewayDTO[]>> {
-        console.log("Not implemented yet");
-        return null;
+    public async listPassageway(): Promise<Result<Array<IPassagewayDTO>>> {
+        try {
+            const listOrError = await this.passagewayRepo.findAll();
+
+            if (listOrError.isFailure) {
+                return Result.fail<Array<IPassagewayDTO>>(listOrError.errorValue());
+            }
+
+            const passagewayResult = listOrError.getValue();
+
+            const passagewayDTOResult = PassagewayMap.toDTOList(passagewayResult) as Array<IPassagewayDTO>;
+            return Result.ok<Array<IPassagewayDTO>>(passagewayDTOResult)
+        } catch (e) {
+            throw e;
+        }
+
     }
 
 }

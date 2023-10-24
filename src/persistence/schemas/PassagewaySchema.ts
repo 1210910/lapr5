@@ -4,9 +4,10 @@ import mongoose from 'mongoose';
 const Passageway = new mongoose.Schema(
     {
         domainId: { type: String, unique: true },
+        passageCode: { type: String, unique: true},
         floor1: { type: String },
         floor2: { type: String },
-        passageCode: { type: String },
+        description: { type: String },
     },
     {
         timestamps: true

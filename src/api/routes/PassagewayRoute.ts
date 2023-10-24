@@ -12,6 +12,7 @@ export default (app: Router) => {
 
     const passagewayController = Container.get(config.controllers.passageway.name) as IPassagewayController;
 
+    // Create a passageway
     route.post('/:floor1/:floor2',
     celebrate({
         body: Joi.object({
@@ -21,4 +22,6 @@ export default (app: Router) => {
     }),
     (req,res,next) => passagewayController.createPassageway(req,res,next) );
 
+    // List all passageway
+    route.get('', (req,res,next) => passagewayController.listPassageway(req,res,next) );
 };

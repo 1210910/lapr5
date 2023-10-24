@@ -7,6 +7,7 @@ import { PassagewayId } from '../domain/PassagewayId';
 
 import { Document, FilterQuery, Model } from 'mongoose';
 import { IPassagewayPersistence } from '../dataschema/IPassagewayPersistence';
+import { Result } from '../core/logic/Result';
 
 @Service()
 export default class PassagewayRepo implements IPassagewayRepo {
@@ -56,12 +57,14 @@ export default class PassagewayRepo implements IPassagewayRepo {
         }
     }
 
-    public async findAll(): Promise<Passageway[]> {
+    public async findAll(): Promise<Result<Array<Passageway>>> {
         const passagewayRecord = await this.passagewaySchema.find();
 
-        return passagewayRecord.map((item) => {
+        const passageways = passagewayRecord.map((item) => {
             return PassagewayMap.toDomain(item);
         });
+
+        return Result.ok<Array<Passageway>>(passageways);
     }
 
     public async findByCode(passageCode: Passageway | string): Promise<Passageway> {
