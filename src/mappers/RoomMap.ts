@@ -12,9 +12,9 @@ export class RoomMap extends Mapper<Room> {
         return {
             roomCode: Room.roomCode,
             floor: Room.floor,
-            location: Room.location,
             description: Room.description,
-            roomDimensions: Room.roomDimensions,
+            width : Room.width,
+            length : Room.length,
             roomType: Room.roomType
         } as IRoomDTO;
     }
@@ -35,9 +35,9 @@ export class RoomMap extends Mapper<Room> {
             domainId: Room.id.toString(),
             roomCode: Room.roomCode,
             floor: Room.floor,
-            location: Room.location,
             description: Room.description,
-            roomDimensions: Room.roomDimensions,
+            width: Room.width,
+            length: Room.length,
             roomType: Room.roomType
         }
     }

@@ -8,7 +8,7 @@ import IRoomController from '../../controllers/IControllers/IRoomController';
 const route = Router();
 
 export default (app: Router) => {
-    app.use('/Room',route);
+    app.use('/room',route);
 
     const RoomController = Container.get(config.controllers.room.name) as IRoomController;
 
@@ -16,11 +16,11 @@ export default (app: Router) => {
     celebrate({
         body: Joi.object({
             code: Joi.string().required(),
-            piso: Joi.string().required(),
-            location: Joi.string().required(),
+            floor: Joi.string().required(),
             description: Joi.string().required(),
-            roomDimensions: Joi.object().required(),
-            roomType: Joi.string().required(),
+            width: Joi.number().required(),
+            length: Joi.number().required(),
+            roomType: Joi.string().valid('classroom','laboratory','anphitheater','office','other').required(),
         }),
     }),
     (req,res,next) => RoomController.createRoom(req,res,next) );

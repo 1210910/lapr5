@@ -40,13 +40,9 @@ package Floor <<aggregate>> {
     class Room{
         - Code
         - FloorCode
-        - Location
-        - Description
-    }
-
-    class RoomDimension <<Value Object>>{
         - Width
         - Length
+        - Description
     }
 
     enum Type {
@@ -82,7 +78,7 @@ package Robot <<aggregate>> {
 
     class robotType <<Value Object>>{
         -code
-        -Brand 
+        -Brand
         -Model
         -Description
     }
@@ -149,29 +145,18 @@ building "1" --> "0..1" Lift : têm
 floor "1" --> "1..*" passageway: têm
 floor "1" --> "1..*" Room: têm
 Room "1" --> "1" Type: é
-Room "1" --> "1" RoomDimension: tem
 
 'robot "1"  <-- "1" Droneisep: é
 'robot "1" <-- "1" Robisep: é
 
 robot "1" --> "1" robotType: has
-robotType "1" --> "1" Task: has 
+robotType "1" --> "1" Task: has
 
 'Robisep "1" --> "1..*" Task: does
 'Robisep "1" --> "1" Função : desempenha
 
 Task "1" --> "1" DeliveryTask: is
-Task "1" --> "1" SecurityTask: is 
-
-
-
-
-
-
-
-
-
-
+Task "1" --> "1" SecurityTask: is
 
 
 @enduml

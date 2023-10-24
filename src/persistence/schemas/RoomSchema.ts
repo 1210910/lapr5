@@ -6,9 +6,9 @@ const Room = new mongoose.Schema(
         domainId: { type: String, unique: true },
         floor: { type: String },
         roomCode: { type: String, unique: true},
-        location: { type: String },
         description: { type: String },
-        roomDimensions: { type: String },
+        width: {type : Number},
+        length: {type : Number},
         roomType: { type: String }
     },
     {

@@ -4,14 +4,15 @@ import { Guard } from "../core/logic/Guard";
 import { Result } from "../core/logic/Result"
 import { Floor } from "./floor";
 import { RoomId } from "./RoomId";
+import { RoomType } from "./RoomType";
 import IRoomDTO from "../dto/IRoomDTO";
 
 interface RoomProps {
     roomCode: string;
     floor: Floor;
-    location: string;
     description: string;
-    roomDimensions: RoomDimensions;
+    width : number;
+    length : number;
     roomType: RoomType;
 }
 
@@ -32,17 +33,17 @@ export class Room extends AggregateRoot<RoomProps>{
     get floor(): Floor {
         return this.props.floor;
     }
-    
-    get location(): string {
-        return this.props.location;
-    }
 
     get description(): string {
         return this.props.description;
     }
 
-    get roomDimensions(): RoomDimensions {
-        return this.props.roomDimensions;
+    get width(): number {
+        return this.props.width;
+    }
+
+    get length(): number{
+        return this.props.length
     }
 
     get roomType(): RoomType {
@@ -54,22 +55,22 @@ export class Room extends AggregateRoot<RoomProps>{
     }
 
     public static create(iRoomDTO: IRoomDTO, id?: UniqueEntityID): Result<Room> {
-        
+
         const roomCode = iRoomDTO.roomCode;
         const floor = iRoomDTO.floor;
-        const location = iRoomDTO.location;
         const description = iRoomDTO.description;
-        const roomDimensions = iRoomDTO.roomDimensions;
+        const width = iRoomDTO.width;
+        const length = iRoomDTO.length;
         const roomType = iRoomDTO.roomType;
-        
+
 
         const guardResult = Guard.againstNullOrUndefined(roomCode, 'roomCode');
         if (!guardResult.succeeded) {
             return Result.fail<Room>(guardResult.message);
         }
         else{
-            const Room = new Room({ roomCode, floor, location, description, roomDimensions, roomType }, id);
-            return Result.ok<Room>(Room);
+            const room = new Room({ roomCode, floor, description, width, length, roomType }, id);
+            return Result.ok<Room>(room);
         }
     }
 
