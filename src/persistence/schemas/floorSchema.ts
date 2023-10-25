@@ -5,7 +5,7 @@ const Floor = new mongoose.Schema(
     {
         domainId: { type: String, unique: true },
         floorCode: { type: String, unique: true },
-        floorNumber: { type: Number, unique: true },
+        floorNumber: { type: Number},
         width: { type: Number},
         length: { type: Number},
         description: { type: String},
