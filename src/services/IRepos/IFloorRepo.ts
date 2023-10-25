@@ -6,7 +6,8 @@ export default interface IFloorRepo extends Repo<Floor> {
     exists(floor: Floor): Promise<boolean>;
     existsByDomainId(floorId: string): Promise<boolean>;
     save(floor: Floor): Promise<Floor>;
-    findByDomainId(floorId: string | number): Promise<Floor>;
+    findByFloorId(floorId: string | number): Promise<Floor>;
+    findByDomainId(floorId: string): Promise<Floor>;
     findAll(): Promise<Floor[]>;
     findByBuildingId(buildingId: string): Promise<Floor[]>;
     findByfloorNumberAndBuildingId(floorNumber: number, buildingId: string): Promise<Floor>;
