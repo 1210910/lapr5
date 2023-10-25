@@ -1,7 +1,8 @@
 export default interface IFloorDTO {
-    _id: string;
+    floorCode: string;
     floorNumber: number;
-    dimension: number;
+    width: number;
+    height: number;
     description: string;
     buildingID: string;
 }

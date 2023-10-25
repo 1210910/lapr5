@@ -8,8 +8,10 @@ import { Result } from "../core/logic/Result";
 
 
 interface FloorProps {
+    floorCode: string;
     floorNumber: number;
-    dimension: number;
+    width: number;
+    height: number;
     description: string;
     buildingID: string;
 
@@ -22,6 +24,10 @@ export class Floor extends AggregateRoot<FloorProps> {
         return this._id;
     }
 
+    get floorCode (): string {
+        return this.props.floorCode;
+    }
+    
     get floorNumber (): number {
         return this.props.floorNumber;
     }
@@ -35,12 +41,11 @@ export class Floor extends AggregateRoot<FloorProps> {
         return this.props.buildingID;
     }
 
-    get dimension (): number {
-        return this.props.dimension;
+    get width (): number {
+        return this.props.width;
     }
-
-    set dimension (dimension: number) {
-        this.props.dimension = dimension;
+    get height (): number {
+        return this.props.height;
     }
 
     set description (description: string) {
@@ -63,8 +68,10 @@ export class Floor extends AggregateRoot<FloorProps> {
     public static create (props: FloorProps, id?: UniqueEntityID): Result<Floor> {
 
         const guardedProps = [
+            {argument :props.floorCode, argumentName: 'floorCode'},
             {argument :props.floorNumber, argumentName: 'floorNumber'},
-            { argument: props.dimension, argumentName: 'dimension' },
+            { argument: props.width, argumentName: 'width' },
+            { argument: props.height, argumentName: 'height'},
             { argument: props.description, argumentName: 'description' },
             { argument: props.buildingID, argumentName: 'buildingID' },
         ];
@@ -85,8 +92,10 @@ export class Floor extends AggregateRoot<FloorProps> {
 
     public static update (props:  FloorProps):Result<Floor> {
         const guardedProps = [
+            {argument :props.floorCode, argumentName: 'floorCode'},
             {argument :props.floorNumber, argumentName: 'floorNumber'},
-            { argument: props.dimension, argumentName: 'dimension' },
+            { argument: props.width, argumentName: 'width' },
+            { argument: props.height, argumentName: 'height' },
             { argument: props.description, argumentName: 'description' },
             { argument: props.buildingID, argumentName: 'buildingID' },
         ];

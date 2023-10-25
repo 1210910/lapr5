@@ -11,8 +11,10 @@ export class FloorMap extends Mapper<Floor> {
     public static toDTO( floor: Floor): IFloorDTO {
         return {
             //_id: floor.id.toString(),
+            floorCode: floor.floorCode,
             floorNumber: floor.floorNumber,
-            dimension: floor.dimension,
+            width: floor.width,
+            height: floor.height,
             description: floor.description,
             buildingID: floor.buildingID
         } as IFloorDTO;
@@ -23,7 +25,7 @@ export class FloorMap extends Mapper<Floor> {
             floor,
             new UniqueEntityID(floor.domainId)
         );
-        console.log("floorMap.toDomain: " + floor.domainId);
+        //console.log("floorMap.toDomain: " + floor.domainId);
         floorOrError.isFailure ? console.log(floorOrError.error) : '';
 
         return floorOrError.isSuccess ? floorOrError.getValue() : null;
@@ -32,8 +34,10 @@ export class FloorMap extends Mapper<Floor> {
     public static toPersistence (floor: Floor): any {
         return {
             domainId: floor.id.toString(),
+            floorCode: floor.floorCode,
             floorNumber: floor.floorNumber,
-            dimension: floor.dimension,
+            width: floor.width,
+            height: floor.height,
             description: floor.description,
             buildingID: floor.buildingID
         }

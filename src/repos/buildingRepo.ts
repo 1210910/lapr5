@@ -1,14 +1,17 @@
 import { Service, Inject } from 'typedi';
 import { Result } from '../core/logic/Result';
+import config from '../../config';
 
 import { Document, Model } from 'mongoose';
 import { IBuildingPersistence } from '../dataschema/IBuildingPersistance';
+import IFloorRepo from '../services/IRepos/IFloorRepo';
+
 
 import IBuildingRepo from "../services/IRepos/IBuildingRepo";
 import { Building } from "../domain/Building";
 import { BuildingId } from "../domain/BuildingId";
 import { BuildingMap } from "../mappers/BuildingMap";
-import  FloorRepo from './floorRepo';
+
 
 @Service()
 export default class BuildingRepo implements IBuildingRepo {
@@ -16,7 +19,7 @@ export default class BuildingRepo implements IBuildingRepo {
 
  constructor(
     @Inject('buildingSchema') private buildingSchema : Model<IBuildingPersistence & Document>,
-    @Inject('logger') private logger
+    @Inject(config.repos.floor.name) private floorRepo: IFloorRepo,
   ) { }
 
 
@@ -98,7 +101,7 @@ export default class BuildingRepo implements IBuildingRepo {
 
   public async findByMinMaxFloorNumber(min: number, max: number): Promise<Result<Array<Building>>> {
     
-    const floorRepo = new FloorRepo(this.logger);
+    
 
     const buildingRecord = await this.findAll();
 
@@ -106,13 +109,13 @@ export default class BuildingRepo implements IBuildingRepo {
       for (let i = 0; i < buildingRecord.keys.length ; i++) {
         if (buildingRecord[i].name.length > 0) {
 
-          const buildingFloors = floorRepo.findByBuildingId(buildingRecord[i].name.toString());
+          /*const buildingFloors = this.FloorRepo.findByBuildingId(buildingRecord[i].name.toString());
           if  ((await buildingFloors) != null) {
             if ((await buildingFloors).keys.length < min || (await buildingFloors).keys.length > max) {
               buildingRecord.splice(i, 1);
             }
           }
-        
+        */
         }
       }
         
@@ -126,12 +129,12 @@ export default class BuildingRepo implements IBuildingRepo {
 }
   
 async function  sortByNumberOfFloors(buildingRecord: Array<Building>): Promise<Result<Array<Building>> | PromiseLike<Result<Array<Building>>>> {
-  const floorRepo = new FloorRepo(this.logger);
+  
   for (let i = 0; i < buildingRecord.length; i++) {
     for (let j = 0; j < buildingRecord.length - 1; j++) {
 
-      let buildingFloors = floorRepo.findByBuildingId(buildingRecord[j].name.toString());
-      let buildingFloors2 = floorRepo.findByBuildingId(buildingRecord[j + 1].name.toString());
+      let buildingFloors = this.FloorRepo.findByBuildingId(buildingRecord[j].name.toString());
+      let buildingFloors2 = this.FloorRepo.findByBuildingId(buildingRecord[j + 1].name.toString());
 
       if ((buildingFloors != null) && (buildingFloors2 != null)) {
         if ((await buildingFloors).keys.length > (await buildingFloors2).keys.length) {

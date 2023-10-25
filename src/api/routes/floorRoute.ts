@@ -16,8 +16,10 @@ export default (app: Router) => {
     route.post('',
     celebrate({
         body: Joi.object({
+            floorCode: Joi.string().required(),
             floorNumber: Joi.number().required(),
-            dimension: Joi.number().required(),
+            width: Joi.number().required(),
+            height: Joi.number().required(),
             description: Joi.string().required(),
             buildingID: Joi.string().required()
         }),

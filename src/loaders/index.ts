@@ -152,10 +152,11 @@ export default async ({ expressApp }) => {
     repos: [
       roleRepo,
       userRepo,
+      floorRepo,
       buildingRepo,
       PassagewayRepo,
       RoomRepo,
-      floorRepo
+      
     ],
     services: [
       roleService,
