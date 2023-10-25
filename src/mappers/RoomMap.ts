@@ -5,6 +5,7 @@ import { Room } from "../domain/Room";
 import IRoomDTO from "../dto/IRoomDTO";
 
 import { UniqueEntityID } from "../core/domain/UniqueEntityID";
+import { find, floor } from "lodash";
 
 export class RoomMap extends Mapper<Room> {
 
@@ -19,15 +20,15 @@ export class RoomMap extends Mapper<Room> {
         } as IRoomDTO;
     }
 
-    public static toDomain(Room: any | Model<IRoomPersistence & Document>): Room {
-        const RoomOrError = Room.create(
-            Room,
-            new UniqueEntityID(Room.domainId)
+    public static toDomain(room: any | Model<IRoomPersistence & Document>): Room {
+        const roomOrError = Room.create(
+            room,
+            new UniqueEntityID(room.domainId)
         );
 
-        RoomOrError.isFailure ? console.log(RoomOrError.error) : '';
+        roomOrError.isFailure ? console.log(roomOrError.error) : '';
 
-        return RoomOrError.isSuccess ? RoomOrError.getValue() : null;
+        return roomOrError.isSuccess ? roomOrError.getValue() : null;
     }
 
     public static toPersistence(Room: Room): any {
@@ -40,5 +41,13 @@ export class RoomMap extends Mapper<Room> {
             length: Room.length,
             roomType: Room.roomType
         }
+    }
+    public static toDTOList(room: Array<Room>): Array<IRoomDTO> {
+        let roomDTOList: Array<IRoomDTO> = [];
+        room.forEach((room: Room) => {
+            roomDTOList.push(this.toDTO(room));
+        });
+
+        return roomDTOList;
     }
 }

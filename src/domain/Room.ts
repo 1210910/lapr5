@@ -2,18 +2,16 @@ import { AggregateRoot } from "../core/domain/AggregateRoot";
 import { UniqueEntityID } from "../core/domain/UniqueEntityID";
 import { Guard } from "../core/logic/Guard";
 import { Result } from "../core/logic/Result"
-import { Floor } from "./floor";
 import { RoomId } from "./RoomId";
-import { RoomType } from "./RoomType";
 import IRoomDTO from "../dto/IRoomDTO";
 
 interface RoomProps {
     roomCode: string;
-    floor: Floor;
+    floor: string;
     description: string;
     width : number;
     length : number;
-    roomType: RoomType;
+    roomType: string;
 }
 
 export class Room extends AggregateRoot<RoomProps>{
@@ -30,7 +28,7 @@ export class Room extends AggregateRoot<RoomProps>{
         return this.props.roomCode;
     }
 
-    get floor(): Floor {
+    get floor(): string {
         return this.props.floor;
     }
 
@@ -43,10 +41,10 @@ export class Room extends AggregateRoot<RoomProps>{
     }
 
     get length(): number{
-        return this.props.length
+        return this.props.length;
     }
 
-    get roomType(): RoomType {
+    get roomType(): string {
         return this.props.roomType;
     }
 
@@ -54,24 +52,17 @@ export class Room extends AggregateRoot<RoomProps>{
         super(props, id);
     }
 
-    public static create(iRoomDTO: IRoomDTO, id?: UniqueEntityID): Result<Room> {
 
-        const roomCode = iRoomDTO.roomCode;
-        const floor = iRoomDTO.floor;
-        const description = iRoomDTO.description;
-        const width = iRoomDTO.width;
-        const length = iRoomDTO.length;
-        const roomType = iRoomDTO.roomType;
+     public static create(roomDTO: IRoomDTO, id?: UniqueEntityID): Result<Room> {         
+        const roomCode = roomDTO.roomCode;         
+        const floor = roomDTO.floor;               
+        const description = roomDTO.description;          
+        const width = roomDTO.width;         
+        const length = roomDTO.length;
+        const roomType = roomDTO.roomType;               
+        const room = new Room({ roomCode, floor, description, width, length, roomType }, id);
 
-
-        const guardResult = Guard.againstNullOrUndefined(roomCode, 'roomCode');
-        if (!guardResult.succeeded) {
-            return Result.fail<Room>(guardResult.message);
-        }
-        else{
-            const room = new Room({ roomCode, floor, description, width, length, roomType }, id);
-            return Result.ok<Room>(room);
-        }
-    }
-
+          return Result.ok<Room>(room);         
+    }       
 }
+  

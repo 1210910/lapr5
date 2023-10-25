@@ -5,24 +5,34 @@ import { RoomMap } from "../mappers/RoomMap";
 import IRoomDTO from "../dto/IRoomDTO";
 import IRoomService from "./IServices/IRoomService";
 import IRoomRepo from "./IRepos/IRoomRepo";
+import IFloorRepo from "./IRepos/IFloorRepo";
 import { Result } from "../core/logic/Result";
 
 
 @Service()
 export default class RoomService implements IRoomService {
     constructor(
-        @Inject(config.repos.room.name) private roomRepo: IRoomRepo
+        @Inject(config.repos.room.name) private roomRepo: IRoomRepo,
+        @Inject(config.repos.floor.name) private floorRepo: IFloorRepo
     ) { }
 
-    public async createRoom(roomDTO: IRoomDTO): Promise<Result<IRoomDTO>> {
+    public async createRoom(roomDTO: IRoomDTO, floor : string): Promise<Result<IRoomDTO>> {
         try {
 
-            const roomOrError = await Room.create(roomDTO);
+            const floorExists = await this.floorRepo.findByFloorId(floor);
+            roomDTO.floor = floorExists.floorCode;
+            const roomOrError =  Room.create(roomDTO);
 
+            
+            /*if (roomDTO.length > floorExists.length || roomDTO.width > floorExists.width) {
+                return Result.fail<IRoomDTO>("Room is bigger than floor");
+            }*/
+            
             if (roomOrError.isFailure) {
                 return Result.fail<IRoomDTO>(roomOrError.errorValue());
             }
-
+            
+            console.log("estou aqui")
             const roomResult = roomOrError.getValue();
 
             await this.roomRepo.save(roomResult);
@@ -39,9 +49,21 @@ export default class RoomService implements IRoomService {
         return null;
     }
     
-    public async listRoom(): Promise<Result<IRoomDTO[]>> {
-        console.log("Not implemented yet");
-        return null;
-    }
+    /*public async listRoom(): Promise<Result<Array<IRoomDTO>>> {
+        try {
+            const listOrError = await this.roomRepo.findAll();
 
+            if (listOrError.isFailure) {
+                return Result.fail<Array<IRoomDTO>>(listOrError.errorValue());
+            }
+
+            const roomResult = listOrError.getValue();
+
+            const roomDTOResult = RoomMap.toDTOList(roomResult) as Array<IRoomDTO>;
+            return Result.ok<Array<IRoomDTO>>(roomDTOResult)
+        } catch (e) {
+            throw e;
+        }
+    }*/
+    
 }

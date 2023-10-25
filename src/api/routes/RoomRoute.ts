@@ -12,12 +12,11 @@ export default (app: Router) => {
 
     const RoomController = Container.get(config.controllers.room.name) as IRoomController;
 
-    route.post('',
+    route.post('/:floor',
     celebrate({
         body: Joi.object({
-            code: Joi.string().required(),
-            floor: Joi.string().required(),
-            description: Joi.string().required(),
+            roomCode: Joi.string().max(50).required(),
+            description: Joi.string().max(250).required(),
             width: Joi.number().required(),
             length: Joi.number().required(),
             roomType: Joi.string().valid('classroom','laboratory','anphitheater','office','other').required(),

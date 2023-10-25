@@ -4,7 +4,7 @@ import { RoomType } from "../domain/RoomType";
 export interface IRoomPersistence {
     _id: string;
     roomCode: string;
-    floor: Floor;
+    floor: string;
     description: string;
     width : number;
     length: number;

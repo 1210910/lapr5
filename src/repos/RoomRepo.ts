@@ -33,15 +33,14 @@ export default class RoomRepo implements IRoomRepo {
     }
 
     public async save(room: Room): Promise<Room> {
-        const query = { domainId: room.id.toString() };
-
+        const query = { domainId: room.id };
         const RoomDocument = await this.roomSchema.findOne(query);
 
         try {
             if (RoomDocument === null) {
                 const rawRoom: any = RoomMap.toPersistence(room);
 
-                const roomCreated = await this.roomSchema.create(rawRoom);
+                const roomCreated = this.roomSchema.create(rawRoom);
 
                 return RoomMap.toDomain(roomCreated);
             } else {

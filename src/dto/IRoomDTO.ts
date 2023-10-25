@@ -3,9 +3,9 @@ import { RoomType } from "../domain/RoomType";
 
 export default interface IRoomDTO{
     roomCode: string;
-    floor: Floor;
+    floor: string;
     description: string;
     width: number;
     length: number;
-    roomType: RoomType;
+    roomType: string;
 }
