@@ -27,16 +27,32 @@ export class Passageway extends AggregateRoot<PassagewayProps>{
         return this.props.passageCode;
     }
 
+    set passageCode(code: string) {
+        this.props.passageCode = code;
+    }
+
     get floor1(): Floor {
         return this.props.floor1;
+    }
+
+    set floor1(floor: Floor) {
+        this.props.floor1 = floor;
     }
 
     get floor2(): Floor {
         return this.props.floor2;
     }
 
+    set floor2(floor: Floor) {
+        this.props.floor2 = floor;
+    }
+
     get description(): string {
         return this.props.description;
+    }
+
+    set description(description: string) {
+        this.props.description = description;
     }
 
     private constructor(props: PassagewayProps, id?: UniqueEntityID) {
@@ -58,6 +74,25 @@ export class Passageway extends AggregateRoot<PassagewayProps>{
             const passageway = new Passageway({ passageCode, floor1, floor2, description}, id);
             return Result.ok<Passageway>(passageway);
         }
+    }
+
+    public static update(previousPassageway: Passageway, iPassagewayDTO: IPassagewayDTO): Result<Passageway> {
+            const passageCode = iPassagewayDTO.passageCode;
+            const floor1 = iPassagewayDTO.floor1;
+            const floor2 = iPassagewayDTO.floor2;
+            const description = iPassagewayDTO.description;
+    
+            const guardResult = Guard.againstNullOrUndefined(passageCode, 'passageCode');
+            if (!guardResult.succeeded) {
+                return Result.fail<Passageway>(guardResult.message);
+            }
+            else{
+                previousPassageway.passageCode = passageCode;
+                previousPassageway.floor1 = floor1;
+                previousPassageway.floor2 = floor2;
+                previousPassageway.description = description;
+                return Result.ok<Passageway>(previousPassageway);
+            }
     }
 
 }

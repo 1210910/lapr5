@@ -20,7 +20,24 @@ export default (app: Router) => {
             description: Joi.string(),
         }),
     }),
-    (req,res,next) => passagewayController.createPassageway(req,res,next) );
+    (req,res,next) => {
+        console.log(req.body); //Debug
+        passagewayController.createPassageway(req,res,next);
+    });
+
+    // Update totally a passageway
+    route.put('/:passageCode/:floor1/:floor2',
+    celebrate({
+        body: Joi.object({
+            code: Joi.string().required(),
+            description: Joi.string(),
+        }),
+    }),
+    (req,res,next) => {
+        console.log(req.body); //Debug
+        passagewayController.updatePassageway(req,res,next);
+    });
+
 
     // List all passageway
     route.get('', (req,res,next) => passagewayController.listPassageway(req,res,next) );

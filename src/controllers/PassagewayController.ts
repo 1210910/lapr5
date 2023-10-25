@@ -35,8 +35,22 @@ export default class PassagewayController implements IPassagewayController {
     };
 
     public async updatePassageway(req: Request, res: Response, next: NextFunction) {
-        console.log("Not implemented yet");
-        return null;
+        try {
+            const floor1 = req.params.floor1;
+            const floor2 = req.params.floor2;
+
+            const passagewayOrError = await this.passagewayServiceInstance.updatePassageway(req.body as IPassagewayDTO, floor1, floor2) as Result<IPassagewayDTO>;
+
+            if (passagewayOrError.isFailure) {
+                return res.status(402).send();
+            }
+
+            const passagewayDto = passagewayOrError.getValue();
+            return res.json(passagewayDto).status(201);
+
+        } catch (e) {
+            return next(e);
+        }
     };
 
     public async listPassageway(req: Request, res: Response, next: NextFunction) {

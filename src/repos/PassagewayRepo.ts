@@ -70,7 +70,7 @@ export default class PassagewayRepo implements IPassagewayRepo {
     public async findByCode(passageCode: Passageway | string): Promise<Passageway> {
         const idX = passageCode instanceof Passageway ? (<Passageway>passageCode).id.toValue() : passageCode;
 
-        const query = { domainId: idX };
+        const query = { passageCode: idX };
         const passagewayRecord = await this.passagewaySchema.findOne(query);
 
         return PassagewayMap.toDomain(passagewayRecord);

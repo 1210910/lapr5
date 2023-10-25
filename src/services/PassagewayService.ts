@@ -19,8 +19,13 @@ export default class PassagewayService implements IPassagewayService {
 
     public async createPassageway(passagewayDTO: IPassagewayDTO, floor1: string, floor2: string): Promise<Result<IPassagewayDTO>> {
         try {
-            passagewayDTO.floor1 // = await this.floorRepo.findByDomainId(floor1);
-            passagewayDTO.floor2 // = await this.floorRepo.findByDomainId(floor2);
+            passagewayDTO.floor1 // = await this.floorRepo.findByCode(floor1);
+            passagewayDTO.floor2 // = await this.floorRepo.findByCode(floor2);
+
+            if(await this.passagewayRepo.exists(passagewayDTO.passageCode)){
+                return Result.fail<IPassagewayDTO>("Passageway already exists");
+            }
+
             const passagewayOrError = await Passageway.create(passagewayDTO);
 
             if (passagewayOrError.isFailure) {
@@ -39,8 +44,31 @@ export default class PassagewayService implements IPassagewayService {
     }
 
     public async updatePassageway(passagewayDTO: IPassagewayDTO): Promise<Result<IPassagewayDTO>> {
-        console.log("Not implemented yet");
-        return null;
+        try {
+            passagewayDTO.floor1 // = await this.floorRepo.findByCode(floor1);
+            passagewayDTO.floor2 // = await this.floorRepo.findByCode(floor2);
+
+            if(await this.passagewayRepo.exists(passagewayDTO.passageCode)){
+                return Result.fail<IPassagewayDTO>("Passageway code already exists");
+            }
+
+            const previousPassageway = await this.passagewayRepo.findByCode(passagewayDTO.passageCode);
+
+            const passagewayOrError = await Passageway.update(previousPassageway, passagewayDTO);
+
+            if (passagewayOrError.isFailure) {
+                return Result.fail<IPassagewayDTO>(passagewayOrError.errorValue());
+            }
+
+            const passagewayResult = passagewayOrError.getValue();
+
+            await this.passagewayRepo.save(passagewayResult);
+
+            const passagewayDTOResult = PassagewayMap.toDTO(passagewayResult) as IPassagewayDTO;
+            return Result.ok<IPassagewayDTO>(passagewayDTOResult)
+        } catch (e) {
+            throw e;
+        }
     }
     
     public async listPassageway(): Promise<Result<Array<IPassagewayDTO>>> {
