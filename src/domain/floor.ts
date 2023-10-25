@@ -11,7 +11,7 @@ interface FloorProps {
     floorCode: string;
     floorNumber: number;
     width: number;
-    height: number;
+    length: number;
     description: string;
     buildingID: string;
 
@@ -44,8 +44,8 @@ export class Floor extends AggregateRoot<FloorProps> {
     get width (): number {
         return this.props.width;
     }
-    get height (): number {
-        return this.props.height;
+    get length (): number {
+        return this.props.length;
     }
 
     set description (description: string) {
@@ -71,7 +71,7 @@ export class Floor extends AggregateRoot<FloorProps> {
             {argument :props.floorCode, argumentName: 'floorCode'},
             {argument :props.floorNumber, argumentName: 'floorNumber'},
             { argument: props.width, argumentName: 'width' },
-            { argument: props.height, argumentName: 'height'},
+            { argument: props.length, argumentName: 'length'},
             { argument: props.description, argumentName: 'description' },
             { argument: props.buildingID, argumentName: 'buildingID' },
         ];
@@ -95,7 +95,7 @@ export class Floor extends AggregateRoot<FloorProps> {
             {argument :props.floorCode, argumentName: 'floorCode'},
             {argument :props.floorNumber, argumentName: 'floorNumber'},
             { argument: props.width, argumentName: 'width' },
-            { argument: props.height, argumentName: 'height' },
+            { argument: props.length, argumentName: 'length' },
             { argument: props.description, argumentName: 'description' },
             { argument: props.buildingID, argumentName: 'buildingID' },
         ];

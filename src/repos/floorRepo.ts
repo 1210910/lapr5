@@ -69,6 +69,8 @@ export default class FloorRepo implements IFloorRepo {
             }
         }
 
+        
+
 
         public async findByDomainId (floorId: string): Promise<Floor> {
             const query = { domainId: floorId};

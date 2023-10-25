@@ -19,7 +19,7 @@ export default (app: Router) => {
             floorCode: Joi.string().required(),
             floorNumber: Joi.number().required(),
             width: Joi.number().required(),
-            height: Joi.number().required(),
+            length: Joi.number().required(),
             description: Joi.string().required(),
             buildingID: Joi.string().required()
         }),
@@ -30,10 +30,10 @@ export default (app: Router) => {
     celebrate({
         body: Joi.object({
 
-            floorNumber: Joi.number().required(),
-            dimension: Joi.number().required(),
-            description: Joi.string().required(),
-            buildingID: Joi.string().required()
+            floorNumber: Joi.number(),
+            width: Joi.number(),
+            length: Joi.number(),
+            description: Joi.string(),
         }),
     }),
     (req,res,next) => floorController.updateFloor(req,res,next) );
