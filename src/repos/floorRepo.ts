@@ -43,6 +43,8 @@ export default class FloorRepo implements IFloorRepo {
 
         public async save (floor: Floor): Promise<Floor> {
             const query = { domainId: floor.id.toString()};
+
+           
            
 
             const floorDocument = await this.floorSchema.findOne( query );
@@ -59,6 +61,13 @@ export default class FloorRepo implements IFloorRepo {
                 } else {
                     
                     floorDocument.floorNumber = floor.floorNumber;
+                    
+                    floorDocument.description = floor.description;
+                    floorDocument.buildingID = floor.buildingID;
+                    floorDocument.width = floor.width;
+                    floorDocument.length = floor.length;
+                    floorDocument.floorCode = floor.floorCode;
+
                     await floorDocument.save();
 
                     return floor;
@@ -75,6 +84,7 @@ export default class FloorRepo implements IFloorRepo {
             const floorRecord = await this.floorSchema.findOne( query as FilterQuery<IFloorPersistence & Document> );
 
             if (floorRecord != null) {
+                
                 return FloorMap.toDomain(floorRecord);
             }
 
@@ -86,6 +96,7 @@ export default class FloorRepo implements IFloorRepo {
             const floorRecord = await this.floorSchema.findOne( query as FilterQuery<IFloorPersistence & Document> );
 
             if (floorRecord != null) {
+                console.log("floorRecord: " + floorRecord.floorNumber);
                 return FloorMap.toDomain(floorRecord);
             }
 

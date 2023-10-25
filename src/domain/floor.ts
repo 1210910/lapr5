@@ -3,6 +3,8 @@ import { AggregateRoot } from "../core/domain/AggregateRoot";
 import { UniqueEntityID } from "../core/domain/UniqueEntityID";
 import { Guard } from "../core/logic/Guard";
 import { Result } from "../core/logic/Result";
+import IFloorDTO from "../dto/IFloorDTO";
+import { Console } from "console";
 
 
 
@@ -48,6 +50,17 @@ export class Floor extends AggregateRoot<FloorProps> {
         return this.props.length;
     }
 
+    set width (width: number) {
+        this.props.width = width;
+    }
+
+    set length (length: number) {
+        this.props.length = length;
+    }
+
+    set floorCode (floorCode: string) {
+        this.props.floorCode = floorCode;
+    }
     set description (description: string) {
         this.props.description = description;
     }
@@ -78,36 +91,28 @@ export class Floor extends AggregateRoot<FloorProps> {
 
         const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
 
+        console.log(props.floorNumber);
 
         if (!guardResult.succeeded) {
+            console.log(guardResult.message);
             return Result.fail<Floor>(guardResult.message)
         } else {
-            const floor = new Floor({
-                ...props
-            }, id); 
-
+            const floor = new Floor(props, id); 
+            console.log(floor.floorNumber);
             return Result.ok<Floor>(floor);
         }
     }
 
-    public static update (props:  FloorProps):Result<Floor> {
-        const guardedProps = [
-            {argument :props.floorCode, argumentName: 'floorCode'},
-            {argument :props.floorNumber, argumentName: 'floorNumber'},
-            { argument: props.width, argumentName: 'width' },
-            { argument: props.length, argumentName: 'length' },
-            { argument: props.description, argumentName: 'description' },
-            { argument: props.buildingID, argumentName: 'buildingID' },
-        ];
+    public static edit (props:  IFloorDTO, floor:Floor) :Result<Floor> {
 
-        const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
+        
+        floor.floorNumber = floor.floorNumber ?? props.floorNumber;
+      
+        floor.width = props.width ?? floor.width;
+        floor.length = props.length ?? floor.length;
+        floor.description = props.description ?? floor.description;
 
-        if (!guardResult.succeeded) {
-            return Result.fail<Floor>(guardResult.message)
-        } else {
-            return Result.ok<Floor>(new Floor(props));
-        }
-
+        return Result.ok<Floor>(floor);
     }
     
 }

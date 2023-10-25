@@ -19,7 +19,7 @@ export default class BuildingRepo implements IBuildingRepo {
 
  constructor(
     @Inject('buildingSchema') private buildingSchema : Model<IBuildingPersistence & Document>,
-    @Inject(config.repos.floor.name) private floorRepo: IFloorRepo,
+    @Inject(config.repos.floor.name) private FloorRepo: IFloorRepo,
   ) { }
 
 
@@ -109,13 +109,13 @@ export default class BuildingRepo implements IBuildingRepo {
       for (let i = 0; i < buildingRecord.keys.length ; i++) {
         if (buildingRecord[i].name.length > 0) {
 
-          /*const buildingFloors = this.FloorRepo.findByBuildingId(buildingRecord[i].name.toString());
+          const buildingFloors = this.FloorRepo.findByBuildingId(buildingRecord[i].name.toString());
           if  ((await buildingFloors) != null) {
             if ((await buildingFloors).keys.length < min || (await buildingFloors).keys.length > max) {
               buildingRecord.splice(i, 1);
             }
           }
-        */
+        
         }
       }
         

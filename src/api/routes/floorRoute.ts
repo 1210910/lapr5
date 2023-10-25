@@ -26,14 +26,13 @@ export default (app: Router) => {
     }),
     (req,res,next) => floorController.createFloor(req,res,next) );
 
-    route.put('/:id',
+    route.patch('/:id',
     celebrate({
         body: Joi.object({
-
-            floorNumber: Joi.number(),
-            width: Joi.number(),
-            length: Joi.number(),
-            description: Joi.string(),
+            floorNumber: Joi.number().optional(),
+            width: Joi.number().optional(),
+            length: Joi.number().optional(),
+            description: Joi.string().optional(),
         }),
     }),
     (req,res,next) => floorController.updateFloor(req,res,next) );

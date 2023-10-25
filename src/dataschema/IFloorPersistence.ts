@@ -1,7 +1,7 @@
 
 export interface IFloorPersistence {
     _id: string;
-    floorcode: string;
+    floorCode: string;
     floorNumber: number;
     width: number;
     length: number;
