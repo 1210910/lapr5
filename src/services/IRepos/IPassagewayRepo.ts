@@ -7,5 +7,6 @@ export default interface IPassagewayRepo extends Repo<Passageway> {
   save(passageway: Passageway): Promise<Passageway>;
   findAll(): Promise<Result<Array<Passageway>>>;
   exists(passagewayId: PassagewayId | string): Promise<boolean>;
+  existsByCode(passageCode: Passageway | string): Promise<boolean>;
   findByCode(passagewayCode: Passageway | string): Promise<Passageway>;
 }

@@ -33,6 +33,16 @@ export default class PassagewayRepo implements IPassagewayRepo {
         return !!passagewayDocument === true;
     }
 
+    public async existsByCode(passageCode: Passageway | string): Promise<boolean> {
+        const idX = passageCode instanceof Passageway ? (<Passageway>passageCode).passageCode : passageCode;
+
+        const query = { passageCode: idX };
+
+        const passagewayDocument = await this.passagewaySchema.findOne(query);
+
+        return !!passagewayDocument === true;
+    }
+
     public async save(passageway: Passageway): Promise<Passageway> {
         const query = { domainId: passageway.id.toString() };
 
@@ -68,7 +78,7 @@ export default class PassagewayRepo implements IPassagewayRepo {
     }
 
     public async findByCode(passageCode: Passageway | string): Promise<Passageway> {
-        const idX = passageCode instanceof Passageway ? (<Passageway>passageCode).id.toValue() : passageCode;
+        const idX = passageCode instanceof Passageway ? (<Passageway>passageCode).passageCode : passageCode;
 
         const query = { passageCode: idX };
         const passagewayRecord = await this.passagewaySchema.findOne(query);

@@ -19,12 +19,12 @@ export default class PassagewayService implements IPassagewayService {
 
     public async createPassageway(passagewayDTO: IPassagewayDTO, floor1: string, floor2: string): Promise<Result<IPassagewayDTO>> {
         try {
-            passagewayDTO.floor1 // = await this.floorRepo.findByCode(floor1);
-            passagewayDTO.floor2 // = await this.floorRepo.findByCode(floor2);
-
-            if(await this.passagewayRepo.exists(passagewayDTO.passageCode)){
+            if(await this.passagewayRepo.existsByCode(passagewayDTO.passageCode)){
                 return Result.fail<IPassagewayDTO>("Passageway already exists");
             }
+
+            passagewayDTO.floor1 // = await this.floorRepo.findByCode(floor1);
+            passagewayDTO.floor2 // = await this.floorRepo.findByCode(floor2);
 
             const passagewayOrError = await Passageway.create(passagewayDTO);
 
@@ -43,14 +43,18 @@ export default class PassagewayService implements IPassagewayService {
         }
     }
 
-    public async updatePassageway(passagewayDTO: IPassagewayDTO): Promise<Result<IPassagewayDTO>> {
+    public async updatePassageway(passageCode: string, passagewayDTO: IPassagewayDTO, floor1: string, floor2: string): Promise<Result<IPassagewayDTO>> {
         try {
+            if(!!await this.passagewayRepo.existsByCode(passageCode)){
+                return Result.fail<IPassagewayDTO>("Passageway doesn't exists");
+            }
+
+            if(await this.passagewayRepo.existsByCode(passagewayDTO.passageCode)){
+                return Result.fail<IPassagewayDTO>("Passageway already exists");
+            }
+
             passagewayDTO.floor1 // = await this.floorRepo.findByCode(floor1);
             passagewayDTO.floor2 // = await this.floorRepo.findByCode(floor2);
-
-            if(await this.passagewayRepo.exists(passagewayDTO.passageCode)){
-                return Result.fail<IPassagewayDTO>("Passageway code already exists");
-            }
 
             const previousPassageway = await this.passagewayRepo.findByCode(passagewayDTO.passageCode);
 
