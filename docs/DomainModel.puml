@@ -32,9 +32,11 @@ package Building <<aggregate>> {
 package Floor <<aggregate>> {
     class floor <<root>>{
         - Code
+        - FloorNumber
         - BuildingCode
         - Description
-        - FloorDimension
+        - Width
+        - Length
     }
 
     class Room{
