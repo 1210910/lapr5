@@ -19,7 +19,7 @@ export default class BuildingRepo implements IBuildingRepo {
 
  constructor(
     @Inject('buildingSchema') private buildingSchema : Model<IBuildingPersistence & Document>,
-    @Inject(config.repos.floor.name) private FloorRepo: IFloorRepo,
+    @Inject(config.repos.floor.name) private FloorRepo: IFloorRepo
   ) { }
 
 
@@ -91,27 +91,30 @@ export default class BuildingRepo implements IBuildingRepo {
   }
 
   
-  public async findAll(): Promise<Building[]> {
-    const buildingRecords = await this.buildingSchema.find();
-    const buildings = await Promise.all(buildingRecords.map(async (buildingRecord) =>
-      await BuildingMap.toDomain(buildingRecord)
-    ));
-    return buildings;
+  public async findAll(): Promise<Array<Building>> {
+    const buildingRecord = await this.buildingSchema.find();
+    
+    const buildingList : Array<Building> = [];
+    for (const building of buildingRecord) {
+      buildingList.push(await BuildingMap.toDomain(building));
+    }
+    return buildingList;
+    
   }
 
   public async findByMinMaxFloorNumber(min: number, max: number): Promise<Result<Array<Building>>> {
     
-    
-
     const buildingRecord = await this.findAll();
+   
 
-    if (buildingRecord != null) {
-      for (let i = 0; i < buildingRecord.keys.length ; i++) {
+    console.log(buildingRecord.length);
+      for (let i = 0; i < buildingRecord.length ; i++) {
+        console.log(buildingRecord[i].name);
         if (buildingRecord[i].name.length > 0) {
-
+          
           const buildingFloors = this.FloorRepo.findByBuildingId(buildingRecord[i].name.toString());
-          if  ((await buildingFloors) != null) {
-            if ((await buildingFloors).keys.length < min || (await buildingFloors).keys.length > max) {
+          if  ((await buildingFloors).length > 0) {
+            if ((await buildingFloors).keys.length <= min || (await buildingFloors).keys.length >= max) {
               buildingRecord.splice(i, 1);
             }
           }
@@ -123,7 +126,7 @@ export default class BuildingRepo implements IBuildingRepo {
     
 
     
-  }
+  
 }
 
 }

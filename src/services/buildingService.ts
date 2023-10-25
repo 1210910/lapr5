@@ -61,4 +61,25 @@ export default class BuildingService implements IBuildingService{
           throw e;
         }
       }
+
+      public async getBuildingsMinMax(min: string, max: string): Promise<Result<Array<IBuildingDTO>>> {
+
+        try {
+          const minNumber = parseInt(min);
+          const maxNumber = parseInt(max);
+          console.log("minNumber: " + minNumber);
+          const buildingsOrError = await this.buildingRepo.findByMinMaxFloorNumber(minNumber, maxNumber);
+
+          if (buildingsOrError.isFailure) {
+            return Result.fail<IBuildingDTO[]>(buildingsOrError.errorValue());
+          }
+
+          const buildings = buildingsOrError.getValue();
+
+          const buildingDTO = buildings.map( b => BuildingMap.toDTO(b));
+          return Result.ok<IBuildingDTO[]>( buildingDTO )
+        } catch (e) {
+          throw e;
+        }
+      }
 }
