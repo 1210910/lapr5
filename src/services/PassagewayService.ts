@@ -17,17 +17,21 @@ export default class PassagewayService implements IPassagewayService {
         @Inject(config.repos.floor.name) private floorRepo: IFloorRepo 
     ) { }
 
-    public async createPassageway(passagewayDTO: IPassagewayDTO, floor1: string, floor2: string): Promise<Result<IPassagewayDTO>> {
+    public async createPassageway(passagewayDTO: IPassagewayDTO): Promise<Result<IPassagewayDTO>> {
         try {
             if(await this.passagewayRepo.existsByCode(passagewayDTO.passageCode)){
                 return Result.fail<IPassagewayDTO>("Passageway already exists");
             }
 
-            passagewayDTO.floor1 = await this.floorRepo.findByFloorId(floor1);
-            passagewayDTO.floor2 = await this.floorRepo.findByFloorId(floor2);
+            /* Criar existsByFloorId
+
+            if(await this.floorRepo.existsByFloorId(passagewayDTO.floor1) || await this.floorRepo.existsByFloorId(passagewayDTO.floor2)){
+                return Result.fail<IPassagewayDTO>("Floor don't exist");
+            }
+
+            */
 
             const passagewayOrError = await Passageway.create(passagewayDTO);
-
             if (passagewayOrError.isFailure) {
                 return Result.fail<IPassagewayDTO>(passagewayOrError.errorValue());
             }
@@ -43,21 +47,22 @@ export default class PassagewayService implements IPassagewayService {
         }
     }
 
-    public async updatePassageway(passageCode: string, passagewayDTO: IPassagewayDTO, floor1: string, floor2: string): Promise<Result<IPassagewayDTO>> {
+    public async updatePassageway(passageCode: string, passagewayDTO: IPassagewayDTO): Promise<Result<IPassagewayDTO>> {
         try {
             if(!!await this.passagewayRepo.existsByCode(passageCode)){
                 return Result.fail<IPassagewayDTO>("Passageway doesn't exists");
             }
+            
+            /* Criar existsByFloorId
 
-            if(await this.passagewayRepo.existsByCode(passagewayDTO.passageCode)){
-                return Result.fail<IPassagewayDTO>("Passageway already exists");
+            if(await this.floorRepo.existsByFloorId(passagewayDTO.floor1) || await this.floorRepo.existsByFloorId(passagewayDTO.floor2)){
+                return Result.fail<IPassagewayDTO>("Floor don't exist");
             }
-
-            passagewayDTO.floor1  = await this.floorRepo.findByFloorId(floor1);
-            passagewayDTO.floor2  = await this.floorRepo.findByFloorId(floor2);
+            
+            */
 
             const previousPassageway = await this.passagewayRepo.findByCode(passagewayDTO.passageCode);
-
+            
             const passagewayOrError = await Passageway.update(previousPassageway, passagewayDTO);
 
             if (passagewayOrError.isFailure) {

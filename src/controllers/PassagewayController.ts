@@ -17,7 +17,7 @@ export default class PassagewayController implements IPassagewayController {
 
     public async createPassageway(req: Request, res: Response, next: NextFunction) {
         try {
-            const passagewayOrError = await this.passagewayServiceInstance.createPassageway((req.body.passageCode, req.body.description) as IPassagewayDTO, req.body.floor1, req.body.floor) as Result<IPassagewayDTO>;
+            const passagewayOrError = await this.passagewayServiceInstance.createPassageway(req.body as IPassagewayDTO) as Result<IPassagewayDTO>;
 
             if (passagewayOrError.isFailure) {
                 return res.status(402).send();
@@ -34,8 +34,7 @@ export default class PassagewayController implements IPassagewayController {
     public async updatePassageway(req: Request, res: Response, next: NextFunction) {
         try {
             const passageCode = req.params.passageCode;
-
-            const passagewayOrError = await this.passagewayServiceInstance.updatePassageway(passageCode, (req.body.passageCode, req.body.description) as IPassagewayDTO, req.body.floor1, req.body.floor2) as Result<IPassagewayDTO>;
+            const passagewayOrError = await this.passagewayServiceInstance.updatePassageway(passageCode, req.body as IPassagewayDTO) as Result<IPassagewayDTO>;
 
             if (passagewayOrError.isFailure) {
                 return res.status(402).send();

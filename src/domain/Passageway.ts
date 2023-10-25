@@ -8,8 +8,8 @@ import IPassagewayDTO from "../dto/IPassagewayDTO";
 
 interface PassagewayProps {
     passageCode: string;
-    floor1: Floor;
-    floor2: Floor;
+    floor1: string;
+    floor2: string;
     description: string;
 }
 
@@ -31,19 +31,19 @@ export class Passageway extends AggregateRoot<PassagewayProps>{
         this.props.passageCode = code;
     }
 
-    get floor1(): Floor {
+    get floor1(): string {
         return this.props.floor1;
     }
 
-    set floor1(floor: Floor) {
+    set floor1(floor: string) {
         this.props.floor1 = floor;
     }
 
-    get floor2(): Floor {
+    get floor2(): string {
         return this.props.floor2;
     }
 
-    set floor2(floor: Floor) {
+    set floor2(floor: string) {
         this.props.floor2 = floor;
     }
 
@@ -65,16 +65,11 @@ export class Passageway extends AggregateRoot<PassagewayProps>{
         const floor1 = iPassagewayDTO.floor1;
         const floor2 = iPassagewayDTO.floor2;
         const description = iPassagewayDTO.description;
-
-        const guardResult = Guard.againstNullOrUndefined(passageCode, 'passageCode');
-        if (!guardResult.succeeded) {
-            return Result.fail<Passageway>(guardResult.message);
-        }
-        else{
-            const passageway = new Passageway({ passageCode, floor1, floor2, description}, id);
-            return Result.ok<Passageway>(passageway);
-        }
+        
+        const passageway = new Passageway({ passageCode, floor1, floor2, description}, id);
+        return Result.ok<Passageway>(passageway);
     }
+    
 
     public static update(previousPassageway: Passageway, iPassagewayDTO: IPassagewayDTO): Result<Passageway> {
             const passageCode = iPassagewayDTO.passageCode;
@@ -82,17 +77,12 @@ export class Passageway extends AggregateRoot<PassagewayProps>{
             const floor2 = iPassagewayDTO.floor2;
             const description = iPassagewayDTO.description;
     
-            const guardResult = Guard.againstNullOrUndefined(passageCode, 'passageCode');
-            if (!guardResult.succeeded) {
-                return Result.fail<Passageway>(guardResult.message);
-            }
-            else{
-                previousPassageway.passageCode = passageCode;
-                previousPassageway.floor1 = floor1;
-                previousPassageway.floor2 = floor2;
-                previousPassageway.description = description;
-                return Result.ok<Passageway>(previousPassageway);
-            }
+            previousPassageway.passageCode = passageCode;
+            previousPassageway.floor1 = floor1;
+            previousPassageway.floor2 = floor2;
+            previousPassageway.description = description;
+            return Result.ok<Passageway>(previousPassageway);
+            
     }
 
 }
