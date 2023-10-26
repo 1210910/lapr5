@@ -19,7 +19,7 @@ export default class BuildingRepo implements IBuildingRepo {
 
  constructor(
     @Inject('buildingSchema') private buildingSchema : Model<IBuildingPersistence & Document>,
-    @Inject(config.repos.floor.name) private FloorRepo: IFloorRepo
+    @Inject(config.repos.floor.name) private FloorRepo: IFloorRepo,
   ) { }
 
 
@@ -33,7 +33,7 @@ export default class BuildingRepo implements IBuildingRepo {
 
     const idX = buildingId instanceof BuildingId ? (<BuildingId>buildingId).id.toValue() : buildingId;
 
-    const query = { domainId: idX}; 
+    const query = { domainId: idX};
     const buildingDocument = await this.buildingSchema.findOne( query );
 
     return !!buildingDocument === true;
@@ -41,7 +41,7 @@ export default class BuildingRepo implements IBuildingRepo {
 
 
   public async save (building: Building): Promise<Building> {
-    const query = { domainId: building.id.toString() }; 
+    const query = { domainId: building.id.toString() };
 
     const buildingDocument = await this.buildingSchema.findOne( query );
 
@@ -53,8 +53,11 @@ export default class BuildingRepo implements IBuildingRepo {
 
         return BuildingMap.toDomain(buildingCreated);
       } else {
+        buildingDocument.code = building.code;
         buildingDocument.name = building.name;
         buildingDocument.description = building.description;
+        buildingDocument.maxLength = building.maxLength;
+        buildingDocument.maxWidth = building.maxLength;
         await buildingDocument.save();
 
         return building;
@@ -69,7 +72,7 @@ export default class BuildingRepo implements IBuildingRepo {
 
     const idX = buildingId instanceof BuildingId ? (<BuildingId>buildingId).id.toValue() : buildingId;
 
-    const query = { domainId: idX }; 
+    const query = { domainId: idX };
     const buildingRecord = await this.buildingSchema.findOne( query );
 
     if( buildingRecord != null) {
@@ -90,49 +93,55 @@ export default class BuildingRepo implements IBuildingRepo {
       return null;
   }
 
-  
-  public async findAll(): Promise<Array<Building>> {
-    const buildingRecord = await this.buildingSchema.find();
-    
-    const buildingList : Array<Building> = [];
-    for (const building of buildingRecord) {
-      buildingList.push(await BuildingMap.toDomain(building));
-    }
-    return buildingList;
-    
+
+  public async findAll(): Promise<Building[]> {
+    const buildingRecords = await this.buildingSchema.find();
+    const buildings = await Promise.all(buildingRecords.map(async (buildingRecord) =>
+      await BuildingMap.toDomain(buildingRecord)
+    ));
+    return buildings;
   }
 
-  public async findByMinMaxFloorNumber(min: number, max: number): Promise<Result<Array<Building>>> {
-    
-    const buildingRecord = await this.findAll();
-   
 
-    console.log(buildingRecord.length);
-      for (let i = 0; i < buildingRecord.length ; i++) {
-        console.log(buildingRecord[i].name);
+  /*public async updateOne(buildingId: BuildingId | string ,building: Building): Promise<Building> {
+    const query = { domainId: buildingId};
+    const buildingRecord = await this.buildingSchema.updateOne(query, building);
+
+    return BuildingMap.toDomain(buildingRecord);
+
+  }*/
+
+  public async findByMinMaxFloorNumber(min: number, max: number): Promise<Result<Array<Building>>> {
+
+
+
+    const buildingRecord = await this.findAll();
+
+    if (buildingRecord != null) {
+      for (let i = 0; i < buildingRecord.keys.length ; i++) {
         if (buildingRecord[i].name.length > 0) {
-          
+
           const buildingFloors = this.FloorRepo.findByBuildingId(buildingRecord[i].name.toString());
-          if  ((await buildingFloors).length > 0) {
-            if ((await buildingFloors).keys.length <= min || (await buildingFloors).keys.length >= max) {
+          if  ((await buildingFloors) != null) {
+            if ((await buildingFloors).keys.length < min || (await buildingFloors).keys.length > max) {
               buildingRecord.splice(i, 1);
             }
           }
-        
+
         }
       }
-        
+
       return  (await sortByNumberOfFloors(buildingRecord));
-    
 
-    
-  
+
+
+  }
 }
 
 }
-  
+
 async function  sortByNumberOfFloors(buildingRecord: Array<Building>): Promise<Result<Array<Building>> | PromiseLike<Result<Array<Building>>>> {
-  
+
   for (let i = 0; i < buildingRecord.length; i++) {
     for (let j = 0; j < buildingRecord.length - 1; j++) {
 

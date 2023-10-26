@@ -11,7 +11,7 @@ import { BuildingMap } from "../mappers/BuildingMap";
 export default class BuildingService implements IBuildingService{
     constructor(
         @Inject(config.repos.building.name) private buildingRepo : IBuildingRepo
-        
+
     ) {}
 
     public async createBuilding(buildingDTO: IBuildingDTO): Promise<Result<IBuildingDTO>> {
@@ -82,4 +82,36 @@ export default class BuildingService implements IBuildingService{
           throw e;
         }
       }
+
+      public async editBuilding(code:string , buildingDTO: IBuildingDTO): Promise<Result<IBuildingDTO>> {
+        try {
+
+          const buildingDocument = await this.buildingRepo.findByCode(code);
+
+          const found = !!buildingDocument;
+          if (!found) {
+            return Result.fail<IBuildingDTO>("Can not find building with code = " + code);
+          }
+          const buildingOrError = await Building.create({
+            code: code,
+            name: buildingDTO.name,
+            description: buildingDTO.description,
+            maxLength: buildingDTO.maxLength,
+            maxWidth: buildingDTO.maxWidth,
+          },buildingDocument.id);
+
+          const buildingResult = buildingOrError.getValue();
+          const finalBuilding = await this.buildingRepo.save(buildingResult);
+
+          if (finalBuilding == null){
+            return Result.fail<IBuildingDTO>(finalBuilding);
+          }
+          const buildingDTOResult = BuildingMap.toDTO( finalBuilding ) as IBuildingDTO;
+
+          return Result.ok<IBuildingDTO>( buildingDTOResult )
+        } catch (e) {
+          throw e;
+        }
+      }
+
 }
