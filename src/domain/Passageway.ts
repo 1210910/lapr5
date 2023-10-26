@@ -72,15 +72,11 @@ export class Passageway extends AggregateRoot<PassagewayProps>{
     
 
     public static update(previousPassageway: Passageway, iPassagewayDTO: IPassagewayDTO): Result<Passageway> {
-            const passageCode = iPassagewayDTO.passageCode;
-            const floor1 = iPassagewayDTO.floor1;
-            const floor2 = iPassagewayDTO.floor2;
-            const description = iPassagewayDTO.description;
-    
-            previousPassageway.passageCode = passageCode;
-            previousPassageway.floor1 = floor1;
-            previousPassageway.floor2 = floor2;
-            previousPassageway.description = description;
+            previousPassageway.passageCode = iPassagewayDTO.passageCode ?? previousPassageway.passageCode;
+            previousPassageway.floor1 = iPassagewayDTO.floor1 ?? previousPassageway.floor1;
+            previousPassageway.floor2 = iPassagewayDTO.floor2 ?? previousPassageway.floor2;
+            previousPassageway.description = iPassagewayDTO.description ?? previousPassageway.description;
+            
             return Result.ok<Passageway>(previousPassageway);
             
     }

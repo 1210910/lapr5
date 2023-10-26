@@ -42,6 +42,13 @@ export default class FloorRepo implements IFloorRepo {
             return !!floorDocument === true;
         }
 
+        public async existsByFloorCode(code: string): Promise<boolean> {
+            const query = { floorCode: code};
+            const floorDocument = await this.floorSchema.findOne( query as FilterQuery<IFloorPersistence & Document>);
+
+            return !!floorDocument === true;
+        }
+
         public async save (floor: Floor): Promise<Floor> {
             const query = { domainId: floor.id.toString()};
            
@@ -84,8 +91,8 @@ export default class FloorRepo implements IFloorRepo {
             return null;
         }
 
-        public async findByFloorId (floorId: string): Promise<Floor> {
-            const query = { floorCode: floorId};
+        public async findByFloorCode (code: string): Promise<Floor> {
+            const query = { floorCode: code};
             const floorRecord = await this.floorSchema.findOne( query as FilterQuery<IFloorPersistence & Document> );
 
             if (floorRecord != null) {

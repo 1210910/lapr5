@@ -79,7 +79,7 @@ export default class FloorService implements IFloorService {
 
     public async updateFloor(floorDTO: IFloorDTO): Promise<Result<IFloorDTO>> {
         try {
-         const floor = await this.FloorRepo.findByFloorId(floorDTO.floorCode);
+         const floor = await this.FloorRepo.findByFloorCode(floorDTO.floorCode);
 
 
 
