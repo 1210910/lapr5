@@ -49,6 +49,10 @@ export default async ({ expressApp }) => {
     schema: '../persistence/schemas/robotTypeSchema',
   };
 
+  const liftSchema = {
+    name: 'liftSchema',
+    schema: '../persistence/schemas/liftSchema',
+  };
   // Controllers
 
   const roleController = {
@@ -80,7 +84,10 @@ export default async ({ expressApp }) => {
     name: config.controllers.robotType.name,
     path: config.controllers.robotType.path
   }
-
+  const liftController = {
+    name: config.controllers.lift.name,
+    path: config.controllers.lift.path
+  }
   // Repos
 
   const roleRepo = {
@@ -117,6 +124,11 @@ export default async ({ expressApp }) => {
     name: config.repos.robotType.name,
     path: config.repos.robotType.path
   }
+  const liftRepo = {
+    name: config.repos.lift.name,
+    path: config.repos.lift.path
+  }
+
 
 
   // Services
@@ -150,6 +162,11 @@ export default async ({ expressApp }) => {
     name: config.services.robotType.name,
     path: config.services.robotType.path
   }
+  const liftService = {
+    name: config.services.lift.name,
+    path: config.services.lift.path
+  }
+
 
 
   await dependencyInjectorLoader({
@@ -161,7 +178,8 @@ export default async ({ expressApp }) => {
       PassagewaySchema,
       RoomSchema,
       floorSchema,
-      robotTypeSchema
+      robotTypeSchema,
+      liftSchema
     ],
     controllers: [
       roleController,
@@ -169,7 +187,8 @@ export default async ({ expressApp }) => {
       PassagewayController,
       RoomController,
       floorController,
-      robotTypeController
+      robotTypeController,
+      liftController
     ],
     repos: [
       roleRepo,
@@ -178,7 +197,8 @@ export default async ({ expressApp }) => {
       buildingRepo,
       PassagewayRepo,
       RoomRepo,
-      robotTypeRepo
+      robotTypeRepo,
+      liftRepo
       
     ],
     services: [
@@ -187,7 +207,8 @@ export default async ({ expressApp }) => {
       PassagewayService,
       RoomService,
       floorService,
-      robotTypeService
+      robotTypeService,
+      liftService
     ]
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');
