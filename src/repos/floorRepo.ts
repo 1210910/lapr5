@@ -6,7 +6,8 @@ import { FloorMap } from '../mappers/floorMap';
 
 import { Document, FilterQuery, Model } from 'mongoose';
 import { IFloorPersistence } from '../dataschema/IFloorPersistence';
-
+import { Result } from '../core/logic/Result';
+import IFloorDTO from '../dto/IFloorDTO';
 
 @Service()
 export default class FloorRepo implements IFloorRepo {
@@ -43,9 +44,9 @@ export default class FloorRepo implements IFloorRepo {
 
         public async save (floor: Floor): Promise<Floor> {
             const query = { domainId: floor.id.toString()};
+           
 
-           
-           
+
 
             const floorDocument = await this.floorSchema.findOne( query );
 
@@ -61,13 +62,6 @@ export default class FloorRepo implements IFloorRepo {
                 } else {
                     
                     floorDocument.floorNumber = floor.floorNumber;
-                    
-                    floorDocument.description = floor.description;
-                    floorDocument.buildingID = floor.buildingID;
-                    floorDocument.width = floor.width;
-                    floorDocument.length = floor.length;
-                    floorDocument.floorCode = floor.floorCode;
-
                     await floorDocument.save();
 
                     return floor;
@@ -84,7 +78,6 @@ export default class FloorRepo implements IFloorRepo {
             const floorRecord = await this.floorSchema.findOne( query as FilterQuery<IFloorPersistence & Document> );
 
             if (floorRecord != null) {
-                
                 return FloorMap.toDomain(floorRecord);
             }
 
@@ -96,39 +89,38 @@ export default class FloorRepo implements IFloorRepo {
             const floorRecord = await this.floorSchema.findOne( query as FilterQuery<IFloorPersistence & Document> );
 
             if (floorRecord != null) {
-                console.log("floorRecord: " + floorRecord.floorNumber);
                 return FloorMap.toDomain(floorRecord);
             }
 
             return null;
         }
 
-        public async findAll (): Promise<Floor[]> {
-            const floors = await this.floorSchema.find();
-            return floors.map((floor) => FloorMap.toDomain(floor));
-        }
+        public async findAll(): Promise<Result<Array<Floor>>>{
+            const floorRecord = await this.floorSchema.find();
+            
+            const floorList : Array<Floor> = [];
+            for (const floor of floorRecord) {
+              floorList.push(await FloorMap.toDomain(floor));
+            }
+            return Result.ok<Array<Floor>>(floorList);
+            
+          }
 
-
-        
-
-        public async findByBuildingId (buildingId: string): Promise<Array<Floor>> {
+        public async findByBuildingId (buildingId: string): Promise<Floor[]> {
             const query = { buildingId: buildingId};
             const floorRecords = await this.floorSchema.find( query as FilterQuery<IFloorPersistence & Document> );
-            
+
             if (floorRecords != null) {
-                const floorList : Array<Floor> = [];
-                for (const floor of floorRecords) {
-                    floorList.push( FloorMap.toDomain(floor));
-                }
-                return floorList;
+                return floorRecords.map((floor) => FloorMap.toDomain(floor));
             }
+
             return null;
         }
 
         public async findByfloorNumberAndBuildingId (floorNumber: number, buildingId: string): Promise<Floor> {
             const query = { floorNumber: floorNumber, buildingId: buildingId};
             const floorRecord = await this.floorSchema.findOne( query as FilterQuery<IFloorPersistence & Document> );
-            
+
             if (floorRecord != null) {
                 return FloorMap.toDomain(floorRecord);
             }

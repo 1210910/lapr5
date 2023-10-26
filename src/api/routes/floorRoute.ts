@@ -6,10 +6,10 @@ import config from "../../../config";
 import IFloorController from '../../controllers/IControllers/IFloorController';
 
 
-const route = Router(); 
+const route = Router();
 
 export default (app: Router) => {
-    app.use('/floor',route); 
+    app.use('/floor',route);
 
     const floorController = Container.get(config.controllers.floor.name) as IFloorController;
 
@@ -36,5 +36,7 @@ export default (app: Router) => {
         }),
     }),
     (req,res,next) => floorController.updateFloor(req,res,next) );
+
+    route.get('', (req,res,next) => floorController.listFloor(req,res,next) );
 
 }

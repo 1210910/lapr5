@@ -36,26 +36,26 @@ export default class FloorService implements IFloorService {
 
     public async createFloor(floorDTO: IFloorDTO): Promise<Result<IFloorDTO>> {
         try {
-            
+
            // const buildingExists = await this.buildingRepo.findByCode(floorDTO.buildingID);
-            
+
            //if (!buildingExists) {
            //     return Result.fail<IFloorDTO>("Building not found");
             //}
             let Id = "FLR";
             let i = 0;
-            
-           // check repo for last id and increment 
-           // while the id exists in the repo, increment a: 
+
+           // check repo for last id and increment
+           // while the id exists in the repo, increment a:
 
            while ( (await this.FloorRepo.existsByDomainId(Id + i)).valueOf() == true ) {
                i++;
            }
-            
+
            let id = Id.concat(i.toString());
 
-        
-            
+
+
 
             const floorOrError =  Floor.create(floorDTO, new UniqueEntityID(id));
 
@@ -65,8 +65,8 @@ export default class FloorService implements IFloorService {
 
             const floorResult = floorOrError.getValue();
 
-        
-            
+
+
             await this.FloorRepo.save(floorResult);
 
             const floorDTOResult = FloorMap.toDTO(floorResult) as IFloorDTO;
@@ -76,41 +76,56 @@ export default class FloorService implements IFloorService {
         }
     }
 
-    
+
     public async updateFloor(floorDTO: IFloorDTO): Promise<Result<IFloorDTO>> {
         try {
          const floor = await this.FloorRepo.findByFloorId(floorDTO.floorCode);
-            
-           
-             
-            
+
+
+
+
             if (floor === null) {
-                
+
                 return Result.fail<IFloorDTO>("Floor not found");
             } else {
-                
+
                 const floorOrError =  Floor.edit(floorDTO, floor);
-                
+
                 if (floorOrError.isFailure) {
-                    
+
                     return Result.fail<IFloorDTO>(floorOrError.errorValue());
                 }
 
                 const floorResult = floorOrError.getValue();
-                
+
 
                 await this.FloorRepo.save(floorResult);
                 const floorDTOResult = FloorMap.toDTO(floor) as IFloorDTO;
                 return Result.ok<IFloorDTO>(floorDTOResult)
             }
-            
+
         } catch (e) {
             throw e;
         }
     }
-    
-   
-    
+
+    public async listFloor(): Promise<Result<Array<IFloorDTO>>> {
+        try {
+            const floorOrError = await this.FloorRepo.findAll();
+            if (floorOrError.isFailure) {
+                return Result.fail<Array<IFloorDTO>>(floorOrError.errorValue());
+            }
+
+            const floorResult = floorOrError.getValue();
+
+            const floorDTOList = FloorMap.toDTOList(floorResult) as Array<IFloorDTO>;
+            return Result.ok<Array<IFloorDTO>>(floorDTOList)
+        } catch (e) {
+            throw e;
+        }
+    }
+
+
+
 }
 
-  

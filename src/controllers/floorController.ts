@@ -19,7 +19,7 @@ export default class FloorController implements IFloorController {
             const pisoOrError = await this.floorService.createFloor(req.body as IFloorDTO) as Result<IFloorDTO>;
 
             //return res.status(201).json( "estou aqui" );
-             
+
             if (pisoOrError.isFailure) {
                 return res.status(404).send();
             }
@@ -48,4 +48,19 @@ export default class FloorController implements IFloorController {
         }
     };
 
+    public async listFloor(req: Request, res: Response, next: NextFunction) {
+        try {
+            const listOrError = await this.floorService.listFloor() as Result<Array<IFloorDTO>>;
+
+            if (listOrError.isFailure) {
+                return res.status(402).send();
+            }
+
+            const floorDto = listOrError.getValue();
+            return res.json(floorDto).status(201);
+
+        } catch (e) {
+            return next(e);
+        }
+    };
 }

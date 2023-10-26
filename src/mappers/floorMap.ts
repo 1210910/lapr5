@@ -7,7 +7,7 @@ import { Floor } from "../domain/floor";
 import { UniqueEntityID } from "../core/domain/UniqueEntityID";
 
 export class FloorMap extends Mapper<Floor> {
-    
+
     public static toDTO( floor: Floor): IFloorDTO {
         return {
             //_id: floor.id.toString(),
@@ -21,12 +21,12 @@ export class FloorMap extends Mapper<Floor> {
     }
 
     public static toDomain (floor: any | Model<IFloorPersistence & Document> ): Floor {
-        
+
         const floorOrError =  Floor.create(
             floor as IFloorDTO,
             new UniqueEntityID(floor.domainId)
         );
-        
+
         floorOrError.isFailure ? console.log(floorOrError.error) : '';
 
         return floorOrError.isSuccess ? floorOrError.getValue() : null;
@@ -42,5 +42,14 @@ export class FloorMap extends Mapper<Floor> {
             description: floor.description,
             buildingID: floor.buildingID
         }
+    }
+
+    public static toDTOList (floor: Array<Floor>): Array<IFloorDTO> {
+        let floorDTOList: Array<IFloorDTO> = [];
+        floor.forEach((floor: Floor) => {
+            floorDTOList.push(this.toDTO(floor));
+        });
+
+        return floorDTOList;
     }
 }
