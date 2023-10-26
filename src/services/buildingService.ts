@@ -39,8 +39,8 @@ export default class BuildingService implements IBuildingService{
 
           const finalBuilding = await this.buildingRepo.save(buildingResult);
 
-          if (finalBuilding == null){
-            return Result.fail<IBuildingDTO>(finalBuilding);
+          if (!finalBuilding){
+            return Result.fail<IBuildingDTO>("Building not saved");
           }
           const buildingDTOResult = BuildingMap.toDTO( finalBuilding ) as IBuildingDTO;
 

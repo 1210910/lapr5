@@ -6,6 +6,7 @@ import floor from './routes/floorRoute';
 import building from './routes/buildingRoute';
 import passageway from './routes/PassagewayRoute';
 import room from './routes/RoomRoute';
+import robotTypeRoute from './routes/robotTypeRoute';
 
 export default () => {
 	const app = Router();
@@ -14,6 +15,7 @@ export default () => {
 	user(app);
 	role(app);
 	floor(app);
+	robotTypeRoute(app);
 	building(app);
 	passageway(app);
 	room(app);

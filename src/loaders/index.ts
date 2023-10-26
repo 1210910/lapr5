@@ -44,6 +44,11 @@ export default async ({ expressApp }) => {
     schema: '../persistence/schemas/floorSchema',
   };
 
+  const robotTypeSchema = {
+    name: 'robotTypeSchema',
+    schema: '../persistence/schemas/robotTypeSchema',
+  };
+
   // Controllers
 
   const roleController = {
@@ -69,6 +74,11 @@ export default async ({ expressApp }) => {
   const floorController = {
     name: config.controllers.floor.name,
     path: config.controllers.floor.path
+  }
+
+  const robotTypeController = {
+    name: config.controllers.robotType.name,
+    path: config.controllers.robotType.path
   }
 
   // Repos
@@ -103,6 +113,11 @@ export default async ({ expressApp }) => {
     path: config.repos.floor.path
   }
 
+  const robotTypeRepo = {
+    name: config.repos.robotType.name,
+    path: config.repos.robotType.path
+  }
+
 
   // Services
 
@@ -131,6 +146,11 @@ export default async ({ expressApp }) => {
     path: config.services.floor.path
   }
 
+  const robotTypeService = {
+    name: config.services.robotType.name,
+    path: config.services.robotType.path
+  }
+
 
   await dependencyInjectorLoader({
     mongoConnection,
@@ -140,14 +160,16 @@ export default async ({ expressApp }) => {
       buildingSchema,
       PassagewaySchema,
       RoomSchema,
-      floorSchema
+      floorSchema,
+      robotTypeSchema
     ],
     controllers: [
       roleController,
       buildingController,
       PassagewayController,
       RoomController,
-      floorController
+      floorController,
+      robotTypeController
     ],
     repos: [
       roleRepo,
@@ -156,6 +178,7 @@ export default async ({ expressApp }) => {
       buildingRepo,
       PassagewayRepo,
       RoomRepo,
+      robotTypeRepo
       
     ],
     services: [
@@ -163,7 +186,8 @@ export default async ({ expressApp }) => {
       buildingService,
       PassagewayService,
       RoomService,
-      floorService
+      floorService,
+      robotTypeService
     ]
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');

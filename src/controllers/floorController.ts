@@ -24,7 +24,7 @@ export default class FloorController implements IFloorController {
                 return res.status(404).send();
             }
             const pisoDTO = pisoOrError.getValue();
-            return res.json( pisoDTO ).status(201);
+            return res.status(201).json( pisoDTO );
         }
         catch (e) {
             return next(e);
@@ -53,14 +53,17 @@ export default class FloorController implements IFloorController {
             const listOrError = await this.floorService.listFloor() as Result<Array<IFloorDTO>>;
 
             if (listOrError.isFailure) {
-                return res.status(402).send();
+                return res.status(404).send();
             }
 
             const floorDto = listOrError.getValue();
-            return res.json(floorDto).status(201);
+            return res.status(201).json(floorDto);
 
         } catch (e) {
             return next(e);
         }
     };
+
+
+ 
 }

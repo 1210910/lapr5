@@ -78,7 +78,7 @@ package Robot <<aggregate>> {
         -description
     }
 
-    class robotType <<Value Object>>{
+    class robotType {
         -code
         -Brand
         -Model
