@@ -60,6 +60,10 @@ export default {
     floor: {
       name: "FloorController",
       path: "../controllers/floorController"
+    },
+    robotType: {
+      name: "RobotTypeController",
+      path: "../controllers/robotTypeController"
     }
   },
 
@@ -87,6 +91,10 @@ export default {
     floor: {
       name: "FloorRepo",
       path: "../repos/floorRepo"
+    },
+    robotType: {
+      name: "RobotTypeRepo",
+      path: "../repos/robotTypeRepo"
     }
   },
 
@@ -110,6 +118,10 @@ export default {
     floor: {
       name: "FloorService",
       path: "../services/floorService"
+    },
+    robotType: {
+      name: "RobotTypeService",
+      path: "../services/robotTypeService"
     }
   },
 };

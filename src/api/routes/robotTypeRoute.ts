@@ -26,3 +26,5 @@ export default (app: Router) => {
         }),
         (req, res, next) => robotTypeController.createRobotType(req, res, next)
     );
+    
+    }
