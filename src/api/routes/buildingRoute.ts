@@ -28,6 +28,20 @@ export default (app: Router) => {
     route.get('',
     (req, res, next) => buildingController.getAllBuildings(req, res, next) );
 
-    route.get('/:min:max',
+  route.patch('/:code',
+    celebrate({
+      body: Joi.object({
+        name: Joi.string(),
+        description: Joi.string(),
+        maxLength: Joi.number(),
+        maxWidth: Joi.number()
+      }),
+    }),
+    (req,res,next) => buildingController.editBuilding(req,res,next) );
+
+
+
+
+  route.get('/:min:max',
     (req, res, next) => buildingController.getBuildingsMinMax(req, res, next) );
 };
