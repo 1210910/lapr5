@@ -14,17 +14,21 @@ import { Result } from "../core/logic/Result";
 export default class PassagewayService implements IPassagewayService {
     constructor(
         @Inject(config.repos.passageway.name) private passagewayRepo: IPassagewayRepo,
-        @Inject(config.repos.floor.name) private floorRepo: IFloorRepo 
+        @Inject(config.repos.floor.name) private floorRepo: IFloorRepo
     ) { }
 
     public async createPassageway(passagewayDTO: IPassagewayDTO): Promise<Result<IPassagewayDTO>> {
         try {
-            if(await this.passagewayRepo.existsByCode(passagewayDTO.passageCode)){
+            if (await this.passagewayRepo.existsByCode(passagewayDTO.passageCode)) {
                 return Result.fail<IPassagewayDTO>("Passageway already exists");
             }
 
-            if(await this.floorRepo.existsByFloorCode(passagewayDTO.floor1) || await this.floorRepo.existsByFloorCode(passagewayDTO.floor2)){
-                return Result.fail<IPassagewayDTO>("Floor don't exist");
+            if (! await this.floorRepo.existsByFloorCode(passagewayDTO.floor1)) {
+                return Result.fail<IPassagewayDTO>("Floor 1 doesn't exist");
+            }
+
+            if (! await this.floorRepo.existsByFloorCode(passagewayDTO.floor2)) {
+                return Result.fail<IPassagewayDTO>("Floor 2 doesn't exist");
             }
 
             const passagewayOrError = await Passageway.create(passagewayDTO);
@@ -45,19 +49,26 @@ export default class PassagewayService implements IPassagewayService {
 
     public async updatePassageway(passageCode: string, passagewayDTO: IPassagewayDTO): Promise<Result<IPassagewayDTO>> {
         try {
-            if(!!await this.passagewayRepo.existsByCode(passageCode)){
+            if (!await this.passagewayRepo.existsByCode(passageCode)) {
                 return Result.fail<IPassagewayDTO>("Passageway doesn't exists");
             }
 
-            if(await this.passagewayRepo.existsByCode(passagewayDTO.passageCode)){
-                return Result.fail<IPassagewayDTO>("Passageway already exists");
-            }
-            
-            if(await this.floorRepo.existsByFloorCode(passagewayDTO.floor1) || await this.floorRepo.existsByFloorCode(passagewayDTO.floor2)){
-                return Result.fail<IPassagewayDTO>("Floor don't exist");
+            if (passageCode != passagewayDTO.passageCode) {
+                if (await this.passagewayRepo.existsByCode(passagewayDTO.passageCode)) {
+                    return Result.fail<IPassagewayDTO>("Passageway already exists");
+                }
             }
 
-            const previousPassageway = await this.passagewayRepo.findByCode(passagewayDTO.passageCode);
+            if (! await this.floorRepo.existsByFloorCode(passagewayDTO.floor1)) {
+                return Result.fail<IPassagewayDTO>("Floor 1 doesn't exist");
+            }
+
+            if (! await this.floorRepo.existsByFloorCode(passagewayDTO.floor2)) {
+                return Result.fail<IPassagewayDTO>("Floor 2 doesn't exist");
+            }
+
+            const previousPassageway = await this.passagewayRepo.findByCode(passageCode);
+            console.log(previousPassageway);
             
             const passagewayOrError = await Passageway.update(previousPassageway, passagewayDTO);
 
@@ -66,6 +77,7 @@ export default class PassagewayService implements IPassagewayService {
             }
 
             const passagewayResult = passagewayOrError.getValue();
+            console.log(passagewayResult);
 
             await this.passagewayRepo.save(passagewayResult);
 

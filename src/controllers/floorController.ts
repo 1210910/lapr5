@@ -64,6 +64,23 @@ export default class FloorController implements IFloorController {
         }
     };
 
+    public async getFloorsWithPassageway(req: Request, res: Response, next: NextFunction){
+        try {
+            const buildingCode = req.params.buildingCode;
+            const listOrError = await this.floorService.getFloorsWithPassageway(buildingCode) as Result<Array<IFloorDTO>>;
+
+            if (listOrError.isFailure) {
+                return res.status(404).send();
+            }
+
+            const floorDto = listOrError.getValue();
+            return res.status(201).json(floorDto);
+
+        } catch (e) {
+            return next(e);
+        }
+    }
+
 
  
 }

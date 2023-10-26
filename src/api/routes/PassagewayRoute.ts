@@ -16,7 +16,7 @@ export default (app: Router) => {
     route.post('',
     celebrate({
         body: Joi.object({
-            code: Joi.string().required(),
+            passageCode: Joi.string().required(),
             floor1: Joi.string().required(),
             floor2: Joi.string().required(),
             description: Joi.string(),
@@ -31,7 +31,7 @@ export default (app: Router) => {
     route.put('/:passageCode/',
     celebrate({
         body: Joi.object({
-            code: Joi.string().required(),
+            passageCode: Joi.string().required(),
             floor1: Joi.string().required(),
             floor2: Joi.string().required(),
             description: Joi.string(),
