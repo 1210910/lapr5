@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+
+top to bottom direction
+
+[RobDroneGo] <<System>>
+component RobDroneGo{
+port " " as APIPort
+}
+
+API -- APIPort
+
+@enduml
