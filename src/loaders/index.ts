@@ -44,6 +44,11 @@ export default async ({ expressApp }) => {
     schema: '../persistence/schemas/floorSchema',
   };
 
+  const robotSchema = {
+    name: 'robotSchema',
+    schema: '../persistence/schemas/robotSchema',
+  };
+
   const robotTypeSchema = {
     name: 'robotTypeSchema',
     schema: '../persistence/schemas/robotTypeSchema',
@@ -78,6 +83,11 @@ export default async ({ expressApp }) => {
   const floorController = {
     name: config.controllers.floor.name,
     path: config.controllers.floor.path
+  }
+
+  const robotController = {
+    name: config.controllers.robot.name,
+    path: config.controllers.robot.path
   }
 
   const robotTypeController = {
@@ -120,6 +130,11 @@ export default async ({ expressApp }) => {
     path: config.repos.floor.path
   }
 
+  const robotRepo = {
+    name: config.repos.robot.name,
+    path: config.repos.robot.path
+  }
+
   const robotTypeRepo = {
     name: config.repos.robotType.name,
     path: config.repos.robotType.path
@@ -158,6 +173,11 @@ export default async ({ expressApp }) => {
     path: config.services.floor.path
   }
 
+  const robotService = {
+    name: config.services.robot.name,
+    path: config.services.robot.path
+  }
+
   const robotTypeService = {
     name: config.services.robotType.name,
     path: config.services.robotType.path
@@ -178,6 +198,7 @@ export default async ({ expressApp }) => {
       PassagewaySchema,
       RoomSchema,
       floorSchema,
+      robotSchema,
       robotTypeSchema,
       liftSchema
     ],
@@ -187,6 +208,7 @@ export default async ({ expressApp }) => {
       PassagewayController,
       RoomController,
       floorController,
+      robotController,
       robotTypeController,
       liftController
     ],
@@ -197,6 +219,7 @@ export default async ({ expressApp }) => {
       buildingRepo,
       PassagewayRepo,
       RoomRepo,
+      robotRepo,
       robotTypeRepo,
       liftRepo
       
@@ -207,6 +230,7 @@ export default async ({ expressApp }) => {
       PassagewayService,
       RoomService,
       floorService,
+      robotService,
       robotTypeService,
       liftService
     ]
