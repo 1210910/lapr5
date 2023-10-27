@@ -47,7 +47,18 @@ export default class RobotService implements IRobotService {
     }
 
     public async listRobot(): Promise<Result<Array<IRobotDTO>>> {
-        console.log("Not implemented");
-        return null;
+        try {
+            const robotOrError = await this.RobotRepo.findAll();
+            if (robotOrError.isFailure) {
+                return Result.fail<Array<IRobotDTO>>(robotOrError.errorValue());
+            }
+
+            const robotResult = robotOrError.getValue();
+
+            const robotDTOList = RobotMap.toDTOList(robotResult) as Array<IRobotDTO>;
+            return Result.ok<Array<IRobotDTO>>(robotDTOList)
+        } catch (e) {
+            throw e;
+        }
     }
 }

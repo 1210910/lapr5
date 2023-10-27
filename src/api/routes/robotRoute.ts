@@ -23,4 +23,6 @@ export default (app: Router) => {
         }),
     }),
     (req,res,next) => robotController.createRobot(req,res,next) );
+
+    route.get('', (req,res,next) => robotController.listRobot(req,res,next) );
 }
