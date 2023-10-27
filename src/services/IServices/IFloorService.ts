@@ -6,4 +6,5 @@ export default interface IFloorService  {
     updateFloor(pisoDTO: IFloorDTO): Promise<Result<IFloorDTO>>;
     listFloor(): Promise<Result<Array<IFloorDTO>>>;
     getFloor (pisoId: string): Promise<Result<IFloorDTO>>;
+    getFloorsWithPassageway(buildingCode: string): Promise<Result<Array<IFloorDTO>>>;
 }

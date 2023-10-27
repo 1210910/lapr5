@@ -33,6 +33,12 @@ import { Result } from "../core/logic/Result";
                     return !!robotTypeDocument === true;
                 }
 
+            public async existsByCode(robotTypeCode: string): Promise<boolean> {
+                const query = { code: robotTypeCode };
+                const robotTypeDocument = await this.robotTypeSchema.findOne( query as FilterQuery<IRobotTypePersistence & Document>);
+                return !!robotTypeDocument === true;
+            }
+
             public async save(robotType: RobotType): Promise<RobotType> {
                 
                 const query = { domainId: robotType.id.toString()};

@@ -12,17 +12,17 @@ import IFloorDTO from '../dto/IFloorDTO';
 @Service()
 export default class FloorRepo implements IFloorRepo {
     private models: any;
-    
+
         constructor(
             @Inject('floorSchema') private floorSchema : Model<IFloorPersistence & Document>,
-             
+
         ) {}
 
         private createBaseQuery (): any {
             return {
                 where: {},
             }
-        }      
+        }
 
 
         public async exists(floor: Floor): Promise<boolean> {
@@ -51,7 +51,7 @@ export default class FloorRepo implements IFloorRepo {
 
         public async save (floor: Floor): Promise<Floor> {
             const query = { domainId: floor.id.toString()};
-           
+
 
 
 
@@ -59,15 +59,15 @@ export default class FloorRepo implements IFloorRepo {
 
             try {
                 if (floorDocument === null ) {
-                    
+
                     const rawFloor: any = FloorMap.toPersistence(floor);
-                    
+
                     const floorCreated = await this.floorSchema.create(rawFloor);
-                   
+
 
                     return FloorMap.toDomain(floorCreated);
                 } else {
-                    
+
                     floorDocument.floorNumber = floor.floorNumber;
                     await floorDocument.save();
 
@@ -79,7 +79,7 @@ export default class FloorRepo implements IFloorRepo {
             }
         }
 
-        
+
         public async findByDomainId (floorId: string): Promise<Floor> {
             const query = { domainId: floorId};
             const floorRecord = await this.floorSchema.findOne( query as FilterQuery<IFloorPersistence & Document> );
@@ -104,20 +104,19 @@ export default class FloorRepo implements IFloorRepo {
 
         public async findAll(): Promise<Result<Array<Floor>>>{
             const floorRecord = await this.floorSchema.find();
-            
+
             const floorList : Array<Floor> = [];
             for (const floor of floorRecord) {
               floorList.push(await FloorMap.toDomain(floor));
             }
             return Result.ok<Array<Floor>>(floorList);
-            
+
           }
 
         public async findByBuildingId (buildingId: string): Promise<Floor[]> {
-            const query = { buildingId: buildingId};
+            const query = { buildingID: buildingId};
             const floorRecords = await this.floorSchema.find( query as FilterQuery<IFloorPersistence & Document> );
-
-            if (floorRecords != null) {
+            if (floorRecords != null && floorRecords.length > 0) {
                 return floorRecords.map((floor) => FloorMap.toDomain(floor));
             }
 
@@ -136,4 +135,4 @@ export default class FloorRepo implements IFloorRepo {
         }
 
 
-    }     
+    }

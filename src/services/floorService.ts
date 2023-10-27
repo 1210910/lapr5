@@ -129,7 +129,23 @@ export default class FloorService implements IFloorService {
         }
     }
 
+    public async getFloorsWithPassageway(buildingCode: string): Promise<Result<Array<IFloorDTO>>>{
+        /* try {
+            const floorOrError = await this.FloorRepo.getFloorsWithPassageway(buildingCode);
+            if (floorOrError.isFailure) {
+                return Result.fail<Array<IFloorDTO>>(floorOrError.errorValue());
+            }
 
+            const floorResult = floorOrError.getValue();
+
+            const floorDTOList = FloorMap.toDTOList(floorResult) as Array<IFloorDTO>;
+            return Result.ok<Array<IFloorDTO>>(floorDTOList)
+        } catch (e) {
+            throw e;
+        } */
+
+        return null;
+    }
 
 }
 

@@ -61,9 +61,17 @@ export default {
       name: "FloorController",
       path: "../controllers/floorController"
     },
+    robot: {
+      name: "RobotController",
+      path: "../controllers/robotController"
+    },
     robotType: {
       name: "RobotTypeController",
       path: "../controllers/robotTypeController"
+    },
+    lift: {
+      name:"LiftController",
+      path:"../controllers/liftController"
     }
   },
 
@@ -92,10 +100,18 @@ export default {
       name: "FloorRepo",
       path: "../repos/floorRepo"
     },
+    robot: {
+      name: "RobotRepo",
+      path: "../repos/robotRepo"
+    },
     robotType: {
       name: "RobotTypeRepo",
       path: "../repos/robotTypeRepo"
-    }
+    },
+    lift: {
+      name: "LiftRepo",
+      path: "../repos/liftRepo"
+    },
   },
 
   services: {
@@ -119,9 +135,17 @@ export default {
       name: "FloorService",
       path: "../services/floorService"
     },
+    robot: {
+      name: "RobotService",
+      path: "../services/robotService"
+    },
     robotType: {
       name: "RobotTypeService",
       path: "../services/robotTypeService"
-    }
+    },
+    lift: {
+      name: "LiftService",
+      path: "../services/liftService"
+    },
   },
 };

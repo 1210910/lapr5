@@ -39,4 +39,6 @@ export default (app: Router) => {
 
     route.get('', (req,res,next) => floorController.listFloor(req,res,next) );
 
+    route.get('/passageways/:buildingCode', (req,res,next) => floorController.getFloorsWithPassageway(req,res,next) );
+
 }
