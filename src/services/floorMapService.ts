@@ -5,7 +5,7 @@ import IFloorMapDTO from "../dto/IFloorMapDTO";
 import IFloorMapRepo from "../services/IRepos/IFloorMapRepo";
 import IFloorRepo from "../services/IRepos/IFloorRepo";
 import IRoomRepo from "./IRepos/IRoomRepo";
-import IElevatorRepo from "./IRepos/IElevatorRepo";
+import ILiftRepo from "./IRepos/ILiftRepo";
 import IFloorMapService from "./IServices/IFloorMapService";
 import {Result} from "../core/logic/Result";
 import { FloorMapMap } from "../mappers/floorMapMap";
@@ -19,7 +19,7 @@ export default class FloorMapService implements IFloorMapService {
     constructor(@Inject(config.repos.floorMap.name) private floorMapRepo : IFloorMapRepo,
                 @Inject(config.repos.floor.name) private floorRepo : IFloorRepo,
                 @Inject(config.repos.room.name) private roomRepo : IRoomRepo,
-                @Inject(config.repos.elevator.name) private elevatorRepo : IElevatorRepo
+                @Inject(config.repos.lift.name) private elevatorRepo : ILiftRepo
 
     ) {}
 

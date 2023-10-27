@@ -6,7 +6,7 @@ import { FloorMapMap } from '../mappers/floorMapMap';
 
 
 import { Document, FilterQuery, Model } from 'mongoose';
-import  IFloorMapPersistence  from '../dataschema/IFloorMapPersistence';
+import  {IFloorMapPersistence}  from '../dataschema/IFloorMapPersistence';
 import { Result } from '../core/logic/Result';
 
 

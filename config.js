@@ -72,7 +72,11 @@ export default {
     lift: {
       name:"LiftController",
       path:"../controllers/liftController"
-    }
+    },
+    floorMap: {
+      name:"FloorMapController",
+      path:"../controllers/floorMapController"
+    },
   },
 
   repos: {
@@ -112,6 +116,10 @@ export default {
       name: "LiftRepo",
       path: "../repos/liftRepo"
     },
+    floorMap: {
+      name: "FloorMapRepo",
+      path: "../repos/floorMapRepo"
+    },
   },
 
   services: {
@@ -146,6 +154,10 @@ export default {
     lift: {
       name: "LiftService",
       path: "../services/liftService"
+    },
+    floorMap: {
+      name: "FloorMapService",
+      path: "../services/floorMapService"
     },
   },
 };

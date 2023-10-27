@@ -1,6 +1,6 @@
 import { Mapper } from "../core/infra/Mapper";
 import { Document, Model } from 'mongoose';
-import { IFloorPersistence } from '../dataschema/IFloorPersistence';
+import { IFloorMapPersistence } from '../dataschema/IFloorMapPersistence';
 import IFloorMapDTO from "../dto/IFloorMapDTO";
 import { FloorMap } from "../domain/floorMap";
 
@@ -18,7 +18,7 @@ export class FloorMapMap extends Mapper<FloorMap> {
         } as IFloorMapDTO;
     }
 
-    public static toDomain( raw: any | Model<IFloorPersistence & Document> ): FloorMap {
+    public static toDomain( raw: any | Model<IFloorMapPersistence & Document> ): FloorMap {
 
         const floorMapOrError = FloorMap.create(
             {
@@ -35,5 +35,13 @@ export class FloorMapMap extends Mapper<FloorMap> {
 
 
         return floorMapOrError.getValue();
+    }
+
+    public static async toPersistence( floorMap: FloorMap): Promise<any> {
+        return {
+            _id: floorMap.id.toString(),
+            floorCode: floorMap.floorCode,
+            map: floorMap.map
+        };
     }
 }

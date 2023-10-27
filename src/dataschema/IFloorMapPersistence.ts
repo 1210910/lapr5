@@ -1,4 +1,4 @@
-export default interface IFloorMapPersistence {
+export  interface IFloorMapPersistence {
     _id: string;
     floorCode: string;
     map: [][];

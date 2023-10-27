@@ -58,6 +58,11 @@ export default async ({ expressApp }) => {
     name: 'liftSchema',
     schema: '../persistence/schemas/liftSchema',
   };
+
+  const floorMapSchema = {
+    name: 'floorMapSchema',
+    schema: '../persistence/schemas/floorMapSchema',
+  };
   // Controllers
 
   const roleController = {
@@ -97,6 +102,10 @@ export default async ({ expressApp }) => {
   const liftController = {
     name: config.controllers.lift.name,
     path: config.controllers.lift.path
+  }
+  const floorMapController = {
+    name: config.controllers.floorMap.name,
+    path: config.controllers.floorMap.path
   }
   // Repos
 
@@ -143,6 +152,10 @@ export default async ({ expressApp }) => {
     name: config.repos.lift.name,
     path: config.repos.lift.path
   }
+  const floorMapRepo = {
+    name: config.repos.floorMap.name,
+    path: config.repos.floorMap.path
+  }
 
 
 
@@ -186,6 +199,10 @@ export default async ({ expressApp }) => {
     name: config.services.lift.name,
     path: config.services.lift.path
   }
+  const floorMapService = {
+    name: config.services.floorMap.name,
+    path: config.services.floorMap.path
+  }
 
 
 
@@ -200,7 +217,8 @@ export default async ({ expressApp }) => {
       floorSchema,
       robotSchema,
       robotTypeSchema,
-      liftSchema
+      liftSchema,
+      floorMapSchema
     ],
     controllers: [
       roleController,
@@ -210,7 +228,8 @@ export default async ({ expressApp }) => {
       floorController,
       robotController,
       robotTypeController,
-      liftController
+      liftController,
+      floorMapController
     ],
     repos: [
       roleRepo,
@@ -221,7 +240,8 @@ export default async ({ expressApp }) => {
       RoomRepo,
       robotRepo,
       robotTypeRepo,
-      liftRepo
+      liftRepo,
+      floorMapRepo
       
     ],
     services: [
@@ -232,7 +252,8 @@ export default async ({ expressApp }) => {
       floorService,
       robotService,
       robotTypeService,
-      liftService
+      liftService,
+      floorMapService
     ]
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');
