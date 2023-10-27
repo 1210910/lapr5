@@ -103,7 +103,7 @@ enum Função {
 
 
 package Task <<aggregate>> {
-class Task{
+class task <<root>>{
     -Code
     -Description
 }
@@ -132,7 +132,7 @@ user "1" <- "1" Utente: é
 
 Admin "1" --> "1..*" user : gere
 
-Utente "1" --> "1..*" Task : requests
+Utente "1" --> "1..*" task : requests
 
 GestorCampus "1" --> "1..*" Campus : gere
 
@@ -152,13 +152,13 @@ Room "1" --> "1" Type: é
 'robot "1" <-- "1" Robisep: é
 
 robot "1" --> "1" robotType: has
-robotType "1" --> "1" Task: has
+robotType "1" --> "1" task: has
 
 'Robisep "1" --> "1..*" Task: does
 'Robisep "1" --> "1" Função : desempenha
 
-Task "1" --> "1" DeliveryTask: is
-Task "1" --> "1" SecurityTask: is
+task "1" --> "1" DeliveryTask: is
+task "1" --> "1" SecurityTask: is
 
 
 @enduml
