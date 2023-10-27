@@ -4,6 +4,7 @@ import { Result } from "../core/logic/Result";
 import { Guard } from "../core/logic/Guard";
 import { LiftId } from "./LiftId";
 import { Floor } from "./floor";
+import { ILiftDTO } from "../dto/ILiftDTO";
 
 interface LiftProps {
     code: string;
@@ -54,6 +55,23 @@ interface LiftProps {
     get description (): string {
       return this.props.description;
     }
+
+    set description (description: string) { 
+      this.props.description = description;
+    }
+
+    set brand (brand: string) { 
+      this.props.brand = brand;
+    }
+
+    set model (model: string) { 
+      this.props.model = model;
+    }
+
+    set serialNumber (serialNumber: string) { 
+      this.props.serialNumber = serialNumber;
+    }
+  
     private constructor (props: LiftProps, id?: UniqueEntityID) {
         super(props, id);
       }
@@ -83,5 +101,13 @@ interface LiftProps {
 
             return Result.ok<Lift>(lift);
     }
+
+    public static update(previousLift : Lift , iLiftDTO: ILiftDTO): Result<Lift> {
+      previousLift.brand = iLiftDTO.brand ?? previousLift.brand;
+      previousLift.model = iLiftDTO.model ?? previousLift.model;
+      previousLift.serialNumber = iLiftDTO.serialNumber ?? previousLift.serialNumber;
+      previousLift.description = iLiftDTO.description ?? previousLift.description;
+      return Result.ok<Lift>(previousLift);
+}
   }
 

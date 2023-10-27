@@ -27,7 +27,18 @@ export default (app: Router) => {
     }),
     (req,res,next) => liftController.createLift(req,res,next) );
 
+    route.patch('/:id',
+    celebrate({
+        body: Joi.object({
+            brand: Joi.string().max(50).optional(),
+            model: Joi.string().max(50).optional(),
+            serialNumber: Joi.string().max(50).optional(),
+            description: Joi.string().max(250).optional()
+        }),
+    }),
+    (req,res,next) => liftController.updateLift(req,res,next) );
 
+    //route.get('', (req,res,next) => liftController.listLift(req,res,next) );
 
 
 

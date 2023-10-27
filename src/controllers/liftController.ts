@@ -33,5 +33,22 @@ export default class LiftController implements ILiftController {
         }
     };
 
+    public async updateLift(req: Request, res: Response, next: NextFunction){
+        try{
+            const id = req.params.id;
+            let liftDTO = req.body as ILiftDTO;
+            const liftOrError = await this.liftServiceIntance.updateLift(req.params.id, req.body as ILiftDTO) as Result<ILiftDTO>;
+
+            if(liftOrError.isFailure) {
+                return res.status(404).send(liftOrError.errorValue());
+            }
+
+            liftDTO = liftOrError.getValue();
+            return res.status(201).json(liftDTO);
+
+        }catch (e){
+            return next(e);
+        }
+    }
 
 }

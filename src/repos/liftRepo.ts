@@ -2,7 +2,7 @@ import { Service, Inject } from 'typedi';
 import { Result } from '../core/logic/Result';
 import config from '../../config';
 
-import { Document, Model } from 'mongoose';
+import { Document, FilterQuery, Model } from 'mongoose';
 import { ILiftPersistence } from '../dataschema/ILiftPersistance';
 import ILiftRepo from '../services/IRepos/ILiftRepo';
 
@@ -68,16 +68,18 @@ export default class LiftRepo implements ILiftRepo {
     return !!liftDocument === true;
   }
 
-  public async findByCode (code: string): Promise<Lift> {
-    const query = { code:code };
-    const liftRecord = await this.liftSchema.findOne( query );
 
-    if( liftRecord != null) {
+public async findByCode (code: string): Promise<Lift> {
+  const query = { liftCode: code};
+  const liftRecord = await this.liftSchema.findOne( query as FilterQuery<ILiftPersistence & Document> );
+
+  if (liftRecord != null) {
       return LiftMap.toDomain(liftRecord);
-    }
-    else
-      return null;
   }
+
+  return null;
+}
+
 
 
 }

@@ -7,6 +7,7 @@ import IFloorRepo from '../services/IRepos/IFloorRepo';
 import ILiftService from './IServices/ILiftService';
 import { Result } from "../core/logic/Result";
 import { LiftMap } from "../mappers/LiftMap";
+import { floor } from 'lodash';
 
 @Service()
 export default class LiftService implements ILiftService{
@@ -19,7 +20,6 @@ export default class LiftService implements ILiftService{
         try {
 
           const liftDocument = await this.liftRepo.findByCode(liftDTO.code);
-
           const found = !!liftDocument;
           if (found) {
             return Result.fail<ILiftDTO>("Lift already exists with code = " + liftDTO.code);
@@ -59,6 +59,32 @@ export default class LiftService implements ILiftService{
           throw e;
         }
       }
+
+      public async updateLift(liftID : string ,liftDTO: ILiftDTO): Promise<Result<ILiftDTO>> {
+        try{
+          const lift = await this.liftRepo.findByCode(liftDTO.code);
+
+          if(lift == null){
+            return Result.fail<ILiftDTO>("Lift not found");
+          }else{
+            const liftOrError = Lift.update(lift, liftDTO);
+            
+            if(liftOrError.isFailure){
+              return Result.fail<ILiftDTO>(liftOrError.errorValue());
+            }
+            const liftResult = liftOrError.getValue();
+
+            await this.liftRepo.save(liftResult);
+            const liftDTOResult = LiftMap.toDTO(lift) as ILiftDTO;
+            return Result.ok<ILiftDTO>(liftDTOResult)
+          }
+        }
+        catch (e){
+          throw e;
+        }
+      }
+
+      
 
       private async checkFloors(buildingId: string,floors: string[]): Promise<boolean> {
 
