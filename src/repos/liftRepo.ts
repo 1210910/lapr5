@@ -71,7 +71,6 @@ export default class LiftRepo implements ILiftRepo {
   public async findByCode (code: string): Promise<Lift> {
     const query = { code:code };
     const liftRecord = await this.liftSchema.findOne( query );
-
     if( liftRecord != null) {
       return LiftMap.toDomain(liftRecord);
     }
@@ -99,5 +98,16 @@ export default class LiftRepo implements ILiftRepo {
       liftList.push(await LiftMap.toDomain(lift));
     }
     return Result.ok<Array<Lift>>(liftList);
+  }
+
+  public async findIfBuildingAlreadyHasLift (buildingCode: string): Promise<boolean> {
+    const query = { buildingCode:buildingCode };
+    const liftRecord = await this.liftSchema.find( query );
+
+    if( liftRecord != null) {
+      return true;
+    }
+    else
+      return false;
   }
 }

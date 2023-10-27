@@ -71,6 +71,10 @@ interface LiftProps {
     set serialNumber (serialNumber: string) { 
       this.props.serialNumber = serialNumber;
     }
+
+    set floors (floors: string[]) {
+      this.props.floors = floors;
+    }
   
     private constructor (props: LiftProps, id?: UniqueEntityID) {
         super(props, id);
@@ -103,6 +107,7 @@ interface LiftProps {
     }
 
     public static update(previousLift : Lift , iLiftDTO: ILiftDTO): Result<Lift> {
+      previousLift.floors = iLiftDTO.floors ?? previousLift.floors;
       previousLift.brand = iLiftDTO.brand ?? previousLift.brand;
       previousLift.model = iLiftDTO.model ?? previousLift.model;
       previousLift.serialNumber = iLiftDTO.serialNumber ?? previousLift.serialNumber;

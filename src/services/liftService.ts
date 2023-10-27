@@ -25,10 +25,10 @@ export default class LiftService implements ILiftService{
             return Result.fail<ILiftDTO>("Lift already exists with code = " + liftDTO.code);
           }
 
-          /*const checkIfAlreadyHasLift = await this.liftRepo.findIfBuildingAlreadyHasLift(liftDTO.buildingCode);
+          const checkIfAlreadyHasLift = await this.liftRepo.findIfBuildingAlreadyHasLift(liftDTO.buildingCode);
           if(checkIfAlreadyHasLift){
             return Result.fail<ILiftDTO>("Building already as a lift");
-          }*/
+          }
 
           const checkFloors= await this.checkFloors(liftDTO.buildingCode,liftDTO.floors);
 
@@ -65,13 +65,16 @@ export default class LiftService implements ILiftService{
 
       public async updateLift(liftID : string ,liftDTO: ILiftDTO): Promise<Result<ILiftDTO>> {
         try{
-          const lift = await this.liftRepo.findByCode(liftDTO.code);
-
+          const lift = await this.liftRepo.findByCode(liftID);
           if(lift == null){
             return Result.fail<ILiftDTO>("Lift not found");
           }else{
+            const checkFloors= await this.checkFloors(lift.buildingCode,liftDTO.floors);
+            if(!checkFloors){
+              return Result.fail<ILiftDTO>("Floor does not exist in this building");
+            }
             const liftOrError = Lift.update(lift, liftDTO);
-            
+            console.log(liftOrError);
             if(liftOrError.isFailure){
               return Result.fail<ILiftDTO>(liftOrError.errorValue());
             }
