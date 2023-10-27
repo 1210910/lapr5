@@ -16,12 +16,12 @@ export default (app: Router) => {
     route.post('',
     celebrate({
         body: Joi.object({
-            floorCode: Joi.string().required().size(10),
+            floorCode: Joi.string().max(10).required(),
             floorNumber: Joi.number().required(),
             width: Joi.number().required(),
             length: Joi.number().required(),
-            description: Joi.string().optional().size(250),
-            buildingID: Joi.string().required()
+            description: Joi.string().max(250).optional(),
+            buildingID: Joi.string().required() 
         }),
     }),
     (req,res,next) => floorController.createFloor(req,res,next) );
@@ -32,7 +32,7 @@ export default (app: Router) => {
             floorNumber: Joi.number().optional(),
             width: Joi.number().optional(),
             length: Joi.number().optional(),
-            description: Joi.string().optional().size(250),
+            description: Joi.string().max(250).optional(),
         }),
     }),
     (req,res,next) => floorController.updateFloor(req,res,next) );
