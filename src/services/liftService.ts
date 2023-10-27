@@ -25,10 +25,15 @@ export default class LiftService implements ILiftService{
             return Result.fail<ILiftDTO>("Lift already exists with code = " + liftDTO.code);
           }
 
+          const checkIfAlreadyHasLift = await this.liftRepo.findIfBuildingAlreadyHasLift(liftDTO.buildingCode);
+          if(checkIfAlreadyHasLift){
+            return Result.fail<ILiftDTO>("Building already as a lift");
+          }
+
           const checkFloors= await this.checkFloors(liftDTO.buildingCode,liftDTO.floors);
 
           if (!checkFloors){
-            return Result.fail<ILiftDTO>("Floors code not found");
+            return Result.fail<ILiftDTO>("Error in floor codes not found");
           }
 
           const liftOrError = await Lift.create({
@@ -45,9 +50,7 @@ export default class LiftService implements ILiftService{
             return Result.fail<ILiftDTO>(liftOrError.errorValue());
           }
 
-          const liftResult = liftOrError.getValue();
-
-          const finalLift = await this.liftRepo.save(liftResult);
+          const finalLift = await this.liftRepo.save(liftOrError.getValue());
 
           if (finalLift == null){
             return Result.fail<ILiftDTO>(finalLift);
@@ -91,7 +94,7 @@ export default class LiftService implements ILiftService{
       try {
 
         const floorsOfBuilding = await this.floorRepo.findByBuildingId(buildingId);
-        if(floorsOfBuilding == null ){
+        if(floorsOfBuilding == null || floorsOfBuilding.length<2 ){
           return false;
         }
         const floorCodes = floorsOfBuilding.map(floor => floor.floorCode);

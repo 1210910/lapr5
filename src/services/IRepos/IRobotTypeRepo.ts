@@ -6,5 +6,6 @@ import { RobotType } from "../../domain/robotType";
 
 export default interface IRobotTypeRepo extends Repo<RobotType> {
     exists(robotType: RobotType): Promise<boolean>;
+    existsByCode(robotTypeCode: string): Promise<boolean>;
     save(robotType: RobotType): Promise<RobotType>;
 }    
