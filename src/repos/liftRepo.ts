@@ -78,6 +78,26 @@ export default class LiftRepo implements ILiftRepo {
     else
       return null;
   }
+  
+  public async findAll(): Promise<Result<Array<Lift>>>{
+    const liftRecord = await this.liftSchema.find();
 
+    const liftList : Array<Lift> = [];
+    for (const lift of liftRecord) {
+      liftList.push(await LiftMap.toDomain(lift));
+    }
+    return Result.ok<Array<Lift>>(liftList);
 
+  }
+
+  public async findByBuildingCode (buildingCode: string): Promise<Result<Array<Lift>>> {
+    const query = { buildingCode:buildingCode };
+    const liftRecord = await this.liftSchema.find( query );
+
+    const liftList : Array<Lift> = [];
+    for (const lift of liftRecord) {
+      liftList.push(await LiftMap.toDomain(lift));
+    }
+    return Result.ok<Array<Lift>>(liftList);
+  }
 }

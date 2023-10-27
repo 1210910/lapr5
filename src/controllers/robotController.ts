@@ -36,7 +36,17 @@ export default class RobotController implements IRobotController {
     };
 
     public async listRobot(req: Request, res: Response, next: NextFunction) {
-        console.log("Not implemented");
-        return null;
+        try{
+            const robotOrError = await this.robotServiceInstance.listRobot() as Result<Array<IRobotDTO>>;
+
+            if (robotOrError.isFailure) {
+                return res.status(402).send(robotOrError.errorValue());
+            }
+
+            const robotDto = robotOrError.getValue();
+            return res.status(201).json(robotDto);
+        } catch (e) {
+            return next(e);
+        }
     };
 }
