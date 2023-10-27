@@ -10,14 +10,14 @@ const Building = new mongoose.Schema(
       code: {
         type: String,
         unique: true,
+        required: [true, 'Please enter code'],
       },
       name: {
          type: String
       },
       description: {
         type: String,
-        index: true,
-        unique:true,
+        unique:false,
       },
       maxLength: {
         type: Number,

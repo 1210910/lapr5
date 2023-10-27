@@ -6,6 +6,8 @@ import IBuildingRepo from '../services/IRepos/IBuildingRepo';
 import IBuildingService from './IServices/IBuildingService';
 import { Result } from "../core/logic/Result";
 import { BuildingMap } from "../mappers/BuildingMap";
+import jsonPatch from 'json-patch';
+
 
 @Service()
 export default class BuildingService implements IBuildingService{
@@ -83,7 +85,7 @@ export default class BuildingService implements IBuildingService{
         }
       }
 
-      public async editBuilding(code:string , buildingDTO: IBuildingDTO): Promise<Result<IBuildingDTO>> {
+      public async editBuilding(code:string , patchedBuilding: IBuildingDTO): Promise<Result<IBuildingDTO>> {
         try {
 
           const buildingDocument = await this.buildingRepo.findByCode(code);
@@ -92,16 +94,21 @@ export default class BuildingService implements IBuildingService{
           if (!found) {
             return Result.fail<IBuildingDTO>("Can not find building with code = " + code);
           }
-          const buildingOrError = await Building.create({
-            code: code,
-            name: buildingDTO.name,
-            description: buildingDTO.description,
-            maxLength: buildingDTO.maxLength,
-            maxWidth: buildingDTO.maxWidth,
-          },buildingDocument.id);
+          const updatedBuildingData = jsonPatch.apply(buildingDocument.props, patchedBuilding);
 
-          const buildingResult = buildingOrError.getValue();
-          const finalBuilding = await this.buildingRepo.save(buildingResult);
+          const buildingOrError = await Building.create({
+            code: updatedBuildingData.code,
+            name: updatedBuildingData.name,
+            description: updatedBuildingData.description,
+            maxLength: updatedBuildingData.maxLength,
+            maxWidth: updatedBuildingData.maxWidth,
+          },updatedBuildingData.buildingId);
+
+          if(buildingOrError.isFailure){
+            return Result.fail<IBuildingDTO>(buildingOrError.errorValue());
+          }
+
+          const finalBuilding = await this.buildingRepo.save(buildingOrError.getValue());
 
           if (finalBuilding == null){
             return Result.fail<IBuildingDTO>(finalBuilding);

@@ -61,6 +61,14 @@ interface BuildingProps {
           const guardmaxLenght = Guard.inRange(props.maxLength,1,Number.MAX_SAFE_INTEGER, "maxLenght");
           const guardmaxWidth = Guard.inRange(props.maxWidth,1,Number.MAX_SAFE_INTEGER, "maxWidth");
 
+          if(props.name.length > 50 ){
+            return Result.fail<Building>("Name property cannot have more than 50 letters")
+          }
+          
+          if(props.description.length > 255 ){
+            return Result.fail<Building>("Description property cannot have more than 255 letters")
+          }
+
           if (!guardResult.succeeded) {
             return Result.fail<Building>(guardResult.message)
           }
