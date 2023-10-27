@@ -76,7 +76,6 @@ export default class PassagewayService implements IPassagewayService {
             const passagewayResult = passagewayOrError.getValue();
 
             await this.passagewayRepo.save(passagewayResult);
-            console.log(passagewayResult);
 
             const passagewayDTOResult = PassagewayMap.toDTO(passagewayResult) as IPassagewayDTO;
             return Result.ok<IPassagewayDTO>(passagewayDTOResult)
