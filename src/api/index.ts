@@ -7,6 +7,7 @@ import building from './routes/buildingRoute';
 import passageway from './routes/PassagewayRoute';
 import room from './routes/RoomRoute';
 import robotTypeRoute from './routes/robotTypeRoute';
+import floorMapRoute from './routes/floorMapRoute';
 
 export default () => {
 	const app = Router();
@@ -19,6 +20,7 @@ export default () => {
 	building(app);
 	passageway(app);
 	room(app);
+	floorMapRoute(app);
 	
 	return app
 }

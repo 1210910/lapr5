@@ -91,7 +91,7 @@ export class Floor extends AggregateRoot<FloorProps> {
 
         const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
 
-        console.log(props.floorNumber);
+       
 
         if (!guardResult.succeeded) {
             console.log(guardResult.message);
@@ -105,9 +105,11 @@ export class Floor extends AggregateRoot<FloorProps> {
 
     public static edit (props:  IFloorDTO, floor:Floor) :Result<Floor> {
 
+        if (props.floorCode !== floor.floorCode) {
+            floor.floorCode= floor.buildingID + props.floorNumber;
+        }
         
         floor.floorNumber = floor.floorNumber ?? props.floorNumber;
-      
         floor.width = props.width ?? floor.width;
         floor.length = props.length ?? floor.length;
         floor.description = props.description ?? floor.description;

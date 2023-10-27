@@ -37,11 +37,18 @@ export default class FloorService implements IFloorService {
     public async createFloor(floorDTO: IFloorDTO): Promise<Result<IFloorDTO>> {
         try {
 
-           // const buildingExists = await this.buildingRepo.findByCode(floorDTO.buildingID);
+            const buildingExists = await this.buildingRepo.findByCode(floorDTO.buildingID);
 
-           //if (!buildingExists) {
-           //     return Result.fail<IFloorDTO>("Building not found");
-            //}
+           if (!buildingExists) {
+               return Result.fail<IFloorDTO>("Building not found");
+            }
+
+            const floorExists = await this.FloorRepo.findByBuildingId(floorDTO.buildingID);
+
+            if (floorExists) {
+                return Result.fail<IFloorDTO>("Floor already exists");
+            }
+
             let Id = "FLR";
             let i = 0;
 
@@ -82,10 +89,7 @@ export default class FloorService implements IFloorService {
          const floor = await this.FloorRepo.findByFloorCode(floorDTO.floorCode);
 
 
-
-
             if (floor === null) {
-
                 return Result.fail<IFloorDTO>("Floor not found");
             } else {
 
