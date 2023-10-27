@@ -17,10 +17,10 @@ export default (app: Router) => {
         "",
         celebrate({
             body: Joi.object({
-                code: Joi.string().required(),
-                brand: Joi.string().required(),
-                model: Joi.string().required(),
-                description: Joi.string().required(),
+                code: Joi.string().required().size(25),
+                brand: Joi.string().required().size(50),
+                model: Joi.string().required().size(100),
+                description: Joi.string().optional().size(250),
                 taskTypeCode: Joi.string().required(),
             }),
         }),

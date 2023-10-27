@@ -62,11 +62,27 @@ export class RobotType extends AggregateRoot<RobotTypeProps> {
             { argument: props.code, argumentName: 'code' },
             { argument: props.brand, argumentName: 'brand' },
             { argument: props.model, argumentName: 'model' },
-            { argument: props.description, argumentName: 'description' },
             { argument: props.taskTypeCode, argumentName: 'taskTypeCode'}
         ];
 
         const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
+
+        if (props.code.length > 25) {
+            return Result.fail<RobotType>("Code must be 25 characters or less");
+        }
+
+        if (props.brand.length > 50) {
+            return Result.fail<RobotType>("Brand must be 50 characters or less");
+        }
+
+        if (props.model.length > 100) {
+            return Result.fail<RobotType>("Model must be 100 characters or less");
+        }
+
+        if (props.description.length > 250) {
+            return Result.fail<RobotType>("Description must be 250 characters or less");
+        }
+
 
         if (!guardResult.succeeded) {
             return Result.fail<RobotType>(guardResult.message)

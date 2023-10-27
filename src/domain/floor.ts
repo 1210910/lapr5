@@ -85,20 +85,27 @@ export class Floor extends AggregateRoot<FloorProps> {
             {argument :props.floorNumber, argumentName: 'floorNumber'},
             { argument: props.width, argumentName: 'width' },
             { argument: props.length, argumentName: 'length'},
-            { argument: props.description, argumentName: 'description' },
             { argument: props.buildingID, argumentName: 'buildingID' },
         ];
 
         const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
 
-       
+
+        if (props.floorCode.length > 10) {
+            return Result.fail<Floor>("Floor code cannot be longer than 10 characters");
+        }
+
+        if (props.description.length > 250) {
+            return Result.fail<Floor>("Description cannot be longer than 250 characters");
+        }
+
 
         if (!guardResult.succeeded) {
-            console.log(guardResult.message);
+           
             return Result.fail<Floor>(guardResult.message)
         } else {
             const floor = new Floor(props, id); 
-            console.log(floor.floorNumber);
+           
             return Result.ok<Floor>(floor);
         }
     }

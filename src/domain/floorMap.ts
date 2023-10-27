@@ -47,11 +47,13 @@ export class FloorMap extends AggregateRoot<FloorMapProps> {
 
         const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
 
+
+
         if (!guardResult.succeeded) {
             return Result.fail<FloorMap>(guardResult.message);
         }
         else {
-            console.log("props");
+            
             const floorMap = new FloorMap({
                 ...props
             }

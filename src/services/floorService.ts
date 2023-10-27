@@ -43,6 +43,10 @@ export default class FloorService implements IFloorService {
                return Result.fail<IFloorDTO>("Building not found");
             }
 
+            if (buildingExists.maxLength < floorDTO.length || buildingExists.maxWidth < floorDTO.width) {
+                return Result.fail<IFloorDTO>("Floor is too big for building");
+            }
+
             const floorExists = await this.FloorRepo.findByBuildingId(floorDTO.buildingID);
 
             if (floorExists) {
@@ -51,6 +55,7 @@ export default class FloorService implements IFloorService {
 
             let Id = "FLR";
             let i = 0;
+
 
            // check repo for last id and increment
            // while the id exists in the repo, increment a:
