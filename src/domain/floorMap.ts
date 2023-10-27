@@ -51,7 +51,7 @@ export class FloorMap extends AggregateRoot<FloorMapProps> {
             return Result.fail<FloorMap>(guardResult.message);
         }
         else {
-
+            console.log("props");
             const floorMap = new FloorMap({
                 ...props
             }

@@ -64,11 +64,23 @@ export default class RoomRepo implements IRoomRepo {
 
     public async findByCode(roomCode: Room | string): Promise<Room> {
         const idX = roomCode instanceof Room ? (<Room>roomCode).id.toValue() : roomCode;
-
+        
         const query = { domainId: idX };
         const RoomRecord = await this.roomSchema.findOne(query);
+        
 
         return RoomMap.toDomain(RoomRecord);
     }
+
+    public async findByRoomCode(roomCode: string): Promise<Room> {
+
+        const query = { roomCode: roomCode };   
+
+        const roomRecord = await    this.roomSchema.findOne(query);
+
+        return RoomMap.toDomain(roomRecord);
+
+    }
+
 
 }

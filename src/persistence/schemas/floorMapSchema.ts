@@ -1,3 +1,4 @@
+import { type } from "os";
 import  {IFloorMapPersistence}  from "../../dataschema/IFloorMapPersistence";
 import mongoose from 'mongoose';
 
@@ -5,7 +6,7 @@ export const FloorMap = new mongoose.Schema(
     {
         domainId: { type: String, unique: true },
         floorCode: { type: String, unique: true },
-        map : { type: String},
+        map : { type: [[String]] }
     }
     ,{
         timestamps: true

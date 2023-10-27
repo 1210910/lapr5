@@ -19,7 +19,7 @@ export class FloorMapMap extends Mapper<FloorMap> {
     }
 
     public static toDomain( raw: any | Model<IFloorMapPersistence & Document> ): FloorMap {
-
+        
         const floorMapOrError = FloorMap.create(
             {
                 floorCode: raw.floorCode,
@@ -28,6 +28,8 @@ export class FloorMapMap extends Mapper<FloorMap> {
             new UniqueEntityID(raw._id)
                 
         );
+
+       
 
         if (floorMapOrError.isFailure) {
             throw new Error(floorMapOrError.error.toString());
@@ -39,7 +41,7 @@ export class FloorMapMap extends Mapper<FloorMap> {
 
     public static async toPersistence( floorMap: FloorMap): Promise<any> {
         return {
-            _id: floorMap.id.toString(),
+            domainid: floorMap.id.toString(),
             floorCode: floorMap.floorCode,
             map: floorMap.map
         };

@@ -40,22 +40,17 @@ export default class FloorMapRepo implements IFloorMapRepo {
 
 
     public async save(floorMap: any): Promise<any> {
-
+        
         const query = { domainId: floorMap.id.toString()};
         const floorMapDocument = await this.floorMapSchema.findOne( query );
 
         try {
             if (floorMapDocument === null) {
-                const rawFloorMap: any = {
-                    domainId: floorMap.id.toString(),
-                    floorCode: floorMap.floorCode,
-                    map: floorMap.map
-                }
-
-                const floorMapModel = new this.floorMapSchema(rawFloorMap);
-                await floorMapModel.save();
-
-                return FloorMapMap.toDomain(floorMapModel);
+                
+                const rawFloorMap: any = await FloorMapMap.toPersistence(floorMap);
+                const floorMapCreated = await this.floorMapSchema.create(rawFloorMap);
+             
+                return FloorMapMap.toDomain(floorMapCreated);
             } else {
                 return FloorMapMap.toDomain(floorMapDocument);
             }
