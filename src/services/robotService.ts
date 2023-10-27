@@ -21,9 +21,9 @@ export default class RobotService implements IRobotService {
                 return Result.fail<IRobotDTO>("Robot already exists");
             }
 
-            /* if (! await this.RobotTypeRepo.existsByCode(robotDTO.type)) {
+            if (! await this.RobotTypeRepo.existsByCode(robotDTO.type)) {
                 return Result.fail<IRobotDTO>("Robot type doesn't exist");
-            } */
+            }
 
             const RobotOrError = await Robot.create(robotDTO);
             if (RobotOrError.isFailure) {
