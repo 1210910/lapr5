@@ -27,18 +27,29 @@ export default (app: Router) => {
         passagewayController.createPassageway(req,res,next);
     });
 
-    // Update totally a passageway
     route.put('/:passageCode/',
     celebrate({
         body: Joi.object({
             passageCode: Joi.string().required(),
             floor1: Joi.string().required(),
             floor2: Joi.string().required(),
+            description: Joi.string().required(),
+        }),
+    }),
+    (req,res,next) => {
+        passagewayController.updatePassageway(req,res,next);
+    });
+
+    route.patch('/:passageCode/',
+    celebrate({
+        body: Joi.object({
+            passageCode: Joi.string(),
+            floor1: Joi.string(),
+            floor2: Joi.string(),
             description: Joi.string(),
         }),
     }),
     (req,res,next) => {
-        console.log(req.body); //Debug
         passagewayController.updatePassageway(req,res,next);
     });
 

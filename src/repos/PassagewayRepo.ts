@@ -58,6 +58,7 @@ export default class PassagewayRepo implements IPassagewayRepo {
             } else {
                 passagewayDocument.floor1 = passageway.floor1;
                 passagewayDocument.floor2 = passageway.floor2;
+                passagewayDocument.description = passageway.description;
                 await passagewayDocument.save();
 
                 return passageway;
