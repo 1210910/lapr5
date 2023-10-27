@@ -108,6 +108,6 @@ interface LiftProps {
       previousLift.serialNumber = iLiftDTO.serialNumber ?? previousLift.serialNumber;
       previousLift.description = iLiftDTO.description ?? previousLift.description;
       return Result.ok<Lift>(previousLift);
+    }
 }
-  }
 

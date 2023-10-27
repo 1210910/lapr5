@@ -4,5 +4,5 @@ import { ILiftDTO } from "../../dto/ILiftDTO";
 export default interface ILiftService  {
   createLift(liftDTO: ILiftDTO): Promise<Result<ILiftDTO>>;
   updateLift(liftID : string, liftDTO: ILiftDTO): Promise<Result<ILiftDTO>>;
-  //listLift(): Promise<Result<Array<ILiftDTO>>>;
+  listLift(buildingCode : string): Promise<Result<Array<ILiftDTO>>>;
 }

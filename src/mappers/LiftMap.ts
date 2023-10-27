@@ -50,6 +50,14 @@ export class LiftMap extends Mapper<Lift> {
         }
         return e;
       }
+      public static toDTOList(lift: Array<Lift>): Array<ILiftDTO> {
+        let liftDTOList: Array<ILiftDTO> = [];
+        lift.forEach((lift: Lift) => {
+            liftDTOList.push(this.toDTO(lift));
+        });
+
+        return liftDTOList;
+    }
 
 
 }
