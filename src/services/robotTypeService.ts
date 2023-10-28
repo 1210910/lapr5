@@ -18,6 +18,10 @@ export default class RoboTypeService implements IRobotTypeService{
     public async createRobotType( robotDTO: IRobotTypeDTO): Promise<Result<IRobotTypeDTO>> {
 
         try {
+            const robotTypeExists = await this.robotTypeRepo.existsByCode(robotDTO.code);
+            if (robotTypeExists) {
+                return Result.fail<IRobotTypeDTO>('RobotType already exists')
+            }
 
             const robotTypeOrError = RobotType.create(robotDTO);
 
@@ -26,17 +30,9 @@ export default class RoboTypeService implements IRobotTypeService{
             }
 
             const robotTypeResult = robotTypeOrError.getValue();
-
-            const robotTypeExists = await this.robotTypeRepo.exists(robotTypeResult);
-
-            if (robotTypeExists) {
-                return Result.fail<IRobotTypeDTO>('RobotType already exists')
-            }
-
             const robotType = await this.robotTypeRepo.save(robotTypeResult);
 
             const robotTypeDTO = RobotTypeMap.toDTO(robotType);
-
             return Result.ok<IRobotTypeDTO>(robotTypeDTO);
 
         } catch (err) {
@@ -44,6 +40,6 @@ export default class RoboTypeService implements IRobotTypeService{
         }
 
 
-        
+
     }
 }

@@ -24,7 +24,7 @@ export class RobotType extends AggregateRoot<RobotTypeProps> {
 
     get  brand (): string {
         return this.props.brand;
-    }   
+    }
 
     get model (): string {
         return this.props.model;
@@ -38,26 +38,12 @@ export class RobotType extends AggregateRoot<RobotTypeProps> {
         return this.props.taskTypeCode;
     }
 
-
-
-    set  brand (brand: string) {
-        this.props.brand = brand;
-    }
-
-    set model (model: string) {
-        this.props.model = model;
-    }
-
-    set description (description: string) {
-        this.props.description = description;
-    }
-
     private constructor (props: RobotTypeProps, id?: UniqueEntityID) {
         super(props, id);
     }
 
     public static create (props: RobotTypeProps, id?: UniqueEntityID): Result<RobotType> {
-    
+
         const guardedProps = [
             { argument: props.code, argumentName: 'code' },
             { argument: props.brand, argumentName: 'brand' },
@@ -66,6 +52,26 @@ export class RobotType extends AggregateRoot<RobotTypeProps> {
         ];
 
         const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
+
+        if (props.code === '' || props.code === undefined || props.code === null) {
+            return Result.fail<RobotType>('There is no code.')
+        }
+
+        if (props.brand === '' || props.brand === undefined || props.brand === null) {
+            return Result.fail<RobotType>('There is no brand.')
+        }
+
+        if (props.model === '' || props.model === undefined || props.model === null) {
+            return Result.fail<RobotType>('There is no model.')
+        }
+
+        if (props.description === undefined || props.description === null) {
+            props.description = '';
+        }
+
+        if (props.taskTypeCode === '' || props.taskTypeCode === undefined || props.taskTypeCode === null) {
+            return Result.fail<RobotType>('There is no task type code.')
+        }
 
         if (props.code.length > 25) {
             return Result.fail<RobotType>("Code must be 25 characters or less");
@@ -83,6 +89,10 @@ export class RobotType extends AggregateRoot<RobotTypeProps> {
             return Result.fail<RobotType>("Description must be 250 characters or less");
         }
 
+        if (props.taskTypeCode.length > 25) {
+            return Result.fail<RobotType>("Task type code must be 25 characters or less");
+        }
+
 
         if (!guardResult.succeeded) {
             return Result.fail<RobotType>(guardResult.message)
@@ -94,7 +104,7 @@ export class RobotType extends AggregateRoot<RobotTypeProps> {
             return Result.ok<RobotType>(robotType);
         }
 
-    
+
     }
 
 }
