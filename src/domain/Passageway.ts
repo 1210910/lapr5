@@ -19,16 +19,18 @@ export class Passageway extends AggregateRoot<PassagewayProps>{
         return this._id;
     }
 
-    get passagewayId(): PassagewayId {
+    /*get passagewayId(): PassagewayId {
         return PassagewayId.caller(this.id);
-    }
+    }*/
 
     get passageCode(): string {
         return this.props.passageCode;
     }
 
     set passageCode(code: string) {
+      if (code != null && code.length > 1) {
         this.props.passageCode = code;
+      }
     }
 
     get floor1(): string {
@@ -36,6 +38,7 @@ export class Passageway extends AggregateRoot<PassagewayProps>{
     }
 
     set floor1(floor: string) {
+      if (floor != null && floor.length > 1)
         this.props.floor1 = floor;
     }
 
@@ -44,7 +47,9 @@ export class Passageway extends AggregateRoot<PassagewayProps>{
     }
 
     set floor2(floor: string) {
+      if (floor != null && floor.length > 1){
         this.props.floor2 = floor;
+      }
     }
 
     get description(): string {
@@ -52,33 +57,49 @@ export class Passageway extends AggregateRoot<PassagewayProps>{
     }
 
     set description(description: string) {
-        this.props.description = description;
+      if (description != null && description.length > 1 && description.length < 255){
+          this.props.description = description;
+      }
     }
 
     private constructor(props: PassagewayProps, id?: UniqueEntityID) {
         super(props, id);
     }
 
-    public static create(iPassagewayDTO: IPassagewayDTO, id?: UniqueEntityID): Result<Passageway> {
-        
-        const passageCode = iPassagewayDTO.passageCode;
-        const floor1 = iPassagewayDTO.floor1;
-        const floor2 = iPassagewayDTO.floor2;
-        const description = iPassagewayDTO.description;
-        
-        const passageway = new Passageway({ passageCode, floor1, floor2, description}, id);
-        return Result.ok<Passageway>(passageway);
-    }
-    
+    public static create(props:PassagewayProps, id?: UniqueEntityID): Result<Passageway> {
 
-    public static update(previousPassageway: Passageway, iPassagewayDTO: IPassagewayDTO): Result<Passageway> {
-            previousPassageway.passageCode = iPassagewayDTO.passageCode ?? previousPassageway.passageCode;
-            previousPassageway.floor1 = iPassagewayDTO.floor1 ?? previousPassageway.floor1;
-            previousPassageway.floor2 = iPassagewayDTO.floor2 ?? previousPassageway.floor2;
-            previousPassageway.description = iPassagewayDTO.description ?? previousPassageway.description;
-            
-            return Result.ok<Passageway>(previousPassageway);
-            
+      const guardedProps = [
+        {argument: props.passageCode, argumentName: "passageCode"},
+
+        {argument: props.floor1, argumentName: "floor1"},
+        {argument: props.floor2, argumentName: "floor2"},
+        {argument: props.description, argumentName: "description"
+        }];
+    const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
+
+      if (!guardResult.succeeded) {
+        return Result.fail<Passageway>(guardResult.message)
+      }
+      if(props.description.length > 255 ){
+        return Result.fail<Passageway>("Description property cannot have more than 255 letters")
+
+      }
+
+    const passageway = new Passageway({
+    ...props
+    }, id);
+    return Result.ok<Passageway>(passageway);
+}
+
+
+    public static update(props: PassagewayProps | any, passageway : Passageway): Result<Passageway> {
+      passageway.passageCode = props.passageCode ?? passageway.passageCode;
+      passageway.floor1 = props.floor1 ?? passageway.floor1;
+      passageway.floor2 = props.floor2 ?? passageway.floor2;
+      passageway.description = props.description ?? passageway.description;
+
+      return Result.ok<Passageway>(passageway);
+
     }
 
 }

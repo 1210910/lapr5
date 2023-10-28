@@ -1,0 +1,388 @@
+import assert  from 'assert';
+import { Passageway } from '../../../src/domain/Passageway';
+
+describe("Passageway Test", () => {
+
+  it("should create a valid passageway when all parameters are valid", () => {
+    const passagewayDTO = {
+      passageCode: "PA1B1",
+      floor1: "A1",
+      floor2: "B1",
+      description: "Passagem entre os andares A1 e B1",
+    };
+    const passagewayOrError = Passageway.create(passagewayDTO);
+    assert(passagewayOrError.isSuccess);
+  });
+
+  it("should not create a passageway when the passage code is null", () => {
+    const passagewayDTO = {
+      passageCode: null,
+      floor1: "A1",
+      floor2: "B1",
+      description: "Passagem entre os andares A1 e B1",
+    };
+    const passagewayOrError = Passageway.create(passagewayDTO);
+    assert(passagewayOrError.isFailure);
+  });
+
+  it("should not create a passageway when the passage code is undefined", () => {
+    const passagewayDTO = {
+      passageCode: undefined,
+      floor1: "A1",
+      floor2: "B1",
+      description: "Passagem entre os andares A1 e B1",
+    };
+    const passagewayOrError = Passageway.create(passagewayDTO);
+    assert(passagewayOrError.isFailure);
+  });
+
+  it("should not create a passageway when the floor1 is null", () => {
+    const passagewayDTO = {
+      passageCode: "PA1B1",
+      floor1: null,
+      floor2: "B1",
+      description: "Passagem entre os andares A1 e B1",
+    };
+    const passagewayOrError = Passageway.create(passagewayDTO);
+    assert(passagewayOrError.isFailure);
+  });
+
+  it("should not create a passageway when the floor1 is undefined", () => {
+    const passagewayDTO = {
+      passageCode: "PA1B1",
+      floor1: undefined,
+      floor2: "B1",
+      description: "Passagem entre os andares A1 e B1",
+    };
+    const passagewayOrError = Passageway.create(passagewayDTO);
+    assert(passagewayOrError.isFailure);
+  });
+
+  it("should not create a passageway when the floor2 is null", () => {
+    const passagewayDTO = {
+      passageCode: "PA1B1",
+      floor1: "A1",
+      floor2: null,
+      description: "Passagem entre os andares A1 e B1",
+    };
+    const passagewayOrError = Passageway.create(passagewayDTO);
+    assert(passagewayOrError.isFailure);
+  });
+
+  it("should not create a passageway when the floor2 is undefined", () => {
+    const passagewayDTO = {
+      passageCode: "PA1B1",
+      floor1: "A1",
+      floor2: undefined,
+      description: "Passagem entre os andares A1 e B1",
+    };
+    const passagewayOrError = Passageway.create(passagewayDTO);
+    assert(passagewayOrError.isFailure);
+  });
+
+  it("should not create a passageway when the description is null", () => {
+    const passagewayDTO = {
+      passageCode: "PA1B1",
+      floor1: "A1",
+      floor2: "B1",
+      description: null,
+    };
+    const passagewayOrError = Passageway.create(passagewayDTO);
+    assert(passagewayOrError.isFailure);
+  });
+
+  it("should not create a passageway when the description is undefined", () => {
+    const passagewayDTO = {
+      passageCode: "PA1B1",
+      floor1: "A1",
+      floor2: "B1",
+      description: undefined,
+    };
+    const passagewayOrError = Passageway.create(passagewayDTO);
+    assert(passagewayOrError.isFailure);
+  });
+
+  it("should not create a passageway when the description has more than 255 characters", () => {
+    const passagewayDTO = {
+      passageCode: "PA1B1",
+      floor1: "A1",
+      floor2: "B1",
+      description: "Lorem ipsum dolor sit amet, " +
+        "consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste " +
+        "natus error sit voluptatem accusantium doloremque laudantium, " +
+        "totam rem aperiam, eaque ipsa quae ab illo inventore veritatis " +
+        "et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim " +
+        "ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, " +
+        "sed quia consequuntur magni dolores eos qui ratione voluptatem sequi " +
+        "nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit " +
+        "amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora" +
+        " incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+    };
+    const passagewayOrError = Passageway.create(passagewayDTO);
+    assert(passagewayOrError.isFailure);
+  });
+
+  it("created passagewayCode should equal introduced code when passageway is valid", () => {
+
+    const passagewayDTO ={
+      passageCode: "B",
+      floor1: "A1",
+      floor2: "B1",
+      description: "Passageway between floors A1 and B1",
+    }
+
+    const passagewayOrError = Passageway.create(passagewayDTO);
+    assert(passagewayOrError.getValue().passageCode === passagewayDTO.passageCode)
+  });
+
+  it("created passageway should equal introduced floor when passageway is valid", () => {
+
+    const passagewayDTO = {
+      passageCode: "B",
+      floor1: "A1",
+      floor2: "B1",
+      description: "Passageway between floors A1 and B1",
+    }
+
+    const passagewayOrError = Passageway.create(passagewayDTO);
+
+    assert(passagewayOrError.getValue().floor1 === passagewayDTO.floor1)
+  });
+
+  it("created passageway should equal introduced floor when passageway is valid", () => {
+
+    const passagewayDTO = {
+      passageCode: "B",
+      floor1: "A1",
+      floor2: "B1",
+      description: "Passageway between floors A1 and B1",
+    }
+
+    const passagewayOrError = Passageway.create(passagewayDTO);
+
+    assert(passagewayOrError.getValue().floor2 === passagewayDTO.floor2)
+  });
+
+  it("created passageway should equal introduced description when passageway is valid", () => {
+
+    const passagewayDTO = {
+      passageCode: "B",
+      floor1: "A1",
+      floor2: "B1",
+      description: "Passageway between floors A1 and B1",
+    }
+
+    const passagewayOrError = Passageway.create(passagewayDTO);
+
+    assert(passagewayOrError.getValue().description === passagewayDTO.description)
+  });
+
+it("created passageway should equal introduced domainID when passageway is valid", () => {
+
+    const passagewayDTO = {
+      passageCode: "B",
+      floor1: "A1",
+      floor2: "B1",
+      description: "Passageway between floors A1 and B1",
+    }
+
+    const passagewayOrError = Passageway.create(passagewayDTO);
+
+    assert(passagewayOrError.getValue().id !== null)
+  });
+
+  it("should edit a passageway when all the parameters are valid", () => {
+    const passagewayDTO = {
+      passageCode: "PA1B1",
+      floor1: "A1",
+      floor2: "B1",
+      description: "Passagem entre os andares A1 e B1",
+    };
+
+    const passagewayOrError = Passageway.create(passagewayDTO);
+    const passageway = passagewayOrError.getValue();
+
+    const passagewayDTO2 ={
+      passageCode: "PA2B2",
+      floor1: "A2",
+      floor2: "B2",
+      description: "Passagem entre os andares A2 e B2",
+    };
+
+    const passagewayOrError2 = Passageway.update(passagewayDTO2, passageway);
+
+
+    assert(passagewayOrError2.isSuccess);
+
+  });
+
+  it("should not edit a passageway when the passage code is null", () => {
+    const passagewayDTO = {
+      passageCode: "PA1B1",
+      floor1: "A1",
+      floor2: "B1",
+      description: "Passagem entre os andares A1 e B1",
+    };
+    const passagewayOrError = Passageway.create(passagewayDTO);
+    const passageway = passagewayOrError.getValue();
+
+    passageway.passageCode = null;
+    assert(passageway.passageCode === passagewayDTO.passageCode);
+  });
+
+  it("should not edit a passageway when the passage code is undefined", () => {
+    const passagewayDTO = {
+      passageCode: "PA1B1",
+      floor1: "A1",
+      floor2: "B1",
+      description: "Passagem entre os andares A1 e B1",
+    };
+    const passagewayOrError = Passageway.create(passagewayDTO);
+    const passageway = passagewayOrError.getValue();
+
+    passageway.passageCode = undefined;
+    assert(passageway.passageCode === passagewayDTO.passageCode);
+  });
+
+  it("should not edit a passageway when the floor1 is null", () => {
+    const passagewayDTO = {
+      passageCode: "PA1B1",
+      floor1: "A2",
+      floor2: "B2",
+      description: "Passagem entre os andares A2 e B2",
+    };
+    const passagewayOrError = Passageway.create(passagewayDTO);
+    const passageway = passagewayOrError.getValue();
+
+    passageway.floor1 = null;
+    assert(passageway.floor1 === passagewayDTO.floor1);
+  });
+
+  it("should not edit a passageway when the floor1 is undefined", () => {
+    const passagewayDTO = {
+      passageCode: "PA1B1",
+      floor1: "A2",
+      floor2: "B2",
+      description: "Passagem entre os andares A2 e B2",
+    };
+    const passagewayOrError = Passageway.create(passagewayDTO);
+    const passageway = passagewayOrError.getValue();
+
+    passageway.floor1 = undefined;
+    assert(passageway.floor1 === passagewayDTO.floor1);
+  });
+
+  it("should not edit a passageway when the floor2 is null", () => {
+    const passagewayDTO = {
+      passageCode: "PA1B1",
+      floor1: "A2",
+      floor2: "B2",
+      description: "Passagem entre os andares A2 e B2",
+    };
+    const passagewayOrError = Passageway.create(passagewayDTO);
+    const passageway = passagewayOrError.getValue();
+
+    passageway.floor2 = null;
+    assert(passageway.floor2 === passagewayDTO.floor2);
+  });
+
+  it("should not edit a passageway when the floor2 is undefined", () => {
+    const passagewayDTO = {
+      passageCode: "PA1B1",
+      floor1: "A2",
+      floor2: "B2",
+      description: "Passagem entre os andares A2 e B2",
+    };
+    const passagewayOrError = Passageway.create(passagewayDTO);
+    const passageway = passagewayOrError.getValue();
+
+    passageway.floor2 = undefined;
+    assert(passageway.floor2 === passagewayDTO.floor2);
+  });
+
+  it("should not edit a passageway when the description is null", () => {
+    const passagewayDTO = {
+      passageCode: "PA1B1",
+      floor1: "A2",
+      floor2: "B2",
+      description: "Passagem entre os andares A2 e B2",
+    };
+    const passagewayOrError = Passageway.create(passagewayDTO);
+    const passageway = passagewayOrError.getValue();
+
+    passageway.description = null;
+    assert(passageway.description === passagewayDTO.description);
+  });
+
+  it("should not edit a passageway when the description is undefined", () => {
+    const passagewayDTO = {
+      passageCode: "PA1B1",
+      floor1: "A2",
+      floor2: "B2",
+      description: "Passagem entre os andares A2 e B2",
+    };
+    const passagewayOrError = Passageway.create(passagewayDTO);
+    const passageway = passagewayOrError.getValue();
+
+    passageway.description = undefined;
+    assert(passageway.description === passagewayDTO.description);
+  });
+
+  it("should not edit a passageway when the description has more than 255 characters", () => {
+    const passagewayDTO = {
+      passageCode: "PA1B1",
+      floor1: "A2",
+      floor2: "B2",
+      description: "Passagem entre os andares A2 e B2",
+    };
+
+    const passagewayOrError = Passageway.create(passagewayDTO);
+    const passageway = passagewayOrError.getValue();
+
+    passageway.description = "Lorem ipsum dolor sit amet, " +
+      "consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste " +
+      "natus error sit voluptatem accusantium doloremque laudantium, " +
+      "totam rem aperiam, eaque ipsa quae ab illo inventore veritatis " +
+      "et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim " +
+      "ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, " +
+      "sed quia consequuntur magni dolores eos qui ratione voluptatem sequi " +
+      "nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit " +
+      "amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora" +
+      " incidunt ut labore et dolore magnam aliquam quaerat voluptatem.";
+
+    assert(passageway.description === passagewayDTO.description);
+  });
+
+  it("should not edit a passageway when the floor1 is not valid", () => {
+    const passagewayDTO = {
+      passageCode: "PA1B1",
+      floor1: "A2",
+      floor2: "B2",
+      description: "Passagem entre os andares A2 e B2",
+    };
+
+    const passagewayOrError = Passageway.create(passagewayDTO);
+    const passageway = passagewayOrError.getValue();
+
+    passageway.floor1 = null;
+    assert(passageway.floor1 === passagewayDTO.floor1);
+
+    });
+
+  it("should not edit a passageway when the floor2 is not valid", () => {
+    const passagewayDTO = {
+      passageCode: "PA2B2",
+      floor1: "A2",
+      floor2: "B2",
+      description: "Passagem entre os andares A2 e B2",
+    };
+
+    const passagewayOrError = Passageway.create(passagewayDTO);
+    const passageway = passagewayOrError.getValue();
+
+    passageway.floor2 = null;
+    assert(passageway.floor2 === passagewayDTO.floor2);
+  });
+});
+
+
