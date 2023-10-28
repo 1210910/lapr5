@@ -65,9 +65,9 @@ export default class PassagewayService implements IPassagewayService {
                 return Result.fail<IPassagewayDTO>("Floor 2 doesn't exist");
             }
 
-            const previousPassageway = await this.passagewayRepo.findByCode(passageCode);
-            
-            const passagewayOrError = await Passageway.update(previousPassageway, passagewayDTO);
+            const passagewayDocument = await this.passagewayRepo.findByCode(passageCode);
+
+            const passagewayOrError = await Passageway.update(passagewayDTO, passagewayDocument);
 
             if (passagewayOrError.isFailure) {
                 return Result.fail<IPassagewayDTO>(passagewayOrError.errorValue());
@@ -83,7 +83,7 @@ export default class PassagewayService implements IPassagewayService {
             throw e;
         }
     }
-    
+
     public async listPassageway(): Promise<Result<Array<IPassagewayDTO>>> {
         try {
             const listOrError = await this.passagewayRepo.findAll();
