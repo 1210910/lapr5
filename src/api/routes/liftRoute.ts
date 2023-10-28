@@ -30,6 +30,7 @@ export default (app: Router) => {
     route.patch('/:id',
     celebrate({
         body: Joi.object({
+            floors: Joi.array().items(Joi.string()).optional(),
             brand: Joi.string().max(50).optional(),
             model: Joi.string().max(50).optional(),
             serialNumber: Joi.string().max(50).optional(),

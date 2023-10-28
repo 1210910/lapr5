@@ -71,6 +71,10 @@ interface LiftProps {
     set serialNumber (serialNumber: string) { 
       this.props.serialNumber = serialNumber;
     }
+
+    set floors (floors: string[]) {
+      this.props.floors = floors;
+    }
   
     private constructor (props: LiftProps, id?: UniqueEntityID) {
         super(props, id);
@@ -89,8 +93,25 @@ interface LiftProps {
 
 
           const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
+         
+          if(props.brand.length > 50 ){
+            return Result.fail<Lift>("Brand property cannot have more than 50 letters")
+          }
+          
+          if(props.model.length > 50 ){
+            return Result.fail<Lift>("Model property cannot have more than 50 letters")
+          }
+          if(props.serialNumber.length > 50 ){
+            return Result.fail<Lift>("Serial Number property cannot have more than 50 letters")
+          }
+          
+          if(props.description.length > 255 ){
+            return Result.fail<Lift>("Description property cannot have more than 255 letters")
+          }
 
-
+          if(props.floors.length < 1 ){
+            return Result.fail<Lift>("Can not create a lift with only 1 floor")
+          }
           if (!guardResult.succeeded) {
             return Result.fail<Lift>(guardResult.message)
           }
@@ -103,6 +124,7 @@ interface LiftProps {
     }
 
     public static update(previousLift : Lift , iLiftDTO: ILiftDTO): Result<Lift> {
+      previousLift.floors = iLiftDTO.floors ?? previousLift.floors;
       previousLift.brand = iLiftDTO.brand ?? previousLift.brand;
       previousLift.model = iLiftDTO.model ?? previousLift.model;
       previousLift.serialNumber = iLiftDTO.serialNumber ?? previousLift.serialNumber;

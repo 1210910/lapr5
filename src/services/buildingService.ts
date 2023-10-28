@@ -7,6 +7,8 @@ import IBuildingService from './IServices/IBuildingService';
 import { Result } from "../core/logic/Result";
 import { BuildingMap } from "../mappers/BuildingMap";
 
+
+
 @Service()
 export default class BuildingService implements IBuildingService{
     constructor(
@@ -94,8 +96,7 @@ export default class BuildingService implements IBuildingService{
           }
           const buildingOrError = await Building.edit(buildingDTO, buildingDocument);
 
-          const buildingResult = buildingOrError.getValue();
-          const finalBuilding = await this.buildingRepo.save(buildingResult);
+          const finalBuilding = await this.buildingRepo.save(buildingOrError.getValue());
 
           if (finalBuilding == null){
             return Result.fail<IBuildingDTO>(finalBuilding);

@@ -22,7 +22,7 @@ export default class LiftController implements ILiftController {
             const liftOrError = await this.liftServiceInstance.createLift(req.body as ILiftDTO) as Result<ILiftDTO>;
 
             if(liftOrError.isFailure) {
-                return res.status(404).send(liftOrError.errorValue());
+                return res.status(400).json({ error: liftOrError.errorValue() });
             }
 
             const liftDTO = liftOrError.getValue();
@@ -37,8 +37,7 @@ export default class LiftController implements ILiftController {
         try{
             const id = req.params.id;
             let liftDTO = req.body as ILiftDTO;
-            const liftOrError = await this.liftServiceInstance.updateLift(req.params.id, req.body as ILiftDTO) as Result<ILiftDTO>;
-
+            const liftOrError = await this.liftServiceInstance.updateLift(id, req.body as ILiftDTO) as Result<ILiftDTO>;
             if(liftOrError.isFailure) {
                 return res.status(404).send(liftOrError.errorValue());
             }

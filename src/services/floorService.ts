@@ -8,13 +8,15 @@ import IBuildingRepo from "../services/IRepos/IBuildingRepo"
 import {Result} from "../core/logic/Result";
 import {FloorMap} from "../mappers/floorMap";
 import {UniqueEntityID} from "../core/domain/UniqueEntityID";
+import IPassagewayRepo from "./IRepos/IPassagewayRepo";
 
 
 @Service()
 export default class FloorService implements IFloorService {
     constructor(
         @Inject(config.repos.floor.name) private FloorRepo: IFloorRepo,
-        @Inject(config.repos.building.name) private buildingRepo : IBuildingRepo
+        @Inject(config.repos.building.name) private buildingRepo : IBuildingRepo,
+        @Inject(config.repos.passageway.name) private passagewayRepo : IPassagewayRepo
     ) {
     }
 
@@ -135,21 +137,35 @@ export default class FloorService implements IFloorService {
     }
 
     public async getFloorsWithPassageway(buildingCode: string): Promise<Result<Array<IFloorDTO>>>{
-        /* try {
-            const floorOrError = await this.FloorRepo.getFloorsWithPassageway(buildingCode);
-            if (floorOrError.isFailure) {
-                return Result.fail<Array<IFloorDTO>>(floorOrError.errorValue());
+        try {
+            let floors: Array<IFloorDTO> = [];
+
+            const floorListOrError = await this.FloorRepo.findByBuildingId(buildingCode);
+            console.log(floorListOrError);
+            if (!floorListOrError) {
+                return Result.fail<Array<IFloorDTO>>("Floor not found");
             }
+            const floorList = floorListOrError.map(floor => floor);
 
-            const floorResult = floorOrError.getValue();
+            const passagewayListOrError = await this.passagewayRepo.findAll();
+            if (passagewayListOrError.isFailure) {
+                return Result.fail<Array<IFloorDTO>>("There are no passageways");
+            }
+            const passagewayResult = passagewayListOrError.getValue();
 
-            const floorDTOList = FloorMap.toDTOList(floorResult) as Array<IFloorDTO>;
-            return Result.ok<Array<IFloorDTO>>(floorDTOList)
+            floorList.forEach(async floor => {
+                passagewayResult.forEach(passageway => {
+                    if (passageway.floor1 == floor.floorCode || passageway.floor2 == floor.floorCode) {
+                        floors.push(floor);
+                    }
+                });
+            }
+            );
+            return Result.ok<Array<IFloorDTO>>(floors);
         } catch (e) {
             throw e;
-        } */
+        }
 
-        return null;
     }
 
 }
