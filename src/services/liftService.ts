@@ -113,7 +113,7 @@ export default class LiftService implements ILiftService{
       try {
 
         const floorsOfBuilding = await this.floorRepo.findByBuildingId(buildingId);
-        if(floorsOfBuilding == null || floorsOfBuilding.length<2 ){
+        if(floorsOfBuilding == null  ){
           return false;
         }
         const floorCodes = floorsOfBuilding.map(floor => floor.floorCode);

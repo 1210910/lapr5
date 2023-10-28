@@ -93,8 +93,25 @@ interface LiftProps {
 
 
           const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
+         
+          if(props.brand.length > 50 ){
+            return Result.fail<Lift>("Brand property cannot have more than 50 letters")
+          }
+          
+          if(props.model.length > 50 ){
+            return Result.fail<Lift>("Model property cannot have more than 50 letters")
+          }
+          if(props.serialNumber.length > 50 ){
+            return Result.fail<Lift>("Serial Number property cannot have more than 50 letters")
+          }
+          
+          if(props.description.length > 255 ){
+            return Result.fail<Lift>("Description property cannot have more than 255 letters")
+          }
 
-
+          if(props.floors.length < 1 ){
+            return Result.fail<Lift>("Can not create a lift with only 1 floor")
+          }
           if (!guardResult.succeeded) {
             return Result.fail<Lift>(guardResult.message)
           }
