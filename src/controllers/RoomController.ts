@@ -21,22 +21,26 @@ export default class RoomController implements IRoomController {
 
                 const RoomOrError = await this.RoomServiceInstance.createRoom(req.body as IRoomDTO, floor) as Result<IRoomDTO>;
 
+
+
                 if(RoomOrError.isFailure) {
                     return res.status(400).send();
                 }
 
                 const RoomDto = RoomOrError.getValue();
-                return res.json(RoomDto).status(201);
+                return res.status(201).json(RoomDto);
 
             }catch (e){
                 return next(e);
             }
         };
 
-        public async updateRoom(req: Request, res: Response, next: NextFunction){
+       /* public async updateRoom(req: Request, res: Response, next: NextFunction){
             console.log("Not implemented yet");
             return null;
         };
+
+        */
 
         public async listRoom(req: Request, res: Response, next: NextFunction){
             /*try {
