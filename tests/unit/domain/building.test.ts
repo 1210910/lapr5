@@ -1,5 +1,6 @@
-import { assert } from 'console';
+import  assert  from 'assert';
 import { Building } from '../../../src/domain/Building';
+import { Result } from "../../../src/core/logic/Result";
 
 
 describe("Building Test", () => {
@@ -376,7 +377,7 @@ describe("Building Test", () => {
 
     });
 
-    it("shouldn't edit a valid building when name is undefined", () => {
+    it("shouldn't set a name  when name is undefined", () => {
 
         const buildingDTO = {
             code: "B",
@@ -390,50 +391,73 @@ describe("Building Test", () => {
 
         const building = buildingOrError.getValue();
 
-        const buildingDTO2 = {
-            code: "B",
-            name: undefined,
-            description: "Building2",
-            maxLength: 100,
-            maxWidth: 100,
-        }
+        const result = building.name = undefined;
 
-        const buildingOrError2 = Building.edit(buildingDTO2, building);
-
-        
-
-        assert(buildingOrError2.isFailure);
+        assert(result === undefined);
 
     });
 
-    it("shouldn't edit a valid building when description is undefined", () => {
+  it("should set a name  when name is valid", () => {
 
-        const buildingDTO = {
-            code: "B",
-            name: "Building",
-            description: "Building",
-            maxLength: 100,
-            maxWidth: 100,
-        }
+      const buildingDTO = {
+        code: "B",
+        name: "Building",
+        description: "Building",
+        maxLength: 100,
+        maxWidth: 100
+      };
 
-        const buildingOrError = Building.create(buildingDTO);
+      const buildingOrError = Building.create(buildingDTO);
 
-        const building = buildingOrError.getValue();
+      const building = buildingOrError.getValue();
 
-        const buildingDTO2 = {
-            code: "B",
-            name: "Building",
-            description: undefined,
-            maxLength: 100,
-            maxWidth: 100,
-        }
+      building.name = "undefined";
 
-        const buildingOrError2 = Building.edit(buildingDTO2, building);
-
-        assert(buildingOrError2.isFailure);
+      assert(building.name !== buildingDTO.name);
 
     }
-    );
+  );
+
+    it("shouldn't set description when description is undefined", () => {
+
+      const buildingDTO = {
+        code: "B",
+        name: "Building",
+        description: "Building",
+        maxLength: 100,
+        maxWidth: 100,
+      }
+
+      const buildingOrError = Building.create(buildingDTO);
+
+      const building = buildingOrError.getValue();
+
+      building.description = undefined;
+
+      assert(building.description === buildingDTO.description);
+
+    }
+  );
+  it("should set description when description is valid", () => {
+
+      const buildingDTO = {
+        code: "B",
+        name: "Building",
+        description: "Building",
+        maxLength: 100,
+        maxWidth: 100,
+      }
+
+      const buildingOrError = Building.create(buildingDTO);
+
+      const building = buildingOrError.getValue();
+
+      building.description = "undefined";
+
+      assert(building.description !== buildingDTO.description);
+
+    }
+  );
 
 
     it("shouldn't edit a valid building when maxLength is null", () => {
@@ -450,17 +474,9 @@ describe("Building Test", () => {
 
         const building = buildingOrError.getValue();
 
-        const buildingDTO2 = {
-            code: "B",
-            name: "Building",
-            description: "Building",
-            maxLength: null,
-            maxWidth: 100,
-        }
+        building.maxLength = null;
 
-        const buildingOrError2 = Building.edit(buildingDTO2, building);
-
-        assert(buildingOrError2.isFailure);
+        assert(building.maxLength === buildingDTO.maxLength);
 
     }
     );
@@ -481,17 +497,9 @@ describe("Building Test", () => {
 
         const building = buildingOrError.getValue();
 
-        const buildingDTO2 = {
-            code: "B",
-            name: "Building",
-            description: "Building",
-            maxLength: 100,
-            maxWidth: null,
-        }
+        building.maxWidth = null;
 
-        const buildingOrError2 = Building.edit(buildingDTO2, building);
-
-        assert(buildingOrError2.isFailure);
+        assert(building.maxWidth === buildingDTO.maxWidth);
 
     }
     );
@@ -510,27 +518,19 @@ describe("Building Test", () => {
 
         const building = buildingOrError.getValue();
 
-        const buildingDTO2 = {
-            code: "B",
-            name: "Building",
-            description: "Lorem ipsum dolor sit amet, " +
-                "consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste " +
-                "natus error sit voluptatem accusantium doloremque laudantium, " +
-                "totam rem aperiam, eaque ipsa quae ab illo inventore veritatis " +
-                "et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim " +
-                "ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, " +
-                "sed quia consequuntur magni dolores eos qui ratione voluptatem sequi " +
-                "nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit " +
-                "amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora" +
-                " incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
-            maxLength: 100,
-            maxWidth: 100,
-        }
-
-        const buildingOrError2 = Building.edit(buildingDTO2, building);
+        building.description = "Lorem ipsum dolor sit amet, " +
+          "consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste " +
+          "natus error sit voluptatem accusantium doloremque laudantium, " +
+          "totam rem aperiam, eaque ipsa quae ab illo inventore veritatis " +
+          "et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim " +
+          "ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, " +
+          "sed quia consequuntur magni dolores eos qui ratione voluptatem sequi " +
+          "nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit " +
+          "amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora" +
+          " incidunt ut labore et dolore magnam aliquam quaerat voluptatem.";
 
 
-        assert(buildingOrError2.isFailure);
+        assert(building.description === buildingDTO.description);
 
     }
     );
@@ -552,19 +552,11 @@ describe("Building Test", () => {
 
         const building = buildingOrError.getValue();
 
-        const buildingDTO2 = {
-            code: "B",
-            name: "BuildingBuildingBuildingBuildi" +
-                "ngBuildingBuildingBuildingBuildingBuildingBuildingBuildingBuildingBuilding" +
-                "Bui",
-            description: "Building",
-            maxLength: 100,
-            maxWidth: 100,
-        }
+        building.name = "BuildingBuildingBuildingBuildi" +
+          "ngBuildingBuildingBuildingBuildingBuildingBuildingBuildingBuildingBuilding" +
+          "Bui";
 
-        const buildingOrError2 = Building.edit(buildingDTO2, building);
-
-        assert(buildingOrError2.isFailure);
+        assert(building.name === buildingDTO.name);
 
     }
     );
@@ -584,18 +576,9 @@ describe("Building Test", () => {
 
         const building = buildingOrError.getValue();
 
+        building.maxLength = Number.MAX_SAFE_INTEGER + 1;
 
-        const buildingDTO2 = {
-            code: "B",
-            name: "Building",
-            description: "Building",
-            maxLength: Number.MAX_SAFE_INTEGER + 1,
-            maxWidth: 100,
-        }
-
-        const buildingOrError2 = Building.edit(buildingDTO2, building);
-
-        assert(buildingOrError2.isFailure);
+        assert(building.maxLength === buildingDTO.maxLength);
 
     });
 
@@ -614,17 +597,9 @@ describe("Building Test", () => {
 
         const building = buildingOrError.getValue();
 
-        const buildingDTO2 = {
-            code: "B",
-            name: "Building",
-            description: "Building",
-            maxLength: -1,
-            maxWidth: 100,
-        }
+        building.maxLength = -1;
 
-        const buildingOrError2 = Building.edit(buildingDTO2, building);
-
-        assert(buildingOrError2.isFailure);
+        assert(building.maxLength === buildingDTO.maxLength);
 
     }
     );
@@ -644,17 +619,9 @@ describe("Building Test", () => {
 
         const building = buildingOrError.getValue();
 
-        const buildingDTO2 = {
-            code: "B",
-            name: "Building",
-            description: "Building",
-            maxLength: 100,
-            maxWidth: 0,
-        }
+        building.maxLength = 0;
 
-        const buildingOrError2 = Building.edit(buildingDTO2, building);
-
-        assert(buildingOrError2.isFailure);
+        assert(building.maxLength === buildingDTO.maxLength);
 
     }
     );

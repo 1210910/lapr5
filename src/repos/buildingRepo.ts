@@ -48,6 +48,7 @@ export default class BuildingRepo implements IBuildingRepo {
     try {
       if (buildingDocument === null ) {
         const rawBuilding: any = BuildingMap.toPersistence(building);
+        console.log("rawBuilding: " + rawBuilding)
 
         const buildingCreated = await this.buildingSchema.create(rawBuilding);
 

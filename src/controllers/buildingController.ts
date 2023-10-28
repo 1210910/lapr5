@@ -20,7 +20,7 @@ export default class BuildingController implements IBuildingController {
             const buildingOrError = await this.buildingServiceInstance.createBuilding(req.body as IBuildingDTO) as Result<IBuildingDTO>;
 
             if (buildingOrError.isFailure) {
-                return res.status(409).json({ error: buildingOrError.errorValue() });
+                return res.status(400).json({ error: buildingOrError.errorValue() });
             }
 
             const buildingDto = buildingOrError.getValue();
@@ -52,7 +52,7 @@ export default class BuildingController implements IBuildingController {
             const buildingsOrError = await this.buildingServiceInstance.getBuildingsMinMax(req.params.min, req.params.max);
 
             if (buildingsOrError.isFailure) {
-                return res.status(500).send();
+                return res.status(404).send();
             }
 
             const buildingDto = buildingsOrError.getValue();
@@ -67,7 +67,7 @@ export default class BuildingController implements IBuildingController {
 
 
     public async editBuilding(req: Request, res: Response, next: NextFunction) {
-
+      /*
         const patchDocument = req.body; // Assuming the request body contains the JSON Patch document
 
         // Check if there's a 'replace' operation targeting the '/code' path
@@ -76,7 +76,7 @@ export default class BuildingController implements IBuildingController {
         if (replaceOperation) {
             return res.status(400).json({ error: 'Replacing the /code path is not allowed' });
         }
-
+      */
         try {
             const buildingOrError = await this.buildingServiceInstance.editBuilding(req.params.code as string, req.body as IBuildingDTO) as Result<IBuildingDTO>;
 
@@ -85,7 +85,7 @@ export default class BuildingController implements IBuildingController {
             }
 
             const buildingDto = buildingOrError.getValue();
-            return res.status(204).json(buildingDto);
+            return res.status(200).json(buildingDto);
 
         } catch (e) {
             return next(e);

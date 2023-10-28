@@ -44,20 +44,20 @@ interface BuildingProps {
     }
 
     set name (name: string) {
-      if (name.length <=50 && name.length > 0 && /^[a-zA-Z0-9]+$/.test(name) ){
+      if ( name!=null && name.length <=50 && name.length > 0 && /^[a-zA-Z0-9]+$/.test(name) ) {
         this.props.name = name;
       }
 
     }
 
     set description (description: string) {
-      if (description.length <= 255 && description.length > 0 && /^[a-zA-Z0-9]+$/.test(description)) {
+      if ( description!=null && description.length <= 255 && description.length > 0 && /^[a-zA-Z0-9]+$/.test(description) ) {
         this.props.description = description;
       }
     }
 
     set maxLength (maxLength: number) {
-      if (maxLength > 0 && maxLength <= Number.MAX_SAFE_INTEGER){
+      if ( maxLength !=  null && maxLength > 0 && maxLength <= Number.MAX_SAFE_INTEGER){
         this.props.maxLength = maxLength;
       }
 
@@ -92,35 +92,29 @@ interface BuildingProps {
           const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
           const guardmaxLenght = Guard.inRange(props.maxLength,1,Number.MAX_SAFE_INTEGER, "maxLenght");
           const guardmaxWidth = Guard.inRange(props.maxWidth,1,Number.MAX_SAFE_INTEGER, "maxWidth");
-
-          if(props.name.length > 50 ){
+            if (!guardResult.succeeded) {
+              return Result.fail<Building>(guardResult.message)
+            }
+            if (!guardmaxLenght.succeeded) {
+              return Result.fail<Building>(guardmaxLenght.message)
+            }
+            if (!guardmaxWidth.succeeded) {
+              return Result.fail<Building>(guardmaxWidth.message)
+            }
+            if(props.name.length > 50 ){
             return Result.fail<Building>("Name property cannot have more than 50 letters")
           }
-          
+
           if(props.description.length > 255 ){
             return Result.fail<Building>("Description property cannot have more than 255 letters")
           }
 
-          if (!guardResult.succeeded) {
-            return Result.fail<Building>(guardResult.message)
-          }
-          if (!guardmaxLenght.succeeded) {
-            return Result.fail<Building>(guardmaxLenght.message)
-          }
-          if (!guardmaxWidth.succeeded) {
-            return Result.fail<Building>(guardmaxWidth.message)
-          }
+
           if (props.code.length > 10) {
             return Result.fail<Building>("Building code cannot be longer than 10 characters");
           }
 
-          if (props.name.length > 50) {
-            return Result.fail<Building>("Building name cannot be longer than 50 characters");
-          }
 
-          if (props.description.length > 255) {
-            return Result.fail<Building>("Building description cannot be longer than 255 characters");
-          }
 
             const building = new Building({
               ...props
@@ -133,10 +127,12 @@ interface BuildingProps {
 
     public static edit (props: BuildingProps | any , building : Building): Result<Building> {
 
-      building.name = props.name ?? building.name;
-      building.description = props.description ?? building.description;
-      building.maxLength = props.maxLength ?? building.maxLength;
-      building.maxWidth = props.maxWidth ?? building.maxWidth;
+
+
+      building.name = building.name ?? props.name  ;
+      building.description = building.description ?? props.description  ;
+      building.maxLength = building.maxLength ?? props.maxLength  ;
+      building.maxWidth =building.maxWidth ??  props.maxWidth  ;
 
       return Result.ok<Building>(building);
     }

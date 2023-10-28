@@ -25,13 +25,7 @@ export default class BuildingService implements IBuildingService{
           if (found) {
             return Result.fail<IBuildingDTO>("Building already exists with code = " + buildingDTO.code);
           }
-          const buildingOrError = await Building.create({
-            code: buildingDTO.code,
-            name: buildingDTO.name,
-            description: buildingDTO.description,
-            maxLength: buildingDTO.maxLength,
-            maxWidth: buildingDTO.maxWidth,
-          });
+          const buildingOrError = await Building.create(buildingDTO);
 
           if (buildingOrError.isFailure) {
             return Result.fail<IBuildingDTO>(buildingOrError.errorValue());
@@ -39,8 +33,8 @@ export default class BuildingService implements IBuildingService{
 
           const buildingResult = buildingOrError.getValue();
 
-          const finalBuilding = await this.buildingRepo.save(buildingResult);
 
+          const finalBuilding = await  this.buildingRepo.save(buildingResult);
           if (!finalBuilding){
             return Result.fail<IBuildingDTO>("Building not saved");
           }
@@ -69,7 +63,7 @@ export default class BuildingService implements IBuildingService{
         try {
           const minNumber = parseInt(min);
           const maxNumber = parseInt(max);
-          console.log("minNumber: " + minNumber);
+
           const buildingsOrError = await this.buildingRepo.findByMinMaxFloorNumber(minNumber, maxNumber);
 
           if (buildingsOrError.isFailure) {
@@ -98,8 +92,8 @@ export default class BuildingService implements IBuildingService{
 
           const finalBuilding = await this.buildingRepo.save(buildingOrError.getValue());
 
-          if (finalBuilding == null){
-            return Result.fail<IBuildingDTO>(finalBuilding);
+          if (!finalBuilding){
+            return Result.fail<IBuildingDTO>("building not saved");
           }
           const buildingDTOResult = BuildingMap.toDTO( finalBuilding ) as IBuildingDTO;
 

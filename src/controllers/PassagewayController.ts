@@ -20,7 +20,7 @@ export default class PassagewayController implements IPassagewayController {
             const passagewayOrError = await this.passagewayServiceInstance.createPassageway(req.body as IPassagewayDTO) as Result<IPassagewayDTO>;
 
             if (passagewayOrError.isFailure) {
-                return res.status(402).send(passagewayOrError.errorValue());
+                return res.status(400).send(passagewayOrError.errorValue());
             }
 
             const passagewayDto = passagewayOrError.getValue();
@@ -37,11 +37,11 @@ export default class PassagewayController implements IPassagewayController {
             const passagewayOrError = await this.passagewayServiceInstance.updatePassageway(passageCode, req.body as IPassagewayDTO) as Result<IPassagewayDTO>;
 
             if (passagewayOrError.isFailure) {
-                return res.status(402).send(passagewayOrError.errorValue());
+                return res.status(400).send(passagewayOrError.errorValue());
             }
 
             const passagewayDto = passagewayOrError.getValue();
-            return res.status(201).json(passagewayDto);
+            return res.status(200).json(passagewayDto);
 
         } catch (e) {
             return next(e);
@@ -53,11 +53,11 @@ export default class PassagewayController implements IPassagewayController {
             const listOrError = await this.passagewayServiceInstance.listPassageway() as Result<Array<IPassagewayDTO>>;
 
             if (listOrError.isFailure) {
-                return res.status(402).send(listOrError.errorValue());
+                return res.status(404).send(listOrError.errorValue());
             }
 
             const passagewayDto = listOrError.getValue();
-            return res.status(201).json(passagewayDto);
+            return res.status(200).json(passagewayDto);
 
         } catch (e) {
             return next(e);

@@ -1,4 +1,4 @@
-import { assert } from "console";
+import  assert  from "assert";
 import { Room } from "../../../src/domain/Room";
 
 
@@ -274,7 +274,7 @@ describe("Room test", () => {
     }
     );
 
-    // check if id is valid 
+    // check if id is valid
 
 it("valid created room should have valid id", () => {
 
@@ -338,7 +338,7 @@ it ("valid created room should have valid description", () => {
 );
 
 it ("valid created room should have valid width", () => {
-    
+
         const roomDto = {
             roomCode: "A101",
             floor: "1",
@@ -347,11 +347,11 @@ it ("valid created room should have valid width", () => {
             length: 10,
             roomType: "classroom"
         };
-    
+
         const roomOrError = Room.create(roomDto);
-    
+
         const room = roomOrError.getValue();
-    
+
         assert(room.width == roomDto.width);
 
 }
@@ -390,7 +390,7 @@ it ("valid created room should have valid roomType", () => {
     };
 
     const roomOrError = Room.create(roomDto);
-    
+
     const room = roomOrError.getValue();
 
     assert(room.roomType == roomDto.roomType);
