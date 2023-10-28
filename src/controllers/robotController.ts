@@ -13,13 +13,13 @@ export default class RobotController implements IRobotController {
     constructor(
         @Inject(config.services.robot.name) private robotServiceInstance: IRobotService
     ) { }
-    
+
     public async createRobot(req: Request, res: Response, next: NextFunction) {
         try {
             const robotOrError = await this.robotServiceInstance.createRobot(req.body as IRobotDTO) as Result<IRobotDTO>;
 
             if (robotOrError.isFailure) {
-                return res.status(402).send(robotOrError.errorValue());
+                return res.status(400).send(robotOrError.errorValue());
             }
 
             const robotDto = robotOrError.getValue();
@@ -40,7 +40,7 @@ export default class RobotController implements IRobotController {
             const robotOrError = await this.robotServiceInstance.listRobot() as Result<Array<IRobotDTO>>;
 
             if (robotOrError.isFailure) {
-                return res.status(402).send(robotOrError.errorValue());
+                return res.status(404).send(robotOrError.errorValue());
             }
 
             const robotDto = robotOrError.getValue();

@@ -21,23 +21,23 @@ export default class RoomService implements IRoomService {
         try {
 
             const floorExists = await this.floorRepo.findByFloorCode(floor);
-            
+
             if (!floorExists) {
                 return Result.fail<IRoomDTO>("Floor does not exist");
             }
             roomDTO.floor = floorExists.floorCode;
             const roomOrError =  Room.create(roomDTO);
 
-            
-            /*if (roomDTO.length > floorExists.length || roomDTO.width > floorExists.width) {
+
+            if (roomDTO.length > floorExists.length || roomDTO.width > floorExists.width) {
                 return Result.fail<IRoomDTO>("Room is bigger than floor");
-            }*/
-            
+            }
+
             if (roomOrError.isFailure) {
                 return Result.fail<IRoomDTO>(roomOrError.errorValue());
             }
-            
-            console.log("estou aqui")
+
+
             const roomResult = roomOrError.getValue();
 
             await this.roomRepo.save(roomResult);
@@ -49,11 +49,11 @@ export default class RoomService implements IRoomService {
         }
     }
 
-    public async updateRoom(roomDTO: IRoomDTO): Promise<Result<IRoomDTO>> {
+    /*public async updateRoom(roomDTO: IRoomDTO): Promise<Result<IRoomDTO>> {
         console.log("Not implemented yet");
         return null;
-    }
-    
+    }*/
+
     /*public async listRoom(): Promise<Result<Array<IRoomDTO>>> {
         try {
             const listOrError = await this.roomRepo.findAll();
@@ -70,5 +70,5 @@ export default class RoomService implements IRoomService {
             throw e;
         }
     }*/
-    
+
 }

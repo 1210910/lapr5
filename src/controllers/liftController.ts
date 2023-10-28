@@ -39,11 +39,11 @@ export default class LiftController implements ILiftController {
             let liftDTO = req.body as ILiftDTO;
             const liftOrError = await this.liftServiceInstance.updateLift(id, req.body as ILiftDTO) as Result<ILiftDTO>;
             if(liftOrError.isFailure) {
-                return res.status(404).send(liftOrError.errorValue());
+                return res.status(400).send(liftOrError.errorValue());
             }
 
             liftDTO = liftOrError.getValue();
-            return res.status(201).json(liftDTO);
+            return res.status(200).json(liftDTO);
 
         }catch (e){
             return next(e);
@@ -56,11 +56,11 @@ export default class LiftController implements ILiftController {
             const listOrError = await this.liftServiceInstance.listLift(buildingCode) as Result<Array<ILiftDTO>>;
 
             if (listOrError.isFailure) {
-                return res.status(402).send(listOrError.errorValue());
+                return res.status(404).send(listOrError.errorValue());
             }
 
             const liftDto = listOrError.getValue();
-            return res.status(201).json(liftDto);
+            return res.status(200).json(liftDto);
 
         } catch (e) {
             return next(e);
