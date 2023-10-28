@@ -20,9 +20,9 @@ export class Room extends AggregateRoot<RoomProps>{
         return this._id;
     }
 
-    get RoomId(): RoomId {
-        return RoomId.caller(this.id);
-    }
+    //get RoomId(): RoomId {
+    //    return RoomId.caller(this.id);
+    //}
 
     get roomCode(): string {
         return this.props.roomCode;
@@ -53,7 +53,42 @@ export class Room extends AggregateRoot<RoomProps>{
     }
 
 
-     public static create(roomDTO: IRoomDTO, id?: UniqueEntityID): Result<Room> {         
+     public static create(roomDTO: IRoomDTO, id?: UniqueEntityID): Result<Room> { 
+        const guardedProps = [
+            { argument: roomDTO.roomCode, argumentName: 'roomCode' },
+            { argument: roomDTO.floor, argumentName: 'floor' },
+            { argument: roomDTO.description, argumentName: 'description' },
+            { argument: roomDTO.width, argumentName: 'width' },
+            { argument: roomDTO.length, argumentName: 'length' },
+            { argument: roomDTO.roomType, argumentName: 'roomType' }
+        ];
+
+        const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
+
+        if (!guardResult.succeeded) {
+            return Result.fail<Room>(guardResult.message);
+        }
+
+        if (roomDTO.roomCode.length > 50) {
+            return Result.fail<Room>("Room code must have maximum 50 characters.");
+        }
+
+        if (roomDTO.description.length > 250) {
+            return Result.fail<Room>("Room description must have maximum 250 characters.");
+        }
+
+        if (roomDTO.width <= 0) {
+            return Result.fail<Room>("Room width must be greater than 0.");
+        }
+
+        if (roomDTO.length <= 0) {
+            return Result.fail<Room>("Room length must be greater than 0.");
+        }
+
+        if (roomDTO.roomType != "classroom" && roomDTO.roomType != "laboratory" && roomDTO.roomType != "anphitheater" && roomDTO.roomType != "office" && roomDTO.roomType != "other") {
+            return Result.fail<Room>("Room type must be classroom, laboratory, anphitheater, office or other.");
+        }
+
         const roomCode = roomDTO.roomCode;         
         const floor = roomDTO.floor;               
         const description = roomDTO.description;          

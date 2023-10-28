@@ -1,5 +1,5 @@
 import { Service, Inject } from "typedi";
-import config from "../../config";
+
 import { Room } from "../domain/Room";
 import { RoomMap } from "../mappers/RoomMap";
 import IRoomDTO from "../dto/IRoomDTO";
@@ -7,6 +7,7 @@ import IRoomService from "./IServices/IRoomService";
 import IRoomRepo from "./IRepos/IRoomRepo";
 import IFloorRepo from "./IRepos/IFloorRepo";
 import { Result } from "../core/logic/Result";
+import config from "../../config";
 
 
 @Service()
@@ -20,6 +21,10 @@ export default class RoomService implements IRoomService {
         try {
 
             const floorExists = await this.floorRepo.findByFloorCode(floor);
+            
+            if (!floorExists) {
+                return Result.fail<IRoomDTO>("Floor does not exist");
+            }
             roomDTO.floor = floorExists.floorCode;
             const roomOrError =  Room.create(roomDTO);
 

@@ -16,9 +16,9 @@ export default (app: Router) => {
     route.post('',
     celebrate({
         body: Joi.object({
-            code: Joi.string().required(),
-            name: Joi.string(),
-            description: Joi.string(),
+            code: Joi.string().max(5).required(),
+            name: Joi.string().max(50).optional(),
+            description: Joi.string().max(255).optional(),
             maxLength: Joi.number().required(),
             maxWidth: Joi.number().required()
         }),
@@ -31,10 +31,10 @@ export default (app: Router) => {
   route.patch('/:code',
     celebrate({
       body: Joi.object({
-        name: Joi.string(),
-        description: Joi.string(),
-        maxLength: Joi.number(),
-        maxWidth: Joi.number()
+        name: Joi.string().max(50).optional(),
+        description: Joi.string().max(255).optional(),
+        maxLength: Joi.number().optional(),
+        maxWidth: Joi.number().optional()
       }),
     }),
     (req,res,next) => buildingController.editBuilding(req,res,next) );

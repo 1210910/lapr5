@@ -92,13 +92,7 @@ export default class BuildingService implements IBuildingService{
           if (!found) {
             return Result.fail<IBuildingDTO>("Can not find building with code = " + code);
           }
-          const buildingOrError = await Building.create({
-            code: code,
-            name: buildingDTO.name,
-            description: buildingDTO.description,
-            maxLength: buildingDTO.maxLength,
-            maxWidth: buildingDTO.maxWidth,
-          },buildingDocument.id);
+          const buildingOrError = await Building.edit(buildingDTO, buildingDocument);
 
           const buildingResult = buildingOrError.getValue();
           const finalBuilding = await this.buildingRepo.save(buildingResult);

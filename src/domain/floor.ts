@@ -59,18 +59,26 @@ export class Floor extends AggregateRoot<FloorProps> {
     }
 
     set floorCode (floorCode: string) {
-        this.props.floorCode = floorCode;
+        if (floorCode.length <= 10 && floorCode != undefined && floorCode != null  && /^[\w\s]+$/.test(floorCode) ) {
+            this.props.floorCode = floorCode;
+        }
     }
     set description (description: string) {
-        this.props.description = description;
+        if (description.length <= 250 && description != undefined && description != null  && /^[\w\s]+$/.test(description) ) {
+            this.props.description = description;
+        }
     }
 
     set buildingID (buildingID: string) {
-        this.props.buildingID = buildingID;
+        if (buildingID != undefined && buildingID != null  && /^[\w\s]+$/.test(buildingID) ) {
+            this.props.buildingID = buildingID;
+        }
     }
 
     set floorNumber (floorNumber: number) {
-        this.props.floorNumber = floorNumber;
+        if (floorNumber != undefined && floorNumber != null  ) {
+            this.props.floorNumber = floorNumber;
+        }
     }
 
 
@@ -90,7 +98,10 @@ export class Floor extends AggregateRoot<FloorProps> {
 
         const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
 
-
+        if (!guardResult.succeeded) {
+           
+            return Result.fail<Floor>(guardResult.message)
+        }
         if (props.floorCode.length > 10) {
             return Result.fail<Floor>("Floor code cannot be longer than 10 characters");
         }
@@ -100,14 +111,11 @@ export class Floor extends AggregateRoot<FloorProps> {
         }
 
 
-        if (!guardResult.succeeded) {
-           
-            return Result.fail<Floor>(guardResult.message)
-        } else {
+         
             const floor = new Floor(props, id); 
            
             return Result.ok<Floor>(floor);
-        }
+       
     }
 
     public static edit (props:  IFloorDTO, floor:Floor) :Result<Floor> {
