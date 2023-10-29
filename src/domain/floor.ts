@@ -21,7 +21,7 @@ interface FloorProps {
 
 
 export class Floor extends AggregateRoot<FloorProps> {
-    
+
     get id (): UniqueEntityID {
         return this._id;
     }
@@ -29,7 +29,7 @@ export class Floor extends AggregateRoot<FloorProps> {
     get floorCode (): string {
         return this.props.floorCode;
     }
-    
+
     get floorNumber (): number {
         return this.props.floorNumber;
     }
@@ -69,11 +69,6 @@ export class Floor extends AggregateRoot<FloorProps> {
         }
     }
 
-    set buildingID (buildingID: string) {
-        if (buildingID != undefined && buildingID != null  && /^[\w\s]+$/.test(buildingID) ) {
-            this.props.buildingID = buildingID;
-        }
-    }
 
     set floorNumber (floorNumber: number) {
         if (floorNumber != undefined && floorNumber != null  ) {
@@ -86,7 +81,7 @@ export class Floor extends AggregateRoot<FloorProps> {
         super(props, id);
     }
 
-    public static create (props: FloorProps, id?: UniqueEntityID): Result<Floor> {
+    public static create (props: FloorProps | any, id?: UniqueEntityID): Result<Floor> {
 
         const guardedProps = [
             {argument :props.floorCode, argumentName: 'floorCode'},
@@ -99,7 +94,7 @@ export class Floor extends AggregateRoot<FloorProps> {
         const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
 
         if (!guardResult.succeeded) {
-           
+
             return Result.fail<Floor>(guardResult.message)
         }
         if (props.floorCode.length > 10) {
@@ -111,25 +106,25 @@ export class Floor extends AggregateRoot<FloorProps> {
         }
 
 
-         
-            const floor = new Floor(props, id); 
-           
+
+            const floor = new Floor(props, id);
+
             return Result.ok<Floor>(floor);
-       
+
     }
 
-    public static edit (props:  IFloorDTO, floor:Floor) :Result<Floor> {
+    public static edit (props:  IFloorDTO | any, floor:Floor) :Result<Floor> {
 
         if (props.floorCode !== floor.floorCode) {
             floor.floorCode= floor.buildingID + props.floorNumber;
         }
-        
-        floor.floorNumber = floor.floorNumber ?? props.floorNumber;
+
+        floor.floorNumber = props.floorNumber ?? floor.floorNumber;
         floor.width = props.width ?? floor.width;
         floor.length = props.length ?? floor.length;
         floor.description = props.description ?? floor.description;
 
         return Result.ok<Floor>(floor);
     }
-    
+
 }
