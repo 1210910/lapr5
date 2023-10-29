@@ -1,0 +1,75 @@
+@startuml
+
+folder RobDroneGO {
+  folder Infrastructure as infra {
+    folder Routes as routes {
+
+    }
+
+    folder Persistence as persistence {
+
+    }
+  }
+
+  folder "Interface Adapters" as adapters {
+    folder Controllers as ctrl {
+      folder ImplControllers as implCtrl {
+
+      }
+
+      folder IControllers as iCtrl {
+
+      }
+    }
+
+    folder Repositories as repos {
+
+    }
+  }
+
+  folder "Application Services / Use Case Services" as services {
+    folder "App Services" as appServ {
+      folder IAppServices as iAppServ {
+
+      }
+
+      folder ImplAppServices as implAppServ {
+
+      }
+
+      folder IRepositories as iRepos {
+
+      }
+    }
+  }
+
+  folder Domain as domain {
+    folder Aggregates as aggregates {
+
+    }
+
+    folder ValueObjects as vo {
+
+    }
+
+    folder "Domain Services" as domainServ {
+
+    }
+  }
+}
+
+routes ..> iCtrl
+
+implAppServ .l|> iAppServ
+implAppServ .> iRepos
+
+implAppServ ..> aggregates
+implAppServ ..> vo
+implAppServ ..> domainServ
+
+repos .u.> persistence
+repos ..|> iRepos
+
+implCtrl .l|> iCtrl
+implCtrl ..> iAppServ
+@enduml

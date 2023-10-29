@@ -1,0 +1,8 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+left to right direction
+" " as nobody
+
+nobody --> (Listar pisos de um edifício)
+
+@enduml

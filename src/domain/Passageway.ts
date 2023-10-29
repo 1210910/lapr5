@@ -66,7 +66,7 @@ export class Passageway extends AggregateRoot<PassagewayProps>{
         super(props, id);
     }
 
-    public static create(props:PassagewayProps, id?: UniqueEntityID): Result<Passageway> {
+    public static create(props:PassagewayProps | any, id?: UniqueEntityID): Result<Passageway> {
 
       const guardedProps = [
         {argument: props.passageCode, argumentName: "passageCode"},
