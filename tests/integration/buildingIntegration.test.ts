@@ -180,8 +180,7 @@ describe('BuildingController', () => {
   }
   );
 
-  it ("should show success getting a valid building", async () => {
-
+  it ("should catch error when creating", async () => {
       let requestBody = {
         code: "B",
         name: "null",
@@ -209,20 +208,20 @@ describe('BuildingController', () => {
 
       const building = Building.create(buildingDTO).getValue();
 
-      ( buildingRepo.findByCode as sinon.SinonStub ).withArgs("B").rejects(new Error("Error"));
+      ( buildingRepo.findByCode as sinon.SinonStub ).rejects(new Error("Error"));
 
+      ( buildingRepo.save as sinon.SinonStub ).resolves(null);
 
-      try {
-        await buildingController.createBuilding(req as Request, res as Response,() => {});
-      }
-      catch (e) {
+     try {
+       await buildingController.createBuilding(req as Request, res as Response,() => {});
+      }catch (e) {
         expect(e).to.equal("Error");
-      }
-
+     }
 
 
   }
   );
+
 
   it ("should show success getting all building", async () => {
 
@@ -260,6 +259,44 @@ describe('BuildingController', () => {
       sinon.assert.calledWith(res.status as sinon.SinonStub, 200);
 
     }
+  );
+
+  it ("should fail when getting all buildings", async () => {
+
+      let requestBody = {
+        code: "B",
+        name: "null",
+        description: "Building",
+        maxLength: 100,
+        maxWidth: 100,
+      }
+      let req: Partial<Request> = {
+        body: requestBody
+      }
+
+      let res: Partial<Response> = {
+        json: sinon.spy(),
+        status: sinon.stub().returnsThis(),
+        send: sinon.stub()
+      };
+
+      const buildingDTO = {
+        code: "B",
+        name: "Building",
+        description: "Building",
+        maxLength: 100,
+        maxWidth: 100,
+      };
+
+      const building = Building.create(buildingDTO).getValue();
+
+      ( buildingRepo.findAll as sinon.SinonStub ).resolves(null);
+
+      await buildingController.getAllBuildings(req as Request, res as Response,() => {});
+
+      sinon.assert.calledWith(res.status as sinon.SinonStub, 404);
+
+  }
   );
 
   it ("should catch error when getting all buildings", async () => {
