@@ -191,7 +191,7 @@ describe("liftService", () => {
     expect(result.isSuccess).to.be.true;
   });
 
-  it("shouldn't update a lift when lift already exists", async () => {
+  it("shouldn't update a lift when lift not found", async () => {
     const liftDto = {
       code: "LA",
       buildingCode: "A",
@@ -202,9 +202,7 @@ describe("liftService", () => {
       description: "Description"
     };
 
-    const lift = Lift.create(liftDto).getValue();
-
-    when(liftRepo.findByCode(liftDto.code)).thenReturn(Promise.resolve(lift));
+    when(liftRepo.findByCode(liftDto.code)).thenReturn(Promise.resolve(null));
 
     const result = await liftService.updateLift(liftDto.code, liftDto);
     expect(result.isFailure).to.be.true;
