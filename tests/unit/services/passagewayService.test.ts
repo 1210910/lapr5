@@ -462,5 +462,47 @@ describe('Passageway Service', () => {
     const result = await passagewayService.listPassageway();
     expect(result.isFailure).to.be.true;
   });
+
+  it('should handle the errors during the creation of a passageway', async function () {
+    const passagewayDTO = {
+      passageCode: 'PA1B1',
+      floor1: 'A1',
+      floor2: 'B1',
+      description: 'This is a test passageway',
+    };
+
+    when(passagewayRepo.existsByCode(passagewayDTO.passageCode)).thenReject(new Error("Error creating passageway"));
+  try {
+    const result = await passagewayService.createPassageway(passagewayDTO);
+  }catch (e) {
+    expect(e.message).to.equal("Error creating passageway");
+}
+  });
+
+  it('should handle the errors during the update of a passageway', async function () {
+    const passagewayDTO = {
+      passageCode: 'PA1B1',
+      floor1: 'A1',
+      floor2: 'B1',
+      description: 'This is a test passageway',
+    };
+
+    when(passagewayRepo.existsByCode(passagewayDTO.passageCode)).thenReject(new Error("Error updating passageway"));
+    try {
+      const result = await passagewayService.updatePassageway(passagewayDTO.passageCode, passagewayDTO);
+    }catch (e) {
+      expect(e.message).to.equal("Error updating passageway");
+    }
+  });
+
+  it('should handle the errors during the listing of a passageway', async function () {
+    when(passagewayRepo.findAll()).thenReject(new Error("Error listing passageway"));
+    try {
+      const result = await passagewayService.listPassageway();
+    }catch (e) {
+      expect(e.message).to.equal("Error listing passageway");
+    }
+
+  });
 });
 
