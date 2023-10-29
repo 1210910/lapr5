@@ -8,19 +8,19 @@ title Create a robot
 participant "Back-End" as BE <<component>>
 database "Database" as DB <<component>>
 
-?o-> BE : POST
+?o->> BE : POST
 
 activate BE
 
-BE -> DB : persist
+BE ->> DB : persist
 activate DB
-DB --> BE
+DB -->> BE
 deactivate DB
 
-?o<- BE : 201 Created
+?o<<- BE : 201 Created
 
 alt bad request / robot already exists
-?o<- BE : 400 Bad Request
+?o<<- BE : 400 Bad Request
 deactivate BE
 end
 

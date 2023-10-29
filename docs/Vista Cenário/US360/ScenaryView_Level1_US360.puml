@@ -1,0 +1,8 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+left to right direction
+" " as nobody
+
+nobody --> (Como gestor de frota pretendo adicionar um novo robot à frota \n indicando o seu tipo, designação, etc.)
+
+@enduml
