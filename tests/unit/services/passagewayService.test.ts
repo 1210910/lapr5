@@ -13,6 +13,7 @@ import IBuildingRepo from "../../../src/services/IRepos/IBuildingRepo";
 import IFloorService from "../../../src/services/IServices/IFloorService";
 import IBuildingService from "../../../src/services/IServices/IBuildingService";
 import {UniqueEntityID} from "../../../src/core/domain/UniqueEntityID";
+import {Lift} from "../../../src/domain/Lift";
 
 
 describe('Passageway Service', () => {
@@ -25,7 +26,7 @@ describe('Passageway Service', () => {
 
 
   beforeEach(() => {
-    floorRepo= mock<IFloorRepo>();
+    floorRepo = mock<IFloorRepo>();
     passagewayRepo = mock<IPassagewayRepo>();
     passagewayService = new PassagewayService(instance(passagewayRepo), instance(floorRepo));
     floorService = mock<IFloorService>();
@@ -43,7 +44,7 @@ describe('Passageway Service', () => {
       buildingID: 'A'
     };
 
-    const floor2 ={
+    const floor2 = {
       floorCode: 'B1',
       floorNumber: 1,
       width: 50,
@@ -63,113 +64,403 @@ describe('Passageway Service', () => {
     when(floorRepo.existsByFloorCode(floor1.floorCode)).thenResolve(true);
     when(floorRepo.existsByFloorCode(floor2.floorCode)).thenResolve(true);
 
-    const result =await passagewayService.createPassageway(passagewayDTO);
+    const result = await passagewayService.createPassageway(passagewayDTO);
     expect(result.isSuccess).to.be.true;
   });
 
   it('should not create a passageway when the passageway already exists', async function () {
 
-      const floor1 = {
-        floorCode: 'A1',
-        floorNumber: 1,
-        width: 100,
-        length: 100,
-        description: 'This is a test floor',
-        buildingID: 'A'
-      };
+    const floor1 = {
+      floorCode: 'A1',
+      floorNumber: 1,
+      width: 100,
+      length: 100,
+      description: 'This is a test floor',
+      buildingID: 'A'
+    };
 
-      const floor2 ={
-        floorCode: 'B1',
-        floorNumber: 1,
-        width: 50,
-        length: 50,
-        description: 'This is a test floor',
-        buildingID: 'B'
-      };
+    const floor2 = {
+      floorCode: 'B1',
+      floorNumber: 1,
+      width: 50,
+      length: 50,
+      description: 'This is a test floor',
+      buildingID: 'B'
+    };
 
-      const passagewayDTO = {
-        passageCode: 'PA1B1',
-        floor1: 'A1',
-        floor2: 'B1',
-        description: 'This is a test passageway',
-      };
+    const passagewayDTO = {
+      passageCode: 'PA1B1',
+      floor1: 'A1',
+      floor2: 'B1',
+      description: 'This is a test passageway',
+    };
 
-      when(passagewayRepo.existsByCode(passagewayDTO.passageCode)).thenReturn(Promise.resolve(true));
-      when(floorRepo.existsByFloorCode(floor1.floorCode)).thenResolve(true);
-      when(floorRepo.existsByFloorCode(floor2.floorCode)).thenResolve(true);
+    when(passagewayRepo.existsByCode(passagewayDTO.passageCode)).thenReturn(Promise.resolve(true));
+    when(floorRepo.existsByFloorCode(floor1.floorCode)).thenResolve(true);
+    when(floorRepo.existsByFloorCode(floor2.floorCode)).thenResolve(true);
 
-      const result =await passagewayService.createPassageway(passagewayDTO);
-      expect(result.isFailure).to.be.true;
+    const result = await passagewayService.createPassageway(passagewayDTO);
+    expect(result.isFailure).to.be.true;
   });
 
   it('should not create a passageway when the floor1 does not exist', async function () {
 
-      const floor1 = {
+    const floor1 = {
+      floorCode: 'A1',
+      floorNumber: 1,
+      width: 100,
+      length: 100,
+      description: 'This is a test floor',
+      buildingID: 'A'
+    };
+
+    const floor2 = {
+      floorCode: 'B1',
+      floorNumber: 1,
+      width: 50,
+      length: 50,
+      description: 'This is a test floor',
+      buildingID: 'B'
+    };
+
+    const passagewayDTO = {
+      passageCode: 'PA1B1',
+      floor1: 'A1',
+      floor2: 'B1',
+      description: 'This is a test passageway',
+    };
+
+    when(passagewayRepo.existsByCode(passagewayDTO.passageCode)).thenReturn(Promise.resolve(false));
+    when(floorRepo.existsByFloorCode(floor1.floorCode)).thenResolve(false);
+    when(floorRepo.existsByFloorCode(floor2.floorCode)).thenResolve(true);
+
+    const result = await passagewayService.createPassageway(passagewayDTO);
+    expect(result.isFailure).to.be.true;
+  });
+
+  it('should not create a passageway when the floor2 does not exist', async function () {
+
+    const floor1 = {
+      floorCode: 'A1',
+      floorNumber: 1,
+      width: 100,
+      length: 100,
+      description: 'This is a test floor',
+      buildingID: 'A'
+    };
+
+    const floor2 = {
+      floorCode: 'B1',
+      floorNumber: 1,
+      width: 50,
+      length: 50,
+      description: 'This is a test floor',
+      buildingID: 'B'
+    };
+
+    const passagewayDTO = {
+      passageCode: 'PA1B1',
+      floor1: 'A1',
+      floor2: 'B1',
+      description: 'This is a test passageway',
+    };
+
+    when(passagewayRepo.existsByCode(passagewayDTO.passageCode)).thenReturn(Promise.resolve(false));
+    when(floorRepo.existsByFloorCode(floor1.floorCode)).thenResolve(true);
+    when(floorRepo.existsByFloorCode(floor2.floorCode)).thenResolve(false);
+
+    const result = await passagewayService.createPassageway(passagewayDTO);
+    expect(result.isFailure).to.be.true;
+  });
+
+  it('should edit a passageway', async function () {
+
+
+    const floor = Floor.create({
+      floorCode: 'A1',
+      floorNumber: 1,
+      width: 100,
+      length: 100,
+      description: 'This is a test floor',
+      buildingID: 'A'
+    }, new UniqueEntityID('A1')).getValue();
+
+
+    const floor1 = Floor.create({
+      floorCode: 'A2',
+      floorNumber: 1,
+      width: 100,
+      length: 100,
+      description: 'This is a test floor',
+      buildingID: 'A'
+    }, new UniqueEntityID('A2')).getValue();
+
+    const floor2 = Floor.create({
+      floorCode: 'B1',
+      floorNumber: 1,
+      width: 50,
+      length: 50,
+      description: 'This is a test floor',
+      buildingID: 'B'
+    }, new UniqueEntityID('B1')).getValue();
+
+    const passageway = Passageway.create({
+      passageCode: 'PA1B1',
+      floor1: 'A1',
+      floor2: 'B1',
+      description: 'This is a test passageway',
+    }, new UniqueEntityID('PA1B1')).getValue();
+
+    const passagewayDTO = {
+      passageCode: 'PA2B1',
+      floor1: 'A2',
+      floor2: 'B1',
+      description: 'This is a test passageway',
+    };
+
+    when(passagewayRepo.existsByCode(passageway.passageCode)).thenReturn(Promise.resolve(true));
+    when(passagewayRepo.existsByCode(passagewayDTO.passageCode)).thenReturn(Promise.resolve(false));
+    when(floorRepo.existsByFloorCode(floor1.floorCode)).thenResolve(true);
+    when(floorRepo.existsByFloorCode(floor2.floorCode)).thenResolve(true);
+    when(passagewayRepo.findByCode(passageway.passageCode)).thenResolve(passageway);
+
+    const result = await passagewayService.updatePassageway(passageway.passageCode, passagewayDTO);
+    expect(result.isSuccess).to.be.true;
+  });
+
+  it('should not edit a passageway when the passageway does not exist', async function () {
+
+    const floor = Floor.create({
+      floorCode: 'A1',
+      floorNumber: 1,
+      width: 100,
+      length: 100,
+      description: 'This is a test floor',
+      buildingID: 'A'
+    }, new UniqueEntityID('A1')).getValue();
+
+    const floor1 = Floor.create({
+      floorCode: 'A2',
+      floorNumber: 1,
+      width: 100,
+      length: 100,
+      description: 'This is a test floor',
+      buildingID: 'A'
+    }, new UniqueEntityID('A2')).getValue();
+
+    const floor2 = Floor.create({
+      floorCode: 'B1',
+      floorNumber: 1,
+      width: 50,
+      length: 50,
+      description: 'This is a test floor',
+      buildingID: 'B'
+    }, new UniqueEntityID('B1')).getValue();
+
+    const passageway = Passageway.create({
+      passageCode: 'PA1B1',
+      floor1: 'A1',
+      floor2: 'B1',
+      description: 'This is a test passageway',
+    }, new UniqueEntityID('PA1B1')).getValue();
+
+    const passagewayDTO = {
+      passageCode: 'PA2B1',
+      floor1: 'A2',
+      floor2: 'B1',
+      description: 'This is a test passageway',
+    };
+
+    when(passagewayRepo.existsByCode(passageway.passageCode)).thenReturn(Promise.resolve(false));
+    when(passagewayRepo.existsByCode(passagewayDTO.passageCode)).thenReturn(Promise.resolve(false));
+    when(floorRepo.existsByFloorCode(floor1.floorCode)).thenResolve(true);
+    when(floorRepo.existsByFloorCode(floor2.floorCode)).thenResolve(true);
+    when(passagewayRepo.findByCode(passageway.passageCode)).thenResolve(passageway);
+
+    const result = await passagewayService.updatePassageway(passageway.passageCode, passagewayDTO);
+    expect(result.isFailure).to.be.true;
+  });
+
+  it('should not edit a passageway when the new passageway already exists', async function () {
+
+    const floor = Floor.create({
+      floorCode: 'A1',
+      floorNumber: 1,
+      width: 100,
+      length: 100,
+      description: 'This is a test floor',
+      buildingID: 'A'
+    }, new UniqueEntityID('A1')).getValue();
+
+    const floor1 = Floor.create({
+      floorCode: 'A2',
+      floorNumber: 1,
+      width: 100,
+      length: 100,
+      description: 'This is a test floor',
+      buildingID: 'A'
+    }, new UniqueEntityID('A2')).getValue();
+
+    const floor2 = Floor.create({
+      floorCode: 'B1',
+      floorNumber: 1,
+      width: 50,
+      length: 50,
+      description: 'This is a test floor',
+      buildingID: 'B'
+    }, new UniqueEntityID('B1')).getValue();
+
+    const passageway = Passageway.create({
+      passageCode: 'PA1B1',
+      floor1: 'A1',
+      floor2: 'B1',
+      description: 'This is a test passageway',
+    }, new UniqueEntityID('PA1B1')).getValue();
+
+    const passagewayDTO = {
+      passageCode: 'PA2B1',
+      floor1: 'A2',
+      floor2: 'B1',
+      description: 'This is a test passageway',
+    };
+
+    when(passagewayRepo.existsByCode(passageway.passageCode)).thenReturn(Promise.resolve(true));
+    when(passagewayRepo.existsByCode(passagewayDTO.passageCode)).thenReturn(Promise.resolve(true));
+    when(floorRepo.existsByFloorCode(floor1.floorCode)).thenResolve(true);
+    when(floorRepo.existsByFloorCode(floor2.floorCode)).thenResolve(true);
+    when(passagewayRepo.findByCode(passageway.passageCode)).thenResolve(passageway);
+
+    const result = await passagewayService.updatePassageway(passageway.passageCode, passagewayDTO);
+    expect(result.isFailure).to.be.true;
+  });
+
+  it('should not edit a passageway when the floor1 does not exist', async function () {
+
+      const floor = Floor.create({
         floorCode: 'A1',
         floorNumber: 1,
         width: 100,
         length: 100,
         description: 'This is a test floor',
         buildingID: 'A'
-      };
+      }, new UniqueEntityID('A1')).getValue();
 
-      const floor2 ={
+      const floor1 = Floor.create({
+        floorCode: 'A2',
+        floorNumber: 1,
+        width: 100,
+        length: 100,
+        description: 'This is a test floor',
+        buildingID: 'A'
+      }, new UniqueEntityID('A2')).getValue();
+
+      const floor2 = Floor.create({
         floorCode: 'B1',
         floorNumber: 1,
         width: 50,
         length: 50,
         description: 'This is a test floor',
         buildingID: 'B'
-      };
+      }, new UniqueEntityID('B1')).getValue();
 
-      const passagewayDTO = {
+      const passageway = Passageway.create({
         passageCode: 'PA1B1',
         floor1: 'A1',
         floor2: 'B1',
         description: 'This is a test passageway',
+      }, new UniqueEntityID('PA1B1')).getValue();
+
+      const passagewayDTO = {
+        passageCode: 'PA2B1',
+        floor1: 'A2',
+        floor2: 'B1',
+        description: 'This is a test passageway',
       };
 
+      when(passagewayRepo.existsByCode(passageway.passageCode)).thenReturn(Promise.resolve(true));
       when(passagewayRepo.existsByCode(passagewayDTO.passageCode)).thenReturn(Promise.resolve(false));
       when(floorRepo.existsByFloorCode(floor1.floorCode)).thenResolve(false);
       when(floorRepo.existsByFloorCode(floor2.floorCode)).thenResolve(true);
+      when(passagewayRepo.findByCode(passageway.passageCode)).thenResolve(passageway);
 
-      const result =await passagewayService.createPassageway(passagewayDTO);
+      const result = await passagewayService.updatePassageway(passageway.passageCode, passagewayDTO);
       expect(result.isFailure).to.be.true;
   });
 
-  it('should not create a passageway when the floor2 does not exist', async function () {
+  it('should not edit a passageway when the floor2 does not exist', async function () {
 
-        const floor1 = {
+        const floor = Floor.create({
           floorCode: 'A1',
           floorNumber: 1,
           width: 100,
           length: 100,
           description: 'This is a test floor',
           buildingID: 'A'
-        };
+        }, new UniqueEntityID('A1')).getValue();
 
-        const floor2 ={
+        const floor1 = Floor.create({
+          floorCode: 'A2',
+          floorNumber: 1,
+          width: 100,
+          length: 100,
+          description: 'This is a test floor',
+          buildingID: 'A'
+        }, new UniqueEntityID('A2')).getValue();
+
+        const floor2 = Floor.create({
           floorCode: 'B1',
           floorNumber: 1,
           width: 50,
           length: 50,
           description: 'This is a test floor',
           buildingID: 'B'
-        };
+        }, new UniqueEntityID('B1')).getValue();
 
-        const passagewayDTO = {
+        const passageway = Passageway.create({
           passageCode: 'PA1B1',
           floor1: 'A1',
           floor2: 'B1',
           description: 'This is a test passageway',
+        }, new UniqueEntityID('PA1B1')).getValue();
+
+        const passagewayDTO = {
+          passageCode: 'PA2B1',
+          floor1: 'A2',
+          floor2: 'B1',
+          description: 'This is a test passageway',
         };
 
+        when(passagewayRepo.existsByCode(passageway.passageCode)).thenReturn(Promise.resolve(true));
         when(passagewayRepo.existsByCode(passagewayDTO.passageCode)).thenReturn(Promise.resolve(false));
         when(floorRepo.existsByFloorCode(floor1.floorCode)).thenResolve(true);
         when(floorRepo.existsByFloorCode(floor2.floorCode)).thenResolve(false);
+        when(passagewayRepo.findByCode(passageway.passageCode)).thenResolve(passageway);
 
-        const result =await passagewayService.createPassageway(passagewayDTO);
+        const result = await passagewayService.updatePassageway(passageway.passageCode, passagewayDTO);
         expect(result.isFailure).to.be.true;
+  });
+
+  it('should list all passageways', async function () {
+    const passagewayDto = {
+      passageCode: 'PA2B1',
+      floor1: 'A2',
+      floor2: 'B1',
+      description: 'This is a test passageway',
+    };
+
+    const passageway = Passageway.create(passagewayDto).getValue();
+
+    when(passagewayRepo.findAll()).thenReturn(Promise.resolve(Result.ok<Passageway[]>([passageway])));
+
+    const result = await passagewayService.listPassageway();
+    expect(result.isSuccess).to.be.true;
+  });
+
+  it('should not list any passageways', async function () {
+    when(passagewayRepo.findAll()).thenReturn(Promise.resolve(Result.fail<Passageway[]>("No passageways found")));
+
+    const result = await passagewayService.listPassageway();
+    expect(result.isFailure).to.be.true;
   });
 });
 
