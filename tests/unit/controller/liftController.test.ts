@@ -127,16 +127,16 @@ describe('LiftController', () => {
         code: "LA",
         buildingCode: "A",
         floors: ["A1", "A2"],
-        brand: "Brand",
-        model: "Model",
+        brand: "Brand1",
+        model: "Model1",
         serialNumber: "123456789",
-        description: "Description"
+        description: "Description1"
     }
 
     let req: Partial<Request> = {
       body: requestBody,
       params: {
-        id: "123456789"
+        id: "LA"
       }
     }
 

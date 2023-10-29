@@ -1,0 +1,27 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title List all floors
+
+participant "Back-End" as BE <<component>>
+database "Database" as DB <<component>>
+
+?o->> BE : GET
+
+activate BE
+
+BE ->> DB : select floors
+activate DB
+DB -->> BE
+deactivate DB
+
+?o<<- BE : 200 OK
+
+alt bad request / floors not found
+?o<<- BE : 400 Bad Request
+deactivate BE
+end
+
+@enduml
