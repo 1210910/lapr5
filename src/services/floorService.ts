@@ -20,27 +20,11 @@ export default class FloorService implements IFloorService {
     ) {
     }
 
-    public async getFloor(floorId: string): Promise<Result<IFloorDTO>> {
-        try {
-            const floor = await this.FloorRepo.findByDomainId(floorId);
-
-            if (floor === null) {
-                return Result.fail<IFloorDTO>("Floor not found");
-            } else {
-                const floorDTOResult = FloorMap.toDTO(floor) as IFloorDTO;
-                return Result.ok<IFloorDTO>(floorDTOResult)
-            }
-        } catch (e) {
-            throw e;
-        }
-    }
-
 
     public async createFloor(floorDTO: IFloorDTO): Promise<Result<IFloorDTO>> {
         try {
 
             const buildingExists = await this.buildingRepo.findByCode(floorDTO.buildingID);
-
            if (!buildingExists) {
                return Result.fail<IFloorDTO>("Building not found");
             }
@@ -78,7 +62,6 @@ export default class FloorService implements IFloorService {
             }
 
             const floorResult = floorOrError.getValue();
-
 
 
             await this.FloorRepo.save(floorResult);
@@ -119,7 +102,6 @@ export default class FloorService implements IFloorService {
             throw e;
         }
     }
-
     public async listFloor(): Promise<Result<Array<IFloorDTO>>> {
         try {
             const floorOrError = await this.FloorRepo.findAll();
@@ -141,7 +123,6 @@ export default class FloorService implements IFloorService {
             let floors: Array<IFloorDTO> = [];
 
             const floorListOrError = await this.FloorRepo.findByBuildingId(buildingCode);
-            console.log(floorListOrError);
             if (!floorListOrError) {
                 return Result.fail<Array<IFloorDTO>>("Floor not found");
             }

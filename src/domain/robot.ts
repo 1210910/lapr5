@@ -2,7 +2,7 @@ import { AggregateRoot } from "../core/domain/AggregateRoot";
 import { UniqueEntityID } from "../core/domain/UniqueEntityID";
 import { Result } from "../core/logic/Result"
 import { RobotId } from "./robotId";
-import IRobotDTO from "../dto/IRobotDTO";
+import { Guard } from "../core/logic/Guard";
 
 interface robotProps {
     code: string;
@@ -66,21 +66,33 @@ export class Robot extends AggregateRoot<robotProps>{
         super(props, id);
     }
 
-    public static create(iRobotDTO: IRobotDTO, id?: UniqueEntityID): Result<Robot> {
-            const code = iRobotDTO.code;
-            const name = iRobotDTO.name;
-            const type = iRobotDTO.type;
-            const enabled = iRobotDTO.enabled;
-            const description = iRobotDTO.description;
-    
-            const robot = new Robot({
-                code,
-                name,
-                type,
-                enabled,
-                description
-            }, id);
-    
-            return Result.ok<Robot>(robot);
+    public static create(props: robotProps | any , id?: UniqueEntityID): Result<Robot> {
+      const guardedProps = [
+        { argument: props.code, argumentName: 'code' },
+        { argument: props.name, argumentName: 'name' },
+        { argument: props.type, argumentName: 'type' },
+        { argument: props.enabled, argumentName: 'enabled' },
+        { argument: props.description, argumentName: 'description' }
+      ];
+      const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
+      if (!guardResult.succeeded) {
+        return Result.fail<Robot>(guardResult.message)
+      }
+      if(props.name.length > 30 ){
+        return Result.fail<Robot>("Name cannot have more than 30 letters")
+      }
+      if(props.description.length > 250 ){
+        return Result.fail<Robot>("Description property cannot have more than 255 letters")
+      }
+      if(props.enabled === false ){
+        return Result.fail<Robot>("Robot must be created with enabled status active")
+      }
+
+      const robot = new Robot({
+        ...props
+      }, id);
+
+
+      return Result.ok<Robot>(robot);
     }
 }
