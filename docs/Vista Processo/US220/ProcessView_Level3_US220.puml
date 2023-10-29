@@ -3,24 +3,29 @@
 autonumber
 skinparam packageStyle rect
 
-title List all passageways
+title List all floors with passageways of a building
 
 participant "Back-End" as BE <<component>>
 database "Database" as DB <<component>>
 
-?o-> BE : GET
+?o->> BE : GET
 
 activate BE
 
-BE -> DB : select passageways
+BE ->> DB : select building
 activate DB
-DB --> BE
+DB -->> BE
 deactivate DB
 
-?o<- BE : 200 OK
+BE ->> DB : select passageways
+activate DB
+DB -->> BE
+deactivate DB
+
+?o<<- BE : 200 OK
 
 alt bad request / passageways not found
-?o<- BE : 400 Bad Request
+?o<<- BE : 400 Bad Request
 deactivate BE
 end
 

@@ -8,29 +8,29 @@ title Create a passageway
 participant "Back-End" as BE <<component>>
 database "Database" as DB <<component>>
 
-?o-> BE : POST
+?o->> BE : POST
 
 activate BE
 
-BE -> DB : select building
+BE ->> DB : select building
 activate DB
-DB --> BE
+DB -->> BE
 deactivate DB
 
-BE -> DB : select floors
+BE ->> DB : select floors
 activate DB
-DB --> BE
+DB -->> BE
 deactivate DB
 
-BE -> DB : persist
+BE ->> DB : persist
 activate DB
-DB --> BE
+DB -->> BE
 deactivate DB
 
-?o<- BE : 201 Created
+?o<<- BE : 201 Created
 
 alt bad request / passageway already exists / building not found / floors not found
-?o<- BE : 400 Bad Request
+?o<<- BE : 400 Bad Request
 deactivate BE
 end
 
