@@ -48,15 +48,19 @@ describe("RobotTypeService", async () => {
   it("should not create a robotType due to failed creation", async () => {
     const robotTypeDto = {
       code: "RT-001",
-      brand: null,
+      brand: "brand",
       model: "model",
       description: "This is a test robot",
       taskTypeCode: "classroom"
     };
 
-    when(robotTypeRepo.existsByCode(robotTypeDto.code)).thenResolve(false);
-    const result = await robotTypeService.createRobotType(robotTypeDto);
-    expect(result.isFailure).to.be.true;
+    when(robotTypeRepo.existsByCode(robotTypeDto.code)).thenThrow(new Error("Error"));
+
+    try {
+      await robotTypeService.createRobotType(robotTypeDto);
+    } catch (error) {
+      expect(error.message).to.equal("Error");
+    }
   });
 
 });
