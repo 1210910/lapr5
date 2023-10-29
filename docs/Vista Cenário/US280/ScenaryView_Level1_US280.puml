@@ -1,0 +1,9 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+left to right direction
+" " as nobody
+
+nobody --> (Editar elevador de um edifício)
+
+@enduml
