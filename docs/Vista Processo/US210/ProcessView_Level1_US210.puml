@@ -1,0 +1,18 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title List all floors of a building
+
+participant "System" as Sys <<System>>
+
+?o->> Sys : GET
+
+activate Sys
+?o<<-- Sys : 201|400
+deactivate Sys
+
+
+@enduml

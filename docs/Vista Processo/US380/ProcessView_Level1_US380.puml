@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+title List all robots from the lit
+
+participant "System" as Sys <<System>>
+
+?o->> Sys : GET
+
+activate Sys
+?o<<-- Sys : 201|400
+deactivate Sys
+@enduml
