@@ -25,7 +25,7 @@ describe("liftService", () => {
   let floorService: IFloorService;
 
   beforeEach(() => {
-  liftRepo = mock<ILiftRepo>();
+    liftRepo = mock<ILiftRepo>();
     buildingRepo = mock<IBuildingRepo>();
     floorRepo = mock<IFloorRepo>();
 
@@ -92,7 +92,7 @@ describe("liftService", () => {
 
     const result = await liftService.createLift(liftDto);
     expect(result.isFailure).to.be.true;
-});
+  });
 
   it("shouldn't create a lift when the building already has a lift", async () => {
     const liftDto = {
@@ -112,7 +112,7 @@ describe("liftService", () => {
     expect(result.isFailure).to.be.true;
   });
 
-  it ("shouldn't create a lift when the floor doesn't exist", async () => {
+  it("shouldn't create a lift when the floor doesn't exist", async () => {
     const liftDto = {
       code: "LA",
       buildingCode: "A",
@@ -129,6 +129,25 @@ describe("liftService", () => {
 
     const result = await liftService.createLift(liftDto);
     expect(result.isFailure).to.be.true;
+  });
+
+  it("should catch error when create lift", async () => {
+    const liftDto = {
+      code: "LA",
+      buildingCode: "A",
+      floors: ["A1", "A2"],
+      brand: "Brand",
+      model: "Model",
+      serialNumber: "123456789",
+      description: "Description"
+    };
+    when(liftRepo.findByCode(liftDto.code)).thenThrow(new Error("Error"));
+
+    try {
+      await liftService.createLift(liftDto);
+    } catch (error) {
+      expect(error.message).to.equal("Error");
+    }
   });
 
   it("should update a lift", async () => {
@@ -191,7 +210,7 @@ describe("liftService", () => {
     expect(result.isFailure).to.be.true;
   });
 
-  it ("shouldn't update a lift when the floor doesn't exist", async () => {
+  it("shouldn't update a lift when the floor doesn't exist", async () => {
     const liftDto = {
       code: "LA",
       buildingCode: "A",
@@ -209,7 +228,26 @@ describe("liftService", () => {
     expect(result.isFailure).to.be.true;
   });
 
-  it ("should list all lifts", async () => {
+  it("should catch error when update lift", async () => {
+    const liftDto = {
+      code: "LA",
+      buildingCode: "A",
+      floors: ["A1", "A2"],
+      brand: "Brand",
+      model: "Model",
+      serialNumber: "123456789",
+      description: "Description"
+    };
+    when(liftRepo.findByCode(liftDto.code)).thenThrow(new Error("Error"));
+
+    try {
+      await liftService.updateLift(liftDto.code, liftDto);
+    } catch (error) {
+      expect(error.message).to.equal("Error");
+    }
+  });
+
+  it("should list all lifts", async () => {
     const liftDto = {
       code: "LA",
       buildingCode: "A",
@@ -228,13 +266,25 @@ describe("liftService", () => {
     expect(result.isSuccess).to.be.true;
   });
 
-  it ("shouldn't list lifts when there are no floors", async () => {
-    const buildingCode: string = "A";
+  it("shouldn't list lifts when there are no floors", async () => {
+    const liftCode: string = "A";
 
-    when(liftRepo.findByBuildingCode(buildingCode)).thenReturn(Promise.resolve(Result.fail<Lift[]>("Error")));
+    when(liftRepo.findByBuildingCode(liftCode)).thenReturn(Promise.resolve(Result.fail<Lift[]>("Error")));
 
-    const result = await liftService.listLift(buildingCode);
+    const result = await liftService.listLift(liftCode);
     expect(result.isFailure).to.be.true;
+  });
+
+  it("should catch error when list lifts", async () => {
+    const liftCode: string = "A";
+
+    when(liftRepo.findByBuildingCode(liftCode)).thenThrow(new Error("Error"));
+
+    try {
+      await liftService.listLift(liftCode);
+    } catch (error) {
+      expect(error.message).to.equal("Error");
+    }
   });
 
 });
