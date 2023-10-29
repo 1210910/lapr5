@@ -7,7 +7,6 @@ import IFloorRepo from '../services/IRepos/IFloorRepo';
 import ILiftService from './IServices/ILiftService';
 import { Result } from "../core/logic/Result";
 import { LiftMap } from "../mappers/LiftMap";
-import { floor } from 'lodash';
 
 @Service()
 export default class LiftService implements ILiftService{
@@ -50,12 +49,9 @@ export default class LiftService implements ILiftService{
             return Result.fail<ILiftDTO>(liftOrError.errorValue());
           }
 
-          const finalLift = await this.liftRepo.save(liftOrError.getValue());
+          await this.liftRepo.save(liftOrError.getValue());
 
-          if (finalLift == null){
-            return Result.fail<ILiftDTO>(finalLift);
-          }
-          const liftDTOResult = LiftMap.toDTO( finalLift ) as ILiftDTO;
+          const liftDTOResult = LiftMap.toDTO( liftOrError.getValue() ) as ILiftDTO;
 
           return Result.ok<ILiftDTO>( liftDTOResult )
         } catch (e) {
@@ -106,7 +102,7 @@ export default class LiftService implements ILiftService{
         }
     }
 
-      
+
 
       private async checkFloors(buildingId: string,floors: string[]): Promise<boolean> {
 
