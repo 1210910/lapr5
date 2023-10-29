@@ -1,0 +1,18 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title Inhibit a robot
+
+participant "MasterData" as MD <<Component>>
+
+?o->> MD : PATCH
+
+activate MD
+?o<<-- MD : 204|400
+deactivate MD
+
+
+@enduml

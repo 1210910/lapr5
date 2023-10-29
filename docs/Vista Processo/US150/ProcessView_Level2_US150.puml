@@ -1,0 +1,17 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+skinparam packageStyle rect
+
+title create a building
+
+participant "MasterData" as MD <<Component>>
+
+?o->> MD : POST
+
+activate MD
+?o<<-- MD : 201|400
+deactivate MD
+@enduml
