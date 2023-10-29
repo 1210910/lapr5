@@ -3,6 +3,6 @@ import IRobotDTO from "../../dto/IRobotDTO";
 
 export default interface IRobotService  {
     createRobot(robotDTO: IRobotDTO): Promise<Result<IRobotDTO>>;
-    enableRobot(robotCode: string): Promise<Result<IRobotDTO>>;
+    enableDisableRobot(robotCode: string, robotDTO: IRobotDTO): Promise<Result<IRobotDTO>>;
     listRobot (): Promise<Result<Array<IRobotDTO>>>;
 }

@@ -25,4 +25,20 @@ export default (app: Router) => {
     (req,res,next) => robotController.createRobot(req,res,next) );
 
     route.get('', (req,res,next) => robotController.listRobot(req,res,next) );
+
+
+
+    route.patch('/:code',
+    celebrate({
+        body: Joi.array().items(Joi.object({
+            op: Joi.string().required().valid('replace'),
+            path: Joi.string().required().valid('/enabled'),
+            value: Joi.boolean().required().valid(true,false)
+        })),
+    }),
+    (req,res,next) => robotController.enableDisableRobot(req,res,next) );
+
+
+
+
 }

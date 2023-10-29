@@ -16,13 +16,13 @@ export default class RobotRepo implements IRobotRepo {
     constructor(
         @Inject('robotSchema') private robotSchema: Model<IRobotPersistence & Document>,
     ) { }
-    
+
     private createBaseQuery(): any {
         return {
             where: {},
         }
     }
-    
+
     public async exists(RobotId: RobotId): Promise<boolean> {
         const query = { domainId: RobotId };
 
@@ -40,7 +40,7 @@ export default class RobotRepo implements IRobotRepo {
     }
 
     public async save(robot: Robot): Promise<Robot> {
-        const query = { domainId: robot.id.toString() };
+        const query = { code: robot.code };
 
         const robotDocument = await this.robotSchema.findOne(query);
 
@@ -68,7 +68,7 @@ export default class RobotRepo implements IRobotRepo {
     }
 
     public async findByCode(robotCode: string): Promise<Robot> {
-        const query = { code: robotCode };
+        const query = { robotCode: robotCode };
 
         const robotDocument = await this.robotSchema.findOne(query);
 
