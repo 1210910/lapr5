@@ -1,0 +1,42 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title Edit a passageway
+
+participant "Back-End" as BE <<component>>
+database "Database" as DB <<component>>
+
+?o-> BE : PATCH
+
+activate BE
+
+BE -> DB : select existing passageway
+activate DB
+DB --> BE
+deactivate DB
+
+BE -> DB : select building
+activate DB
+DB --> BE
+deactivate DB
+
+BE -> DB : select floors
+activate DB
+DB --> BE
+deactivate DB
+
+BE -> DB : persist
+activate DB
+DB --> BE
+deactivate DB
+
+?o<- BE : 200 OK
+
+alt bad request / passageway not found / building not found / floors not found
+?o<- BE : 400 Bad Request
+deactivate BE
+end
+
+@enduml
