@@ -29,7 +29,7 @@ export default class RoomService implements IRoomService {
             const roomOrError =  Room.create(roomDTO);
 
 
-            if (roomDTO.length > floorExists.length || roomDTO.width > floorExists.width) {
+             if (roomDTO.length > floorExists.length || roomDTO.width > floorExists.width) {
                 return Result.fail<IRoomDTO>("Room is bigger than floor");
             }
 
