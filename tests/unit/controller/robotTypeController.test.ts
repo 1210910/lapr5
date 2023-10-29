@@ -1,4 +1,6 @@
 import sinon from 'sinon';
+import chai from 'chai';
+import sinonChai from 'sinon-chai';
 import { expect } from 'chai';
 import {Request , Response } from 'express';
 
@@ -8,6 +10,7 @@ import RobotTypeService  from '../../../src/services/robotTypeService';
 import { RobotType } from '../../../src/domain/robotType';
 import { Result } from '../../../src/core/logic/Result';
 
+chai.use(sinonChai);
 describe('RobotTypeController', () => {
   let robotTypeController: RobotTypeController;
   let robotTypeService: IRobotTypeService;

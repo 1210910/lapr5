@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import {Request , Response } from 'express';
 import BuildingController  from '../../src/controllers/BuildingController';
 import IBuildingService  from '../../src/services/IServices/IBuildingService';
-import BuildingService  from '../../src/services/BuildingService';
+import BuildingService  from '../../src/services/buildingService';
 import { Building } from '../../src/domain/Building';
 import { Result } from '../../src/core/logic/Result';
 import IBuildingRepo from "../../src/services/IRepos/IBuildingRepo";

@@ -134,7 +134,7 @@ interface LiftProps {
             return Result.fail<Lift>("Floors are required")
           }
 
-          if(props.floors.length < 1 ){
+          if(props.floors.length <= 1 ){
             return Result.fail<Lift>("Can not create a lift with only 1 floor")
           }
 
