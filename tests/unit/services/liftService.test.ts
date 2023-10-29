@@ -3,11 +3,9 @@ import { expect } from "chai";
 
 import ILiftRepo from "../../../src/services/IRepos/ILiftRepo";
 import ILiftService from "../../../src/services/IServices/ILiftService";
-import LiftService from "../../../src/services/LiftService";
+import LiftService from "../../../src/services/liftService";
 import { Lift } from "../../../src/domain/Lift";
 import IFloorRepo from "../../../src/services/IRepos/IFloorRepo";
-import IFloorService from "../../../src/services/IServices/IFloorService";
-import FloorService from "../../../src/services/FloorService";
 import { Floor } from "../../../src/domain/floor";
 import IBuildingRepo from "../../../src/services/IRepos/IBuildingRepo";
 import IBuildingService from "../../../src/services/IServices/IBuildingService";
@@ -22,7 +20,7 @@ describe("liftService", () => {
 
   let liftService: ILiftService;
   let buildingService: IBuildingService;
-  let floorService: IFloorService;
+  
 
   beforeEach(() => {
     liftRepo = mock<ILiftRepo>();
@@ -32,7 +30,7 @@ describe("liftService", () => {
     liftService = new LiftService(instance(liftRepo), instance(floorRepo));
 
     buildingService = mock<BuildingService>();
-    floorService = mock<FloorService>();
+   
   });
 
   it("should create a lift", async () => {

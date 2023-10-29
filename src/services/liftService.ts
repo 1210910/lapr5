@@ -70,7 +70,6 @@ export default class LiftService implements ILiftService{
               return Result.fail<ILiftDTO>("Floor does not exist in this building");
             }
             const liftOrError = Lift.update(lift, liftDTO);
-            console.log(liftOrError);
             if(liftOrError.isFailure){
               return Result.fail<ILiftDTO>(liftOrError.errorValue());
             }

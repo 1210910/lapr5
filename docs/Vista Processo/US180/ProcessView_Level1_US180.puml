@@ -4,7 +4,7 @@
 autonumber
 skinparam packageStyle rect
 
-title List all floors of a building
+title list all buildings by min max floors
 
 participant "System" as Sys <<System>>
 

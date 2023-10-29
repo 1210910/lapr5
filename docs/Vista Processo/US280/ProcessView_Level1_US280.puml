@@ -4,7 +4,7 @@
 autonumber
 skinparam packageStyle rect
 
-title Edit floor of a building
+title Edit a lift
 
 participant "System" as Sys <<System>>
 

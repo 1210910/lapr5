@@ -5,7 +5,7 @@ autonumber
 
 skinparam packageStyle rect
 
-title List all floors of a building
+title List all buildings min and max floors
 
 participant "MasterData" as MD <<Component>>
 

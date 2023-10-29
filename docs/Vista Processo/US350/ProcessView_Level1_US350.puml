@@ -4,7 +4,7 @@
 autonumber
 skinparam packageStyle rect
 
-title List all floors of a building
+title create a robot type
 
 participant "System" as Sys <<System>>
 

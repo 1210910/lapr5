@@ -4,7 +4,7 @@ import {Request , Response } from 'express';
 
 import LiftController  from '../../../src/controllers/liftController';
 import ILiftService  from '../../../src/services/IServices/ILiftService';
-import LiftService  from '../../../src/services/LiftService';
+import LiftService  from '../../../src/services/liftService';
 import { Lift } from '../../../src/domain/Lift';
 import { Result } from '../../../src/core/logic/Result';
 

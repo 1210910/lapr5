@@ -4,7 +4,7 @@
 autonumber
 skinparam packageStyle rect
 
-title List all floors of a building
+title Edit information of a floor
 
 participant "System" as Sys <<System>>
 
