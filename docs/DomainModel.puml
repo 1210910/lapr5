@@ -23,9 +23,16 @@ package Building <<aggregate>> {
         - Description
 
     }
-    class Lift{
+    }
+    package Lift <<aggregate>> {
+    class Lift <<root>>{
         - Code
         - BuildingCode
+        - Floors
+        - Brand
+        - Model
+        - Serial Number
+        - Description
     }
 }
 
@@ -39,7 +46,12 @@ package Floor <<aggregate>> {
         - Length
     }
 
-    class Room{
+
+
+}
+package Room<<aggregate>>{
+
+class Room <<root>>{
         - Code
         - FloorCode
         - Width
@@ -53,9 +65,7 @@ package Floor <<aggregate>> {
             - Laboratory
             - Other
     }
-
-}
-
+    }
 package Passageway <<aggregate>>{
     class passageway <<root>>{
         - Code
