@@ -2,7 +2,6 @@ import { AggregateRoot } from "../core/domain/AggregateRoot";
 import { UniqueEntityID } from "../core/domain/UniqueEntityID";
 import { Result } from "../core/logic/Result";
 import { Guard } from "../core/logic/Guard";
-import { LiftId } from "./LiftId";
 import { ILiftDTO } from "../dto/ILiftDTO";
 
 interface LiftProps {
@@ -20,11 +19,6 @@ interface LiftProps {
 
     get id (): UniqueEntityID {
         return this._id;
-    }
-
-
-    get liftId (): LiftId {
-      return LiftId.caller(this.id)
     }
 
     get code (): string{
@@ -131,10 +125,10 @@ interface LiftProps {
 
           if(props.description === undefined || props.description === null){
             props.description === "";
-          }
-
-          if(props.description.length > 255 ){
-            return Result.fail<Lift>("Description property cannot have more than 255 letters")
+          }else{
+            if(props.description.length > 255 ){
+              return Result.fail<Lift>("Description property cannot have more than 255 letters")
+            }
           }
 
           if(props.floors === undefined || props.floors === null ){
