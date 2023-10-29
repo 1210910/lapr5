@@ -103,8 +103,5 @@ export class RobotType extends AggregateRoot<RobotTypeProps> {
 
             return Result.ok<RobotType>(robotType);
         }
-
-
     }
-
 }

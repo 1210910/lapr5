@@ -38,8 +38,5 @@ export default class RoboTypeService implements IRobotTypeService{
         } catch (err) {
             return Result.fail<IRobotTypeDTO>('An error has occurred')
         }
-
-
-
     }
 }
