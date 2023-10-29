@@ -1,9 +1,10 @@
-import { mock, when, instance } from "ts-mockito";
+import { mock, when, instance, anything } from "ts-mockito";
 import { expect } from "chai";
 
 import IRobotTypeRepo from "../../../src/services/IRepos/IRobotTypeRepo";
 import IRobotTypeService from "../../../src/services/IServices/IRobotTypeService";
 import RoboTypeService from "../../../src/services/robotTypeService";
+import { RobotType } from "../../../src/domain/robotType";
 
 describe("RobotTypeService", async () => {
 
@@ -25,6 +26,7 @@ describe("RobotTypeService", async () => {
     };
 
     when(robotTypeRepo.existsByCode(robotTypeDto.code)).thenResolve(false);
+    when(robotTypeRepo.save(anything())).thenResolve(RobotType.create(robotTypeDto).getValue());
     const result = await robotTypeService.createRobotType(robotTypeDto);
     expect(result.isSuccess).to.be.true;
   });

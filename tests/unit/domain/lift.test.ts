@@ -1,7 +1,7 @@
-import { assert } from "console";
+import assert  from "assert";
 import { Lift } from "../../../src/domain/Lift";
 
-describe("Robot type test", () => {
+describe("Lift Type Test", () => {
   it("should create a valid lift when all parameters are valid", () => {
     const liftDto = {
       code: "LA",

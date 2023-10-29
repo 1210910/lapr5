@@ -11,7 +11,7 @@ import FloorService from "../../../src/services/FloorService";
 import { Floor } from "../../../src/domain/floor";
 import IBuildingRepo from "../../../src/services/IRepos/IBuildingRepo";
 import IBuildingService from "../../../src/services/IServices/IBuildingService";
-import BuildingService from "../../../src/services/BuildingService";
+import BuildingService from "../../../src/services/buildingService";
 import { Result } from "../../../src/core/logic/Result";
 
 describe("liftService", () => {

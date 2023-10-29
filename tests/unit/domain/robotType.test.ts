@@ -1,5 +1,5 @@
-import { assert } from 'console';
-import { RobotType } from "../../../src/domain/RobotType";
+import  assert  from 'assert';
+import { RobotType } from "../../../src/domain/robotType";
 
 describe("Robot type test", () => {
 
