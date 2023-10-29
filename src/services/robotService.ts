@@ -23,7 +23,7 @@ export default class RobotService implements IRobotService {
                 return Result.fail<IRobotDTO>("Robot already exists");
             }
 
-            if (! await this.RobotTypeRepo.existsByCode(robotDTO.type)) {
+            if (!await this.RobotTypeRepo.existsByCode(robotDTO.type)) {
                 return Result.fail<IRobotDTO>("Robot type doesn't exist");
             }
 
@@ -59,7 +59,7 @@ export default class RobotService implements IRobotService {
           type: updatedRobotData.type,
           enabled: updatedRobotData.enabled,
           description: updatedRobotData.description,
-        },updatedRobotData.robotId);
+        },updatedRobotData.id);
 
         if(robotOrError.isFailure){
             return Result.fail<IRobotDTO>(robotOrError.errorValue());
@@ -68,7 +68,7 @@ export default class RobotService implements IRobotService {
         const finalRobot = await this.RobotRepo.save(robotOrError.getValue());
 
         if (finalRobot == null){
-          return Result.fail<IRobotDTO>(finalRobot);
+          return Result.fail<IRobotDTO>("Error in save");
         }
         const robotDTOResult = RobotMap.toDTO( finalRobot ) as IRobotDTO;
 
