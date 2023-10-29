@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import {Request , Response } from 'express';
 import  PassagewayController  from '../../src/controllers/PassagewayController';
 import  IPassagewayService  from '../../src/services/IServices/IPassagewayService';
-import  PassagewayService  from '../../src/services/PassagewayService';
+import  PassagewayService  from '../../src/services/passagewayService';
 import IPassagewayRepo from "../../src/services/IRepos/IPassagewayRepo";
 import IFloorRepo  from "../../src/services/IRepos/IFloorRepo";
 import PassagewayRepo from "../../src/repos/PassagewayRepo";
