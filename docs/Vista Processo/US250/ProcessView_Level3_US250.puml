@@ -8,34 +8,34 @@ title Edit a passageway
 participant "Back-End" as BE <<component>>
 database "Database" as DB <<component>>
 
-?o-> BE : PATCH
+?o->> BE : PATCH
 
 activate BE
 
-BE -> DB : select existing passageway
+BE ->> DB : select existing passageway
 activate DB
-DB --> BE
+DB -->> BE
 deactivate DB
 
-BE -> DB : select building
+BE ->> DB : select building
 activate DB
-DB --> BE
+DB -->> BE
 deactivate DB
 
-BE -> DB : select floors
+BE ->> DB : select floors
 activate DB
-DB --> BE
+DB -->> BE
 deactivate DB
 
-BE -> DB : persist
+BE ->> DB : persist
 activate DB
-DB --> BE
+DB -->> BE
 deactivate DB
 
-?o<- BE : 200 OK
+?o<<- BE : 200 OK
 
 alt bad request / passageway not found / building not found / floors not found
-?o<- BE : 400 Bad Request
+?o<<- BE : 400 Bad Request
 deactivate BE
 end
 
