@@ -25,9 +25,7 @@ describe("liftService", () => {
   let floorService: IFloorService;
 
   beforeEach(() => {
-
-
-    liftRepo = mock<ILiftRepo>();
+  liftRepo = mock<ILiftRepo>();
     buildingRepo = mock<IBuildingRepo>();
     floorRepo = mock<IFloorRepo>();
 

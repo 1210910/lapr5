@@ -81,7 +81,6 @@ interface LiftProps {
             { argument: props.brand, argumentName: 'brand' },
             { argument: props.model, argumentName: 'model' },
             { argument: props.serialNumber, argumentName: 'serialNumber' },
-            { argument: props.description, argumentName: 'description' },
           ];
 
 
@@ -124,7 +123,7 @@ interface LiftProps {
           }
 
           if(props.description === undefined || props.description === null){
-            props.description === "";
+            props.description = "";
           }else{
             if(props.description.length > 255 ){
               return Result.fail<Lift>("Description property cannot have more than 255 letters")
