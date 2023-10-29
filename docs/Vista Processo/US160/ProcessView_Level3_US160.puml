@@ -17,10 +17,6 @@ activate DB
 DB --> BE
 deactivate DB
 
-BE -> DB : edit building
-activate DB
-DB --> BE
-deactivate DB
 
 BE -> DB : persist
 activate DB

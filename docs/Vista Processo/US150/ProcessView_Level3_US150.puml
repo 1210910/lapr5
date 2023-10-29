@@ -3,7 +3,7 @@
 autonumber
 skinparam packageStyle rect
 
-title Create a passageway
+title Create a building
 
 participant "Back-End" as BE <<component>>
 database "Database" as DB <<component>>
@@ -12,7 +12,7 @@ database "Database" as DB <<component>>
 
 activate BE
 
-BE ->> DB : create building
+BE ->> DB : select building
 activate DB
 DB -->> BE
 deactivate DB
