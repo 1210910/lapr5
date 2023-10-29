@@ -1,0 +1,29 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title List all buildings with min and max floors
+
+participant "Back-End" as BE <<component>>
+database "Database" as DB <<component>>
+
+?o-> BE : GET
+
+activate BE
+
+BE -> DB : select buildings
+activate DB
+DB --> BE
+deactivate DB
+
+
+
+?o<<-- BE : 200 OK
+
+alt bad request / buildings not found
+?o<<-- BE : 404 Bad Request
+deactivate BE
+end
+
+@enduml

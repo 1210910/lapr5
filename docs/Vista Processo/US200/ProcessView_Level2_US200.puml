@@ -1,0 +1,17 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+skinparam packageStyle rect
+
+title List all floors of a building
+
+participant "MasterData" as MD <<Component>>
+
+?o->> MD : PATCH
+
+activate MD
+?o<<-- MD : 200|400
+deactivate MD
+@enduml
