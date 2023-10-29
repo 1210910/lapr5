@@ -18,7 +18,7 @@ export default class RobotTypeController implements IRobotTypeController {
             const robotTypeOrError = await this.robotTypeService.createRobotType(req.body as IRobotTypeDTO) as Result<IRobotTypeDTO>;
 
             if (robotTypeOrError.isFailure) {
-                return res.status(404).send();
+                return res.status(400).send();
             }
             const robotTypeDTO = robotTypeOrError.getValue();
             return res.status(201).json( robotTypeDTO );
