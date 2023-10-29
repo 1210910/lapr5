@@ -1,0 +1,8 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+left to right direction
+" " as nobody
+
+nobody --> (Como gestor de frota pretendo inibir um robot.)
+
+@enduml

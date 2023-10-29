@@ -1,0 +1,37 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title Edit a building
+
+participant "Back-End" as BE <<component>>
+database "Database" as DB <<component>>
+
+?o-> BE : PATCH
+
+activate BE
+
+BE -> DB : select building
+activate DB
+DB --> BE
+deactivate DB
+
+BE -> DB : edit building
+activate DB
+DB --> BE
+deactivate DB
+
+BE -> DB : persist
+activate DB
+DB --> BE
+deactivate DB
+
+?o<<-- BE : 204 OK
+
+alt bad request / building not found
+?o<<-- BE : 400 Bad Request
+deactivate BE
+end
+
+@enduml

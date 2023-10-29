@@ -1,0 +1,35 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title Create a lift
+
+participant "Back-End" as BE <<component>>
+database "Database" as DB <<component>>
+
+?o->> BE : POST
+
+activate BE
+
+BE ->> DB : select building
+activate DB
+DB -->> BE
+deactivate DB
+BE ->> DB : create lift
+activate DB
+DB -->> BE
+deactivate DB
+BE ->> DB : persist
+activate DB
+DB -->> BE
+deactivate DB
+
+?o<<- BE : 201 Created
+
+alt bad request / building not found
+?o<<- BE : 400 Bad Request
+deactivate BE
+end
+
+@enduml
