@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import { expect } from 'chai';
 import {Request , Response } from 'express';
-import BuildingController  from '../../src/controllers/BuildingController';
+
 import { Building } from '../../src/domain/Building';
 import IBuildingRepo from "../../src/services/IRepos/IBuildingRepo";
 import BuildingRepo from "../../src/repos/buildingRepo";
