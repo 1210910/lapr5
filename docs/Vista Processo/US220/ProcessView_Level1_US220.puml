@@ -8,10 +8,18 @@ title List all floors with passageways of a building
 
 participant "System" as Sys <<System>>
 
-?o->> Sys : GET
+?o->> Sys : GET /passageways/:buildingCode
 
 activate Sys
-?o<<-- Sys : 200|400
+alt OK
+   ?o<<--Sys : 200 OK
+end
+alt Bad Request
+   ?o<<--Sys : 400 Bad Request
+end
+alt Building/Floor/Passageways not found
+   ?o<<--Sys : 404 Not Found
+end
 deactivate Sys
 
 

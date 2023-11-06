@@ -8,10 +8,18 @@ title Edit a passageway
 
 participant "System" as Sys <<System>>
 
-?o->> Sys : PATCH
+?o->> Sys : PATCH /passageways/:id
 
 activate Sys
-?o<<-- Sys : 200|400
+alt OK
+   ?o<<--Sys : 200 OK
+end
+alt Bad Request
+   ?o<<--Sys : 400 Bad Request
+end
+alt Passageway/Floor not found
+   ?o<<--Sys : 404 Not Found
+end
 deactivate Sys
 
 

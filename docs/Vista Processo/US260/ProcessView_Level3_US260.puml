@@ -5,23 +5,59 @@ skinparam packageStyle rect
 
 title List all passageways
 
-participant "Back-End" as BE <<component>>
-database "Database" as DB <<component>>
+participant "Routing" as routing <<component>>
+participant "Controller" as controller <<component>>
+participant "Service" as service <<component>>
+participant "Passageway Repository" as passagewayrepo <<component>>
+participant "Map" as map <<component>>
+participant "DTO" as dto <<component>>
+database "Database" as db <<component>>
 
-?o->> BE : GET
+?o->> routing : GET
+activate routing
+routing ->> controller : list passageway
 
-activate BE
+activate controller
+controller ->> service : list passageway
 
-BE ->> DB : select passageways
-activate DB
-DB -->> BE
-deactivate DB
+activate service
+service ->> passagewayrepo : get list of passageways
 
-?o<<- BE : 200 OK
+activate passagewayrepo
+passagewayrepo ->> db : select passageways
+activate db
+db -->> passagewayrepo : list
+deactivate db
 
-alt bad request / passageways not found
-?o<<- BE : 400 Bad Request
-deactivate BE
-end
+alt passageways not found
+    passagewayrepo -->> service : passageways not found
+    service -->> controller : fail
+    controller -->> routing : fail
+    ?o<<-- routing : 404 Not Found
+end alt
+
+passagewayrepo -->> service : list of passageways
+deactivate passagewayrepo
+
+service ->> map : convert to DTO List
+activate map
+
+map -->> dto** : convert
+activate dto
+
+dto -->> map : dto list
+deactivate dto
+
+map -->> service : dto list
+deactivate map
+
+service -->> controller : success
+deactivate service
+
+controller -->> routing : success
+deactivate controller
+
+?o<<-- routing : 200 OK
+deactivate routing
 
 @enduml

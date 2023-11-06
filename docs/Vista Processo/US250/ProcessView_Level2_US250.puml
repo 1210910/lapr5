@@ -9,9 +9,17 @@ title Edit a passageway
 
 participant "MasterData" as MD <<Component>>
 
-?o->> MD : PATCH
+?o->> MD : PATCH /passageways/:id
 
 activate MD
-?o<<-- MD : 200|400
+alt OK
+   ?o<<--MD : 201 OK
+end
+alt Bad Request
+   ?o<<--MD : 400 Bad Request
+end
+alt Passageway/Floor not found
+   ?o<<--MD : 404 Not Found
+end
 deactivate MD
 @enduml

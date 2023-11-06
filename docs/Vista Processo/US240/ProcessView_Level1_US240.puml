@@ -11,7 +11,15 @@ participant "System" as Sys <<System>>
 ?o->> Sys : POST
 
 activate Sys
-?o<<-- Sys : 201|400
+alt Created
+   ?o<<--Sys : 201 Created
+end
+alt Bad Request
+   ?o<<--Sys : 400 Bad Request
+end
+alt Floor not found
+   ?o<<--Sys : 404 Not Found
+end
 deactivate Sys
 
 
