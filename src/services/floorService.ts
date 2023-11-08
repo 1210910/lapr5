@@ -25,22 +25,21 @@ export default class FloorService implements IFloorService {
         try {
 
             const buildingExists = await this.buildingRepo.findByCode(floorDTO.buildingID);
-            console.log("tou aqui");
+
            if (!buildingExists) {
                return Result.fail<IFloorDTO>("Building not found");
             }
-          console.log("tou aqui 2");
+
 
             if (buildingExists.maxLength < floorDTO.length || buildingExists.maxWidth < floorDTO.width) {
                 return Result.fail<IFloorDTO>("Floor is too big for building");
             }
-          console.log("tou aqui 3");
+
             const floorExists = await this.floorRepo.existsByFloorCode(floorDTO.floorCode);
-          console.log("tou aqui 4");
+
           if (floorExists) {
                 return Result.fail<IFloorDTO>("Floor already exists");
             }
-          console.log("tou aqui 5");
             let Id = "FLR";
             let i = 0;
 
@@ -55,21 +54,21 @@ export default class FloorService implements IFloorService {
            let id = Id.concat(i.toString());
 
 
-          console.log("tou aqui 6");
+
 
             const floorOrError =  Floor.create(floorDTO, new UniqueEntityID(id));
 
             if (floorOrError.isFailure) {
                 return Result.fail<IFloorDTO>(floorOrError.errorValue());
             }
-            console.log("tou aqui 7");
+
             const floorResult = floorOrError.getValue();
 
 
             await this.floorRepo.save(floorResult);
-            console.log("tou aqui 8");
+
             const floorDTOResult = FloorMap.toDTO(floorResult) as IFloorDTO;
-          console.log("tou aqui 9");
+
             return Result.ok<IFloorDTO>(floorDTOResult)
         } catch (e) {
             throw e;

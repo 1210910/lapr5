@@ -282,9 +282,9 @@ describe('Floor Controller', () => {
 
     const floor= Floor.create(floorDTO).getValue();
     // stub the service method
-    (floorService.listFloor as sinon.SinonStub).resolves(Result.ok<[Floor]>([floor]));
+    (floorService.listAllFloor as sinon.SinonStub).resolves(Result.ok<[Floor]>([floor]));
     // Act
-    await floorController.listFloor(req as Request, res as Response,next as NextFunction);
+    await floorController.listAllFloor(req as Request, res as Response,next as NextFunction);
 
     sinon.assert.calledOnce(res.status as sinon.SinonStub);
     sinon.assert.calledWith(res.status as sinon.SinonStub, 200);
@@ -319,9 +319,9 @@ describe('Floor Controller', () => {
 
     const floor= Floor.create(floorDTO).getValue();
     // stub the service method
-    (floorService.listFloor as sinon.SinonStub).resolves(Result.fail<[Floor]>([floor]));
+    (floorService.listAllFloor as sinon.SinonStub).resolves(Result.fail<[Floor]>([floor]));
     // Act
-    await floorController.listFloor(req as Request, res as Response,next as NextFunction);
+    await floorController.listAllFloor(req as Request, res as Response,next as NextFunction);
 
     sinon.assert.calledOnce(res.status as sinon.SinonStub);
     sinon.assert.calledWith(res.status as sinon.SinonStub, 404);

@@ -123,7 +123,7 @@ describe('BuildingController', () => {
 
       (buildingRepo.findByCode as sinon.SinonStub).withArgs("B").resolves(building);
       (floorRepo.findByBuildingId as sinon.SinonStub).withArgs(floorDTO.buildingID).resolves(building);
-      (floorRepo.existsByDomainId as sinon.SinonStub).withArgs("FLR0").resolves(false);
+      (floorRepo.existsByFloorCode as sinon.SinonStub).resolves(true);
 
       (buildingRepo.save as sinon.SinonStub).withArgs("FLR1").resolves(null);
       await floorController.createFloor(req as Request, res as Response, () => {

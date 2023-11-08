@@ -131,7 +131,7 @@ describe('Floor Service', () => {
       ).getValue();
 
       when(buildingRepo.findByCode(floorDTO.buildingID)).thenResolve(building);
-      when(floorRepo.findByBuildingId(floorDTO.buildingID)).thenResolve([floor]);
+      when(floorRepo.existsByFloorCode(floorDTO.floorCode)).thenResolve(true);
 
       const result = await floorService.createFloor(floorDTO);
       expect(result.isFailure).to.equal(true);
