@@ -352,7 +352,7 @@ describe('Floor Service', () => {
   );
 
   //List Floors
-  it ("should catch error  when list ", async () => {
+  it ("should catch error when list ", async () => {
       const floorRepo: IFloorRepo = mock<IFloorRepo>();
       const buildingRepo: IBuildingRepo = mock<IBuildingRepo>();
       const passagewayRepo: IPassagewayRepo = mock<IPassagewayRepo>();
@@ -367,9 +367,9 @@ describe('Floor Service', () => {
         buildingID: "B"
       }
 
-      when(floorRepo.findAll()).thenThrow(new Error("Error"));
+      when(floorRepo.findAllFloorsByBuildingId( floorDTO.buildingID)).thenThrow(new Error("Error"));
       try {
-        await floorService.listFloor();
+        await floorService.listFloor(floorDTO.buildingID);
       } catch (error) {
         expect(error.message).to.equal("Error");
       }
@@ -383,9 +383,9 @@ describe('Floor Service', () => {
       const buildingRepo: IBuildingRepo = mock<IBuildingRepo>();
       const passagewayRepo: IPassagewayRepo = mock<IPassagewayRepo>();
       const floorService: IFloorService = new FloorService(instance(floorRepo),instance(buildingRepo),instance(passagewayRepo));
-    when(floorRepo.findAll()).thenResolve(Result.fail<Floor[]>("teste"))
+    when(floorRepo.findAllFloorsByBuildingId(anything())).thenResolve(Result.fail<Floor[]>("teste"))
 
-       const result = await floorService.listFloor();
+       const result = await floorService.listFloor(anything());
         expect(result.isFailure).is.to.be.true;
 
     }
@@ -409,9 +409,9 @@ describe('Floor Service', () => {
       floorDTO
     ).getValue();
 
-      when(floorRepo.findAll()).thenResolve(Result.ok<Floor[]>([floor]))
+      when(floorRepo.findAllFloorsByBuildingId(floorDTO.buildingID)).thenResolve(Result.ok<Floor[]>([floor]))
 
-      const result = await floorService.listFloor();
+      const result = await floorService.listFloor(floorDTO.buildingID);
       expect(result.isSuccess).is.to.be.true;
       expect(result.getValue().length).length.to.equal(1);
 
@@ -426,9 +426,9 @@ describe('Floor Service', () => {
 
 
 
-      when(floorRepo.findAll()).thenResolve(Result.ok<[]>([]))
+      when(floorRepo.findAllFloorsByBuildingId(anything())).thenResolve(Result.ok<[]>([]))
 
-      const result = await floorService.listFloor();
+      const result = await floorService.listFloor(anything());
       expect(result.isSuccess).is.to.be.true;
       expect(result.getValue().length).length.to.equal(0);
 
