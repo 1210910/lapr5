@@ -106,18 +106,14 @@ export class FloorCreateComponent {
             alert("Please fill in all fields");
             return;
 
-
         }
+     this.housingService.createFloor(code , name , length , width , description, buildingCode).then((result) => {
 
-       if (this.housingService.createFloor(code , name , length , width , description, buildingCode)){
-              alert("Building Created");
+       alert("Floor created");
 
-       }else {
-              alert("Building Creation Failed");
-         }
-
-
-
+     }).catch((err) => {
+       alert("Floor not created");
+     });
 
    }
 

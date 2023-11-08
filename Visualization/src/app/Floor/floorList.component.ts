@@ -5,6 +5,8 @@ import {FloorInfoComponent} from "./floor-info/floor-info.component";
 import {HousingLocation} from "../houselocation";
 import {HousingService} from "../housing.service";
 import routes from "../routes";
+import {FloorService} from "../services/floor.service";
+import {FloorInfo} from "./floor-info/floorinfo";
 
 @Component({
   selector: 'app-building-list',
@@ -25,7 +27,7 @@ import routes from "../routes";
 
       </section>
       <section class="body">
-        <app-housing-location *ngFor="let housingLocation of filteredLocationList" [housingLocation]="housingLocation"></app-housing-location>
+        <app-floor-info *ngFor="let FloorInfo of housingLocationList" [housingLocation]="FloorInfo"></app-floor-info>
           </section>
   `,
   styleUrls: ["./floorCreate.component.css"]
@@ -33,14 +35,23 @@ import routes from "../routes";
 })
 
 export class FloorListComponent{
-  housingLocationList: HousingLocation[] = [];
-  housingService: HousingService = inject(HousingService);
-  filteredLocationList: HousingLocation[] = [];
+  housingLocationList: FloorInfo[] = [];
+  housingService: FloorService = inject(FloorService);
 
   constructor() {
-    this.housingLocationList = this.housingService.housingLocationList;
-    this.filteredLocationList = this.housingLocationList;
+    this.housingService.listFloors().then((result) => {
+      this.housingService.floorList(result);
+
+      this.housingLocationList = this.housingService.FloorList;
+
+    }
+    );
+
   }
+
+
+
+
 
 
 

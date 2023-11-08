@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { DetailsComponent } from './Floor/details/details.component';
+import { FloorDetailsComponent} from './Floor/details/details.component';
 import { LoginComponent } from './login/login.component';
 import { BuildingComponent } from './Building/building.component';
 import {BuildingCreateComponent} from "./Building/buildingCreate.component";
@@ -37,6 +37,11 @@ const routeConfig: Routes = [
     component: BuildingDetailsComponent,
     title: 'building details page'
 
+  },
+  {
+    path:'floordetails/:id',
+    component: FloorDetailsComponent,
+    title: 'floor details page'
   },
   {
     path:'lift',
@@ -152,11 +157,7 @@ const routeConfig: Routes = [
     component: HomeComponent,
     title: 'Home page'
   },
-  {
-    path: 'details/:id',
-    component: DetailsComponent,
-    title: 'Home details'
-  }
+
 ];
 
 export default routeConfig;

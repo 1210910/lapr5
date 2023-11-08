@@ -1,15 +1,16 @@
 import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
-import {FloorInfoComponent} from "../Floor/floor-info/floor-info.component";
+
 import {HousingLocation} from "../houselocation";
 import {HousingService} from "../housing.service";
 import routes from "../routes";
+import {HousingLocationComponent} from "./Room-info/housing-location.component";
 
 @Component({
   selector: 'app-floor-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, FloorInfoComponent],
+  imports: [CommonModule, RouterLink, HousingLocationComponent],
   template: `
       <section>
           <header class="brand-name">

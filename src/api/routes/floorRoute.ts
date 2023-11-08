@@ -21,7 +21,7 @@ export default (app: Router) => {
             width: Joi.number().required(),
             length: Joi.number().required(),
             description: Joi.string().max(250).optional(),
-            buildingID: Joi.string().required() 
+            buildingID: Joi.string().required()
         }),
     }),
     (req,res,next) => floorController.createFloor(req,res,next) );

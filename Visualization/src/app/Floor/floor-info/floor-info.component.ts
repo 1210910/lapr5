@@ -2,23 +2,29 @@ import { Component,Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HousingLocation } from '../../houselocation';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import {FloorInfo} from "./floorinfo";
 
 
 @Component({
-  selector: 'app-housing-location',
+  selector: 'app-floor-info',
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `
-    <section class="listing">
-      <h2 class="listing-heading">{{ housingLocation.name }}</h2>
-      <a [routerLink]="['/details', housingLocation.id]">Learn More</a>
-    </section>
+    <ol>
+
+      <li style="--accent-color:#6F42C1">
+        <div class="icon"><i class="fa fa-building"></i></div>
+        <div class="title">{{ housingLocation.floorCode }}</div>
+        <a [routerLink]="['/floordetails', housingLocation.floorCode]" ><div class="descr">Learn More</div></a>
+      </li>
+
+    </ol>
   `,
   styleUrls: ['./floor-info.component.css']
 })
 export class FloorInfoComponent {
 
-  @Input() housingLocation!: HousingLocation;
+  @Input() housingLocation!: FloorInfo;
 
 
 }

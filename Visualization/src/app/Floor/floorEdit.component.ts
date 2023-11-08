@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
 import {FloorInfoComponent} from "./floor-info/floor-info.component";
 import {HousingLocation} from "../houselocation";
-import {HousingService} from "../housing.service";
+import {FloorService} from "../services/floor.service";
 import routes from "../routes";
+import {toNumber} from "lodash";
 
 @Component({
   selector: 'app-building-edit',
@@ -55,13 +56,6 @@ import routes from "../routes";
                   </div>
                 </div>
                 <div class="form-row">
-                  <div class="input-data">
-                    <input type="text" >
-                    <div class="underline"></div>
-                    <label for="">Building Code</label>
-                  </div>
-                </div>
-                <div class="form-row">
                   <div class="input-data textarea">
                     <textarea rows="8" cols="80" ></textarea>
                     <br />
@@ -71,7 +65,7 @@ import routes from "../routes";
                     <div class="form-row submit-btn">
                       <div class="input-data">
                         <div class="inner"></div>
-                        <a [routerLink]="['/building']"><input type="submit" value="submit" (click)="editBuilding()" > </a>
+                        <a [routerLink]="['/floor']"><input type="submit" value="submit" (click)="editBuilding()" > </a>
                       </div>
                     </div>
                   </div>
@@ -86,31 +80,29 @@ import routes from "../routes";
 
 export class FloorEditComponent {
   housingLocationList: HousingLocation[] = [];
-  housingService: HousingService = inject(HousingService);
+  housingService: FloorService = inject(FloorService);
   filteredLocationList: HousingLocation[] = [];
 
   constructor() {
-    this.housingLocationList = this.housingService.housingLocationList;
-    this.filteredLocationList = this.housingLocationList;
+
   }
 
   editBuilding(){
 
     const code = document.getElementsByTagName("input")[0].value;
-    const name = document.getElementsByTagName("input")[1].value;
-    const length = document.getElementsByTagName("input")[2].value;
-    const width = document.getElementsByTagName("input")[3].value;
+    const name = toNumber(document.getElementsByTagName("input")[1].value);
+    const length = toNumber(document.getElementsByTagName("input")[2].value);
+    const width = toNumber(document.getElementsByTagName("input")[3].value);
     const description = document.getElementsByTagName("textarea")[0].value;
 
 
-    if (this.housingService.createBuilding(code , name , length , width , description)){
+    this.housingService.editFloor(code , name , length , width , description).then((result) => {
 
-      alert("Building edited successfully");
+      alert("Floor edited");
 
-    }else {
-      alert("Building Creation Failed");
-    }
-
+    }).catch((err) => {
+      alert("Floor edition failed");
+    });
 
 
 
