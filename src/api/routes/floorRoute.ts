@@ -21,7 +21,7 @@ export default (app: Router) => {
             width: Joi.number().required(),
             length: Joi.number().required(),
             description: Joi.string().max(250).optional(),
-            buildingID: Joi.string().required() 
+            buildingID: Joi.string().required()
         }),
     }),
     (req,res,next) => floorController.createFloor(req,res,next) );
@@ -37,7 +37,7 @@ export default (app: Router) => {
     }),
     (req,res,next) => floorController.updateFloor(req,res,next) );
 
-    route.get('', (req,res,next) => floorController.listFloor(req,res,next) );
+    route.get('/:buildingId', (req,res,next) => floorController.listFloor(req,res,next) );
 
     route.get('/passageways/:buildingCode', (req,res,next) => floorController.getFloorsWithPassageway(req,res,next) );
 

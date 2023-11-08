@@ -12,6 +12,7 @@ export default interface IFloorRepo extends Repo<Floor> {
     findByDomainId(floorId: string): Promise<Floor>;
     findAll(): Promise<Result<Array<Floor>>>;
     findByBuildingId(buildingId: string): Promise<Floor[]>;
+    findAllFloorsByBuildingId(buildingID: string): Promise<Result<Array<Floor>>>;
     findByfloorNumberAndBuildingId(floorNumber: number, buildingId: string): Promise<Floor>;
 }
 

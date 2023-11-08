@@ -50,7 +50,8 @@ export default class FloorController implements IFloorController {
 
     public async listFloor(req: Request, res: Response, next: NextFunction) {
         try {
-            const listOrError = await this.floorService.listFloor() as Result<Array<IFloorDTO>>;
+            const buildingId = req.params.buildingId;
+            const listOrError = await this.floorService.listFloor(buildingId) as Result<Array<IFloorDTO>>;
 
             if (listOrError.isFailure) {
                 return res.status(404).send();

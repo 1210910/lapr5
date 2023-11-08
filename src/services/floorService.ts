@@ -14,7 +14,7 @@ import IPassagewayRepo from "./IRepos/IPassagewayRepo";
 @Service()
 export default class FloorService implements IFloorService {
     constructor(
-        @Inject(config.repos.floor.name) private FloorRepo: IFloorRepo,
+        @Inject(config.repos.floor.name) private floorRepo: IFloorRepo,
         @Inject(config.repos.building.name) private buildingRepo : IBuildingRepo,
         @Inject(config.repos.passageway.name) private passagewayRepo : IPassagewayRepo
     ) {
@@ -33,7 +33,7 @@ export default class FloorService implements IFloorService {
                 return Result.fail<IFloorDTO>("Floor is too big for building");
             }
 
-            const floorExists = await this.FloorRepo.findByBuildingId(floorDTO.buildingID);
+            const floorExists = await this.floorRepo.findByBuildingId(floorDTO.buildingID);
 
             if (floorExists) {
                 return Result.fail<IFloorDTO>("Floor already exists");
@@ -46,7 +46,7 @@ export default class FloorService implements IFloorService {
            // check repo for last id and increment
            // while the id exists in the repo, increment a:
 
-           while ( (await this.FloorRepo.existsByDomainId(Id + i)).valueOf() == true ) {
+           while ( (await this.floorRepo.existsByDomainId(Id + i)).valueOf() == true ) {
                i++;
            }
 
@@ -64,7 +64,7 @@ export default class FloorService implements IFloorService {
             const floorResult = floorOrError.getValue();
 
 
-            await this.FloorRepo.save(floorResult);
+            await this.floorRepo.save(floorResult);
 
             const floorDTOResult = FloorMap.toDTO(floorResult) as IFloorDTO;
             return Result.ok<IFloorDTO>(floorDTOResult)
@@ -76,7 +76,7 @@ export default class FloorService implements IFloorService {
 
     public async updateFloor(floorDTO: IFloorDTO): Promise<Result<IFloorDTO>> {
         try {
-         const floor = await this.FloorRepo.findByFloorCode(floorDTO.floorCode);
+         const floor = await this.floorRepo.findByFloorCode(floorDTO.floorCode);
 
 
             if (floor === null) {
@@ -93,7 +93,7 @@ export default class FloorService implements IFloorService {
                 const floorResult = floorOrError.getValue();
 
 
-                await this.FloorRepo.save(floorResult);
+                await this.floorRepo.save(floorResult);
                 const floorDTOResult = FloorMap.toDTO(floor) as IFloorDTO;
                 return Result.ok<IFloorDTO>(floorDTOResult)
             }
@@ -102,9 +102,10 @@ export default class FloorService implements IFloorService {
             throw e;
         }
     }
-    public async listFloor(): Promise<Result<Array<IFloorDTO>>> {
+    public async listFloor(buildingId : string): Promise<Result<Array<IFloorDTO>>> {
         try {
-            const floorOrError = await this.FloorRepo.findAll();
+          const floorOrError = await this.floorRepo.findAllFloorsByBuildingId(buildingId);
+
             if (floorOrError.isFailure) {
                 return Result.fail<Array<IFloorDTO>>(floorOrError.errorValue());
             }
@@ -122,7 +123,7 @@ export default class FloorService implements IFloorService {
         try {
             let floors: Array<IFloorDTO> = [];
 
-            const floorListOrError = await this.FloorRepo.findByBuildingId(buildingCode);
+            const floorListOrError = await this.floorRepo.findByBuildingId(buildingCode);
             if (!floorListOrError) {
                 return Result.fail<Array<IFloorDTO>>("Floor not found");
             }

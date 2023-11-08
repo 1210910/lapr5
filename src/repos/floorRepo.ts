@@ -8,6 +8,8 @@ import { Document, FilterQuery, Model } from 'mongoose';
 import { IFloorPersistence } from '../dataschema/IFloorPersistence';
 import { Result } from '../core/logic/Result';
 import IFloorDTO from '../dto/IFloorDTO';
+import {Lift} from "../domain/Lift";
+import {LiftMap} from "../mappers/LiftMap";
 
 @Service()
 export default class FloorRepo implements IFloorRepo {
@@ -123,6 +125,16 @@ export default class FloorRepo implements IFloorRepo {
 
             return null;
         }
+
+  public async findAllFloorsByBuildingId (buildingId: string): Promise<Result<Array<Floor>>> {
+    const query = { buildingID : buildingId };
+    const floorRecord = await this.floorSchema.find( query );
+    const floorList : Array<Floor> = [];
+    for (const floor of floorRecord) {
+        floorList.push(await FloorMap.toDomain(floor));
+    }
+    return Result.ok<Array<Floor>>(floorList);
+  }
 
         public async findByfloorNumberAndBuildingId (floorNumber: number, buildingId: string): Promise<Floor> {
             const query = { floorNumber: floorNumber, buildingId: buildingId};
