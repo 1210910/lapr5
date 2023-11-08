@@ -5,7 +5,6 @@ import {FloorInfoComponent} from "./floor-info/floor-info.component";
 import {HousingLocation} from "../houselocation";
 import {FloorService} from "../services/floor.service";
 import routes from "../routes";
-import {toNumber} from "lodash";
 
 @Component({
   selector: 'app-building-edit',
@@ -90,9 +89,9 @@ export class FloorEditComponent {
   editBuilding(){
 
     const code = document.getElementsByTagName("input")[0].value;
-    const name = toNumber(document.getElementsByTagName("input")[1].value);
-    const length = toNumber(document.getElementsByTagName("input")[2].value);
-    const width = toNumber(document.getElementsByTagName("input")[3].value);
+    const name = Number(document.getElementsByTagName("input")[1].value);
+    const length = Number(document.getElementsByTagName("input")[2].value);
+    const width = Number(document.getElementsByTagName("input")[3].value);
     const description = document.getElementsByTagName("textarea")[0].value;
 
 

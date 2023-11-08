@@ -38,7 +38,7 @@ import {RouterLink} from "@angular/router";
         <h1>Campus Management App</h1>
         <p>Manage your campus with ease</p>
         <div class="action-wrapper">
-          <a href="#0" class="cd-btn main-action">About Us</a>
+          <a [routerLink]="['/aboutUs']" class="cd-btn main-action">About Us</a>
           <a href="https://moodle.isep.ipp.pt/pluginfile.php/325421/mod_resource/content/1/LAPR5-regras-gerais-funcionamento.v2.pdf" target="_blank" class="cd-btn">Learn More</a>
         </div>
       </div>

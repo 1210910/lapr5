@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {FloorInfo} from "../Floor/floor-info/floorinfo";
-import {toNumber} from "lodash";
+
 
 
 

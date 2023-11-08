@@ -23,6 +23,7 @@ import {RoomCreateComponent} from "./Room/roomCreate.component";
 import {RoomEditComponent} from "./Room/roomEdit.component";
 import {RoomListComponent} from "./Room/roomList.component";
 import {BuildingDetailsComponent} from "./Building/details/details.component";
+import {AboutUsComponent} from "./AboutUs/aboutUs.component";
 
 
 
@@ -31,6 +32,11 @@ const routeConfig: Routes = [
     path:'',
     component: LoginComponent,
     title: 'Login page'
+  },
+  {
+    path:'aboutUs',
+    component: AboutUsComponent,
+    title: 'About us page'
   },
   {
     path:'buildingdetails',
