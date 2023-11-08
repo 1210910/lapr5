@@ -36,8 +36,10 @@ export default (app: Router) => {
         }),
     }),
     (req,res,next) => floorController.updateFloor(req,res,next) );
+    
+    route.get('', (req,res,next) => floorController.listAllFloor(req,res,next) );
 
-    route.get('', (req,res,next) => floorController.listFloor(req,res,next) );
+    route.get('/:buildingId', (req,res,next) => floorController.listFloor(req,res,next) );
 
     route.get('/passageways/:buildingCode', (req,res,next) => floorController.getFloorsWithPassageway(req,res,next) );
 
