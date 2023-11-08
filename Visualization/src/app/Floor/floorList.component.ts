@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
-import {HousingLocationComponent} from "./floor-info/housing-location.component";
+import {FloorInfoComponent} from "./floor-info/floor-info.component";
 import {HousingLocation} from "../houselocation";
 import {HousingService} from "../housing.service";
 import routes from "../routes";
@@ -9,7 +9,7 @@ import routes from "../routes";
 @Component({
   selector: 'app-building-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, HousingLocationComponent],
+  imports: [CommonModule, RouterLink, FloorInfoComponent],
   template: `
       <section>
           <header class="brand-name">
