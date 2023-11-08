@@ -2,6 +2,9 @@
 # dependencies
 /node_modules
 
+Visualization/node_modules
+Visualization/.angular
+
 # misc
 .DS_Store
 .env*

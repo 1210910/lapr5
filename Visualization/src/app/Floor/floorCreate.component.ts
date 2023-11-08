@@ -1,10 +1,11 @@
 import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
-import {HousingLocationComponent} from "./floor-info/housing-location.component";
+import {FloorInfoComponent} from "./floor-info/floor-info.component";
 import {HousingLocation} from "../houselocation";
-import {HousingService} from "../housing.service";
+import {FloorService} from "../services/floor.service";
 import routes from "../routes";
+import {toNumber} from "lodash";
 
 @Component({
     selector: 'app-building-create',
@@ -71,7 +72,7 @@ import routes from "../routes";
                           <div class="form-row submit-btn">
                               <div class="input-data">
                                   <div class="inner"></div>
-                                  <a [routerLink]="['/building']"><input type="submit" value="submit" (click)="createBuilding()" > </a>
+                                  <a [routerLink]="['/floor']"><input type="submit" value="submit" (click)="createBuilding()" > </a>
                               </div>
                           </div>
                         </div>
@@ -86,31 +87,29 @@ import routes from "../routes";
 
 export class FloorCreateComponent {
     housingLocationList: HousingLocation[] = [];
-    housingService: HousingService = inject(HousingService);
+    housingService: FloorService = inject(FloorService);
     filteredLocationList: HousingLocation[] = [];
 
     constructor() {
-        this.housingLocationList = this.housingService.housingLocationList;
-        this.filteredLocationList = this.housingLocationList;
+
     }
 
    createBuilding(){
 
         const code = document.getElementsByTagName("input")[0].value;
-        const name = document.getElementsByTagName("input")[1].value;
-        const length = document.getElementsByTagName("input")[2].value;
-        const width = document.getElementsByTagName("input")[3].value;
+        const name = toNumber(document.getElementsByTagName("input")[1].value);
+        const length = toNumber(document.getElementsByTagName("input")[2].value);
+        const width = toNumber(document.getElementsByTagName("input")[3].value);
         const description = document.getElementsByTagName("textarea")[0].value;
-
-        if (code == "" || name == "" || length == "" || width == "" || description == ""){
+        const buildingCode = document.getElementsByTagName("input")[4].value;
+        if (code == "" || name == null || length == null || width == null || description == ""){
             alert("Please fill in all fields");
             return;
 
 
         }
 
-       if (this.housingService.createBuilding(code , name , length , width , description)){
-
+       if (this.housingService.createFloor(code , name , length , width , description, buildingCode)){
               alert("Building Created");
 
        }else {

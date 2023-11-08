@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { DetailsComponent } from './Floor/details/details.component';
 import { LoginComponent } from './login/login.component';
-import { BuildingComponent } from './Building/Building.component';
+import { BuildingComponent } from './Building/building.component';
 import {BuildingCreateComponent} from "./Building/buildingCreate.component";
 import {BuildingListComponent} from "./Building/buildList.component";
 import {BuildingEditComponent} from "./Building/buildingEdit.component";

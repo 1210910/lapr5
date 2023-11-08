@@ -1,13 +1,12 @@
 import { Component,inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HousingLocationComponent } from '../Floor/floor-info/housing-location.component';
 import { HousingLocation } from '../houselocation';
 import { HousingService } from '../housing.service';
 import {RouterLink} from "@angular/router";
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, HousingLocationComponent, RouterLink],
+  imports: [CommonModule, RouterLink],
   template: `
     <section>
       <header class="brand-name">

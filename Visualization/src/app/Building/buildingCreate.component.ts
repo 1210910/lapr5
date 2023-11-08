@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
-import {HousingLocationComponent} from "../Floor/floor-info/housing-location.component";
+import {FloorInfoComponent} from "../Floor/floor-info/floor-info.component";
 import {HousingLocation} from "../houselocation";
 import {HousingService} from "../housing.service";
 import routes from "../routes";

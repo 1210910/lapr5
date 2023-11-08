@@ -37,7 +37,7 @@ export class LoginComponent {
     if (document.getElementsByTagName("input")[0].value == "admin" && document.getElementsByTagName("input")[1].value == "admin"){
       //css for alert a: https://www.w3schools.com/howto/howto_js_alert.asp
       alert("Login Successful");
-      window.location.href = "/home";
+        window.location.href = "/home";
     }else {
       alert("Login Failed");
     }
