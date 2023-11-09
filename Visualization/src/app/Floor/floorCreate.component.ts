@@ -72,7 +72,7 @@ import routes from "../routes";
                           <div class="form-row submit-btn">
                               <div class="input-data">
                                   <div class="inner"></div>
-                                  <a [routerLink]="['/floor']"><input type="submit" value="submit" (click)="createBuilding()" > </a>
+                                  <a [routerLink]="['/floor']"><input type="submit" value="submit" (click)="createFloor()" > </a>
                               </div>
                           </div>
                         </div>
@@ -86,15 +86,15 @@ import routes from "../routes";
 })
 
 export class FloorCreateComponent {
-    housingLocationList: HousingLocation[] = [];
-    housingService: FloorService = inject(FloorService);
-    filteredLocationList: HousingLocation[] = [];
+
+    floorService: FloorService = inject(FloorService);
+
 
     constructor() {
 
     }
 
-   createBuilding(){
+   createFloor(){
 
         const code = document.getElementsByTagName("input")[0].value;
         const name = Number(document.getElementsByTagName("input")[1].value);
@@ -107,7 +107,7 @@ export class FloorCreateComponent {
             return;
 
         }
-     this.housingService.createFloor(code , name , length , width , description, buildingCode).then((result) => {
+     this.floorService.createFloor(code , name , length , width , description, buildingCode).then((result) => {
 
        alert("Floor created");
 

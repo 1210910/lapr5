@@ -78,9 +78,8 @@ import routes from "../routes";
 })
 
 export class FloorEditComponent {
-  housingLocationList: HousingLocation[] = [];
-  housingService: FloorService = inject(FloorService);
-  filteredLocationList: HousingLocation[] = [];
+
+  floorService: FloorService = inject(FloorService);
 
   constructor() {
 
@@ -95,7 +94,7 @@ export class FloorEditComponent {
     const description = document.getElementsByTagName("textarea")[0].value;
 
 
-    this.housingService.editFloor(code , name , length , width , description).then((result) => {
+    this.floorService.editFloor(code , name , length , width , description).then((result) => {
 
       alert("Floor edited");
 

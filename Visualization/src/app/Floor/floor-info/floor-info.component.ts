@@ -5,6 +5,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import {FloorInfo} from "./floorinfo";
 
 
+
 @Component({
   selector: 'app-floor-info',
   standalone: true,
@@ -14,8 +15,8 @@ import {FloorInfo} from "./floorinfo";
 
       <li style="--accent-color:#6F42C1">
         <div class="icon"><i class="fa fa-building"></i></div>
-        <div class="title">{{ housingLocation.floorCode }}</div>
-        <a [routerLink]="['/floordetails', housingLocation.floorCode]" ><div class="descr">Learn More</div></a>
+        <div class="title">{{ floorInfo.floorCode }}</div>
+        <a [routerLink]="['/floordetails', floorInfo.floorCode]" ><div class="descr">Learn More</div></a>
       </li>
 
     </ol>
@@ -24,7 +25,8 @@ import {FloorInfo} from "./floorinfo";
 })
 export class FloorInfoComponent {
 
-  @Input() housingLocation!: FloorInfo;
+  @Input() floorInfo!: FloorInfo;
+
 
 
 }

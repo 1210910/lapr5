@@ -27,7 +27,7 @@ import {FloorInfo} from "./floor-info/floorinfo";
 
       </section>
       <section class="body">
-        <app-floor-info *ngFor="let FloorInfo of housingLocationList" [housingLocation]="FloorInfo"></app-floor-info>
+        <app-floor-info *ngFor="let FloorInfo of floorList" [floorInfo]="FloorInfo"></app-floor-info>
           </section>
   `,
   styleUrls: ["./floorCreate.component.css"]
@@ -35,14 +35,14 @@ import {FloorInfo} from "./floor-info/floorinfo";
 })
 
 export class FloorListComponent{
-  housingLocationList: FloorInfo[] = [];
-  housingService: FloorService = inject(FloorService);
+  floorList: FloorInfo[] = [];
+  floorService: FloorService = inject(FloorService);
 
   constructor() {
-    this.housingService.listFloors().then((result) => {
-      this.housingService.floorList(result);
+    this.floorService.listFloors().then((result) => {
+      this.floorService.floorList(result);
 
-      this.housingLocationList = this.housingService.FloorList;
+      this.floorList = this.floorService.FloorList;
 
     }
     );

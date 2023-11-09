@@ -25,16 +25,16 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
     <article>
 
       <section class="listing-description">
-        <h2 class="listing-heading">{{housingLocation?.floorCode}}</h2>
+        <h2 class="listing-heading">{{floorInfo?.floorCode}}</h2>
       </section>
       <section class="listing-features">
         <h2 class="section-heading">About this Floor</h2>
         <ul>
-          <li>Max length: {{housingLocation?.length}}</li>
-          <li>Max width: {{housingLocation?.width}}</li>
-          <li>Number: {{housingLocation?.floorNumber}}</li>
-          <li>Building ID: {{housingLocation?.buildingID}}</li>
-          <li>Description: {{housingLocation?.description}}</li>
+          <li>Max length: {{floorInfo?.length}}</li>
+          <li>Max width: {{floorInfo?.width}}</li>
+          <li>Number: {{floorInfo?.floorNumber}}</li>
+          <li>Building ID: {{floorInfo?.buildingID}}</li>
+          <li>Description: {{floorInfo?.description}}</li>
         </ul>
       </section>
     </article>
@@ -45,13 +45,13 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 export class FloorDetailsComponent {
 
   route: ActivatedRoute = inject(ActivatedRoute);
-  housingService = inject(FloorService);
-  housingLocation:  FloorInfo| undefined;
+  floorService = inject(FloorService);
+  floorInfo:  FloorInfo| undefined;
 
 
   constructor() {
-    const housingLocationId = this.route.snapshot.params['id'];
-    this.housingLocation = this.housingService.getFloorByCode(housingLocationId);
+    const floorId = this.route.snapshot.params['id'];
+    this.floorInfo = this.floorService.getFloorByCode(floorId);
   }
 
 
