@@ -44,14 +44,14 @@ interface BuildingProps {
     }
 
     set name (name: string) {
-      if ( name!=null && name.length <=50 && name.length > 0 && /^[a-zA-Z0-9]+$/.test(name) ) {
+      if ( name!=null && name.length <=50 && name.length > 0 && /^[a-zA-Z0-9\s]+$/.test(name) ) {
         this.props.name = name;
       }
 
     }
 
     set description (description: string) {
-      if ( description!=null && description.length <= 255 && description.length > 0 && /^[a-zA-Z0-9]+$/.test(description) ) {
+      if ( description!=null && description.length <= 255 && description.length > 0 && /^[a-zA-Z0-9\s]+$/.test(description) ) {
         this.props.description = description;
       }
     }
@@ -129,10 +129,10 @@ interface BuildingProps {
 
 
 
-      building.name = building.name ?? props.name  ;
-      building.description = building.description ?? props.description  ;
-      building.maxLength = building.maxLength ?? props.maxLength  ;
-      building.maxWidth =building.maxWidth ??  props.maxWidth  ;
+      building.name = props.name ?? building.name;
+      building.description =  props.description ?? building.description;
+      building.maxLength = props.maxLength ?? building.maxLength;
+      building.maxWidth =props.maxWidth ?? building.maxWidth ;
 
       return Result.ok<Building>(building);
     }
