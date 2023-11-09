@@ -1,15 +1,15 @@
 import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
-import {HousingLocationComponent} from "../Building/building-info/housing-location.component";
-import {HousingLocation} from "../houselocation";
-import {HousingService} from "../housing.service";
+import {BuildingInfoComponent} from "./building-info/building-info.component";
+import {BuildingInfo} from "./building-info/buildingInfo";
 import routes from "../routes";
+import { BuildingService } from '../services/building.service';
 
 @Component({
   selector: 'app-building-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, HousingLocationComponent],
+  imports: [CommonModule, RouterLink, BuildingInfoComponent],
   template: `
       <section>
           <header class="brand-name">
@@ -25,7 +25,7 @@ import routes from "../routes";
 
       </section>
       <section class="body">
-        <app-housing-location *ngFor="let housingLocation of filteredLocationList" [housingLocation]="housingLocation"></app-housing-location>
+      <app-building-info *ngFor="let BuildingInfo of buildingsList" [building]="BuildingInfo"></app-building-info>
           </section>
   `,
   styleUrls: ["./buildingCreate.component.css"]
@@ -33,13 +33,17 @@ import routes from "../routes";
 })
 
 export class BuildingListComponent{
-  housingLocationList: HousingLocation[] = [];
-  housingService: HousingService = inject(HousingService);
-  filteredLocationList: HousingLocation[] = [];
+  buildingsList: BuildingInfo[] = [];
+  buildingService: BuildingService = inject(BuildingService);
 
   constructor() {
-    this.housingLocationList = this.housingService.housingLocationList;
-    this.filteredLocationList = this.housingLocationList;
+    this.buildingService.listBuildings().then((result) => {
+      this.buildingService.buildingList(result);
+
+      this.buildingsList = this.buildingService.BuildingList;
+
+    }
+    );
   }
 
 

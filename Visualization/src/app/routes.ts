@@ -4,7 +4,7 @@ import { FloorDetailsComponent} from './Floor/details/details.component';
 import { LoginComponent } from './login/login.component';
 import { BuildingComponent } from './Building/building.component';
 import {BuildingCreateComponent} from "./Building/buildingCreate.component";
-import {BuildingListComponent} from "./Building/buildList.component";
+import {BuildingListComponent} from "./Building/buildingList.component";
 import {BuildingEditComponent} from "./Building/buildingEdit.component";
 import {FloorComponent} from "./Floor/floor.component";
 import {FloorCreateComponent} from "./Floor/floorCreate.component";
@@ -39,7 +39,7 @@ const routeConfig: Routes = [
     title: 'About us page'
   },
   {
-    path:'buildingdetails',
+    path:'buildingdetails/:id',
     component: BuildingDetailsComponent,
     title: 'building details page'
 

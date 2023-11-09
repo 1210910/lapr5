@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import { HousingService } from '../../housing.service';
-import { HousingLocation } from '../../houselocation';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { BuildingService } from 'src/app/services/building.service';
+import { BuildingInfo } from '../building-info/buildingInfo';
 
 @Component({
   selector: 'app-details',
@@ -16,7 +16,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
         <nav>
           <ul class="menuItems">
             <li><a [routerLink]="['/buildingList']">
-              <img class="brand-logo" src="/assets/logo.svg" alt="logo" aria-hidden="true">
+              <img class="brand-logo" src="/assets/logoBuilding(1).svg" alt="logo" aria-hidden="true">
             </a></li>
           </ul>
         </nav>
@@ -25,14 +25,15 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
     <article>
 
       <section class="listing-description">
-        <h2 class="listing-heading">{{housingLocation?.name}}</h2>
+        <h2 class="listing-heading">{{building?.name}}</h2>
       </section>
       <section class="listing-features">
         <h2 class="section-heading">About this Building</h2>
         <ul>
-          <li>Max length: {{housingLocation?.maxLength}}</li>
-          <li>Max width: {{housingLocation?.maxWidth}}</li>
-          <li>Description: {{housingLocation?.description}}</li>
+          <li>Code: {{building?.code}}</li>
+          <li>Max length: {{building?.maxLength}}</li>
+          <li>Max width: {{building?.maxWidth}}</li>
+          <li>Description: {{building?.description}}</li>
         </ul>
       </section>
     </article>
@@ -43,13 +44,13 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 export class BuildingDetailsComponent {
 
   route: ActivatedRoute = inject(ActivatedRoute);
-  housingService = inject(HousingService);
-  housingLocation: HousingLocation | undefined;
+  buildingService = inject(BuildingService);
+  building: BuildingInfo | undefined;
 
 
   constructor() {
-    const housingLocationId = this.route.snapshot.params['id'];
-    this.housingLocation = this.housingService.getHousingLocationById(housingLocationId);
+    const buildingCode = this.route.snapshot.params['id'];
+    this.building = this.buildingService.getBuildingByCode(buildingCode);
   }
 
 

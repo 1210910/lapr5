@@ -87,7 +87,7 @@ li .descr {
 li .icon {
   border-top: 1px solid var(--accent-color);
   border-left: 1px solid var(--accent-color);
-    border-right: 1px solid var(--accent-color);
+  border-right: 1px solid var(--accent-color);
   grid-area: icon;
   font-size: 2rem;
   display: grid;
@@ -125,7 +125,10 @@ li .descr::before {
 }
 
 li::after {
-  content: counter(cardnr, decimal-leading-zero);
+  content: "\1F343"; /* Unicode character for the leaf symbol */
+  margin-right: 5px; /* Add spacing between the icon and content */
+  font-size: 24px; /* Adjust the size as needed */
+  color: white;
   position: absolute;
   z-index: 0;
 
@@ -170,5 +173,11 @@ li::before {
   text-align: right;
 }
 .credits a {
+
   color: var(--color);
+}
+
+a{
+    text-decoration: none;
+    color: var(--accent-color);
 }
