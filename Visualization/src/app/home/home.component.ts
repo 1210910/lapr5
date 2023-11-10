@@ -22,6 +22,7 @@ import {RouterLink} from "@angular/router";
             <li><a [routerLink]="['/passageway']" data-item='Passageway'>Passageway</a></li>
             <li><a [routerLink]="['/room']" data-item='Rooms'>Rooms</a></li>
             <li><a [routerLink]="['/lift']" data-item='Lift'>Lift</a></li>
+            <li><a [routerLink]="['/robot']" data-item='Robot'>Robot</a></li>
             <li >
               <div class="search-box">
                 <button class="btn-search" type="button" (click)="filterResults(filter.value)"><i class="fa fa-search" aria-hidden="true"></i></button>
