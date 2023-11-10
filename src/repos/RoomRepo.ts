@@ -7,6 +7,7 @@ import { RoomId } from '../domain/RoomId';
 
 import { Document, FilterQuery, Model } from 'mongoose';
 import { IRoomPersistence } from '../dataschema/IRoomPersistence';
+import {RoomType} from "../domain/RoomType";
 
 @Service()
 export default class RoomRepo implements IRoomRepo {
@@ -45,6 +46,11 @@ export default class RoomRepo implements IRoomRepo {
                 return RoomMap.toDomain(roomCreated);
             } else {
                 RoomDocument.roomCode = room.roomCode;
+                RoomDocument.floor = room.floor;
+                RoomDocument.description = room.description;
+                RoomDocument.width = room.width;
+                RoomDocument.length = room.length;
+                RoomDocument.roomType = RoomType[room.roomType];
                 await RoomDocument.save();
 
                 return room;
@@ -64,17 +70,17 @@ export default class RoomRepo implements IRoomRepo {
 
     public async findByCode(roomCode: Room | string): Promise<Room> {
         const idX = roomCode instanceof Room ? (<Room>roomCode).id.toValue() : roomCode;
-        
+
         const query = { domainId: idX };
         const RoomRecord = await this.roomSchema.findOne(query);
-        
+
 
         return RoomMap.toDomain(RoomRecord);
     }
 
     public async findByRoomCode(roomCode: string): Promise<Room> {
 
-        const query = { roomCode: roomCode };   
+        const query = { roomCode: roomCode };
 
         const roomRecord = await    this.roomSchema.findOne(query);
 

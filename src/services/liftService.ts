@@ -7,6 +7,8 @@ import IFloorRepo from '../services/IRepos/IFloorRepo';
 import ILiftService from './IServices/ILiftService';
 import { Result } from "../core/logic/Result";
 import { LiftMap } from "../mappers/LiftMap";
+import {Floor} from "../domain/floor";
+import {forEach} from "lodash";
 
 @Service()
 export default class LiftService implements ILiftService{
@@ -31,9 +33,13 @@ export default class LiftService implements ILiftService{
 
           const checkFloors= await this.checkFloors(liftDTO.buildingCode,liftDTO.floors);
 
-          if (!checkFloors){
+          if (checkFloors== null) {
             return Result.fail<ILiftDTO>("Error in floor codes not found");
           }
+
+          //change the list of floorsCodes to the list of floor ids
+          const floorIds = checkFloors.map(floor => floor.id.toString());
+          liftDTO.floors = floorIds;
 
           const liftOrError = await Lift.create({
             code: liftDTO.code,
@@ -66,9 +72,10 @@ export default class LiftService implements ILiftService{
             return Result.fail<ILiftDTO>("Lift not found");
           }else{
             const checkFloors= await this.checkFloors(lift.buildingCode,liftDTO.floors);
-            if(!checkFloors){
+            if(checkFloors== null){
               return Result.fail<ILiftDTO>("Floor does not exist in this building");
             }
+            liftDTO.floors = checkFloors.map(floor => floor.id.toString());
             const liftOrError = Lift.update(lift, liftDTO);
             if(liftOrError.isFailure){
               return Result.fail<ILiftDTO>(liftOrError.errorValue());
@@ -103,21 +110,26 @@ export default class LiftService implements ILiftService{
 
 
 
-      private async checkFloors(buildingId: string,floors: string[]): Promise<boolean> {
+      private async checkFloors(buildingId: string,floors: string[]): Promise<Array<Floor>> {
 
       try {
 
         const floorsOfBuilding = await this.floorRepo.findByBuildingId(buildingId);
         if(floorsOfBuilding == null  ){
-          return false;
+          return null;
         }
         const floorCodes = floorsOfBuilding.map(floor => floor.floorCode);
 
         const allFloorsExist = floors.every(floorCode =>
           floorCodes.includes(floorCode)
         );
+        if (!allFloorsExist) {
+          return null;
+        }else{
+          return floorsOfBuilding;
+        }
 
-        return allFloorsExist;
+
       }catch (e){
         throw e;
       }

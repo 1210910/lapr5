@@ -63,6 +63,8 @@ describe('Passageway Service', () => {
     when(passagewayRepo.existsByCode(passagewayDTO.passageCode)).thenReturn(Promise.resolve(false));
     when(floorRepo.existsByFloorCode(floor1.floorCode)).thenResolve(true);
     when(floorRepo.existsByFloorCode(floor2.floorCode)).thenResolve(true);
+    when(floorRepo.findByFloorCode(floor1.floorCode)).thenResolve(Floor.create(floor1, new UniqueEntityID('FLR0')).getValue());
+    when(floorRepo.findByFloorCode(floor2.floorCode)).thenResolve(Floor.create(floor2, new UniqueEntityID('FLR1')).getValue());
 
     const result = await passagewayService.createPassageway(passagewayDTO);
     expect(result.isSuccess).to.be.true;
@@ -223,6 +225,8 @@ describe('Passageway Service', () => {
     when(floorRepo.existsByFloorCode(floor1.floorCode)).thenResolve(true);
     when(floorRepo.existsByFloorCode(floor2.floorCode)).thenResolve(true);
     when(passagewayRepo.findByCode(passageway.passageCode)).thenResolve(passageway);
+    when(floorRepo.findByFloorCode(floor1.floorCode)).thenResolve(floor1);
+    when(floorRepo.findByFloorCode(floor2.floorCode)).thenResolve(floor2);
 
     const result = await passagewayService.updatePassageway(passageway.passageCode, passagewayDTO);
     expect(result.isSuccess).to.be.true;

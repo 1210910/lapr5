@@ -48,12 +48,46 @@ export class Room extends AggregateRoot<RoomProps>{
         return this.props.roomType;
     }
 
+
+
+    set floor(value: string) {
+        if (value!=null && value!="" && value!=undefined ) {
+           this.floor = value;
+        }
+    }
+
+    set description(value: string) {
+
+        if (value!=null && value!="" && value!=undefined && value.length <= 250) {
+            this.description = value;
+        }
+
+    }
+
+    set width(value: number) {
+        if (value!=null && value!=undefined && value > 0) {
+            this.width = value;
+        }
+    }
+
+    set length(value: number) {
+        if (value!=null && value!=undefined && value > 0) {
+            this.length = value;
+        }
+    }
+
+    set roomType(value: string) {
+        if (value!=null && value!="" && value!=undefined && (value == "classroom" || value == "laboratory" || value == "anphitheater" || value == "office" || value == "other")) {
+            this.roomType = value;
+        }
+    }
+
     private constructor(props: RoomProps, id?: UniqueEntityID) {
         super(props, id);
     }
 
 
-     public static create(roomDTO: IRoomDTO, id?: UniqueEntityID): Result<Room> { 
+     public static create(roomDTO: IRoomDTO, id?: UniqueEntityID): Result<Room> {
         const guardedProps = [
             { argument: roomDTO.roomCode, argumentName: 'roomCode' },
             { argument: roomDTO.floor, argumentName: 'floor' },
@@ -89,15 +123,27 @@ export class Room extends AggregateRoot<RoomProps>{
             return Result.fail<Room>("Room type must be classroom, laboratory, anphitheater, office or other.");
         }
 
-        const roomCode = roomDTO.roomCode;         
-        const floor = roomDTO.floor;               
-        const description = roomDTO.description;          
-        const width = roomDTO.width;         
+        const roomCode = roomDTO.roomCode;
+        const floor = roomDTO.floor;
+        const description = roomDTO.description;
+        const width = roomDTO.width;
         const length = roomDTO.length;
-        const roomType = roomDTO.roomType;               
+        const roomType = roomDTO.roomType;
         const room = new Room({ roomCode, floor, description, width, length, roomType }, id);
 
-          return Result.ok<Room>(room);         
-    }       
+          return Result.ok<Room>(room);
+    }
+
+    public static edit(roomDTO: IRoomDTO, room: Room): Result<Room> {
+
+            room.floor = roomDTO.floor ?? room.floor;
+            room.description = roomDTO.description ?? room.description;
+            room.width = roomDTO.width ?? room.width;
+            room.length = roomDTO.length ?? room.length;
+            room.roomType = roomDTO.roomType ?? room.roomType;
+
+        return Result.ok<Room>(room);
+
+    }
 }
-  
+

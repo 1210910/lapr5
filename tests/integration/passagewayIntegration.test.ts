@@ -16,7 +16,7 @@ import {Passageway} from "../../src/domain/Passageway";
 
 chai.use(sinonChai);
 
-describe('Room Controller', () => {
+describe('PassageWay Integration', () => {
 
   let passagewayService: IPassagewayService;
   let passagewayController: PassagewayController;
@@ -73,6 +73,8 @@ describe('Room Controller', () => {
     (passagewayRepo.existsByCode as sinon.SinonStub).resolves(null);
     (floorRepo.existsByFloorCode as sinon.SinonStub).resolves(floor1);
     (floorRepo.existsByFloorCode as sinon.SinonStub).resolves(floor2);
+    (floorRepo.findByFloorCode as sinon.SinonStub).resolves(floor1);
+    (floorRepo.findByFloorCode as sinon.SinonStub).resolves(floor2);
 
     await passagewayController.createPassageway(req as Request, res as Response, () => {
     });
@@ -110,8 +112,10 @@ describe('Room Controller', () => {
     const floor2 = Floor.create(floor2DTO).getValue();
 
     (passagewayRepo.existsByCode as sinon.SinonStub).resolves(false);
-    (floorRepo.existsByFloorCode as sinon.SinonStub).resolves(false);
+    (floorRepo.existsByFloorCode as sinon.SinonStub).withArgs(null).resolves(false);
     (floorRepo.existsByFloorCode as sinon.SinonStub).resolves(floor2);
+
+
 
     await passagewayController.createPassageway(req as Request, res as Response, () => {
     });
