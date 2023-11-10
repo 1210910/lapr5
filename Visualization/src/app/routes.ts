@@ -24,6 +24,8 @@ import {RoomEditComponent} from "./Room/roomEdit.component";
 import {RoomListComponent} from "./Room/roomList.component";
 import {BuildingDetailsComponent} from "./Building/details/details.component";
 import {AboutUsComponent} from "./AboutUs/aboutUs.component";
+import { RobotComponent } from "./Robot/robot.component";
+import { RobotCreateComponent } from "./Robot/robotCreate.component";
 
 
 
@@ -163,7 +165,26 @@ const routeConfig: Routes = [
     component: HomeComponent,
     title: 'Home page'
   },
-
+  {
+    path: 'robot',
+    component: RobotComponent,
+    title: 'Robot page'
+  },
+  {
+    path: 'robotCreate',
+    component: RobotCreateComponent,
+    title: 'Robot create page'
+  },
+  /*{
+    path: 'robotList',
+    component: RobotListComponent,
+    title: 'Robot list page'
+  },
+  {
+    path: 'robotDisable',
+    component: RobotDisableComponent,
+    title: 'Robot disable page'
+  }*/
 ];
 
 export default routeConfig;

@@ -1,12 +1,10 @@
 import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
-import {FloorInfoComponent} from "../Floor/floor-info/floor-info.component";
-import {HousingLocation} from "../houselocation";
-import {HousingService} from "../housing.service";
+
 
 @Component({
-  selector: 'app-building',
+  selector: 'app-passageway',
    standalone: true,
     imports: [CommonModule, RouterLink],
   template: `
@@ -39,20 +37,5 @@ import {HousingService} from "../housing.service";
 })
 
 export class PassagewayComponent {
-    housingLocationList: HousingLocation[] = [];
-    housingService: HousingService = inject(HousingService);
-    filteredLocationList: HousingLocation[] = [];
-
-    constructor() {
-        this.housingLocationList = this.housingService.housingLocationList;
-        this.filteredLocationList = this.housingLocationList;
-    }
-
-
-
-
-
-
-
-
+    constructor() {}
 }
