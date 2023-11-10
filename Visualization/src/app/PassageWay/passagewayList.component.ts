@@ -1,16 +1,14 @@
 import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
-
-import {HousingLocation} from "../houselocation";
-import {HousingService} from "../housing.service";
-import routes from "../routes";
-import {HousingLocationComponent} from "./passageway-info/housing-location.component";
+import { PassagewayService } from "../services/passageway.service";
+import { PassagewayInfoComponent } from "./passageway-info/passageway-info.component";
+import { PassagewayInfo } from "./passageway-info/passagewayinfo";
 
 @Component({
-  selector: 'app-floor-list',
+  selector: 'app-passageway-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, HousingLocationComponent],
+  imports: [CommonModule, RouterLink, PassagewayInfoComponent],
   template: `
       <section>
           <header class="brand-name">
@@ -26,23 +24,28 @@ import {HousingLocationComponent} from "./passageway-info/housing-location.compo
 
       </section>
       <section class="body">
-        <app-housing-location *ngFor="let housingLocation of filteredLocationList" [housingLocation]="housingLocation"></app-housing-location>
-          </section>
+        <app-passageway-info
+          *ngFor="let passagewayInfo of passagewayList" [passagewayInfo]="passagewayInfo">
+        </app-passageway-info>
+      </section>
   `,
   styleUrls: ["./passagewayCreate.component.css"]
 
 })
 
 export class PassagewayListComponent {
-  housingLocationList: HousingLocation[] = [];
-  housingService: HousingService = inject(HousingService);
-  filteredLocationList: HousingLocation[] = [];
+  passagewayList: PassagewayInfo[] = [];
+  passagewayService: PassagewayService = inject(PassagewayService);
 
   constructor() {
-    this.housingLocationList = this.housingService.housingLocationList;
-    this.filteredLocationList = this.housingLocationList;
+    this.passagewayService.listPassageways().then((result) => {
+        this.passagewayService.passagewayList(result);
+
+        this.passagewayList = this.passagewayService.PassagewayList;
+
+      }
+    );
+
   }
-
-
 
 }
