@@ -46,7 +46,7 @@ export default (app: Router) => {
 
 
 
-  route.get('/:min:max',
+  route.get('/:min/:max/',
     (req, res, next) => buildingController.getBuildingsMinMax(req, res, next) );
 
     route.use((err, req, res, next) => {

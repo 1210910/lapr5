@@ -6,6 +6,7 @@ import {BuildingInfo} from "./building-info/buildingInfo";
 import routes from "../routes";
 import { BuildingService } from '../services/building.service';
 
+
 @Component({
   selector: 'app-building-list',
   standalone: true,
@@ -19,6 +20,12 @@ import { BuildingService } from '../services/building.service';
                       <li><a [routerLink]="['/building']">
                           <img class="brand-logo" src="/assets/logoBuilding(1).svg" alt="logo" aria-hidden="true">
                       </a></li>
+                        <li >
+                      <div class="search-box">
+                        <button class="btn-search" type="button" (click)="CallMethod(filter.value)"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        <input type="text" class="input-search" placeholder="Filter by city" #filter   >
+                      </div>
+                        </li>
                   </ul>
               </nav>
           </header>
@@ -37,7 +44,7 @@ export class BuildingListComponent{
   buildingService: BuildingService = inject(BuildingService);
 
   constructor() {
-    this.buildingService.listBuildings().then((result) => {
+    this.buildingService.listAllBuildings().then((result) => {
       this.buildingService.buildingList(result);
 
       this.buildingsList = this.buildingService.BuildingList;
@@ -45,6 +52,32 @@ export class BuildingListComponent{
     }
     );
   }
+
+
+
+
+  CallMethod(value: string) {
+    let params: string= "";
+    if (value.startsWith("min:")) {
+       let  values = value.split(";");
+        for (let i = 0; i < values.length; i++) {
+          console.log(values[i].split(":")[1])
+          params+= values[i].split(":")[1]+"/";
+        }
+    }
+
+    console.log(params)
+    console.log(value)
+
+
+
+   this.buildingService.listBuildings(params).then((result) => {
+        this.buildingService.buildingList(result);
+
+        this.buildingsList = this.buildingService.BuildingList;
+
+   });
+   }
 
 
 

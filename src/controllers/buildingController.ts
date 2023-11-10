@@ -49,6 +49,7 @@ export default class BuildingController implements IBuildingController {
 
     public async getBuildingsMinMax(req: Request, res: Response, next: NextFunction) {
         try {
+
             const buildingsOrError = await this.buildingServiceInstance.getBuildingsMinMax(req.params.min, req.params.max);
 
             if (buildingsOrError.isFailure) {

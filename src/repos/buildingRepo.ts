@@ -117,22 +117,28 @@ export default class BuildingRepo implements IBuildingRepo {
 
 
     const buildingRecord = await this.findAll();
+    let buildingList : Building[] = [];
+
 
     if (buildingRecord != null) {
-      for (let i = 0; i < buildingRecord.keys.length ; i++) {
-        if (buildingRecord[i].name.length > 0) {
 
-          const buildingFloors = this.FloorRepo.findByBuildingId(buildingRecord[i].name.toString());
-          if  ((await buildingFloors) != null) {
-            if ((await buildingFloors).keys.length < min || (await buildingFloors).keys.length > max) {
-              buildingRecord.splice(i, 1);
+      for (let i = 0; i < buildingRecord.length ; i++) {
+
+          const buildingFloors = await this.FloorRepo.findAllFloorsByBuildingId(buildingRecord[i].code);
+
+
+            if ((buildingFloors).getValue().length >= min && (buildingFloors).getValue().length <= max) {
+
+                buildingList.push(buildingRecord[i]);
             }
-          }
 
-        }
+
+
       }
 
-      return  (await sortByNumberOfFloors(buildingRecord));
+
+
+      return Result.ok<Array<Building>>(buildingList);
 
 
 

@@ -66,11 +66,13 @@ export default class BuildingService implements IBuildingService{
           const minNumber = parseInt(min);
           const maxNumber = parseInt(max);
 
+
           const buildingsOrError = await this.buildingRepo.findByMinMaxFloorNumber(minNumber, maxNumber);
 
           if (buildingsOrError.isFailure) {
             return Result.fail<IBuildingDTO[]>(buildingsOrError.errorValue());
           }
+
 
           const buildings = buildingsOrError.getValue();
 

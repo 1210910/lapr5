@@ -45,11 +45,34 @@ export class BuildingService{
 
     });
   }
- 
-  listBuildings() {
+
+  listAllBuildings() {
     return new Promise((resolve, reject) => {
       const httprequest = new XMLHttpRequest();
       httprequest.open('GET', 'http://localhost:4000/api/buildings', true);
+      httprequest.setRequestHeader('Content-Type', 'application/json',);
+      let response;
+      httprequest.onload = function () {
+
+        if (httprequest.status === 200) {
+          console.log("Building listed");
+          response = httprequest.response;
+          resolve(response);
+        } else {
+          response = httprequest.status;
+          console.log("Building not listed");
+          reject(false);
+        }
+      }
+      httprequest.send();
+
+    });
+  }
+  listBuildings(value:string) {
+    return new Promise((resolve, reject) => {
+      const httprequest = new XMLHttpRequest();
+      const url = 'http://localhost:4000/api/buildings/'+value;
+      httprequest.open('GET',url , true);
       httprequest.setRequestHeader('Content-Type', 'application/json',);
       let response;
       httprequest.onload = function () {
