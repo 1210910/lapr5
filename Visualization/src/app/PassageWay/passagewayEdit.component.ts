@@ -1,13 +1,10 @@
-import {Component, inject} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {RouterLink} from "@angular/router";
-import {FloorInfoComponent} from "../Floor/floor-info/floor-info.component";
-import {HousingLocation} from "../houselocation";
-import {HousingService} from "../housing.service";
-import routes from "../routes";
+import { Component, inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterLink } from "@angular/router";
+import { PassagewayService } from "../services/passageway.service";
 
 @Component({
-  selector: 'app-floor-edit',
+  selector: 'app-passageway-edit',
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `
@@ -39,18 +36,21 @@ import routes from "../routes";
                   <div class="input-data">
                     <input type="text" >
                     <div class="underline"></div>
-                    <label for="">Floor1</label>
+                    <label for="">New Passage Code</label>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="input-data">
                     <input type="text" >
                     <div class="underline"></div>
+                    <label for="">Floor1</label>
+                  </div>
+                  <div class="input-data">
+                    <input type="text" >
+                    <div class="underline"></div>
                     <label for="">Floor2</label>
                   </div>
-
                 </div>
-
                 <div class="form-row">
                   <div class="input-data textarea">
                     <textarea rows="8" cols="80" ></textarea>
@@ -61,7 +61,7 @@ import routes from "../routes";
                     <div class="form-row submit-btn">
                       <div class="input-data">
                         <div class="inner"></div>
-                        <a [routerLink]="['/building']"><input type="submit" value="submit" (click)="editBuilding()" > </a>
+                        <a [routerLink]="['/passageway']"><input type="submit" value="submit" (click)="editPassageway()" > </a>
                       </div>
                     </div>
                   </div>
@@ -75,33 +75,24 @@ import routes from "../routes";
 })
 
 export class PassagewayEditComponent {
-  housingLocationList: HousingLocation[] = [];
-  housingService: HousingService = inject(HousingService);
-  filteredLocationList: HousingLocation[] = [];
+  passagewayService: PassagewayService = inject(PassagewayService);
 
   constructor() {
-    this.housingLocationList = this.housingService.housingLocationList;
-    this.filteredLocationList = this.housingLocationList;
   }
 
-  editBuilding(){
-
-    const code = document.getElementsByTagName("input")[0].value;
-    const name = document.getElementsByTagName("input")[1].value;
-    const length = document.getElementsByTagName("input")[2].value;
-    const width = document.getElementsByTagName("input")[3].value;
+  async editPassageway() {
+    const passageCode = document.getElementsByTagName("input")[0].value;
+    const newPassageCode = document.getElementsByTagName("input")[1].value;
+    const floor1 = document.getElementsByTagName("input")[2].value;
+    const floor2 = document.getElementsByTagName("input")[3].value;
     const description = document.getElementsByTagName("textarea")[0].value;
 
 
-    if (this.housingService.createBuilding(code , name , length , width , description)){
-
-      alert("Building edited successfully");
-
-    }else {
-      alert("Building Creation Failed");
+    if (await this.passagewayService.editPassageway(passageCode, newPassageCode, floor1, floor2, description)) {
+      alert("Passageway edited successfully");
+    } else {
+      alert("Passageway edition failed");
     }
-
-
 
 
   }
