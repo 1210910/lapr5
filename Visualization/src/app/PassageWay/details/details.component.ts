@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import { HousingService } from '../../housing.service';
-import { HousingLocation } from '../../houselocation';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { PassagewayService } from "../../services/passageway.service";
+import { PassagewayInfo } from "../passageway-info/passagewayinfo";
 
 @Component({
-  selector: 'app-details',
+  selector: 'app-passageway-details',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   template: `
@@ -15,7 +15,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
         <nav>
           <ul class="menuItems">
-            <li><a [routerLink]="['/buildingList']">
+            <li><a [routerLink]="['/passagewayList']">
               <img class="brand-logo" src="/assets/logo.svg" alt="logo" aria-hidden="true">
             </a></li>
           </ul>
@@ -25,14 +25,14 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
     <article>
 
       <section class="listing-description">
-        <h2 class="listing-heading">{{housingLocation?.name}}</h2>
+        <h2 class="listing-heading">{{passagewayInfo?.passageCode}}</h2>
       </section>
       <section class="listing-features">
         <h2 class="section-heading">About this Building</h2>
         <ul>
-          <li>Max length: {{housingLocation?.maxLength}}</li>
-          <li>Max width: {{housingLocation?.maxWidth}}</li>
-          <li>Description: {{housingLocation?.description}}</li>
+          <li>Floor 1: {{passagewayInfo?.floor1}}</li>
+          <li>Floor 2: {{passagewayInfo?.floor2}}</li>
+          <li>Description: {{passagewayInfo?.description}}</li>
         </ul>
       </section>
     </article>
@@ -40,16 +40,15 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
   `,
   styleUrls: ['./details.component.css']
 })
-export class DetailsComponent {
+export class PassagewayDetailsComponent {
 
   route: ActivatedRoute = inject(ActivatedRoute);
-  housingService = inject(HousingService);
-  housingLocation: HousingLocation | undefined;
-
+  passagewayService = inject(PassagewayService);
+  passagewayInfo:  PassagewayInfo| undefined;
 
   constructor() {
-    const housingLocationId = this.route.snapshot.params['id'];
-    this.housingLocation = this.housingService.getHousingLocationById(housingLocationId);
+    const passagewayCode = this.route.snapshot.params['id'];
+    this.passagewayInfo = this.passagewayService.getPassagewayByCode(passagewayCode);
   }
 
 

@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { PassagewayInfo } from "../PassageWay/passageway-info/passagewayinfo";
+import { FloorInfo } from "../Floor/floor-info/floorinfo";
 
 @Injectable({
   providedIn: "root"
@@ -98,6 +99,10 @@ export class PassagewayService {
         description: passageway.description
       })
     }
+  }
+
+  getPassagewayByCode(code: string): PassagewayInfo | undefined{
+    return this.PassagewayList.find((passageway) => passageway.passageCode === code);
   }
 
 }

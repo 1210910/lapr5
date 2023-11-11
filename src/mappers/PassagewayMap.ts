@@ -41,6 +41,9 @@ export class PassagewayMap extends Mapper<Passageway> {
     public static toDTOList(passageway: Array<Passageway>): Array<IPassagewayDTO> {
         let passagewayDTOList: Array<IPassagewayDTO> = [];
         passageway.forEach((passageway: Passageway) => {
+            console.log(passageway);
+            let dto = this.toDTO(passageway);
+            console.log(dto);
             passagewayDTOList.push(this.toDTO(passageway));
         });
 

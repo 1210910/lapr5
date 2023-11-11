@@ -24,8 +24,7 @@ import { PassagewayInfo } from "./passageway-info/passagewayinfo";
 
       </section>
       <section class="body">
-        <app-passageway-info
-          *ngFor="let passagewayInfo of passagewayList" [passagewayInfo]="passagewayInfo">
+        <app-passageway-info *ngFor="let passagewayInfo of passagewayList" [passagewayInfo]="passagewayInfo">
         </app-passageway-info>
       </section>
   `,

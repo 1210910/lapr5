@@ -26,6 +26,7 @@ import {BuildingDetailsComponent} from "./Building/details/details.component";
 import {AboutUsComponent} from "./AboutUs/aboutUs.component";
 import { RobotComponent } from "./Robot/robot.component";
 import { RobotCreateComponent } from "./Robot/robotCreate.component";
+import { PassagewayDetailsComponent } from "./PassageWay/details/details.component";
 
 
 
@@ -50,6 +51,11 @@ const routeConfig: Routes = [
     path:'floordetails/:id',
     component: FloorDetailsComponent,
     title: 'floor details page'
+  },
+  {
+    path:'passagewaydetails/:id',
+    component: PassagewayDetailsComponent,
+    title: 'passageway details page'
   },
   {
     path:'lift',

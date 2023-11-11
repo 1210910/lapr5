@@ -9,12 +9,15 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `
-    <section class="listing">
-      <h2 class="listing-heading">{{ passagewayInfo.passageCode }}</h2>
-      <p class="listing-location">Floor 1: {{ passagewayInfo.floor1 }}</p>
-      <p class="listing-location">Floor 2: {{ passagewayInfo.floor2 }}</p>
-      <p class="listing-location">Description: {{ passagewayInfo.description }}</p>
-    </section>
+    <ol>
+
+      <li style="--accent-color:#6F42C1">
+        <div class="icon"><i class="fa fa-building"></i></div>
+        <div class="title">{{ passagewayInfo.passageCode }}</div>
+        <a [routerLink]="['/passagewaydetails', passagewayInfo.passageCode]" ><div class="descr">Learn More</div></a>
+      </li>
+
+    </ol>
   `,
   styleUrls: ['./passageway-info.component.css']
 })
