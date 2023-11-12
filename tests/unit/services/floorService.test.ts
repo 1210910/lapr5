@@ -488,7 +488,7 @@ describe('Floor Service', () => {
     ).getValue();
 
       when(floorRepo.findByBuildingId("B1")).thenResolve([floor]);
-      when(passagewayRepo.findAll()).thenResolve(Result.fail([]));
+      when(passagewayRepo.findAll()).thenResolve(null);
 
       const result = await floorService.getFloorsWithPassageway("B1");
 
@@ -528,7 +528,7 @@ describe('Floor Service', () => {
       passagewayDTO
     ).getValue();
       when(floorRepo.findByBuildingId("B1")).thenResolve([floor]);
-      when(passagewayRepo.findAll()).thenResolve(Result.ok([passageway]));
+      when(passagewayRepo.findAll()).thenResolve([passageway]);
 
       const result = await floorService.getFloorsWithPassageway("B1");
 
@@ -566,7 +566,7 @@ describe('Floor Service', () => {
         passagewayDTO
       ).getValue();
       when(floorRepo.findByBuildingId("B1")).thenResolve([floor]);
-      when(passagewayRepo.findAll()).thenResolve(Result.ok([passageway]));
+      when(passagewayRepo.findAll()).thenResolve([passageway]);
 
       const result = await floorService.getFloorsWithPassageway("B1");
 

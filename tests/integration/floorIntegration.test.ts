@@ -18,7 +18,7 @@ import { Floor } from "../../src/domain/floor";
 
 chai.use(sinonChai);
 
-describe('BuildingController', () => {
+describe('Floor Integraion test', () => {
 
   let floorService: IFloorService;
   let floorController: FloorController;

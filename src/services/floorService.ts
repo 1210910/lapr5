@@ -149,10 +149,10 @@ export default class FloorService implements IFloorService {
             const floorList = floorListOrError.map(floor => floor);
 
             const passagewayListOrError = await this.passagewayRepo.findAll();
-            if (passagewayListOrError.isFailure) {
+            if (!passagewayListOrError) {
                 return Result.fail<Array<IFloorDTO>>("There are no passageways");
             }
-            const passagewayResult = passagewayListOrError.getValue();
+            const passagewayResult = passagewayListOrError;
 
             floorList.forEach(async floor => {
                 passagewayResult.forEach(passageway => {

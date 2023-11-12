@@ -103,7 +103,7 @@ export default class PassagewayService implements IPassagewayService {
             const listOrError = await this.passagewayRepo.findAll();
 
             if (!listOrError) {
-                return Result.fail<Array<IPassagewayDTO>>(listOrError);
+                return Result.fail<Array<IPassagewayDTO>>("No passageways found");
             }
 
             const passagewayResult = await Promise.all(listOrError);

@@ -8,12 +8,9 @@ import IFloorRepo from '../../../src/services/IRepos/IFloorRepo';
 import PassagewayService from '../../../src/services/PassagewayService';
 import {Result} from "../../../src/core/logic/Result";
 import {Floor} from "../../../src/domain/floor";
-import {Building} from "../../../src/domain/Building";
-import IBuildingRepo from "../../../src/services/IRepos/IBuildingRepo";
 import IFloorService from "../../../src/services/IServices/IFloorService";
 import IBuildingService from "../../../src/services/IServices/IBuildingService";
 import {UniqueEntityID} from "../../../src/core/domain/UniqueEntityID";
-import {Lift} from "../../../src/domain/Lift";
 
 
 describe('Passageway Service', () => {
@@ -454,14 +451,14 @@ describe('Passageway Service', () => {
 
     const passageway = Passageway.create(passagewayDto).getValue();
 
-    when(passagewayRepo.findAll()).thenReturn(Promise.resolve(Result.ok<Passageway[]>([passageway])));
+    when(passagewayRepo.findAll()).thenReturn(Promise.resolve([passageway]));
 
     const result = await passagewayService.listPassageway();
     expect(result.isSuccess).to.be.true;
   });
 
   it('should not list any passageways', async function () {
-    when(passagewayRepo.findAll()).thenReturn(Promise.resolve(Result.fail<Passageway[]>("No passageways found")));
+    when(passagewayRepo.findAll()).thenReturn(null);
 
     const result = await passagewayService.listPassageway();
     expect(result.isFailure).to.be.true;
