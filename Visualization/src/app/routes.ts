@@ -27,7 +27,11 @@ import {AboutUsComponent} from "./AboutUs/aboutUs.component";
 import { RobotComponent } from "./Robot/robot.component";
 import { RobotCreateComponent } from "./Robot/robotCreate.component";
 import { PassagewayDetailsComponent } from "./PassageWay/details/details.component";
-
+import {HomeFleetComponent} from "./home/homeFleet.component";
+import {RobotTypeComponent} from "./RobotType/robotType.component";
+import {RobotTypeCreateComponent} from "./RobotType/robotTypeCreate.component";
+import {CampusComponent} from "./campus/campus.component";
+import {LoadMapComponent} from "./campus/loadMap.component";
 
 
 const routeConfig: Routes = [
@@ -35,6 +39,34 @@ const routeConfig: Routes = [
     path:'',
     component: LoginComponent,
     title: 'Login page'
+  },
+  {
+    path:"campus",
+    component: CampusComponent,
+    title: 'Campus page'
+
+  },
+  {
+    path:"loadMap",
+    component: LoadMapComponent,
+    title: 'Load Map page'
+  },
+  {
+    path:'homeFleet',
+    component: HomeFleetComponent,
+    title: 'Home fleet page'
+  },
+  {
+    path:'robotTypeCreate',
+    component: RobotTypeCreateComponent,
+    title: 'Robot type create page'
+
+  },
+  {
+    path:'robotType',
+    component: RobotTypeComponent,
+    title: 'Robot type page'
+
   },
   {
     path:'aboutUs',

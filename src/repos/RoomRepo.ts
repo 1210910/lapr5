@@ -82,7 +82,9 @@ export default class RoomRepo implements IRoomRepo {
 
         const query = { roomCode: roomCode };
 
-        const roomRecord = await    this.roomSchema.findOne(query);
+        const roomRecord = await this.roomSchema.findOne(query);
+
+
 
         return RoomMap.toDomain(roomRecord);
 

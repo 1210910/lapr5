@@ -14,11 +14,9 @@ import {RouterLink} from "@angular/router";
               <nav>
                   <ul class="menuItems">
                       <li><a [routerLink]="['/homeFleet']">
-                          <img class="brand-logo" src="/assets/logoRobot.svg" alt="logo" aria-hidden="true">
+                          <img class="brand-logo" src="/assets/logoRobotType.svg" alt="logo" aria-hidden="true">
                       </a></li>
-                      <li><a [routerLink]="['/robotCreate']" data-item='Create'>Create</a></li>
-                      <li><a [routerLink]="['/robotList']" data-item='List'>List</a></li>
-                      <li><a [routerLink]="['/robotDisable']" data-item='Disable'>Disable</a></li>
+                      <li><a [routerLink]="['/robotTypeCreate']" data-item='Create'>Create</a></li>
                   </ul>
               </nav>
           </header>
@@ -31,10 +29,10 @@ import {RouterLink} from "@angular/router";
         </div>
       </section>
   `,
-  styleUrls: ["./robot.component.css"]
+  styleUrls: ["./robotType.component.css"]
 
 })
 
-export class RobotComponent {
+export class RobotTypeComponent {
   constructor() {}
 }

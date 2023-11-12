@@ -16,13 +16,12 @@ import {RouterLink} from "@angular/router";
             <li><a [routerLink]="['/']">
               <img class="brand-logo" src="/assets/logoCampus.svg" alt="logo" aria-hidden="true">
             </a></li>
-            <li><a [routerLink]="['/']" data-item='Campus'>Campus</a></li>
+            <li><a [routerLink]="['/campus']" data-item='Campus'>Campus</a></li>
             <li><a [routerLink]="['/building']" data-item='Buildings'>Buildings</a></li>
             <li><a [routerLink]="['/floor']" data-item='Floors'>Floors</a></li>
             <li><a [routerLink]="['/passageway']" data-item='Passageway'>Passageway</a></li>
             <li><a [routerLink]="['/room']" data-item='Rooms'>Rooms</a></li>
             <li><a [routerLink]="['/lift']" data-item='Lift'>Lift</a></li>
-            <li><a [routerLink]="['/robot']" data-item='Robot'>Robot</a></li>
             <li >
               <div class="search-box">
                 <button class="btn-search" type="button" (click)="filterResults(filter.value)"><i class="fa fa-search" aria-hidden="true"></i></button>

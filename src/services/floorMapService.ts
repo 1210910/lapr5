@@ -9,7 +9,7 @@ import ILiftRepo from "./IRepos/ILiftRepo";
 import IFloorMapService from "./IServices/IFloorMapService";
 import {Result} from "../core/logic/Result";
 import { FloorMapMap } from "../mappers/floorMapMap";
-import { floor } from "lodash";
+
 
 
 
@@ -33,15 +33,15 @@ export default class FloorMapService implements IFloorMapService {
                 return Result.fail<IFloorMapDTO>("Floor not found");
             }
 
-           floorMapDTO.rooms.forEach(async (room) => {
+           for (const room of floorMapDTO.rooms) {
                 const roomExists = await this.roomRepo.exists(room.roomCode);
 
                 if (!roomExists) {
-                    return Result.fail<IFloorMapDTO>("Room not found");
+                    Result.fail<IFloorMapDTO>("Room not found");
                 }
-            });
+            }
 
-            const elevatorExists = await this.elevatorRepo.findByCode(floorMapDTO.elevator[0].elevatorCode);
+          const elevatorExists = await this.elevatorRepo.findByCode(floorMapDTO.elevator[0].elevatorCode);
 
             if (elevatorExists === null) {
                 return Result.fail<IFloorMapDTO>("Elevator not found");
@@ -51,26 +51,29 @@ export default class FloorMapService implements IFloorMapService {
 
             floorMapDTO.map= new Array(floor.width).fill(new Array(floor.length).fill(0));
 
-            floorMapDTO.rooms.forEach(async (room) => {
+            for (const room of floorMapDTO.rooms) {
 
                 const roomExists = await this.roomRepo.findByRoomCode(room.roomCode);
+
 
 
                 for (let i = room.positionX; i < room.positionX + roomExists.width; i++) {
                     for (let j = room.positionY; j < room.positionY + roomExists.length; j++) {
                         floorMapDTO.map[i][j]= room.roomCode;
-
                     }
                 }
+                console.log("room")
+
+            }
+          console.log("elevator")
 
 
-            });
-
-
-            floorMapDTO.map[floorMapDTO.elevator[0].positionX][floorMapDTO.elevator[0].positionY] = floorMapDTO.elevator[0].elevatorCode;
+          floorMapDTO.map[floorMapDTO.elevator[0].positionX][floorMapDTO.elevator[0].positionY] = floorMapDTO.elevator[0].elevatorCode;
 
 
             const floorMapOrError = FloorMap.create(floorMapDTO);
+
+            console.log(floorMapOrError)
 
             if (floorMapOrError.isFailure) {
                 return Result.fail<IFloorMapDTO>("floorMapOrError.errorValue()");

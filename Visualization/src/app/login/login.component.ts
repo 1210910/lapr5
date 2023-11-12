@@ -39,8 +39,9 @@ export class LoginComponent {
 
       alert("Login Successful");
       window.location.href = "/home";
-    }else {
-      alert("Login Failed");
+    }if (document.getElementsByTagName("input")[0].value == "fleet" && document.getElementsByTagName("input")[1].value == "admin"){
+      alert("Login Successful");
+      window.location.href = "/homeFleet";
     }
 
    }
