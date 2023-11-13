@@ -5,13 +5,18 @@ autonumber
 
 skinparam packageStyle rect
 
-title list all buildings
+title List all buildings
 
 participant "MasterData" as MD <<Component>>
 
 ?o->> MD : GET
 
 activate MD
-?o<<-- MD : 200|404
+alt List
+   ?o<<--MD : 200 Listed
+end
+alt Bad Request
+   ?o<<--MD : 400 Bad Request
+end
 deactivate MD
 @enduml

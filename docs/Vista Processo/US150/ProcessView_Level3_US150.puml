@@ -5,28 +5,87 @@ skinparam packageStyle rect
 
 title Create a building
 
-participant "Back-End" as BE <<component>>
-database "Database" as DB <<component>>
+participant "Routing" as routing <<component>>
+participant "Controller" as controller <<component>>
+participant "Service" as service <<component>>
+participant "Repository" as buildingrepo <<component>>
+participant "Building" as building <<component>>
+participant "Map" as map <<component>>
+participant "DTO" as dto <<component>>
+database "Database" as db <<component>>
 
-?o->> BE : POST
+?o->> routing : POST /buildings
+activate routing
+routing ->> controller : create building
 
-activate BE
+activate controller
+controller ->> service : create building
 
-BE ->> DB : select building
-activate DB
-DB -->> BE
-deactivate DB
+activate service
+service ->> buildingrepo : verifies if already exists with that code
 
-BE ->> DB : persist
-activate DB
-DB -->> BE
-deactivate DB
+activate buildingrepo
+buildingrepo ->> db : select building
+activate db
+db -->> buildingrepo : building
+deactivate db
+alt building found
+    buildingrepo -->> service :  found
 
-?o<<- BE : 201 Created
+    service -->> controller : fail
+    controller -->> routing : fail
+    ?o<<-- routing : 400 Bad Request
+end alt
 
-alt bad request /
-?o<<- BE : 400 Bad Request
-deactivate BE
-end
+deactivate buildingrepo
+
+service ->> building** : create
+
+building -->> building: verifies data
+alt invalid data
+    building -->> service : invalid data
+
+    service -->> controller : fail
+    controller -->> routing : fail
+    ?o<<-- routing : 400 Bad Request
+end alt
+
+
+
+
+
+
+service ->> buildingrepo : save
+activate buildingrepo
+
+buildingrepo ->> db : insert building
+
+activate db
+db -->> buildingrepo : success
+
+deactivate db
+buildingrepo -->> service : successaa
+deactivate buildingrepo
+
+service ->> map: toDTO
+activate map
+map ->> dto**: dto
+activate dto
+dto -->> map: dto
+deactivate dto
+map-->> service: dto
+deactivate map
+
+
+deactivate buildingrepo
+
+service -->> controller : success
+deactivate service
+
+controller -->> routing : success
+deactivate controller
+
+?o<<-- routing : 201 Created
+deactivate routing
 
 @enduml

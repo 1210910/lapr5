@@ -2,6 +2,7 @@
 'https://plantuml.com/sequence-diagram
 
 autonumber
+
 skinparam packageStyle rect
 
 title Inhibit a robot
@@ -11,8 +12,11 @@ participant "MasterData" as MD <<Component>>
 ?o->> MD : PATCH
 
 activate MD
-?o<<-- MD : 204|400
+alt Edited
+   ?o<<--MD : 204 Edit
+end
+alt Bad Request
+   ?o<<--MD : 400 Bad Request
+end
 deactivate MD
-
-
 @enduml

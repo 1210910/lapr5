@@ -5,31 +5,103 @@ skinparam packageStyle rect
 
 title Create a lift
 
-participant "Back-End" as BE <<component>>
-database "Database" as DB <<component>>
+participant "Routing" as routing <<component>>
+participant "Controller" as controller <<component>>
+participant "Service" as service <<component>>
+participant "Lift Repository" as liftrepo <<component>>
+participant "Floor Repository" as floorrepo <<component>>
+participant "Lift" as lift <<component>>
+participant "Map" as map <<component>>
+participant "DTO" as dto <<component>>
+database "Database" as db <<component>>
 
-?o->> BE : POST
+?o->> routing : POST /lift
+activate routing
+routing ->> controller : create lift
 
-activate BE
+activate controller
+controller ->> service : create lift
 
-BE ->> DB : select building
-activate DB
-DB -->> BE
-deactivate DB
-BE ->> DB : create lift
-activate DB
-DB -->> BE
-deactivate DB
-BE ->> DB : persist
-activate DB
-DB -->> BE
-deactivate DB
+activate service
+service ->> liftrepo : verifies if already exists with that code
 
-?o<<- BE : 201 Created
+activate liftrepo
+liftrepo ->> db : select lift
+activate db
+db -->> liftrepo : lift
+deactivate db
+alt lift found
+    liftrepo -->> service :  found
 
-alt bad request / building not found
-?o<<- BE : 400 Bad Request
-deactivate BE
-end
+    service -->> controller : fail
+    controller -->> routing : fail
+    ?o<<-- routing : 400 Bad Request
+end alt
+
+deactivate liftrepo
+
+service ->> floorrepo: check if floors belong to the building
+activate floorrepo
+alt not found
+floorrepo ->> db: select floors
+activate db
+db --->> floorrepo : floors
+deactivate db
+
+alt floors not found
+floorrepo --->> service: not found
+service --->> controller: not found
+controller --->> routing: not found
+ ?o<<-- routing : 400 Bad Request
+deactivate floorrepo
+end alt
+service ->> lift** : create
+
+lift -->> lift: verifies data
+alt invalid data
+    lift -->> service : invalid data
+
+    service -->> controller : fail
+    controller -->> routing : fail
+    ?o<<-- routing : 400 Bad Request
+end alt
+
+
+
+
+
+
+service ->> liftrepo : save
+activate liftrepo
+
+liftrepo ->> db : insert lift
+
+activate db
+db -->> liftrepo : success
+
+deactivate db
+liftrepo -->> service : success
+deactivate liftrepo
+
+service ->> map: toDTO
+activate map
+map ->> dto**: dto
+activate dto
+dto -->> map: dto
+deactivate dto
+map-->> service: dto
+deactivate map
+
+
+deactivate liftrepo
+
+service -->> controller : success
+deactivate service
+
+controller -->> routing : success
+deactivate controller
+
+?o<<-- routing : 201 Created
+deactivate routing
 
 @enduml

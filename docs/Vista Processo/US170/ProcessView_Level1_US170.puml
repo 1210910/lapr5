@@ -11,7 +11,12 @@ participant "System" as Sys <<System>>
 ?o->> Sys : GET
 
 activate Sys
-?o<<-- Sys : 200|404
+alt List
+   ?o<<--Sys : 200 Listed
+end
+alt Bad Request
+   ?o<<--Sys : 400 Bad Request
+end
 deactivate Sys
 
 

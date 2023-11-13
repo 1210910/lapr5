@@ -5,13 +5,18 @@ autonumber
 
 skinparam packageStyle rect
 
-title edit a building
+title Edit a building
 
 participant "MasterData" as MD <<Component>>
 
 ?o->> MD : PATCH
 
 activate MD
-?o<<-- MD : 204|400
+alt Edit
+   ?o<<--MD : 204 Edited
+end
+alt Bad Request
+   ?o<<--MD : 400 Bad Request
+end
 deactivate MD
 @enduml

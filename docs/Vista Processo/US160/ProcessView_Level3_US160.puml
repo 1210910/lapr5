@@ -5,29 +5,91 @@ skinparam packageStyle rect
 
 title Edit a building
 
-participant "Back-End" as BE <<component>>
-database "Database" as DB <<component>>
+participant "Routing" as routing <<component>>
+participant "Controller" as controller <<component>>
+participant "Service" as service <<component>>
+participant "Repository" as buildingrepo <<component>>
+participant "Building" as building <<component>>
+participant "Map" as map <<component>>
+participant "DTO" as dto <<component>>
+database "Database" as db <<component>>
 
-?o-> BE : PATCH
+?o->> routing : PATCH /buildings/:id
+activate routing
+routing ->> controller : edit building
 
-activate BE
+activate controller
+controller ->> service : edit building
 
-BE -> DB : select building
-activate DB
-DB --> BE
-deactivate DB
+activate service
+service ->> buildingrepo : verifies if already exists with that code
+
+activate buildingrepo
+buildingrepo ->> db : select building
+activate db
+db -->> buildingrepo : building
+deactivate db
+alt building found
+    buildingrepo -->> service :  found
+
+    service -->> controller : fail
+    controller -->> routing : fail
+    ?o<<-- routing : 400 Bad Request
+end alt
+
+deactivate buildingrepo
+
+service ->> building : edit
+activate building
+building -->> building: verifies data
 
 
-BE -> DB : persist
-activate DB
-DB --> BE
-deactivate DB
+deactivate building
 
-?o<<-- BE : 204 OK
+alt building found
+    building -->> service : invalid data
 
-alt bad request / building not found
-?o<<-- BE : 400 Bad Request
-deactivate BE
-end
+    service -->> controller : fail
+    controller -->> routing : fail
+    ?o<<-- routing : 400 Bad Request
+end alt
+
+
+
+
+
+
+service ->> buildingrepo : save
+activate buildingrepo
+
+buildingrepo ->> db : insert building
+
+activate db
+db -->> buildingrepo : success
+
+deactivate db
+buildingrepo -->> service : success
+deactivate buildingrepo
+
+service ->> map: toDTO
+activate map
+map ->> dto**: dto
+activate dto
+dto -->> map: dto
+deactivate dto
+map-->> service: dto
+deactivate map
+
+
+deactivate buildingrepo
+
+service -->> controller : success
+deactivate service
+
+controller -->> routing : success
+deactivate controller
+
+?o<<-- routing : 204 Created
+deactivate routing
 
 @enduml

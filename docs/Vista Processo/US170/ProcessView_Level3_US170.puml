@@ -5,25 +5,59 @@ skinparam packageStyle rect
 
 title List all buildings
 
-participant "Back-End" as BE <<component>>
-database "Database" as DB <<component>>
+participant "Routing" as routing <<component>>
+participant "Controller" as controller <<component>>
+participant "Service" as service <<component>>
+participant "Repository" as passagewayrepo <<component>>
+participant "Map" as map <<component>>
+participant "DTO" as dto <<component>>
+database "Database" as db <<component>>
 
-?o-> BE : GET
+?o->> routing : GET /buildings
+activate routing
+routing ->> controller : list buildings
 
-activate BE
+activate controller
+controller ->> service : list buildings
 
-BE -> DB : select buildings
-activate DB
-DB --> BE
-deactivate DB
+activate service
+service ->> passagewayrepo : get list of buildings
 
+activate passagewayrepo
+passagewayrepo ->> db : select all buildings
+activate db
+db -->> passagewayrepo : list
+deactivate db
 
+alt buildings not found
+    passagewayrepo -->> service : buildings not found
+    service -->> controller : fail
+    controller -->> routing : fail
+    ?o<<-- routing : 404 Not Found
+end alt
 
-?o<<-- BE : 200 OK
+passagewayrepo -->> service : list of buildings
+deactivate passagewayrepo
 
-alt bad request / buildings not found
-?o<<-- BE : 404 Bad Request
-deactivate BE
-end
+service ->> map : convert to DTO List
+activate map
+
+map -->> dto** : convert
+activate dto
+
+dto -->> map : dto list
+deactivate dto
+
+map -->> service : dto list
+deactivate map
+
+service -->> controller : success
+deactivate service
+
+controller -->> routing : success
+deactivate controller
+
+?o<<-- routing : 200 OK
+deactivate routing
 
 @enduml

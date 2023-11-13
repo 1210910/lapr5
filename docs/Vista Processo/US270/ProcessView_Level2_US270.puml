@@ -11,7 +11,12 @@ participant "MasterData" as MD <<Component>>
 ?o->> MD : POST
 
 activate MD
-?o<<-- MD : 201|400
+alt Created
+   ?o<<--MD : 201 Created
+end
+alt Bad Request
+   ?o<<--MD : 400 Bad Request
+end
 deactivate MD
 
 

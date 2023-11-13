@@ -11,7 +11,12 @@ participant "System" as Sys <<System>>
 ?o->> Sys : PATCH
 
 activate Sys
-?o<<-- Sys : 204|400
+alt Edited
+   ?o<<--Sys : 204 Edit
+end
+alt Bad Request
+   ?o<<--Sys : 400 Bad Request
+end
 deactivate Sys
 
 
