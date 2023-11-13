@@ -1,10 +1,9 @@
-import {Component, inject} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {RouterLink} from "@angular/router";
-import {FloorInfoComponent} from "../Floor/floor-info/floor-info.component";
-import {HousingLocation} from "../houselocation";
-import {HousingService} from "../housing.service";
-import routes from "../routes";
+import { RouterLink } from "@angular/router";
+import { BuildingService } from '../services/building.service';
+
+
 
 @Component({
     selector: 'app-building-create',
@@ -77,42 +76,32 @@ import routes from "../routes";
 
 })
 
-export class BuildingCreateComponent{
-    housingLocationList: HousingLocation[] = [];
-    housingService: HousingService = inject(HousingService);
-    filteredLocationList: HousingLocation[] = [];
+export class BuildingCreateComponent {
+
+    buildingService: BuildingService = inject(BuildingService);
 
     constructor() {
-        this.housingLocationList = this.housingService.housingLocationList;
-        this.filteredLocationList = this.housingLocationList;
+
     }
 
-   createBuilding(){
+    public createBuilding() {
 
         const code = document.getElementsByTagName("input")[0].value;
         const name = document.getElementsByTagName("input")[1].value;
-        const length = document.getElementsByTagName("input")[2].value;
-        const width = document.getElementsByTagName("input")[3].value;
         const description = document.getElementsByTagName("textarea")[0].value;
+        const length = Number(document.getElementsByTagName("input")[2].value);
+        const width = Number(document.getElementsByTagName("input")[3].value);
 
-        if (code == "" || name == "" || length == "" || width == "" || description == ""){
+        if (code == "" || name == "" || length == null || width == null || description == "") {
             alert("Please fill in all fields");
             return;
-
-
         }
 
-       if (this.housingService.createBuilding(code , name , length , width , description)){
+        this.buildingService.createBuilding(code, name, description, length, width).then((result) => {
+            alert("Building Created");
 
-              alert("Building Created");
-
-       }else {
-              alert("Building Creation Failed");
-         }
-
-
-
-
-   }
-
+        }).catch((error) => {
+            alert("Fail: " + error);
+        });
+    }
 }

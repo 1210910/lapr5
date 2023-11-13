@@ -39,13 +39,10 @@ import {HousingService} from "../housing.service";
 })
 
 export class BuildingComponent{
-    housingLocationList: HousingLocation[] = [];
-    housingService: HousingService = inject(HousingService);
-    filteredLocationList: HousingLocation[] = [];
+
 
     constructor() {
-        this.housingLocationList = this.housingService.housingLocationList;
-        this.filteredLocationList = this.housingLocationList;
+
     }
 
 

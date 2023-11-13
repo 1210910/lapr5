@@ -12,36 +12,37 @@ export class BuildingService{
     this.BuildingList = [];
   }
 
-  createBuilding(code:string , number:number, length:number, width:number, description:string, buildingID:string) {
+  public createBuilding(code:string , name:string, description:string, maxLength:number, maxWidth:number) {
 
     return new Promise((resolve, reject) => {
 
       const jsonMessage = JSON.stringify(
         {
           code: code,
-          name: number,
-          description: length,
-          maxLength: width,
-          maxWidth: description
+          name: name,
+          description: description,
+          maxLength: maxLength,
+          maxWidth: maxWidth
         });
       const httprequest = new XMLHttpRequest();
       httprequest.open('POST', 'http://localhost:4000/api/buildings', true);
       httprequest.setRequestHeader('Content-Type', 'application/json',);
-      let response;
+      //let response;
       httprequest.onload = function () {
 
         if (httprequest.status === 201) {
           console.log("Building created");
-          response = httprequest.status;
+          //response = httprequest.status;
           resolve(true);
         } else {
-          response = httprequest.status;
+          console.log(httprequest.responseText);
+          const errorResponse = JSON.parse(httprequest.responseText);
+          //response = httprequest.status;
           console.log("Building not created");
-          reject(false);
+          reject(errorResponse.error);
         }
       }
       httprequest.send(jsonMessage);
-
 
     });
   }
@@ -110,6 +111,46 @@ export class BuildingService{
     return this.BuildingList.find((building) => building.code === position);
   }
 
+
+
+
+  public editBuilding(editedData: { code?: string, name?: string, description?: string, maxLength?: number, maxWidth?: number }) {
+
+    return new Promise((resolve, reject) => {
+
+      console.log(editedData);
+      
+      const filteredData = Object.fromEntries(Object.entries(editedData).filter(([_, value]) => value !== undefined));
+
+      const jsonMessage = JSON.stringify(
+        {
+          name: editedData.name,
+          description: editedData.description,
+          maxLength: editedData.maxLength,
+          maxWidth: editedData.maxWidth,
+        });
+
+      const httprequest = new XMLHttpRequest();
+      httprequest.open('PATCH', 'http://localhost:4000/api/buildings/' + editedData.code, true);
+      httprequest.setRequestHeader('Content-Type', 'application/json',);
+      httprequest.onload = function () {
+      console.log(jsonMessage);
+        if (httprequest.status === 200) {
+          const successResponse = JSON.parse(httprequest.responseText);
+          console.log(successResponse);
+
+          resolve(true);
+        } else {
+          console.error(httprequest.responseText);
+          const errorResponse = JSON.parse(httprequest.responseText);
+          console.log("Building not edited");
+          reject(errorResponse.error);
+        }
+      }
+      httprequest.send(jsonMessage);
+
+    });
+  }
 
 
 }

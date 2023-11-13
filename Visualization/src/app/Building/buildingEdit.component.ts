@@ -1,10 +1,7 @@
 import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
-import {FloorInfoComponent} from "../Floor/floor-info/floor-info.component";
-import {HousingLocation} from "../houselocation";
-import {HousingService} from "../housing.service";
-import routes from "../routes";
+import { BuildingService } from '../services/building.service';
 
 @Component({
   selector: 'app-building-edit',
@@ -78,35 +75,45 @@ import routes from "../routes";
 })
 
 export class BuildingEditComponent{
-  housingLocationList: HousingLocation[] = [];
-  housingService: HousingService = inject(HousingService);
-  filteredLocationList: HousingLocation[] = [];
+  buildingService: BuildingService = inject(BuildingService);
 
   constructor() {
-    this.housingLocationList = this.housingService.housingLocationList;
-    this.filteredLocationList = this.housingLocationList;
   }
 
   editBuilding(){
 
     const code = document.getElementsByTagName("input")[0].value;
     const name = document.getElementsByTagName("input")[1].value;
-    const length = document.getElementsByTagName("input")[2].value;
-    const width = document.getElementsByTagName("input")[3].value;
     const description = document.getElementsByTagName("textarea")[0].value;
+    const length = Number(document.getElementsByTagName("input")[2].value);
+    const width = Number(document.getElementsByTagName("input")[3].value);
 
+    const editedData: any ={};
+    if (code !== "") {
+        editedData['code'] = code;
+      }
+      if (name !== "") {
+        editedData['name'] = name;
+      }
+      if (description !== "") {
+        editedData['description'] = description;
+      }
+      if (length !== 0) {
+        editedData['maxLength'] = length;
+      }
+      if (width !== 0) {
+        editedData['maxWidth'] = width;
+      }
 
-    if (this.housingService.createBuilding(code , name , length , width , description)){
-
-      alert("Building edited successfully");
-
-    }else {
-      alert("Building Creation Failed");
-    }
-
-
-
-
+  if (Object.keys(editedData).length > 0) {
+    this.buildingService.editBuilding(editedData).then((result) => {
+      alert("Building edited");
+    }).catch((err) => {
+      alert("Building edition failed");
+    });
+  } else {
+    alert("No changes to update");
   }
+}
 
 }
