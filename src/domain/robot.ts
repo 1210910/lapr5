@@ -14,45 +14,33 @@ interface robotProps {
 
 export class Robot extends AggregateRoot<robotProps>{
 
-    get id(): UniqueEntityID {
+   /* get id(): UniqueEntityID {
         return this._id;
     }
 
     get robotId(): RobotId {
         return RobotId.caller(this.id);
-    }
+    }*/
 
     get code(): string {
         return this.props.code;
-    }
-
-    set code(code: string) {
-        this.props.code = code;
     }
 
     get name(): string {
         return this.props.name;
     }
 
-    set name(name: string) {
-        this.props.name = name;
-    }
 
     get type(): string {
         return this.props.type;
     }
 
-    set type(type: string) {
-        this.props.type = type;
-    }
+
 
     get enabled(): boolean {
         return this.props.enabled;
     }
 
-    set enabled(enabled: boolean) {
-        this.props.enabled = enabled;
-    }
 
     get description(): string {
         return this.props.description;
