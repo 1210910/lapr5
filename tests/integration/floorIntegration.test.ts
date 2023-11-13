@@ -70,7 +70,6 @@ describe('Floor Integraion test', () => {
       maxWidth: 10,
     }).getValue();
 
-      const floor = Floor.create(floorDTO).getValue();
 
       (buildingRepo.findByCode as sinon.SinonStub).withArgs("B").resolves(building);
       (floorRepo.findByBuildingId as sinon.SinonStub).withArgs(floorDTO.buildingID).resolves(null);
@@ -154,23 +153,6 @@ describe('Floor Integraion test', () => {
         send: sinon.stub()
       };
 
-      const floorDTO = {
-        floorCode: "B1",
-        floorNumber: "1",
-        width: 9,
-        length: 9,
-        description:"Floor",
-        buildingID:"B"
-      };
-      const building = Building.create({
-        code: 'B',
-        name: 'Building 1',
-        description: 'Building 1',
-        maxLength: 10,
-        maxWidth: 10,
-      }).getValue();
-
-
       (buildingRepo.findByCode as sinon.SinonStub).withArgs("B").resolves(null);
       await floorController.createFloor(req as Request, res as Response, () => {
       });
@@ -199,24 +181,6 @@ describe('Floor Integraion test', () => {
         status: sinon.stub().returnsThis(),
         send: sinon.stub()
       };
-
-      const floorDTO = {
-        floorCode: "B1",
-        floorNumber: "1",
-        width: 9,
-        length: 9,
-        description:"Floor",
-        buildingID:"B"
-      };
-      const building = Building.create({
-        code: 'B',
-        name: 'Building 1',
-        description: 'Building 1',
-        maxLength: 10,
-        maxWidth: 10,
-      }).getValue();
-
-      const floor = Floor.create(floorDTO).getValue();
 
       (buildingRepo.findByCode as sinon.SinonStub).withArgs("B").rejects(new Error("Error"));
       (buildingRepo.save as sinon.SinonStub).withArgs("FLR1").resolves(null);

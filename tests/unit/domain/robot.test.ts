@@ -15,8 +15,8 @@ describe("Robot Test", () => {
     }
 
 
-    const buildingOrError = Robot.create(robotDTO);
-    assert(buildingOrError.isSuccess);
+    const robotOrError = Robot.create(robotDTO);
+    assert(robotOrError.isSuccess);
   });
 
   it("should fail a valid Robot when description is bigger tha 255", () => {
@@ -30,8 +30,8 @@ describe("Robot Test", () => {
     }
 
 
-    const buildingOrError = Robot.create(robotDTO);
-    assert(buildingOrError.isFailure);
+    const robotOrError = Robot.create(robotDTO);
+    assert(robotOrError.isFailure);
   });
 
   it("should fail a valid Robot when description is null", () => {
@@ -45,8 +45,8 @@ describe("Robot Test", () => {
     }
 
 
-    const buildingOrError = Robot.create(robotDTO);
-    assert(buildingOrError.isFailure);
+    const robotOrError = Robot.create(robotDTO);
+    assert(robotOrError.isFailure);
   });
 
   it("should fail a valid Robot when name is null", () => {
@@ -60,8 +60,8 @@ describe("Robot Test", () => {
     }
 
 
-    const buildingOrError = Robot.create(robotDTO);
-    assert(buildingOrError.isFailure);
+    const robotOrError = Robot.create(robotDTO);
+    assert(robotOrError.isFailure);
   });
 
   it("should fail a valid Robot when type is null", () => {
@@ -75,8 +75,8 @@ describe("Robot Test", () => {
     }
 
 
-    const buildingOrError = Robot.create(robotDTO);
-    assert(buildingOrError.isFailure);
+    const robotOrError = Robot.create(robotDTO);
+    assert(robotOrError.isFailure);
   });
 
   it("should fail a valid Robot when code is null", () => {
@@ -90,8 +90,8 @@ describe("Robot Test", () => {
     }
 
 
-    const buildingOrError = Robot.create(robotDTO);
-    assert(buildingOrError.isFailure);
+    const robotOrError = Robot.create(robotDTO);
+    assert(robotOrError.isFailure);
   });
 
   it("should fail a valid Robot when enabled is null", () => {
@@ -105,8 +105,8 @@ describe("Robot Test", () => {
     }
 
 
-    const buildingOrError = Robot.create(robotDTO);
-    assert(buildingOrError.isFailure);
+    const robotOrError = Robot.create(robotDTO);
+    assert(robotOrError.isFailure);
   });
 
   it("should fail a valid Robot when name is bigger than 30", () => {
@@ -119,8 +119,8 @@ describe("Robot Test", () => {
       description: "aa"
     }
 
-    const buildingOrError = Robot.create(robotDTO);
-    assert(buildingOrError.isFailure);
+    const robotOrError = Robot.create(robotDTO);
+    assert(robotOrError.isFailure);
   });
 
   it("should fail a valid Robot when enable is false", () => {
@@ -133,8 +133,8 @@ describe("Robot Test", () => {
       description: "aa"
     }
 
-    const buildingOrError = Robot.create(robotDTO);
-    assert(buildingOrError.isFailure);
+    const robotOrError = Robot.create(robotDTO);
+    assert(robotOrError.isFailure);
   });
 
   it("should fail a valid Robot when enable is false", () => {
@@ -147,8 +147,78 @@ describe("Robot Test", () => {
       description: "aa"
     }
 
-    const buildingOrError = Robot.create(robotDTO);
-    assert(buildingOrError.isFailure);
+    const robotOrError = Robot.create(robotDTO);
+    assert(robotOrError.isFailure);
+  });
+
+  it("should pass when get code", () => {
+
+    const robotDTO = {
+      code: "R1",
+      name: "name",
+      type:"type",
+      enabled: true,
+      description: "aa"
+    }
+
+    const robotOrError = Robot.create(robotDTO);
+    assert.equal(robotOrError.getValue().code,robotDTO.code);
+  });
+
+  it("should pass when get name", () => {
+
+    const robotDTO = {
+      code: "R1",
+      name: "name",
+      type:"type",
+      enabled: true,
+      description: "aa"
+    }
+
+    const robotOrError = Robot.create(robotDTO);
+    assert.equal(robotOrError.getValue().name,robotDTO.name);
+  });
+
+  it("should pass when get type", () => {
+
+    const robotDTO = {
+      code: "R1",
+      name: "name",
+      type:"type",
+      enabled: true,
+      description: "aa"
+    }
+
+    const robotOrError = Robot.create(robotDTO);
+    assert.equal(robotOrError.getValue().type,robotDTO.type);
+  });
+
+  it("should pass when get enabled", () => {
+
+    const robotDTO = {
+      code: "R1",
+      name: "name",
+      type:"type",
+      enabled: true,
+      description: "aa"
+    }
+
+    const robotOrError = Robot.create(robotDTO);
+    assert.equal(robotOrError.getValue().enabled,robotDTO.enabled);
+  });
+
+  it("should pass when get description", () => {
+
+    const robotDTO = {
+      code: "R1",
+      name: "name",
+      type:"type",
+      enabled: true,
+      description: "aa"
+    }
+
+    const robotOrError = Robot.create(robotDTO);
+    assert.equal(robotOrError.getValue().description,robotDTO.description);
   });
 
 

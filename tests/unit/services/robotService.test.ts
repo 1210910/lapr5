@@ -7,15 +7,7 @@ import RobotService from "../../../src/services/robotService";
 import { Robot } from "../../../src/domain/robot";
 import sinon from "sinon";
 import jsonPatch from 'json-patch';
-import IFloorRepo from "../../../src/services/IRepos/IFloorRepo";
-import IBuildingRepo from "../../../src/services/IRepos/IBuildingRepo";
-import IPassagewayRepo from "../../../src/services/IRepos/IPassagewayRepo";
-import IFloorService from "../../../src/services/IServices/IFloorService";
-import FloorService from "../../../src/services/floorService";
 import { Result } from "../../../src/core/logic/Result";
-import { Floor } from "../../../src/domain/floor";
-import IBuildingService from "../../../src/services/IServices/IBuildingService";
-import BuildingService from "../../../src/services/buildingService";
 
 describe('Robot Service', () => {
 
@@ -146,7 +138,6 @@ describe('Robot Service', () => {
         enabled: false,
         description: "description"
       }
-      //const robot = Robot.create(robotDTO).getValue();
 
       when(robotRepo.findByCode('R1')).thenResolve(null);
 
@@ -210,14 +201,6 @@ describe('Robot Service', () => {
     const robotTypeRepo: IRobotTypeRepo = mock<IRobotTypeRepo>();
     const robotService: IRobotService = new RobotService(instance(robotRepo),instance(robotTypeRepo));
 
-    const robotDTO = {
-      code: "R1",
-      name: "Robot number 1",
-      type:"RT-001",
-      enabled: true,
-      description: "description"
-    }
-
       when(robotRepo.findAll()).thenThrow(new Error("Error"));
       try {
         await robotService.listRobot();
@@ -232,13 +215,6 @@ describe('Robot Service', () => {
       const robotTypeRepo: IRobotTypeRepo = mock<IRobotTypeRepo>();
       const robotService: IRobotService = new RobotService(instance(robotRepo),instance(robotTypeRepo));
 
-      const robotDTO = {
-        code: "R1",
-        name: "Robot number 1",
-        type:"RT-001",
-        enabled: true,
-        description: "description"
-      }
 
       when(robotRepo.findAll()).thenResolve(Result.fail<Robot[]>("teste"))
 
