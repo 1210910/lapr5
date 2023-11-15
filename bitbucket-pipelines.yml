@@ -14,5 +14,5 @@ pipelines:
               - node
             script:
               - npm install
-              - mocha -r ts-node/register tests/Unit/**/*.test.ts tests/Integration/**/*.test.ts
+              - npm test
         
