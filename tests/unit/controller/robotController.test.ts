@@ -252,7 +252,7 @@ describe('Robot Controller', () => {
     await robotController.listRobot(req as Request, res as Response,next as NextFunction);
 
     sinon.assert.calledOnce(res.status as sinon.SinonStub);
-    sinon.assert.calledWith(res.status as sinon.SinonStub, 201);
+    sinon.assert.calledWith(res.status as sinon.SinonStub, 200);
     sinon.assert.calledWith(res.json as sinon.SinonStub, sinon.match({
       "code": req.body.code,
       "name": req.body.name,

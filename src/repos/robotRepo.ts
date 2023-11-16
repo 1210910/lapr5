@@ -8,6 +8,9 @@ import { IRobotPersistence } from '../dataschema/IRobotPersistence';
 
 import { Result } from "../core/logic/Result";
 import { Document, FilterQuery, Model } from 'mongoose';
+import { code } from "three/examples/jsm/nodes/shadernode/ShaderNodeBaseElements";
+import { Building } from "../domain/Building";
+import { BuildingMap } from "../mappers/BuildingMap";
 
 @Service()
 export default class RobotRepo implements IRobotRepo {
@@ -67,8 +70,8 @@ export default class RobotRepo implements IRobotRepo {
         }
     }
 
-    public async findByCode(robotCode: string): Promise<Robot> {
-        const query = { robotCode: robotCode };
+    public async findByCode(code: string): Promise<Robot> {
+        const query = { code: code };
 
         const robotDocument = await this.robotSchema.findOne(query);
 
@@ -78,17 +81,13 @@ export default class RobotRepo implements IRobotRepo {
         return null;
     }
 
-    public async findAll(): Promise<Result<Array<Robot>>> {
-        try {
-            const robotRecord = await this.robotSchema.find();
 
-            const robots = robotRecord.map((item) => {
-                return RobotMap.toDomain(item);
-            });
 
-            return Result.ok<Array<Robot>>(robots);
-        } catch (err) {
-            throw err;
-        }
-    }
+  public async findAll(): Promise<Array<Robot>> {
+    const robotRecords = await this.robotSchema.find();
+    const robots = await Promise.all(robotRecords.map(async (robotRecord) =>
+      await RobotMap.toDomain(robotRecord)
+    ));
+    return robots;
+  }
 }
