@@ -72,9 +72,7 @@ export class Robot extends AggregateRoot<robotProps>{
       if(props.description.length > 250 ){
         return Result.fail<Robot>("Description property cannot have more than 255 letters")
       }
-      if(props.enabled === false ){
-        return Result.fail<Robot>("Robot must be created with enabled status active")
-      }
+
 
       const robot = new Robot({
         ...props

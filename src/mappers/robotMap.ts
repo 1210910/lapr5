@@ -18,16 +18,19 @@ export class RobotMap extends Mapper<Robot> {
         } as IRobotDTO;
     }
 
-    public static toDomain(robot: any | Model<IRobotPersistence & Document>): Robot {
-        const robotOrError = Robot.create(
-            robot,
-            new UniqueEntityID(robot.domainId)
-        );
+    public static async toDomain (raw: any): Promise<Robot> {
 
+        const robotOrError = Robot.create({
+          code: raw.code,
+          name: raw.name,
+          type: raw.type,
+          enabled:raw.enabled,
+          description: raw.description
+        }, new UniqueEntityID(raw.domainId))
+    
         robotOrError.isFailure ? console.log(robotOrError.error) : '';
-
-        return robotOrError.isSuccess ? robotOrError.getValue() : null;
-    }
+        return robotOrError.isSuccess ? robotOrError.getValue() : null ;
+      }
 
     public static toPersistence(robot: Robot): any {
         return {

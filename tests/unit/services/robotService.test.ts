@@ -47,8 +47,8 @@ describe('Robot Service', () => {
         description: "description"
       }
 
-      when(robotRepo.existsByCode('R1')).thenResolve(null);
-      when(robotTypeRepo.existsByCode('type')).thenResolve(null);
+      when(robotRepo.existsByCode('R1')).thenResolve(false);
+      when(robotTypeRepo.existsByCode('type')).thenResolve(false);
 
       const result = await robotService.createRobot(robotDTO);
       expect(result.isFailure).to.equal(true);
@@ -70,7 +70,7 @@ describe('Robot Service', () => {
         description: "description".repeat(260)
       }
 
-      when(robotRepo.existsByCode('R1')).thenResolve(null);
+      when(robotRepo.existsByCode('R1')).thenResolve(false);
       when(robotTypeRepo.existsByCode('RT-001')).thenResolve(true);
 
       const result = await robotService.createRobot(robotDTO);
@@ -94,7 +94,7 @@ describe('Robot Service', () => {
         description: "description"
       }
 
-      when(robotRepo.existsByCode('R1')).thenResolve(null);
+      when(robotRepo.existsByCode('R1')).thenResolve(false);
       when(robotTypeRepo.existsByCode('RT-001')).thenResolve(true);
       when(robotRepo.save(anything())).thenResolve(null)
       const result = await robotService.createRobot(robotDTO);
@@ -216,7 +216,7 @@ describe('Robot Service', () => {
       const robotService: IRobotService = new RobotService(instance(robotRepo),instance(robotTypeRepo));
 
 
-      when(robotRepo.findAll()).thenResolve(Result.fail<Robot[]>("teste"))
+      when(robotRepo.findAll()).thenResolve(null)
 
       const result =await robotService.listRobot();
       expect(result.isFailure).is.to.be.true;
@@ -238,7 +238,7 @@ describe('Robot Service', () => {
       }
       const robot = Robot.create(robotDTO).getValue();
 
-      when(robotRepo.findAll()).thenResolve(Result.ok<Robot[]>([robot]));
+      when(robotRepo.findAll()).thenResolve([robot]);
 
       const result =await robotService.listRobot();
       expect(result.isSuccess).is.to.be.true;

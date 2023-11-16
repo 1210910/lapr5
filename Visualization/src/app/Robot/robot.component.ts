@@ -18,7 +18,8 @@ import {RouterLink} from "@angular/router";
                       </a></li>
                       <li><a [routerLink]="['/robotCreate']" data-item='Create'>Create</a></li>
                       <li><a [routerLink]="['/robotList']" data-item='List'>List</a></li>
-                      <li><a [routerLink]="['/robotDisable']" data-item='Disable'>Disable</a></li>
+                      <li><a [routerLink]="['/robotEnableDisable']" data-item='Enable/Disable'>Enable/Disable</a></li>
+
                   </ul>
               </nav>
           </header>

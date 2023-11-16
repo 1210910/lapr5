@@ -32,6 +32,7 @@ import {RobotTypeComponent} from "./RobotType/robotType.component";
 import {RobotTypeCreateComponent} from "./RobotType/robotTypeCreate.component";
 import {CampusComponent} from "./campus/campus.component";
 import {LoadMapComponent} from "./campus/loadMap.component";
+import {RobotEnableDisableComponent} from "./Robot/robotEnableDisable.component"
 
 
 const routeConfig: Routes = [
@@ -217,12 +218,12 @@ const routeConfig: Routes = [
     path: 'robotList',
     component: RobotListComponent,
     title: 'Robot list page'
-  },
+  },*/
   {
-    path: 'robotDisable',
-    component: RobotDisableComponent,
+    path: 'robotEnableDisable',
+    component: RobotEnableDisableComponent,
     title: 'Robot disable page'
-  }*/
+  }
 ];
 
 export default routeConfig;

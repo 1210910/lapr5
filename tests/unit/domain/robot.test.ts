@@ -123,33 +123,6 @@ describe("Robot Test", () => {
     assert(robotOrError.isFailure);
   });
 
-  it("should fail a valid Robot when enable is false", () => {
-
-    const robotDTO = {
-      code: "R1",
-      name: "name",
-      type:"type",
-      enabled: false,
-      description: "aa"
-    }
-
-    const robotOrError = Robot.create(robotDTO);
-    assert(robotOrError.isFailure);
-  });
-
-  it("should fail a valid Robot when enable is false", () => {
-
-    const robotDTO = {
-      code: "R1",
-      name: "name",
-      type:"type",
-      enabled: false,
-      description: "aa"
-    }
-
-    const robotOrError = Robot.create(robotDTO);
-    assert(robotOrError.isFailure);
-  });
 
   it("should pass when get code", () => {
 

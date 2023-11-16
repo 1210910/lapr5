@@ -1,0 +1,235 @@
+/* Adicione estas classes para centralizar os cards */
+.card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap; /* Permite a quebra para nova linha */
+}
+
+.card {
+  width: 300px;
+  margin: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Adiciona espaço abaixo dos cards para melhorar a visualização */
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+
+/* Estilo para o conteúdo do card */
+.card-content {
+  padding: 16px;
+}
+
+.robot-name {
+  font-size: 1.5em;
+  font-weight: bold;
+  text-align: center;
+}
+
+.robot-status {
+  text-align: center;
+  margin-top: 8px;
+}
+
+/* Estilo para o botão do card */
+.card-button {
+  text-align: center;
+  padding: 16px;
+}
+
+.cd-intro {
+
+  width: 100%;
+  min-height: 50vh;
+
+  overflow: auto;
+  background: #f9f9f9;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.cd-btn{
+  background-color: #8254ff;
+  color: #fff;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-style: none;
+  outline: none;
+  cursor: pointer;
+  transition: all .5s ease-in-out;
+}
+
+.cd-btn:hover{
+  background-color: #5016f4;
+  transition: all .5s ease-in-out;
+}
+a{
+  text-decoration: none  ;
+}
+
+.cd-intro-content h1,
+.cd-intro-content p,
+.cd-intro-content .cd-btn {
+  margin: 40px ;
+  opacity: 0;
+  animation-delay: 0.3s;
+  animation-fill-mode: forwards;
+}
+
+.bouncy.cd-intro-content h1 {
+  animation-name: cd-bounce-right;
+}
+
+.bouncy.cd-intro-content p {
+  animation-name: cd-bounce-left;
+}
+
+.bouncy.cd-intro-content h1,
+.bouncy.cd-intro-content p {
+  animation-duration: 0.6s;
+}
+
+.bouncy.cd-intro-content .cd-btn {
+  animation-name: cd-bounce-rotate;
+  animation-duration: 0.5s;
+}
+
+.bouncy.cd-intro-content .cd-btn.main-action {
+  animation-delay: 0.4s;
+}
+.robot-image {
+  width: 50px; /* Adjust the width of the image as needed */
+  height: auto; /* Maintain aspect ratio */
+  display: block;
+  margin: 0 auto 10px; /* Adjust margin as needed to position the image */
+}
+
+@keyframes cd-bounce-right {
+  0% {
+    opacity: .2;
+    transform: translateX(-200px);
+  }
+  60% {
+    opacity: .7;
+    transform: translateX(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes cd-bounce-left {
+  0% {
+    opacity: .2;
+    transform: translateX(200px);
+  }
+  60% {
+    opacity: .7;
+    transform: translateX(-15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes cd-bounce-rotate {
+  0% {
+    opacity: .2;
+    transform: perspective(800px) rotateX(-80deg);
+  }
+  20% {
+    opacity: 1;
+  }
+  60% {
+    transform: perspective(800px) rotateX(20deg);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(800px) rotateX(0);
+  }
+}
+
+@media (min-width: 500px) and (max-width: 768px) {
+  .results {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  input[type="text"] {
+    width: 70%;
+  }
+}
+
+@media (max-width: 499px) {
+  .results {
+    grid-template-columns: 1fr;
+  }
+}
+
+.results {
+  display: grid;
+  column-gap: 14px;
+  row-gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 400px));
+  margin-top: 50px;
+  justify-content: space-around;
+}
+
+nav {
+  background: #f9f9f9;
+
+  .menuItems {
+    list-style: none;
+    display: flex;
+
+    & li {
+      margin: 50px;
+
+      & a {
+        text-decoration: none;
+        color: #8f8f8f;
+        font-size: 24px;
+        font-weight: 400;
+        transition: all 0.5s ease-in-out;
+        position: relative;
+        text-transform: uppercase;
+
+        &::before {
+          content: attr(data-item);
+          transition: 0.5s;
+          color: #8254ff;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          width: 0;
+          overflow: hidden;
+        }
+
+        &:hover {
+          &::before {
+            width: 100%;
+            transition: all 0.5s ease-in-out;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+/* Adicione mais estilos conforme necessário para personalizar a aparência do seu componente */
