@@ -21,7 +21,7 @@ import { PassagewayService } from "../services/passageway.service";
       </header>
 
     </section>
-    <section class="body">
+    <section class="container-body">
       <div class="container">
         <div class="text">
           Insert Data

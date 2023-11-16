@@ -26,9 +26,13 @@ import {FloorInfo} from "./floor-info/floorinfo";
           </header>
 
       </section>
-      <section class="body">
+
+      <section class="list-container">
+        <div class="body">
         <app-floor-info *ngFor="let FloorInfo of floorList" [floorInfo]="FloorInfo"></app-floor-info>
-          </section>
+        </div>
+      </section>
+
   `,
   styleUrls: ["./floorCreate.component.css"]
 

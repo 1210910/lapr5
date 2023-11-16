@@ -14,7 +14,7 @@ import { anything } from "ts-mockito";
 
 chai.use(sinonChai);
 
-describe('BuildingController', () => {
+describe('BuildingIntegration', () => {
 
   let buildingService : IBuildingService;
   let buildingController : BuildingController;

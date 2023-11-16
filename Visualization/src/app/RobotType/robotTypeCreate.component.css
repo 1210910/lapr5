@@ -7,7 +7,9 @@ nav {
     display: flex;
 
     & li {
-      margin: 50px;
+      margin-top: 20px;
+      margin-bottom:20px ;
+      margin-left: 50px;
 
       & a {
         text-decoration: none;
@@ -49,10 +51,16 @@ nav {
   padding: 10px;
   font-family: 'Poppins', sans-serif;
 }
+.container-body{
+  display:flex;
+  justify-content: center;
+}
 .container{
-  max-width: 800px;
-  background: #fff;
-  width: 800px;
+
+  background: rgba(255, 255, 255, 0.5);
+  border:solid rgba(130, 84, 255,0.5);
+  border-radius: 5px;
+  width: 700px;
   padding: 25px 40px 10px 40px;
   box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
 }
@@ -110,7 +118,7 @@ form .form-row .textarea{
 .textarea label{
   width: 100%;
   bottom: 40px;
-  background: #fff;
+
 }
 .input-data .underline{
   position: absolute;

@@ -7,7 +7,9 @@ nav {
         display: flex;
 
         & li {
-            margin: 50px;
+          margin-top: 20px;
+          margin-bottom:20px ;
+          margin-left: 50px;
 
             & a {
                 text-decoration: none;
@@ -42,19 +44,30 @@ nav {
     }
 }
 
-.body{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    font-family: 'Poppins', sans-serif;
+.body {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
+  gap: 10px; /* Optional: for some space between the items */
+  width: calc(100% - 400px); /* Subtracting 200px from each side */
+  margin: 0 auto; /* This will center the .body element */
+}
+
+app-floor-info {
+  flex: 1 0 20%; /* This will allow 4 items per row (100% / 4 = 25%) */
+  margin: 10px; /* Optional: for some space between the items */
+}
+.container-body{
+  display:flex;
+  justify-content: center;
 }
 .container{
-    max-width: 800px;
-    background: #fff;
-    width: 800px;
-    padding: 25px 40px 10px 40px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+
+  background: rgba(255, 255, 255, 0.5);
+  border:solid rgba(130, 84, 255,0.5);
+  border-radius: 5px;
+  width: 700px;
+  padding: 25px 40px 10px 40px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
 }
 .container .text{
     text-align: center;
@@ -89,9 +102,9 @@ form .form-row .textarea{
     border: none;
     font-size: 17px;
     border-bottom: 2px solid rgba(0,0,0, 0.12);
+  background: transparent;
 }
-.input-data input:focus ~ label, .textarea textarea:focus ~ label,
-.input-data input:valid ~ label, .textarea textarea:valid ~ label{
+.input-data input:focus ~ label, .textarea textarea:focus ~ label{
     transform: translateY(-20px);
     font-size: 14px;
     color: #8254ff;
@@ -110,7 +123,7 @@ form .form-row .textarea{
 .textarea label{
     width: 100%;
     bottom: 40px;
-    background: #fff;
+
 }
 .input-data .underline{
     position: absolute;
@@ -129,9 +142,7 @@ form .form-row .textarea{
     transition: transform 0.3s ease;
 }
 .input-data input:focus ~ .underline:before,
-.input-data input:valid ~ .underline:before,
-.textarea textarea:focus ~ .underline:before,
-.textarea textarea:valid ~ .underline:before{
+.textarea textarea:focus ~ .underline:before{
     transform: scale(1);
 }
 .submit-btn .input-data{
