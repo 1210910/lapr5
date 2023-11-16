@@ -12,26 +12,25 @@ export default (app: Router) => {
     app.use("/floorMap", route);
 
     const floorMapController = Container.get(config.controllers.floorMap.name) as IFloorMapController;
+    const multer = require('multer');
+    const upload = multer({ dest: 'uploads/' });
 
     route.post("",
-    celebrate({
+      upload.single('file'),
+      celebrate({
         body: Joi.object({
             floorCode: Joi.string().required(),
-            rooms: Joi.array().items(Joi.object({
-                roomCode: Joi.string().required(),
-                positionX: Joi.number().required(),
-                positionY: Joi.number().required(),
-            })).required(),
-            elevator: Joi.array().items(Joi.object({
-            elevatorCode : Joi.string().required(),
-            positionX: Joi.number().required(),
-            positionY: Joi.number().required(),
-            })).required().max(1),
-           
         })
     }),
-    async (req, res, next) => { await floorMapController.createFloorMap(req, res, next) }
+    async (req, res, next) => { try {
+
+      await floorMapController.createFloorMap(req, res, next);
+    } catch (error) {
+      // Handle any error that might occur
+      next(error);
+    }
+    }
     );
-       
+
 
 }

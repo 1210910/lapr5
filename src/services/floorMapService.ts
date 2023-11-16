@@ -9,6 +9,7 @@ import ILiftRepo from "./IRepos/ILiftRepo";
 import IFloorMapService from "./IServices/IFloorMapService";
 import {Result} from "../core/logic/Result";
 import { FloorMapMap } from "../mappers/floorMapMap";
+import fs from "fs";
 
 
 
@@ -18,60 +19,47 @@ export default class FloorMapService implements IFloorMapService {
 
     constructor(@Inject(config.repos.floorMap.name) private floorMapRepo : IFloorMapRepo,
                 @Inject(config.repos.floor.name) private floorRepo : IFloorRepo,
-                @Inject(config.repos.room.name) private roomRepo : IRoomRepo,
-                @Inject(config.repos.lift.name) private elevatorRepo : ILiftRepo
+
 
     ) {}
 
-    public async createFloorMap(floorMapDTO: IFloorMapDTO): Promise<Result<IFloorMapDTO>> {
+    public async createFloorMap(floorCode :string, file:any) : Promise<Result<IFloorMapDTO>> {
 
         try {
 
-            const floorExists = await this.floorRepo.existsByFloorCode(floorMapDTO.floorCode);
+
+            const floorExists = await this.floorRepo.existsByFloorCode(floorCode);
 
             if (!floorExists) {
                 return Result.fail<IFloorMapDTO>("Floor not found");
             }
 
-           for (const room of floorMapDTO.rooms) {
-                const roomExists = await this.roomRepo.exists(room.roomCode);
+            let fileContent: { maze: any; ground: any; wall: any; player: any; };
 
-                if (!roomExists) {
-                    Result.fail<IFloorMapDTO>("Room not found");
-                }
+            await readJSONFile(file.path).then((content) => {
+                console.log(content)
+                fileContent = content;
+            }).catch((error) => {
+                return Result.fail<IFloorMapDTO>(error);
+            }
+            );
+
+
+
+
+
+
+            const floorProps = {
+                floorCode: floorCode,
+                maze: fileContent.maze,
+                ground: fileContent.ground,
+                wall: fileContent.wall,
+                player: fileContent.player
             }
 
-          const elevatorExists = await this.elevatorRepo.findByCode(floorMapDTO.elevator[0].elevatorCode);
+            console.log(floorProps)
 
-            if (elevatorExists === null) {
-                return Result.fail<IFloorMapDTO>("Elevator not found");
-            }
-
-            const floor = await this.floorRepo.findByFloorCode(floorMapDTO.floorCode);
-
-            floorMapDTO.map= new Array(floor.width).fill(new Array(floor.length).fill(0));
-
-            for (const room of floorMapDTO.rooms) {
-
-                const roomExists = await this.roomRepo.findByRoomCode(room.roomCode);
-
-
-
-                for (let i = room.positionX; i < room.positionX + roomExists.width; i++) {
-                    for (let j = room.positionY; j < room.positionY + roomExists.length; j++) {
-                        floorMapDTO.map[i][j]= room.roomCode;
-                    }
-                }
-                console.log("room")
-
-            }
-          console.log("elevator")
-
-
-          floorMapDTO.map[floorMapDTO.elevator[0].positionX][floorMapDTO.elevator[0].positionY] = floorMapDTO.elevator[0].elevatorCode;
-
-
-            const floorMapOrError = FloorMap.create(floorMapDTO);
+            const floorMapOrError = FloorMap.create(floorProps);
 
             console.log(floorMapOrError)
 
@@ -84,9 +72,9 @@ export default class FloorMapService implements IFloorMapService {
             await this.floorMapRepo.save(floorMapResult);
 
 
-
+          console.log(floorMapResult)
             const floorMapDTOResult = FloorMapMap.toDTO(floorMapResult) as IFloorMapDTO;
-
+          console.log(floorMapDTOResult)
             return Result.ok<IFloorMapDTO>(floorMapDTOResult);
         }catch (e) {
             throw e;
@@ -96,4 +84,26 @@ export default class FloorMapService implements IFloorMapService {
 
 
 
+
+
+}
+function readJSONFile(filePath: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+
+        fs.readFile(filePath, 'ascii', (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                try {
+
+                    const jsonData = JSON.parse(data);
+
+                    resolve(jsonData);
+                } catch (error) {
+
+                    reject(error);
+                }
+            }
+        });
+    });
 }

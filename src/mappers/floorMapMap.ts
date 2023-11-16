@@ -13,23 +13,29 @@ export class FloorMapMap extends Mapper<FloorMap> {
         return {
             //_id: floorMap.id.toString(),
             floorCode: floorMap.floorCode,
-            map: floorMap.map
-            
+            maze: JSON.stringify(floorMap.maze),
+            ground: JSON.stringify(floorMap.ground),
+            wall: JSON.stringify(floorMap.wall),
+            player: JSON.stringify(floorMap.player)
+
         } as IFloorMapDTO;
     }
 
     public static toDomain( raw: any | Model<IFloorMapPersistence & Document> ): FloorMap {
-        
+
         const floorMapOrError = FloorMap.create(
             {
                 floorCode: raw.floorCode,
-                map: raw.map
+                maze: JSON.parse(raw.maze),
+                ground: JSON.parse(raw.ground),
+                wall: JSON.parse(raw.wall),
+                player: JSON.parse(raw.player)
             },
             new UniqueEntityID(raw._id)
-                
+
         );
 
-       
+
 
         if (floorMapOrError.isFailure) {
             throw new Error(floorMapOrError.error.toString());
@@ -43,7 +49,10 @@ export class FloorMapMap extends Mapper<FloorMap> {
         return {
             domainid: floorMap.id.toString(),
             floorCode: floorMap.floorCode,
-            map: floorMap.map
+            maze: JSON.stringify(floorMap.maze),
+            ground: JSON.stringify(floorMap.ground),
+            wall: JSON.stringify(floorMap.wall),
+            player: JSON.stringify(floorMap.player)
         };
     }
 }

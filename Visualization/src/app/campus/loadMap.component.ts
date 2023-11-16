@@ -37,19 +37,10 @@ import {LoaderService} from "../services/loader.service";
                           <div class="underline"></div>
                           <label for="">FloorCode</label>
                       </div>
-                      <div class="input-data">
-                          <input type="text" required>
-                          <div class="underline"></div>
-                          <label for="">Rooms (Code,positionX,positionY;)</label>
-                      </div>
-                  </div>
-                  <div class="form-row">
-                      <div class="input-data">
-                          <input type="text" required>
-                          <div class="underline"></div>
-                          <label for="">Lift(elevatorCode,positionX,positionY;)</label>
-                      </div>
-
+                        <div class="input-data">
+                        <div class="inner"></div>
+                          <input type="file" id="fileInput">
+                        </div>
                   </div>
                   <div class="form-row">
                       <div class="input-data textarea">
@@ -76,17 +67,20 @@ export class LoadMapComponent{
 
     }
 
+
+
    load(){
 
         const code = document.getElementsByTagName("input")[0].value;
-        const rooms = document.getElementsByTagName("input")[1].value;
-        const lift = document.getElementsByTagName("input")[2].value;
+        const fileInput = document.getElementById("fileInput") ;
+        // @ts-ignore
+        const file = fileInput.files[0];
+
+        console.log(file)
 
 
 
-
-
-       this.loaderService.load(code,rooms,lift).then((result) => {
+     this.loaderService.load(code,file).then((result) => {
            alert("Map loaded");
        }).catch((error) => {
            alert("Map not loaded");

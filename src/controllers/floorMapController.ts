@@ -16,9 +16,11 @@ export default class FloorMapController implements IFloorMapController {
     public async createFloorMap(req: Request, res: Response, next: NextFunction) {
 
         try {
-            console.log("estou aqui");
-            const floorMapOrError = await this.floorMapService.createFloorMap(req.body) as Result<IFloorMapDTO>;
-            console.log("estou aqui");
+            const floorCode = req.body.floorCode;
+            // @ts-ignore
+            const file = req.file ;
+            const floorMapOrError = await this.floorMapService.createFloorMap(floorCode,file) as Result<IFloorMapDTO>;
+
             if (floorMapOrError.isFailure) {
                 return res.status(400).send(floorMapOrError.errorValue());
             }else{

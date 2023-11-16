@@ -55,17 +55,13 @@ nav {
   justify-content: center;
 }
 .container{
-<<<<<<< HEAD
+
 
   background: rgba(255, 255, 255, 0.5);
   border:solid rgba(130, 84, 255,0.5);
   border-radius: 5px;
   width: 700px;
-=======
-  max-width: 800px;
-  background: #fff;
-  width: 800px;
->>>>>>> 75776990d96c9d56d7db17049b2feeccb6957f80
+
   padding: 25px 40px 10px 40px;
   box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
 }
@@ -96,7 +92,7 @@ form .form-row .textarea{
 }
 .input-data input,
 .textarea textarea{
-<<<<<<< HEAD
+
     display: block;
     width: 100%;
     height: 100%;
@@ -109,20 +105,7 @@ form .form-row .textarea{
     transform: translateY(-20px);
     font-size: 14px;
     color: #8254ff;
-=======
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: none;
-  font-size: 17px;
-  border-bottom: 2px solid rgba(0,0,0, 0.12);
-}
-.input-data input:focus ~ label, .textarea textarea:focus ~ label,
-.input-data input:valid ~ label, .textarea textarea:valid ~ label{
-  transform: translateY(-20px);
-  font-size: 14px;
-  color: #8254ff;
->>>>>>> 75776990d96c9d56d7db17049b2feeccb6957f80
+
 }
 .textarea textarea{
   resize: none;
@@ -136,15 +119,11 @@ form .form-row .textarea{
   transition: all 0.3s ease;
 }
 .textarea label{
-<<<<<<< HEAD
+
     width: 100%;
     bottom: 40px;
 
-=======
-  width: 100%;
-  bottom: 40px;
-  background: #fff;
->>>>>>> 75776990d96c9d56d7db17049b2feeccb6957f80
+
 }
 .input-data .underline{
   position: absolute;
@@ -163,16 +142,11 @@ form .form-row .textarea{
   transition: transform 0.3s ease;
 }
 .input-data input:focus ~ .underline:before,
-<<<<<<< HEAD
+
 
 .textarea textarea:focus ~ .underline:before{
     transform: scale(1);
-=======
-.input-data input:valid ~ .underline:before,
-.textarea textarea:focus ~ .underline:before,
-.textarea textarea:valid ~ .underline:before{
-  transform: scale(1);
->>>>>>> 75776990d96c9d56d7db17049b2feeccb6957f80
+
 }
 .submit-btn .input-data{
   overflow: hidden;

@@ -1,5 +1,8 @@
 export  interface IFloorMapPersistence {
     _id: string;
     floorCode: string;
-    map: string[][];
+    maze: string;
+    ground: string;
+    wall: string;
+    player: string;
 }
