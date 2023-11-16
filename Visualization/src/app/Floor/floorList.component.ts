@@ -2,11 +2,9 @@ import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
 import {FloorInfoComponent} from "./floor-info/floor-info.component";
-import {HousingLocation} from "../houselocation";
-import {HousingService} from "../housing.service";
-import routes from "../routes";
 import {FloorService} from "../services/floor.service";
 import {FloorInfo} from "./floor-info/floorinfo";
+import { PassagewayService } from "../services/passageway.service";
 
 @Component({
   selector: 'app-building-list',
@@ -21,6 +19,14 @@ import {FloorInfo} from "./floor-info/floorinfo";
                       <li><a [routerLink]="['/floor']">
                           <img class="brand-logo" src="/assets/logoFloor(2).svg" alt="logo" aria-hidden="true">
                       </a></li>
+                    <li>
+                      <div class="search-box">
+                        <button class="btn-search" type="button" (click)="CallMethod(filter.value)">
+                          <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                        <input type="text" class="input-search" placeholder="'Building 1'-'Building 2'" #filter>
+                      </div>
+                    </li>
                   </ul>
               </nav>
           </header>
@@ -41,19 +47,25 @@ import {FloorInfo} from "./floor-info/floorinfo";
 export class FloorListComponent{
   floorList: FloorInfo[] = [];
   floorService: FloorService = inject(FloorService);
+  passagewayService: PassagewayService = inject(PassagewayService);
 
   constructor() {
     this.floorService.listFloors().then((result) => {
       this.floorService.floorList(result);
-
       this.floorList = this.floorService.FloorList;
+    });
 
-    }
+    this.passagewayService.listPassageways().then((result) => {
+        this.passagewayService.passagewayList(result);
+      }
     );
 
   }
 
-
+  CallMethod(value: string) {
+    this.floorService.floorListWithPassagewaysFromABuilding(this.passagewayService.PassagewayList, value);
+    this.floorList = this.floorService.FloorList;
+  }
 
 
 

@@ -76,8 +76,7 @@ export class PassagewayService {
       httprequest.onload = function() {
         if (httprequest.status === 200) {
           console.log("Passageway listed");
-          response = httprequest.status;
-          resolve(response);
+          resolve(httprequest.response);
         } else {
           response = httprequest.status;
           console.log("Passageway not listed");
@@ -98,6 +97,55 @@ export class PassagewayService {
         floor2: passageway.floor2,
         description: passageway.description
       })
+    }
+  }
+
+  passagewayListBetween2Buldings(response: any, floorInfo: FloorInfo[], building1: string, building2: string){
+    const passagewayList = JSON.parse(response);
+    this.PassagewayList = [];
+    for (const passageway of passagewayList) {
+        const b1 = floorInfo.find((floor) => floor.floorCode === passageway.floor1)?.buildingID;
+        const b2 = floorInfo.find((floor) => floor.floorCode === passageway.floor2)?.buildingID;
+        if ((building1 == b1 && building2 == b2) || (building1 == b2 && building2 == b1)) {
+          this.PassagewayList.push({
+            passageCode: passageway.passageCode,
+            floor1: passageway.floor1,
+            floor2: passageway.floor2,
+            description: passageway.description
+          })
+        }
+    }
+  }
+
+  passagewayListFromABuilding(response: any, floorInfo: FloorInfo[], building: string){
+    const passagewayList = JSON.parse(response);
+    this.PassagewayList = [];
+    for (const passageway of passagewayList) {
+      const b1 = floorInfo.find((floor) => floor.floorCode === passageway.floor1)?.buildingID;
+      const b2 = floorInfo.find((floor) => floor.floorCode === passageway.floor2)?.buildingID;
+      if (building == b1 || building == b2) {
+        this.PassagewayList.push({
+          passageCode: passageway.passageCode,
+          floor1: passageway.floor1,
+          floor2: passageway.floor2,
+          description: passageway.description
+        })
+      }
+    }
+  }
+
+  passagewayListFromAFloor(response: any, floor: string){
+    const passagewayList = JSON.parse(response);
+    this.PassagewayList = [];
+    for (const passageway of passagewayList) {
+      if (passageway.floor1 == floor || passageway.floor2 == floor) {
+        this.PassagewayList.push({
+          passageCode: passageway.passageCode,
+          floor1: passageway.floor1,
+          floor2: passageway.floor2,
+          description: passageway.description
+        })
+      }
     }
   }
 

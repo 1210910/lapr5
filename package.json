@@ -8,8 +8,12 @@
     "heroku-postbuild": "npm run build",
     "start": "nodemon",
     "inspect": "nodemon --inspect src/app.ts",
+<<<<<<< HEAD
     "test": "mocha -r ts-node/register tests/**/*/*.test.ts",
 
+=======
+    "test": "mocha -r ts-node/register tests/unit/**/*.test.ts tests/integration/**/*.test.ts",
+>>>>>>> 75776990d96c9d56d7db17049b2feeccb6957f80
     "lint": "npm run lint:js ",
     "lint:eslint": "eslint --ignore-path .gitignore --ext .ts",
     "lint:js": "npm run lint:eslint src/",

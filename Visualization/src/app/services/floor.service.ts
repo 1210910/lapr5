@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {FloorInfo} from "../Floor/floor-info/floorinfo";
+import { PassagewayInfo } from "../PassageWay/passageway-info/passagewayinfo";
 
 
 
@@ -123,6 +124,42 @@ export class FloorService{
       });
     }
   }
+
+  floorListWithPassagewaysFromABuilding(passagewayInfo: PassagewayInfo[], buildingID: string) {
+    const floorList = [];
+
+    for (const passageway of passagewayInfo) {
+      const floor = this.getFloorByCode(passageway.floor1);
+      if (floor?.buildingID === buildingID) {
+        floorList.push
+        ({
+          floorCode: floor.floorCode,
+          floorNumber: floor.floorNumber,
+          length: floor.length,
+          width: floor.width,
+          description: floor.description,
+          buildingID: floor.buildingID
+        });
+      }
+      else {
+        const floor = this.getFloorByCode(passageway.floor2);
+        if (floor?.buildingID === buildingID) {
+          floorList.push
+          ({
+            floorCode: floor.floorCode,
+            floorNumber: floor.floorNumber,
+            length: floor.length,
+            width: floor.width,
+            description: floor.description,
+            buildingID: floor.buildingID
+          });
+        }
+      }
+    }
+    this.FloorList = floorList;
+  }
+
+
   getFloorByCode(position: string): FloorInfo | undefined{
     return this.FloorList.find((floor) => floor.floorCode === position);
   }
