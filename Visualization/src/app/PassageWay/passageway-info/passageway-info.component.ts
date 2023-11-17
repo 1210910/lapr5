@@ -12,7 +12,7 @@ import { RouterLink } from '@angular/router';
     <ol>
 
       <li style="--accent-color:#6F42C1">
-        <div class="icon"><i class="fa fa-building"></i></div>
+        <div class="icon"><i class="fa-solid fa-bridge"></i></div>
         <div class="title">{{ passagewayInfo.passageCode }}</div>
         <a [routerLink]="['/passagewaydetails', passagewayInfo.passageCode]" ><div class="descr">Learn More</div></a>
       </li>

@@ -19,13 +19,26 @@ import { PassagewayInfo } from "./passageway-info/passagewayinfo";
             <li><a [routerLink]="['/passageway']">
               <img class="brand-logo" src="/assets/logoPassageway.svg" alt="logo" aria-hidden="true">
             </a></li>
-            <li>
+            <li>From building...
               <div class="search-box">
-                <button class="btn-search" type="button" (click)="CallMethod(filter.value)">
-                  <i class="fa fa-search" aria-hidden="true"></i>
-                </button>
-                <input type="text" class="input-search" placeholder="'Building 1'-'Building 2'" #filter>
+                <input type="text" class="input-search" placeholder="From building..." #buildingFrom>
               </div>
+            </li>
+            <li>To building...
+              <div class="search-box">
+                <input type="text" class="input-search" placeholder="To building..." #buildingTo>
+              </div>
+            </li>
+            <li>Floor...
+              <div class="search-box">
+                <input type="text" class="input-search" placeholder="Floor..." #floor>
+              </div>
+            </li>
+            <li>Search
+              <button class="btn-search" type="button"
+                      (click)="CallMethod(buildingFrom.value, buildingTo.value, floor.value)">
+                <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+              </button>
             </li>
           </ul>
         </nav>
@@ -59,32 +72,28 @@ export class PassagewayListComponent {
     );
   }
 
-  CallMethod(value: string) {
-    if (value.includes("-")) {
-      let values = value.split("-");
-      const building1 = values[1];
-      const building2 = values[2];
-
+  CallMethod(buildingFrom: string, buildingTo: string, floor: string) {
+    if (floor === "" && buildingFrom !== "" && buildingTo !== "") {
       this.passagewayService.listPassageways().then((result) => {
-          this.passagewayService.passagewayListBetween2Buldings(result, this.floorService.FloorList, building1, building2);
+          this.passagewayService.passagewayListBetween2Buldings(result, this.floorService.FloorList, buildingFrom, buildingTo);
           this.passagewayList = this.passagewayService.PassagewayList;
         }
       );
-    }
-    else {
-      if (value.length === 2) {
+    } else {
+      if (floor !== "" && buildingFrom === "" && buildingTo === "") {
         this.passagewayService.listPassageways().then((result) => {
-            this.passagewayService.passagewayListFromAFloor(result, value);
+            this.passagewayService.passagewayListFromAFloor(result, floor);
             this.passagewayList = this.passagewayService.PassagewayList;
           }
         );
-      }
-      else {
-        this.passagewayService.listPassageways().then((result) => {
-            this.passagewayService.passagewayListFromABuilding(result, this.floorService.FloorList, value);
-            this.passagewayList = this.passagewayService.PassagewayList;
-          }
-        );
+      } else {
+        if (floor === "" && buildingFrom !== "" && buildingTo === "") {
+          this.passagewayService.listPassageways().then((result) => {
+              this.passagewayService.passagewayListFromABuilding(result, this.floorService.FloorList, buildingFrom);
+              this.passagewayList = this.passagewayService.PassagewayList;
+            }
+          );
+        }
       }
     }
   }
