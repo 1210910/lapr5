@@ -19,6 +19,7 @@ import {HousingService} from "../housing.service";
                           <img class="brand-logo" src="/assets/logoBuilding(1).svg" alt="logo" aria-hidden="true">
                       </a></li>
                       <li><a [routerLink]="['/loadMap']" data-item='Load Floor Map'>Load Floor Map</a></li>
+                      <li><a [routerLink]="['/view']" data-item='View Map'>View Map</a></li>
                   </ul>
               </nav>
           </header>

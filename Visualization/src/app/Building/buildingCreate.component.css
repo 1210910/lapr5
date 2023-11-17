@@ -44,15 +44,12 @@ nav {
     }
 }
 
-.body{
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    font-family: 'Poppins', sans-serif;
-    margin-left: 20%;
-    margin-right: 20%;
+.body {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
+    gap: 10px; /* Optional: for some space between the items */
+    width: calc(100% - 400px); /* Subtracting 200px from each side */
+    margin: 0 auto; /* This will center the .body element */
 }
 .container-body{
   display:flex;

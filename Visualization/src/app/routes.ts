@@ -33,6 +33,8 @@ import {RobotTypeCreateComponent} from "./RobotType/robotTypeCreate.component";
 import {CampusComponent} from "./campus/campus.component";
 import {LoadMapComponent} from "./campus/loadMap.component";
 import {RobotEnableDisableComponent} from "./Robot/robotEnableDisable.component"
+import {PlantComponent} from "./visualization_3d/plant/plant.component";
+import {ViewMapComponent} from "./campus/viewMap.component";
 
 
 const routeConfig: Routes = [
@@ -40,6 +42,16 @@ const routeConfig: Routes = [
     path:'',
     component: LoginComponent,
     title: 'Login page'
+  },
+  {
+    path:"view",
+    component: ViewMapComponent,
+    title: 'View Map page'
+  },
+  {
+    path:"plant",
+    component: PlantComponent,
+    title: 'Plant page'
   },
   {
     path:"campus",

@@ -31,6 +31,6 @@ export default (app: Router) => {
     }
     }
     );
-
+    route.get('/:floorCode', (req,res,next) => floorMapController.getFloorMap(req,res,next) );
 
 }

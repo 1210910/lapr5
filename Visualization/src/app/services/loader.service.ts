@@ -41,4 +41,30 @@ export class LoaderService {
       httprequest.send(formData); // Send the form data (including the file)
     });
   }
+  view (code: string) {
+    return new Promise((resolve, reject) => {
+
+
+      const httprequest = new XMLHttpRequest();
+      httprequest.open('GET', 'http://localhost:4000/api/floorMap/'+code, true);
+
+      httprequest.onload = function () {
+        if (httprequest.status === 201) {
+          console.log('Success: File uploaded');
+
+          resolve(httprequest.response);
+        } else {
+          console.log('Error: File upload failed');
+          reject(false);
+        }
+      };
+
+      httprequest.onerror = function () {
+        console.error('Error: There was a problem with the request');
+        reject(false);
+      };
+
+      httprequest.send(); // Send the form data (including the file)
+    });
+  }
 }

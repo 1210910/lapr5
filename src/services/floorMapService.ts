@@ -10,6 +10,7 @@ import IFloorMapService from "./IServices/IFloorMapService";
 import {Result} from "../core/logic/Result";
 import { FloorMapMap } from "../mappers/floorMapMap";
 import fs from "fs";
+import path from "path";
 
 
 
@@ -22,6 +23,58 @@ export default class FloorMapService implements IFloorMapService {
 
 
     ) {}
+
+    public async getFloorMap(floorCode :string) : Promise<Result<String>> {
+        try {
+            const floorMap = await this.floorMapRepo.findByFloorCode(floorCode);
+
+            if (floorMap.isFailure) {
+                return Result.fail<String>("FloorMap not found");
+            }
+
+
+            const maze = floorMap.getValue().maze;
+            const ground = floorMap.getValue().ground;
+            const wall = floorMap.getValue().wall;
+            const player = floorMap.getValue().player;
+
+            const combinedJSON = {
+                maze: maze,
+                ground: ground,
+                wall: wall,
+                player: player
+            };
+
+            const jsonString = JSON.stringify(combinedJSON);
+
+
+
+            const dirPath =path.join(__dirname, '..', '..', 'Visualization', 'src', 'assets', 'mazes');
+
+
+
+            let fileName = floorCode + '.json';
+
+
+
+            fs.writeFile( path.join(dirPath, fileName), jsonString, (err) => {
+                if (err) {
+                    throw err;
+                }
+                console.log("JSON data is saved.");
+            }   );
+
+            const relativePath = path.join('.','..','..','assets', 'mazes', fileName);
+
+
+            const floorMapDTO = FloorMapMap.toDTO(floorMap.getValue()) as IFloorMapDTO;
+
+            return Result.ok<String>(relativePath);
+        }
+        catch (e) {
+            throw e;
+        }
+    }
 
     public async createFloorMap(floorCode :string, file:any) : Promise<Result<IFloorMapDTO>> {
 
@@ -37,7 +90,6 @@ export default class FloorMapService implements IFloorMapService {
             let fileContent: { maze: any; ground: any; wall: any; player: any; };
 
             await readJSONFile(file.path).then((content) => {
-                console.log(content)
                 fileContent = content;
             }).catch((error) => {
                 return Result.fail<IFloorMapDTO>(error);
@@ -57,11 +109,8 @@ export default class FloorMapService implements IFloorMapService {
                 player: fileContent.player
             }
 
-            console.log(floorProps)
 
             const floorMapOrError = FloorMap.create(floorProps);
-
-            console.log(floorMapOrError)
 
             if (floorMapOrError.isFailure) {
                 return Result.fail<IFloorMapDTO>("floorMapOrError.errorValue()");
@@ -72,16 +121,15 @@ export default class FloorMapService implements IFloorMapService {
             await this.floorMapRepo.save(floorMapResult);
 
 
-          console.log(floorMapResult)
+
             const floorMapDTOResult = FloorMapMap.toDTO(floorMapResult) as IFloorMapDTO;
-          console.log(floorMapDTOResult)
+
             return Result.ok<IFloorMapDTO>(floorMapDTOResult);
         }catch (e) {
             throw e;
         }
 
     }
-
 
 
 
