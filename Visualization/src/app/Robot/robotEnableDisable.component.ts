@@ -26,7 +26,7 @@ import {Robotinfo} from "./robot-info/robotinfo";
       <div class="card-container">
         <div *ngFor="let robot of robots" class="card">
           <div class="card-content">
-          <img class="robot-image" src="/assets/robot.png" alt="robot-image" aria-hidden="true">           
+          <img class="robot-image" src="/assets/robot.png" alt="robot-image" aria-hidden="true">
             <div class="robot-name">{{ robot.name }}</div>
             <div class="robot-status">Enabled: {{ robot.enabled }}</div>
           </div>
@@ -47,7 +47,7 @@ export class RobotEnableDisableComponent implements OnInit{
   robotService: RobotService = inject(RobotService);
   robots: Robotinfo[]=[];
   constructor() {
-   
+
   }
 
   ngOnInit() {
@@ -68,7 +68,7 @@ export class RobotEnableDisableComponent implements OnInit{
       .then(() => {
         // Atualizar a lista de robôs após a alteração bem-sucedida do status
         location.reload();
-        alert("Robot status changed successfully")
+        alert("Robot status Changed successfully")
       })
       .catch(() => {
         console.error(`Erro ao tentar alterar o status do robô ${robotCode}.`);
