@@ -115,6 +115,19 @@ form .form-row .textarea{
     font-size: 16px;
     transition: all 0.3s ease;
 }
+.input-data input:focus ~ label,
+.input-data input:valid ~ label {
+    transform: translateY(-20px);
+    font-size: 14px;
+    color: #8254ff;
+}
+.input-data textarea:focus ~ label,
+.input-data textarea:valid ~ label,
+.input-data textarea:not(:placeholder-shown):not(:empty) ~ label {
+    transform: translateY(-20px);
+    font-size: 14px;
+    color: #8254ff;
+}
 .textarea label{
     width: 100%;
     bottom: 40px;
@@ -266,3 +279,58 @@ a {
     align-items: center;
 
 }
+
+/* Add styles for the select container */
+.select-container {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+ /* Hide the default dropdown arrow */
+ .select-container select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%238254ff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polygon points="12 18.35 7.07 13.41 8.5 12 12 15.5 15.5 12 16.93 13.41 12 18.35"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 8px top 50%;
+    padding-right: 30px;
+    text-align: center; /* Center the selected text */
+  }
+
+
+  /* Add styles for the label */
+  .select-container label {
+    position: absolute;
+    top: -22px; /* Adjust the top position as needed */
+    font-size: 16px;
+    color: #1a0555;
+    transition: all 0.3s ease;
+  }
+
+  /* Adjust styles for the underline */
+  .select-container .underline {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+  }
+
+  .select-container .underline:before {
+    position: absolute;
+    content: "";
+    height: 2px;
+    width: 100%;
+    background: #8254ff;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+  }
+
+  .select-container select:focus ~ .underline:before {
+    transform: scale(1);
+  }
+  /* Adjust styles for the pseudo-element */
+.select-container select::-ms-expand {
+    display: none;
+  }

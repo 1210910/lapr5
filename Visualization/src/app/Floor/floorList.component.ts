@@ -21,10 +21,10 @@ import { PassagewayService } from "../services/passageway.service";
                       </a></li>
                     <li>
                       <div class="search-box">
+                        <input type="text" class="input-search" placeholder="Building's floors with passageway" #filter>
                         <button class="btn-search" type="button" (click)="CallMethod(filter.value)">
                           <i class="fa fa-search" aria-hidden="true"></i>
                         </button>
-                        <input type="text" class="input-search" placeholder="'Building 1'-'Building 2'" #filter>
                       </div>
                     </li>
                   </ul>

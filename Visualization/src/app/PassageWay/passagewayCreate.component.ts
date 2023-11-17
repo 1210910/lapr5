@@ -92,8 +92,8 @@ export class PassagewayCreateComponent {
 
       alert("Passageway created");
 
-    }).catch(() => {
-      alert("Passageway not created");
+    }).catch((error) => {
+      alert("Passageway not created: " + error);
     });
 
   }

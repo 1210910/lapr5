@@ -212,7 +212,9 @@ a {
 .input-search{
   height: 10px;
   width: 10px;
-  border-style: none;
+  border-style: solid;
+  border-width: 3px;
+  border-color: #8254ff;
   padding: 10px;
   font-size: 18px;
   letter-spacing: 2px;
@@ -240,7 +242,6 @@ a {
   cursor: pointer;
   border-radius: 25px;
   position: absolute;
-  right: 0px;
   color: #f3eded;
   background-color: #8254ff;
   pointer-events: painted;
