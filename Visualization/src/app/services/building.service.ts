@@ -48,7 +48,7 @@ export class BuildingService{
   }
 
   listAllBuildings() {
-    return new Promise((resolve, reject) => {
+    return new Promise<BuildingInfo[]>((resolve, reject) => {
       const httprequest = new XMLHttpRequest();
       httprequest.open('GET', 'http://localhost:4000/api/buildings', true);
       httprequest.setRequestHeader('Content-Type', 'application/json',);
@@ -56,12 +56,12 @@ export class BuildingService{
       httprequest.onload = function () {
 
         if (httprequest.status === 200) {
-          console.log("Building listed");
+
           response = httprequest.response;
           resolve(response);
         } else {
           response = httprequest.status;
-          console.log("Building not listed");
+
           reject(false);
         }
       }
@@ -79,7 +79,7 @@ export class BuildingService{
       httprequest.onload = function () {
 
         if (httprequest.status === 200) {
-          console.log("Building listed");
+         
           response = httprequest.response;
           resolve(response);
         } else {
@@ -118,9 +118,7 @@ export class BuildingService{
 
     return new Promise((resolve, reject) => {
 
-      console.log(editedData);
-      
-      const filteredData = Object.fromEntries(Object.entries(editedData).filter(([_, value]) => value !== undefined));
+      //const filteredData = Object.fromEntries(Object.entries(editedData).filter(([_, value]) => value !== undefined));
 
       const jsonMessage = JSON.stringify(
         {
@@ -134,11 +132,10 @@ export class BuildingService{
       httprequest.open('PATCH', 'http://localhost:4000/api/buildings/' + editedData.code, true);
       httprequest.setRequestHeader('Content-Type', 'application/json',);
       httprequest.onload = function () {
-      console.log(jsonMessage);
+      
         if (httprequest.status === 200) {
           const successResponse = JSON.parse(httprequest.responseText);
           console.log(successResponse);
-
           resolve(true);
         } else {
           console.error(httprequest.responseText);
