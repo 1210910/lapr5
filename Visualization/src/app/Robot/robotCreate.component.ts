@@ -90,8 +90,8 @@ export class RobotCreateComponent {
     }
     this.robotService.createRobot(code, name, type, description).then(() => {
         alert("Robot created");
-    }).catch(() => {
-      alert("Robot not created");
+    }).catch((error) => {
+      alert("Robot not created: " + error);
     });
 
   }

@@ -88,11 +88,12 @@ export class PassagewayEditComponent {
     const description = document.getElementsByTagName("textarea")[0].value;
 
 
-    if (await this.passagewayService.editPassageway(passageCode, newPassageCode, floor1, floor2, description)) {
+    this.passagewayService.editPassageway(passageCode, newPassageCode, floor1, floor2, description).then(()=>
+    {
       alert("Passageway edited successfully");
-    } else {
-      alert("Passageway edition failed");
-    }
+    }).catch((error) => {
+      alert(error);
+    });
 
 
   }
