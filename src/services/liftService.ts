@@ -39,6 +39,7 @@ export default class LiftService implements ILiftService{
 
           //change the list of floorsCodes to the list of floor ids
           const floorIds = checkFloors.map(floor => floor.id.toString());
+          const floorCodes = liftDTO.floors;
           liftDTO.floors = floorIds;
 
           const liftOrError = await Lift.create({

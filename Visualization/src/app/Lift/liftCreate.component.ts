@@ -1,11 +1,7 @@
 import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
-import {FloorInfoComponent} from "../Floor/floor-info/floor-info.component";
-import {HousingLocation} from "../houselocation";
-import {HousingService} from "../housing.service";
-import routes from "../routes";
-
+import {LiftService} from "../services/lift.service"
 @Component({
     selector: 'app-floor-create',
     standalone: true,
@@ -27,7 +23,7 @@ import routes from "../routes";
       <section class="body">
           <div class="container">
               <div class="text">
-                  Insert Data
+                  Insert Lift Data
               </div>
               <form action="#">
                   <div class="form-row">
@@ -39,19 +35,19 @@ import routes from "../routes";
                       <div class="input-data">
                           <input type="text" required>
                           <div class="underline"></div>
-                          <label for="">floors(seperated by commas)</label>
+                          <label for="">Floors(seperated by commas)</label>
                       </div>
                   </div>
                   <div class="form-row">
                       <div class="input-data">
                           <input type="text" required>
                           <div class="underline"></div>
-                          <label for="">brand</label>
+                          <label for="">Brand</label>
                       </div>
                       <div class="input-data">
                           <input type="text" required>
                           <div class="underline"></div>
-                          <label for="">model</label>
+                          <label for="">Model</label>
                       </div>
                   </div>
                   <div class="form-row">
@@ -76,7 +72,7 @@ import routes from "../routes";
                           <div class="form-row submit-btn">
                               <div class="input-data">
                                   <div class="inner"></div>
-                                  <a [routerLink]="['/lift']"><input type="submit" value="submit" (click)="createBuilding()" > </a>
+                                  <a [routerLink]="['/lift']"><input type="submit" value="submit" (click)="createLift()" > </a>
                               </div>
                           </div>
                       </div>
@@ -90,40 +86,36 @@ import routes from "../routes";
 })
 
 export class LiftCreateComponent {
-    housingLocationList: HousingLocation[] = [];
-    housingService: HousingService = inject(HousingService);
-    filteredLocationList: HousingLocation[] = [];
+
+    liftService: LiftService = inject(LiftService);
+
 
     constructor() {
-        this.housingLocationList = this.housingService.housingLocationList;
-        this.filteredLocationList = this.housingLocationList;
+
     }
 
-   createBuilding(){
+   createLift(){
 
         const code = document.getElementsByTagName("input")[0].value;
-        const name = document.getElementsByTagName("input")[1].value;
-        const length = document.getElementsByTagName("input")[2].value;
-        const width = document.getElementsByTagName("input")[3].value;
+        const floors = document.getElementsByTagName("input")[1].value;
+        const brand = document.getElementsByTagName("input")[2].value;
+        const model = document.getElementsByTagName("input")[3].value;
+        const buildingCode = document.getElementsByTagName("input")[4].value;
+        const serialNumber = document.getElementsByTagName("input")[5].value;
         const description = document.getElementsByTagName("textarea")[0].value;
 
-        if (code == "" || name == "" || length == "" || width == "" || description == ""){
-            alert("Please fill in all fields");
+        if (code == "" || floors == "" || buildingCode == "" ){
+            alert("Please fill the required options");
             return;
-
-
         }
+        const floorsArray = floors.split(',').map(value => value.trim());
 
-       if (this.housingService.createBuilding(code , name , length , width , description)){
+        this.liftService.createLift(code, floorsArray, brand, model, buildingCode, serialNumber, description).then((result) => {
+            alert("Lift Created");
 
-              alert("Building Created");
-
-       }else {
-              alert("Building Creation Failed");
-         }
-
-
-
+        }).catch((error) => {
+            alert("Fail: " + error);
+        });
 
    }
 

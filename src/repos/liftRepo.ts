@@ -102,7 +102,7 @@ export default class LiftRepo implements ILiftRepo {
 
   public async findIfBuildingAlreadyHasLift (buildingCode: string): Promise<boolean> {
     const query = { buildingCode:buildingCode };
-    const liftRecord = await this.liftSchema.find( query );
+    const liftRecord = await this.liftSchema.findOne(query);
 
     if( liftRecord != null) {
       return true;

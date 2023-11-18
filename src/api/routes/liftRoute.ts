@@ -42,7 +42,18 @@ export default (app: Router) => {
     route.get('/:buildingCode', (req,res,next) => liftController.listLift(req,res,next) );
 
 
-
+    route.use((err, req, res, next) => {
+        if (err.isJoi) {
+          // Erro de validação do Joi
+          res.status(400).json({
+            error: "Validation error",
+            details: err.details.map(detail => detail.message),
+          });
+        } else {
+          // Outros erros
+          res.status(500).json({ error: "Internal Server Error" });
+        }
+      });
 
 
 }
