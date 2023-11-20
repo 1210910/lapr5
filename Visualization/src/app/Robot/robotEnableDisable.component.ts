@@ -54,7 +54,7 @@ export class RobotEnableDisableComponent implements OnInit{
     this.listRobot();
   }
 
-  public listRobot() {
+  public async listRobot(): Promise<void> {
     this.robotService.listAllRobots()
       .then((robots: Robotinfo[]) => {
         this.robots = robots;
