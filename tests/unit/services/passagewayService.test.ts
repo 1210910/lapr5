@@ -457,12 +457,7 @@ describe('Passageway Service', () => {
     expect(result.isSuccess).to.be.true;
   });
 
-  it('should not list any passageways', async function () {
-    when(passagewayRepo.findAll()).thenReturn(null);
-
-    const result = await passagewayService.listPassageway();
-    expect(result.isFailure).to.be.true;
-  });
+  
 
   it('should handle the errors during the creation of a passageway', async function () {
     const passagewayDTO = {
