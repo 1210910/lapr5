@@ -441,23 +441,14 @@ describe('Passageway Service', () => {
         expect(result.isFailure).to.be.true;
   });
 
-  it('should list all passageways', async function () {
-    const passagewayDto = {
-      passageCode: 'PA2B1',
-      floor1: 'A2',
-      floor2: 'B1',
-      description: 'This is a test passageway',
-    };
+  
 
-    const passageway = Passageway.create(passagewayDto).getValue();
-
-    when(passagewayRepo.findAll()).thenReturn(Promise.resolve([passageway]));
+  it('should not list any passageways', async function () {
+    when(passagewayRepo.findAll()).thenReturn(null);
 
     const result = await passagewayService.listPassageway();
-    expect(result.isSuccess).to.be.true;
+    expect(result.isFailure).to.be.true;
   });
-
-  
 
   it('should handle the errors during the creation of a passageway', async function () {
     const passagewayDTO = {
