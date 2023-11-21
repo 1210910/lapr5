@@ -109,6 +109,22 @@ export default class LiftService implements ILiftService{
         }
     }
 
+    public async listAllLift(): Promise<Result<Array<ILiftDTO>>> {
+      try {
+       const liftOrError = await this.liftRepo.findAll();
+       if (liftOrError.isFailure) {
+        return Result.fail<Array<ILiftDTO>>(liftOrError.errorValue());
+       }
+
+      const liftResult = liftOrError.getValue();
+
+      const liftDTOList = LiftMap.toDTOList(liftResult) as Array<ILiftDTO>;
+      return Result.ok<Array<ILiftDTO>>(liftDTOList)
+      } catch (e) {
+      throw e;
+    }
+  }
+
 
 
       private async checkFloors(buildingId: string,floors: string[]): Promise<Array<Floor>> {

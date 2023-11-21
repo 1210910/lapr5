@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import { HousingService } from '../../housing.service';
-import { HousingLocation } from '../../houselocation';
+import { LiftService } from '../../services/lift.service';
+import { LiftInfo } from '../lift-info/liftinfo';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -15,8 +15,8 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
         <nav>
           <ul class="menuItems">
-            <li><a [routerLink]="['/buildingList']">
-              <img class="brand-logo" src="/assets/logo.svg" alt="logo" aria-hidden="true">
+            <li><a [routerLink]="['/liftList']">
+              <img class="brand-logo" src="/assets/logoLift.svg" alt="logo" aria-hidden="true">
             </a></li>
           </ul>
         </nav>
@@ -25,14 +25,17 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
     <article>
 
       <section class="listing-description">
-        <h2 class="listing-heading">{{housingLocation?.name}}</h2>
+        <h2 class="listing-heading">{{liftInfo?.code}}</h2>
       </section>
       <section class="listing-features">
-        <h2 class="section-heading">About this Building</h2>
+        <h2 class="section-heading">About this Lift</h2>
         <ul>
-          <li>Max length: {{housingLocation?.maxLength}}</li>
-          <li>Max width: {{housingLocation?.maxWidth}}</li>
-          <li>Description: {{housingLocation?.description}}</li>
+          <li>Building Code: {{liftInfo?.buildingCode}}</li>
+          <li>Floors: {{liftInfo?.floors}}</li>
+          <li>Brand: {{liftInfo?.brand}}</li>
+          <li>Model: {{liftInfo?.model}}</li>
+          <li>Serial Number: {{liftInfo?.serialNumber}}</li>
+          <li>Description: {{liftInfo?.description}}</li>
         </ul>
       </section>
     </article>
@@ -40,16 +43,16 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
   `,
   styleUrls: ['./details.component.css']
 })
-export class DetailsComponent {
+export class LiftDetailsComponent {
 
   route: ActivatedRoute = inject(ActivatedRoute);
-  housingService = inject(HousingService);
-  housingLocation: HousingLocation | undefined;
+  liftService = inject(LiftService);
+  liftInfo: LiftInfo | undefined;
 
 
   constructor() {
-    const housingLocationId = this.route.snapshot.params['id'];
-    this.housingLocation = this.housingService.getHousingLocationById(housingLocationId);
+    const liftCode = this.route.snapshot.params['id'];
+    this.liftInfo = this.liftService.getLiftByCode(liftCode);
   }
 
 

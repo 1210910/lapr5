@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {FloorInfo} from "../Floor/floor-info/floorinfo";
 import { PassagewayInfo } from "../PassageWay/passageway-info/passagewayinfo";
+import {response} from "express";
 
 
 
@@ -122,6 +123,23 @@ export class FloorService{
         description: floor.description,
         buildingID: floor.buildingID
       });
+    }
+  }
+
+  floorListFromABuilding(response: any,buildingID: string) {
+    const floorList = JSON.parse(response);
+    this.FloorList = [];
+    for (const floor of floorList) {
+      if (floor.buildingID === buildingID) {
+        this.FloorList.push({
+          floorCode: floor.floorCode,
+          floorNumber: floor.floorNumber,
+          length: floor.length,
+          width: floor.width,
+          description: floor.description,
+          buildingID: floor.buildingID
+        });
+      }
     }
   }
 

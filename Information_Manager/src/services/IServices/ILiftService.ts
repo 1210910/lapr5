@@ -5,4 +5,5 @@ export default interface ILiftService  {
   createLift(liftDTO: ILiftDTO): Promise<Result<ILiftDTO>>;
   updateLift(liftID : string, liftDTO: ILiftDTO): Promise<Result<ILiftDTO>>;
   listLift(buildingCode : string): Promise<Result<Array<ILiftDTO>>>;
+  listAllLift(): Promise<Result<Array<ILiftDTO>>>;
 }

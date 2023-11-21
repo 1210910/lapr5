@@ -16,7 +16,6 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
         <nav>
           <ul class="menuItems">
             <li><a [routerLink]="['/floorList']">
-              <img class="brand-logo" src="/assets/logoFloor(2).svg" alt="logo" aria-hidden="true">
             </a></li>
           </ul>
         </nav>

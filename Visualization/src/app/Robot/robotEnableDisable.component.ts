@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { RobotService } from "../services/robot.service";
-import {Robotinfo} from "./robot-info/robotinfo";
+import {RobotInfo} from "./robot-info/robotinfo";
 
 @Component({
   selector: "app-robot-enable-disable",
@@ -28,7 +28,6 @@ import {Robotinfo} from "./robot-info/robotinfo";
           <div class="card-content">
           <img class="robot-image" src="/assets/robot.png" alt="robot-image" aria-hidden="true">
             <div class="robot-name">{{ robot.name }}</div>
-            <div class="robot-status">Enabled: {{ robot.enabled }}</div>
           </div>
           <div class="card-button">
             <button class="cd-btn main-action" (click)="toggleRobotStatus(robot.code, robot.enabled === true)">
@@ -45,7 +44,7 @@ import {Robotinfo} from "./robot-info/robotinfo";
 
 export class RobotEnableDisableComponent implements OnInit{
   robotService: RobotService = inject(RobotService);
-  robots: Robotinfo[]=[];
+  robots: RobotInfo[]=[];
   constructor() {
 
   }
@@ -56,7 +55,7 @@ export class RobotEnableDisableComponent implements OnInit{
 
   public async listRobot(): Promise<void> {
     this.robotService.listAllRobots()
-      .then((robots: Robotinfo[]) => {
+      .then((robots: RobotInfo[]) => {
         this.robots = robots;
       })
       .catch((error) => {

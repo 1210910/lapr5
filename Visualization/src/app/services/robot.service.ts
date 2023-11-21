@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
-import { Robotinfo } from "../Robot/robot-info/robotinfo";
+import { RobotInfo } from "../Robot/robot-info/robotinfo";
+import {PassagewayInfo} from "../PassageWay/passageway-info/passagewayinfo";
 
 @Injectable({
   providedIn: "root"
 })
 
 export class RobotService {
-  RobotList: Robotinfo[];
+  RobotList: RobotInfo[];
 
   constructor() {
     this.RobotList = [];
@@ -41,18 +42,18 @@ export class RobotService {
   }
 
   listAllRobots() {
-    return new Promise<Robotinfo[]>((resolve, reject) => {
+    return new Promise<RobotInfo[]>((resolve, reject) => {
       const httprequest = new XMLHttpRequest();
       httprequest.open('GET', 'http://localhost:4000/api/robot', true);
       httprequest.setRequestHeader('Content-Type', 'application/json');
       let response;
-  
+
       httprequest.onload = function () {
         if (httprequest.status === 200) {
           console.log("Robot listed");
           response = httprequest.response;
           // Parse do JSON para um array de Robotinfo
-          const robotInfoArray: Robotinfo[] = JSON.parse(response);
+          const robotInfoArray: RobotInfo[] = JSON.parse(response);
           resolve(robotInfoArray);
         } else {
           console.log(httprequest.response)
@@ -61,7 +62,7 @@ export class RobotService {
           reject(false);
         }
       }
-  
+
       httprequest.send();
     });
   }
@@ -95,5 +96,28 @@ export class RobotService {
       httprequest.send(JSON.stringify(jsonPatch));
 
     });
+  }
+
+  robotList(response: any) {
+    const robotList = JSON.parse(response);
+    this.RobotList = [];
+    for (const robot of robotList) {
+      this.RobotList.push({
+        code: robot.code,
+        name: robot.name,
+        type: robot.type,
+        enabled: robot.enabled,
+        description: robot.description
+      });
+    }
+  }
+
+  getRobotByCode(code: string): RobotInfo | undefined {
+    for(const robot of this.RobotList) {
+      if (robot.code === code) {
+        return robot;
+      }
+    }
+    return undefined;
   }
 }
