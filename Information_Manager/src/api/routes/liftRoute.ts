@@ -39,6 +39,7 @@ export default (app: Router) => {
     }),
     (req,res,next) => liftController.updateLift(req,res,next) );
 
+    route.get('',(req,res,next) => liftController.listAllLift(req,res,next) );
     route.get('/:buildingCode', (req,res,next) => liftController.listLift(req,res,next) );
 
 

@@ -8,6 +8,7 @@ import ILiftService from '../services/IServices/ILiftService';
 import {ILiftDTO} from '../dto/ILiftDTO';
 
 import { Result } from "../core/logic/Result";
+import IFloorDTO from "../dto/IFloorDTO";
 
 @Service()
 export default class LiftController implements ILiftController {
@@ -66,5 +67,24 @@ export default class LiftController implements ILiftController {
             return next(e);
         }
     };
+
+    public async listAllLift(req: Request, res: Response, next: NextFunction) {
+        try {
+
+            const listOrError = await this.liftServiceInstance.listAllLift() as Result<Array<ILiftDTO>>;
+
+            if (listOrError.isFailure) {
+                return res.status(404).send();
+            }
+
+            const floorDto = listOrError.getValue();
+            return res.status(200).json(floorDto);
+
+        } catch (e) {
+            return next(e);
+        }
+    };
+
+
 
 }
