@@ -49,7 +49,7 @@ export default class FloorMapService implements IFloorMapService {
 
 
 
-            const dirPath =path.join(__dirname, '..', '..', 'Visualization', 'src', 'assets', 'mazes');
+            const dirPath =path.join(__dirname,'..' ,'..', '..', 'Visualization', 'src', 'assets', 'mazes');
 
 
 

@@ -51,6 +51,7 @@ export default class FloorMapRepo implements IFloorMapRepo {
                 const rawFloorMap: any = await FloorMapMap.toPersistence(floorMap);
                 const floorMapCreated = await this.floorMapSchema.create(rawFloorMap);
 
+
                 return FloorMapMap.toDomain(floorMapCreated);
             } else {
                 return FloorMapMap.toDomain(floorMapDocument);

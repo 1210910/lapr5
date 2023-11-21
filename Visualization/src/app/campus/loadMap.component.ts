@@ -68,9 +68,9 @@ export class LoadMapComponent{
    load(){
 
         const code = document.getElementsByTagName("input")[0].value;
-        const fileInput = document.getElementById("fileInput") ;
-        // @ts-ignore
-        const file = fileInput.files[0];
+     const fileInput = document.getElementById("fileInput") ;
+     // @ts-ignore
+     const file = fileInput.files[0];
 
         console.log(file)
 

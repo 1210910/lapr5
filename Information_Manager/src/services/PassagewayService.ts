@@ -106,6 +106,16 @@ export default class PassagewayService implements IPassagewayService {
                 return Result.fail<Array<IPassagewayDTO>>("No passageways found");
             }
 
+            //change all floor ids to floor codes
+
+          for (let i = 0; i < listOrError.length; i++) {
+            const floor1 = await this.floorRepo.findByDomainId(listOrError[i].floor1);
+            const floor2 = await this.floorRepo.findByDomainId(listOrError[i].floor2);
+            listOrError[i].floor1 = floor1.floorCode;
+            listOrError[i].floor2 = floor2.floorCode;
+          }
+
+
             const passagewayResult = await Promise.all(listOrError);
 
             const passagewayDTOResult = PassagewayMap.toDTOList(passagewayResult);
