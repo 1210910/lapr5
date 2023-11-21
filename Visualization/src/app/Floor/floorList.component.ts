@@ -19,10 +19,18 @@ import { PassagewayService } from "../services/passageway.service";
                       <li><a [routerLink]="['/floor']">
                           <img class="brand-logo" src="/assets/logoFloor(2).svg" alt="logo" aria-hidden="true">
                       </a></li>
-                    <li>
+                    <li>Floors by building with passageway
                       <div class="search-box">
                         <input type="text" class="input-search" placeholder="Building's floors with passageway" #filter>
                         <button class="btn-search" type="button" (click)="CallMethod(filter.value)">
+                          <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </li>
+                    <li>Floors by building
+                      <div class="search-box">
+                        <input type="text" class="input-search" placeholder="Building..." #building>
+                        <button class="btn-search" type="button" (click)="CallMethod1(building.value)">
                           <i class="fa fa-search" aria-hidden="true"></i>
                         </button>
                       </div>
@@ -67,8 +75,12 @@ export class FloorListComponent{
     this.floorList = this.floorService.FloorList;
   }
 
-
-
+  CallMethod1(building: string) {
+    this.floorService.listFloors().then((result) => {
+      this.floorService.floorListFromABuilding(result, building);
+      this.floorList = this.floorService.FloorList;
+    });
+  }
 
 
 }
