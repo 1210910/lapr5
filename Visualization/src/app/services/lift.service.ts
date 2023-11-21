@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
+import {FloorInfo} from "../Floor/floor-info/floorinfo";
+import {LiftInfo} from "../Lift/lift-info/liftinfo";
 
 
 @Injectable({
-    providedIn: 'root'
-  })
+  providedIn: 'root'
+})
+export class LiftService{
+  LiftList: LiftInfo[] ;
 
-  export class LiftService{
-
-
-    constructor() {
-      }
+  constructor() {
+    this.LiftList = [];
+  }
 
       public createLift(code:string , floors:string[], brand:string,  model:string, buildingCode:string, serialNumber:string, description:string) {
 
@@ -50,4 +52,63 @@ import { Injectable } from '@angular/core';
 
       }
 
+  listLifts() {
+    return new Promise((resolve, reject) => {
+      const httprequest = new XMLHttpRequest();
+      httprequest.open('GET', 'http://localhost:4000/api/lift/', true);
+      httprequest.setRequestHeader('Content-Type', 'application/json',);
+      let response;
+      httprequest.onload = function () {
+
+        if (httprequest.status === 200) {
+          console.log("Lift listed");
+          response = httprequest.response;
+          resolve(response);
+        } else {
+          response = httprequest.status;
+          console.log("Lift not listed");
+          reject(false);
+        }
+      }
+      httprequest.send();
+
+    });
+  }
+
+  liftList(response: any) {
+    const liftList = JSON.parse(response);
+    this.LiftList = [];
+    for (const lift of liftList) {
+      this.LiftList.push({
+        code: lift.code,
+        buildingCode: lift.buildingCode,
+        floors: lift.floors,
+        brand: lift.brand,
+        model: lift.model,
+        serialNumber: lift.serialNumber,
+        description: lift.description
+      });
+    }
+  }
+
+  liftListFromABuilding(response: any,buildingID: string) {
+    const liftList = JSON.parse(response);
+    this.LiftList = [];
+    for (const lift of liftList) {
+      if (lift.buildingCode === buildingID) {
+        this.LiftList.push({
+          code: lift.code,
+          buildingCode: lift.buildingCode,
+          floors: lift.floors,
+          brand: lift.brand,
+          model: lift.model,
+          serialNumber: lift.serialNumber,
+          description: lift.description
+        });
+      }
+    }
+  }
+  getLiftByCode(position: string): LiftInfo | undefined{
+    return this.LiftList.find((lift) => lift.code === position);
+  }
   }
