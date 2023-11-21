@@ -14,7 +14,7 @@ import { RobotService } from "../services/robot.service";
         <nav>
           <ul class="menuItems">
             <li><a [routerLink]="['/robot']">
-              <img class="brand-logo" src="/assets/logo.svg" alt="logo" aria-hidden="true">
+              <img class="brand-logo" src="/assets/logoRobot.svg" alt="logo" aria-hidden="true">
             </a></li>
           </ul>
         </nav>

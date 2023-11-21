@@ -14,6 +14,7 @@ import {LiftComponent} from "./Lift/lift.component";
 import {LiftCreateComponent} from "./Lift/liftCreate.component";
 import {LiftEditComponent} from "./Lift/liftEdit.component";
 import {LiftListComponent} from "./Lift/liftList.component";
+import {LiftDetailsComponent} from "./Lift/details/details.component";
 import {PassagewayComponent} from "./PassageWay/passageway.component";
 import {RoomComponent} from "./Room/room.component";
 import {PassagewayCreateComponent} from "./PassageWay/passagewayCreate.component";
@@ -35,6 +36,8 @@ import {LoadMapComponent} from "./campus/loadMap.component";
 import {RobotEnableDisableComponent} from "./Robot/robotEnableDisable.component"
 import {PlantComponent} from "./visualization_3d/plant/plant.component";
 import {ViewMapComponent} from "./campus/viewMap.component";
+import {RobotListComponent} from "./Robot/robotList.component";
+import {RobotDetailsComponent} from "./Robot/details/details.component"
 
 
 const routeConfig: Routes = [
@@ -101,6 +104,11 @@ const routeConfig: Routes = [
     path:'passagewaydetails/:id',
     component: PassagewayDetailsComponent,
     title: 'passageway details page'
+  },
+  {
+    path: 'liftdetails/:id',
+    component: LiftDetailsComponent,
+    title: 'lift details page'
   },
   {
     path:'lift',
@@ -226,15 +234,20 @@ const routeConfig: Routes = [
     component: RobotCreateComponent,
     title: 'Robot create page'
   },
-  /*{
+  {
     path: 'robotList',
     component: RobotListComponent,
     title: 'Robot list page'
-  },*/
+  },
   {
     path: 'robotEnableDisable',
     component: RobotEnableDisableComponent,
     title: 'Robot disable page'
+  },
+  {
+    path:'robotdetails',
+    component: RobotDetailsComponent,
+    title: 'Robot details page'
   }
 ];
 

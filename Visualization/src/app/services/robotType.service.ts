@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Robotinfo } from "../Robot/robot-info/robotinfo";
+import { RobotInfo } from "../Robot/robot-info/robotinfo";
 
 @Injectable({
   providedIn: "root"
