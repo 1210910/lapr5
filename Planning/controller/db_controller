@@ -1,8 +1,9 @@
-:- module(bc_controller, [carregar_bc/0]).
+:- module(db_controller, [load_db/0]).
 
 :- use_module('../HttpServer/route').
 :- use_module('../persistence/DB').
 :- use_module('../Repo/repo').
+
 :- use_module(library(http/http_client)).
 :- use_module(library(http/thread_httpd)).
 :- use_module(library(http/http_json)).
@@ -13,8 +14,12 @@
 get_buildings() :-
     routes:buildings_url(URL),
     http_get(URL, Response, []),
+    write(Response),
+    write('Response received'),
     json_to_prolog(Response, PrologData),
-    repo:save_buildings(PrologData).
+    write(PrologData),
+    repo:save_buildings(PrologData),
+    write('Buildings saved').
 
 
 
