@@ -105,7 +105,7 @@ liga(i,j).
 % LBdPath = [j, i, h, a]
 
 path_buildings(BdOr,BdDest,LBdPath):-path_buildings2(BdOr,BdDest,[BdOr],LBdPath).
-path_buildings2(BdX,BdX,LBdInv,LBdPath):-!,reverse(LBdInv,LBdPath). 
+path_buildings2(BdX,BdX,LBdInv,LBdPath):-!,reverse(LBdInv,LBdPath).
 path_buildings2(BdAct,BdDest,LBdPassed,LBdPath):-(liga(BdAct,BdInt);liga(BdInt,BdAct)), \+member(BdInt,LBdPassed), path_buildings2(BdInt,BdDest,[BdInt|LBdPassed],LBdPath).
 
 

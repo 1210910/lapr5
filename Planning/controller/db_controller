@@ -46,9 +46,7 @@ get_passageways() :-
 get_maps():-
     routes:maps_url(URL),
     http_get(URL,Response,[]),
-    writeln(Response),
     json_to_prolog(Response, PrologData),
-
     repo:save_maps(PrologData).
 
 load_db() :-

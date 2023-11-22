@@ -1,0 +1,81 @@
+:- module(map_controller, [converte_mapa/1]).
+
+:- use_module('../persistence/DB').
+
+converte_mapa(X):-
+    db:map(X, Y),
+    converte_mapa(Y).
+
+converte_mapa(Mapa) :-
+    converte_mapa_linhas(Mapa, 1).
+
+converte_mapa_linhas([], _).
+converte_mapa_linhas([Linha | Resto], Lin) :-
+    converte_linha(Linha, 1, Lin),
+    NextLine is Lin + 1,
+    converte_mapa_linhas(Resto, NextLine).
+
+converte_linha([], _, _).
+converte_linha([Celula | Resto], Col, Lin) :-
+    (Celula =:= 0 ->
+        assertz(m(Col, Lin, 0))
+    ;
+        assertz(m(Col, Lin, Celula))
+    ),
+    NextCol is Col + 1,
+    converte_linha(Resto, NextCol, Lin).
+
+numero_maximo_linhas(Matriz, NumeroLinhas) :-
+    length(Matriz, NumeroLinhas).
+
+numero_maximo_colunas(Matriz, NumeroColunas) :-
+        length(Matriz, NumeroLinhas),
+        (   NumeroLinhas > 0,
+            nth1(1, Matriz, PrimeiraLinha),
+            length(PrimeiraLinha, NumeroColunas)
+        ;   NumeroColunas is 0
+        ).
+
+cria_grafo(X):-
+    db:map(X, Y),
+    numero_maximo_linhas(Y, Linhas),
+    numero_maximo_colunas(Y, Colunas),
+    cria_grafo(Colunas,Linhas).
+
+
+cria_grafo(_,0):-!.
+cria_grafo(Col,Lin):-cria_grafo_lin(Col,Lin),Lin1 is Lin- 1,cria_grafo(Col,Lin1).
+cria_grafo_lin(0,_):-!.
+cria_grafo_lin(Col,Lin):-m(Col,Lin,0),!,
+ColS is Col+1, ColA is Col-1, LinS is Lin+1,LinA is Lin-1,
+((m(ColS,Lin,0),assertz(ligacel(cel(Col,Lin),cel(ColS,Lin)));true)),
+((m(ColA,Lin,0),assertz(ligacel(cel(Col,Lin),cel(ColA,Lin)));true)),
+((m(Col,LinS,0),assertz(ligacel(cel(Col,Lin),cel(Col,LinS)));true)),
+((m(Col,LinA,0),assertz(ligacel(cel(Col,Lin),cel(Col,LinA)));true)),
+Col1 is Col-1,
+cria_grafo_lin(Col1,Lin).
+cria_grafo_lin(Col,Lin):-Col1 is Col-1,cria_grafo_lin(Col1,Lin).
+
+carrega_conexoes :-
+    findall(passageway(X, Y, Z), db:passageway(X, Y, Z), Passagens), % Encontra todas as passagens carregadas
+    processa_passagens(Passagens). % Processa as passagens para criar as conexões entre os edifícios
+
+processa_passagens([]). % Caso base, quando não há mais passagens para processar
+processa_passagens([passageway(_, Y, Z) | Resto]) :-
+    atom_chars(Z, [Edificio2, _ | _]), % Extrai a letra do edifício A
+    atom_chars(Y, [Edificio1, _ | _]), % Extrai a letra do edifício B
+    assertz(liga(Edificio2, Edificio1)),% Cria a conexão entre os edifícios
+    assertz(liga(Edificio1, Edificio2)),% Cria a conexão entre os edifícios
+    processa_passagens(Resto). % Processa o restante das passagens recursivamente
+
+
+path_buildings(BdOr,BdDest,LBdPath):-path_buildings2(BdOr,BdDest,[BdOr],LBdPath).
+path_buildings2(BdX,BdX,LBdInv,LBdPath):-!,reverse(LBdInv,LBdPath).
+path_buildings2(BdAct,BdDest,LBdPassed,LBdPath):-(liga(BdAct,BdInt);liga(BdInt,BdAct)), \+member(BdInt,LBdPassed), path_buildings2(BdInt,BdDest,[BdInt|LBdPassed],LBdPath).
+
+
+all_path_buildings(BdOr,BdDest,LTPathBd):-findall(LBdPath,path_buildings(BdOr,BdDest,LBdPath),LTPathBd).
+
+
+
+
