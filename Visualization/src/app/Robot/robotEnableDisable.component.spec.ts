@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RobotEnableDisableComponent } from './robotEnableDisable.component';
 import { RobotService } from '../services/robot.service';
-import { of } from 'rxjs';
-import { ActivatedRoute } from '@angular/router'; // Import ActivatedRoute
+import { ActivatedRoute } from '@angular/router'; 
+import { throwError } from 'rxjs';
 
 
 describe('RobotEnableDisableComponent', () => {
@@ -17,10 +17,13 @@ describe('RobotEnableDisableComponent', () => {
       createRobot: jest.fn(),
       listAllRobots: jest.fn(),
       toggleRobotStatus: jest.fn(),
+      robotList: jest.fn(),
+      getRobotByCode: jest.fn()
+
     } as jest.Mocked<RobotService>;
 
     mockActivatedRoute = {
-      // Mock any properties or methods used by the component
+      
     };
 
     TestBed.overrideProvider(ActivatedRoute, { useValue: mockActivatedRoute });
@@ -44,15 +47,22 @@ describe('RobotEnableDisableComponent', () => {
     expect(component.robots).toEqual(mockRobots);
   });
 
-  /*it('should toggle robot status', () => {
+  it('should toggle robot status', async() => {
     const robotCode = '123';
     const enable = true;
-    mockRobotService.toggleRobotStatus.mockReturnValue(of(null));
+    mockRobotService.toggleRobotStatus.mockReturnValue(Promise.resolve(null));
 
-    component.toggleRobotStatus(robotCode, enable);
+    const reloadMock = jest.fn();
+    const alertMock = jest.fn();
 
+    Object.defineProperty(window, 'location', { value: { reload: reloadMock } });
+    Object.defineProperty(window, 'alert', { value: alertMock });
+
+    await component.toggleRobotStatus(robotCode, enable);
+
+    expect(reloadMock).toHaveBeenCalledTimes(1);
     expect(mockRobotService.toggleRobotStatus).toHaveBeenCalledWith(robotCode, enable);
   });
-*/
+
   // Add more test cases as needed
 });
