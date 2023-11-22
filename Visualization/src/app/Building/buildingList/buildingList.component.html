@@ -1,0 +1,22 @@
+<section>
+    <header class="brand-name">
+
+        <nav>
+            <ul class="menuItems">
+                <li><a [routerLink]="['/building']">
+                    <img class="brand-logo" src="/assets/logoBuilding(1).svg" alt="logo" aria-hidden="true">
+                </a></li>
+                  <li >
+                <div class="search-box">
+                  <button class="btn-search" type="button" (click)="CallMethod(filter.value)"><i class="fa fa-search" aria-hidden="true"></i></button>
+                  <input type="text" class="input-search" placeholder="Filter by city" #filter   >
+                </div>
+                  </li>
+            </ul>
+        </nav>
+    </header>
+
+</section>
+<section class="body">
+<app-building-info *ngFor="let BuildingInfo of buildingsList" [building]="BuildingInfo"></app-building-info>
+    </section>
