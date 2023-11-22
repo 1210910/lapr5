@@ -55,4 +55,17 @@ export default class FloorMapController implements IFloorMapController {
         }
     }
 
+    public async getFloorMaps(req:Request,res:Response,next:NextFunction) {
+      try {
+        const floorMapsOrError = await this.floorMapService.getFloorMaps();
+        if (floorMapsOrError.isFailure) {
+          return res.status(404).send(floorMapsOrError.errorValue());
+        }else{
+          const floorMapDTO = floorMapsOrError.getValue();
+          return res.status(200).json( floorMapDTO );
+        }
+      }catch (e){
+        return next(e)
+      }
+    }
 }

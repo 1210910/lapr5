@@ -75,4 +75,13 @@ export default class FloorMapRepo implements IFloorMapRepo {
             return Result.fail<FloorMap>("FloorMap not found");
         }
     }
+
+    async findAll(){
+      const floorRecord = await this.floorMapSchema.find();
+      const floorList: Array<FloorMap>=[]
+      for (const floorMap of floorRecord){
+        floorList.push(await FloorMapMap.toDomain(floorMap))
+      }
+      return Result.ok<Array<FloorMap>>(floorList)
+    }
 }

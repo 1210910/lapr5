@@ -14,14 +14,46 @@
 get_buildings() :-
     routes:buildings_url(URL),
     http_get(URL, Response, []),
-    write(Response),
-    write('Response received'),
     json_to_prolog(Response, PrologData),
-    write(PrologData),
-    repo:save_buildings(PrologData),
-    write('Buildings saved').
+    repo:save_buildings(PrologData).
 
 
+get_floors() :-
+    routes:floors_url(URL),
+    http_get(URL, Response, []),
+    json_to_prolog(Response, PrologData),
+    repo:save_floors(PrologData).
+
+get_rooms() :-
+    routes:rooms_url(URL),
+    http_get(URL, Response, []),
+    json_to_prolog(Response, PrologData),
+    repo:save_rooms(PrologData).
+
+get_lifts() :-
+    routes:lifts_url(URL),
+    http_get(URL, Response, []),
+    json_to_prolog(Response, PrologData),
+    repo:save_lifts(PrologData).
+
+get_passageways() :-
+    routes:passageways_url(URL),
+    http_get(URL, Response, []),
+
+    json_to_prolog(Response, PrologData),
+    repo:save_passageways(PrologData).
+
+get_maps():-
+    routes:maps_url(URL),
+    http_get(URL,Response,[]),
+    writeln(Response),
+    json_to_prolog(Response, PrologData),
+
+    repo:save_maps(PrologData).
 
 load_db() :-
+    get_floors,
+    get_maps,
+    get_passageways,
+    get_lifts,
     get_buildings.
