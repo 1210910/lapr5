@@ -1,10 +1,9 @@
 import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
-import {FloorInfoComponent} from "../Floor/floor-info/floor-info.component";
-import {HousingLocation} from "../houselocation";
-import {HousingService} from "../housing.service";
 import routes from "../routes";
+import {RoomService} from "../services/room.service";
+import {result} from "lodash";
 
 @Component({
     selector: 'app-floor-create',
@@ -55,11 +54,15 @@ import routes from "../routes";
                       </div>
                     </div>
                       <div class="form-row">
-                      <div class="input-data">
-                        <input type="text" required>
-                        <div class="underline"></div>
-                        <label for="">Room type</label>
-                      </div>
+                      <label for="roomtype">Choose a room type:</label>
+                          
+                          <select id="roomtype">
+                              <option value= "office">Office</option>
+                              <option value="amphitheater">Amphitheater</option>
+                              <option value="laboratory">Laboratory</option>
+                              <option value="classroom">Classroom</option>
+                              <option value="other">Other</option>
+                          </select>
                       </div>
                   <div class="form-row">
                       <div class="input-data textarea">
@@ -71,7 +74,7 @@ import routes from "../routes";
                           <div class="form-row submit-btn">
                               <div class="input-data">
                                   <div class="inner"></div>
-                                  <a [routerLink]="['/building']"><input type="submit" value="submit" (click)="createBuilding()" > </a>
+                                  <a [routerLink]="['/room']"><input type="submit" value="submit" (click)="createRoom()" > </a>
                               </div>
                           </div>
                         </div>
@@ -85,41 +88,35 @@ import routes from "../routes";
 })
 
 export class RoomCreateComponent {
-    housingLocationList: HousingLocation[] = [];
-    housingService: HousingService = inject(HousingService);
-    filteredLocationList: HousingLocation[] = [];
+    roomService: RoomService = inject(RoomService);
 
     constructor() {
-        this.housingLocationList = this.housingService.housingLocationList;
-        this.filteredLocationList = this.housingLocationList;
     }
 
-   createBuilding(){
+   createRoom(){
 
-        const code = document.getElementsByTagName("input")[0].value;
-        const name = document.getElementsByTagName("input")[1].value;
-        const length = document.getElementsByTagName("input")[2].value;
-        const width = document.getElementsByTagName("input")[3].value;
+        const roomCode = document.getElementsByTagName("input")[0].value;
+        const floor = document.getElementsByTagName("input")[1].value;
         const description = document.getElementsByTagName("textarea")[0].value;
+        const width = Number(document.getElementsByTagName("input")[2].value);
+        const length = Number(document.getElementsByTagName("input")[3].value);
+        const roomType = document.getElementsByTagName("select")[0].value;
 
-        if (code == "" || name == "" || length == "" || width == "" || description == ""){
+
+        if (roomCode == "" || floor == "" || length == null || width == null || description == "" || roomType == ""){
             alert("Please fill in all fields");
             return;
 
-
         }
 
-       if (this.housingService.createBuilding(code , name , length , width , description)){
+        console.log(roomCode , floor , description , width , length, roomType);
+       this.roomService.createRoom(roomCode , floor , description , width , length, roomType).then(result =>{
 
-              alert("Building Created");
+              alert("Room Created");
 
-       }else {
-              alert("Building Creation Failed");
-         }
-
-
-
-
+       }).catch(error => {
+              alert("Fail: " + error);
+         });
    }
 
 }

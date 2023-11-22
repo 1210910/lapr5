@@ -18,10 +18,7 @@ export default class RoomController implements IRoomController {
         public async createRoom(req: Request, res: Response, next: NextFunction){
             try{
                 const floor = req.params.floor.toString();
-
                 const RoomOrError = await this.RoomServiceInstance.createRoom(req.body as IRoomDTO, floor) as Result<IRoomDTO>;
-
-
 
                 if(RoomOrError.isFailure) {
                     return res.status(400).send();
