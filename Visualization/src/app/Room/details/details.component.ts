@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import { HousingService } from '../../housing.service';
-import { HousingLocation } from '../../houselocation';
+import { RoomService } from '../../services/room.service';
+import { RoomInfo } from '../room-info/roominfo';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -11,47 +11,46 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   template: `
 
-      <header class="brand-name">
+    <header class="brand-name">
 
-        <nav>
-          <ul class="menuItems">
-            <li><a [routerLink]="['/buildingList']">
-              <img class="brand-logo" src="/assets/logo.svg" alt="logo" aria-hidden="true">
-            </a></li>
-          </ul>
-        </nav>
-      </header>
-      <section>
-    <article>
-
-      <section class="listing-description">
-        <h2 class="listing-heading">{{housingLocation?.name}}</h2>
-      </section>
-      <section class="listing-features">
-        <h2 class="section-heading">About this Building</h2>
-        <ul>
-          <li>Max length: {{housingLocation?.maxLength}}</li>
-          <li>Max width: {{housingLocation?.maxWidth}}</li>
-          <li>Description: {{housingLocation?.description}}</li>
+      <nav>
+        <ul class="menuItems">
+          <li><a [routerLink]="['/liftList']">
+            <img class="brand-logo" src="/assets/logoRooms.svg" alt="logo" aria-hidden="true">
+          </a></li>
         </ul>
-      </section>
-    </article>
-     </section>
+      </nav>
+    </header>
+    <section>
+      <article>
+
+        <section class="listing-description">
+          <h2 class="listing-heading">{{roomInfo?.roomCode}}</h2>
+        </section>
+        <section class="listing-features">
+          <h2 class="section-heading">About this Lift</h2>
+          <ul>
+            <li>Floor: {{roomInfo?.floor}}</li>
+            <li>Description: {{roomInfo?.description}}</li>
+            <li>Width: {{roomInfo?.width}}</li>
+            <li>Length: {{roomInfo?.length}}</li>
+            <li>Room Type: {{roomInfo?.roomType}}</li>
+          </ul>
+        </section>
+      </article>
+    </section>
   `,
   styleUrls: ['./details.component.css']
 })
-export class DetailsComponent {
+export class RoomDetailsComponent {
 
   route: ActivatedRoute = inject(ActivatedRoute);
-  housingService = inject(HousingService);
-  housingLocation: HousingLocation | undefined;
+  roomService = inject(RoomService);
+  roomInfo: RoomInfo | undefined;
 
 
   constructor() {
-    const housingLocationId = this.route.snapshot.params['id'];
-    this.housingLocation = this.housingService.getHousingLocationById(housingLocationId);
+    const roomCode = this.route.snapshot.params['id'];
+    this.roomInfo = this.roomService.getRoomByCode(roomCode);
   }
-
-
-
 }

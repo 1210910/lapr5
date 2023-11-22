@@ -3,9 +3,9 @@ import { HomeComponent } from './home/home.component';
 import { FloorDetailsComponent} from './Floor/details/details.component';
 import { LoginComponent } from './login/login.component';
 import { BuildingComponent } from './Building/building.component';
-import {BuildingCreateComponent} from "./Building/buildingCreate.component";
-import {BuildingListComponent} from "./Building/buildingList.component";
-import {BuildingEditComponent} from "./Building/buildingEdit.component";
+import {BuildingCreateComponent} from "./Building/buildingCreate/buildingCreate.component";
+import {BuildingListComponent} from "./Building/buildingList/buildingList.component";
+import {BuildingEditComponent} from "./Building/buildingEdit/buildingEdit.component";
 import {FloorComponent} from "./Floor/floor.component";
 import {FloorCreateComponent} from "./Floor/floorCreate.component";
 import {FloorListComponent} from "./Floor/floorList.component";
@@ -17,12 +17,11 @@ import {LiftListComponent} from "./Lift/liftList.component";
 import {LiftDetailsComponent} from "./Lift/details/details.component";
 import {PassagewayComponent} from "./PassageWay/passageway.component";
 import {RoomComponent} from "./Room/room.component";
+import {RoomDetailsComponent} from "./Room/details/details.component";
 import {PassagewayCreateComponent} from "./PassageWay/passagewayCreate.component";
 import {PassagewayListComponent} from "./PassageWay/passagewayList.component";
 import {PassagewayEditComponent} from "./PassageWay/passagewayEdit.component";
 import {RoomCreateComponent} from "./Room/roomCreate.component";
-import {RoomEditComponent} from "./Room/roomEdit.component";
-import {RoomListComponent} from "./Room/roomList.component";
 import {BuildingDetailsComponent} from "./Building/details/details.component";
 import {AboutUsComponent} from "./AboutUs/aboutUs.component";
 import { RobotComponent } from "./Robot/robot.component";
@@ -152,15 +151,9 @@ const routeConfig: Routes = [
 
   },
   {
-    path:'roomEdit',
-    component: RoomEditComponent,
-    title: 'lift edit page'
-
-  },
-  {
-    path:'roomList',
-    component: RoomListComponent,
-    title: 'room list page'
+    path:'roomDetails',
+    component: RoomDetailsComponent,
+    title: 'room details page'
   },
   {
     path:'liftCreate',

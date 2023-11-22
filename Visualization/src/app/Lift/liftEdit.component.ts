@@ -1,10 +1,11 @@
 import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
-import {FloorInfoComponent} from "../Floor/floor-info/floor-info.component";
-import {HousingLocation} from "../houselocation";
-import {HousingService} from "../housing.service";
+
 import routes from "../routes";
+import {LiftService} from "../services/lift.service";
+import {BuildingInfo} from "../Building/building-info/buildingInfo";
+
 
 @Component({
   selector: 'app-floor-edit',
@@ -56,11 +57,6 @@ import routes from "../routes";
                 </div>
                 <div class="form-row">
                   <div class="input-data">
-                    <input type="text" required>
-                    <div class="underline"></div>
-                    <label for="">Building Code</label>
-                  </div>
-                  <div class="input-data">
                     <input type="text" >
                     <div class="underline"></div>
                     <label for="">Serial Number</label>
@@ -76,7 +72,7 @@ import routes from "../routes";
                     <div class="form-row submit-btn">
                       <div class="input-data">
                         <div class="inner"></div>
-                        <a [routerLink]="['/lift']"><input type="submit" value="submit" (click)="editBuilding()" > </a>
+                        <a [routerLink]="['/lift']"><input type="submit" value="submit" (click)="editLift()" > </a>
                       </div>
                     </div>
                   </div>
@@ -90,34 +86,30 @@ import routes from "../routes";
 })
 
 export class LiftEditComponent {
-  housingLocationList: HousingLocation[] = [];
-  housingService: HousingService = inject(HousingService);
-  filteredLocationList: HousingLocation[] = [];
+  liftService: LiftService = inject(LiftService);
 
   constructor() {
-    this.housingLocationList = this.housingService.housingLocationList;
-    this.filteredLocationList = this.housingLocationList;
   }
 
-  editBuilding(){
+  editLift(){
 
     const code = document.getElementsByTagName("input")[0].value;
-    const name = document.getElementsByTagName("input")[1].value;
-    const length = document.getElementsByTagName("input")[2].value;
-    const width = document.getElementsByTagName("input")[3].value;
+    const floors = document.getElementsByTagName("input")[1].value;
+    const brand = document.getElementsByTagName("input")[2].value;
+    const model = document.getElementsByTagName("input")[3].value;
+    const serialNumber = document.getElementsByTagName("input")[4].value;
     const description = document.getElementsByTagName("textarea")[0].value;
 
-
-    if (this.housingService.createBuilding(code , name , length , width , description)){
-
-      alert("Building edited successfully");
-
-    }else {
-      alert("Building Creation Failed");
-    }
+    const floorsArray = floors!.split(',').map(value => value.trim());
 
 
+    this.liftService.editLift(code , floorsArray , brand , model, serialNumber, description).then(()=>
+    {
+      alert("Lift edited successfully");
 
+    }).catch((error) => {
+      alert("Lift edited Failed");
+    });
 
   }
 

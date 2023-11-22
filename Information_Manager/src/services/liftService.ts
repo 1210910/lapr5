@@ -8,7 +8,8 @@ import ILiftService from './IServices/ILiftService';
 import { Result } from "../core/logic/Result";
 import { LiftMap } from "../mappers/LiftMap";
 import {Floor} from "../domain/floor";
-import {forEach} from "lodash";
+import {floor, forEach} from "lodash";
+import floorSchema from "../persistence/schemas/floorSchema";
 
 @Service()
 export default class LiftService implements ILiftService{
@@ -76,11 +77,14 @@ export default class LiftService implements ILiftService{
             if(checkFloors== null){
               return Result.fail<ILiftDTO>("Floor does not exist in this building");
             }
+
             liftDTO.floors = checkFloors.map(floor => floor.id.toString());
+
             const liftOrError = Lift.update(lift, liftDTO);
             if(liftOrError.isFailure){
               return Result.fail<ILiftDTO>(liftOrError.errorValue());
             }
+
             const liftResult = liftOrError.getValue();
 
             await this.liftRepo.save(liftResult);
@@ -116,6 +120,16 @@ export default class LiftService implements ILiftService{
         return Result.fail<Array<ILiftDTO>>(liftOrError.errorValue());
        }
 
+          for(let i = 0; i < liftOrError.getValue().length; i++){
+              const floors = liftOrError.getValue()[i].floors;
+              const floorCodes = [];
+              for(let j = 0; j < floors.length; j++){
+                  const floor = await this.floorRepo.findByDomainId(floors[j]);
+                  floorCodes.push(floor.floorCode);
+              }
+              liftOrError.getValue()[i].floors = floorCodes;
+          }
+
       const liftResult = liftOrError.getValue();
 
       const liftDTOList = LiftMap.toDTOList(liftResult) as Array<ILiftDTO>;
@@ -137,13 +151,18 @@ export default class LiftService implements ILiftService{
         }
         const floorCodes = floorsOfBuilding.map(floor => floor.floorCode);
 
-        const allFloorsExist = floors.every(floorCode =>
-          floorCodes.includes(floorCode)
-        );
+        const allFloorsExist :Floor[]= [];
+        for (let i = 0; i < floors.length; i++) {
+            if(floorCodes.includes(floors[i])){
+              allFloorsExist.push(await this.floorRepo.findByFloorCode(floors[i]));
+            }
+        }
+        console.log(allFloorsExist)
+
         if (!allFloorsExist) {
           return null;
         }else{
-          return floorsOfBuilding;
+          return allFloorsExist;
         }
 
 

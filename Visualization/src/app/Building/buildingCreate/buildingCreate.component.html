@@ -1,0 +1,61 @@
+<section>
+    <header class="brand-name">
+
+        <nav>
+            <ul class="menuItems">
+                <li><a [routerLink]="['/building']">
+                    <img class="brand-logo" src="/assets/logoBuilding(1).svg" alt="logo" aria-hidden="true">
+                </a></li>
+            </ul>
+        </nav>
+    </header>
+
+</section>
+<section class="body">
+    <div class="container">
+        <div class="text">
+            Insert Data
+        </div>
+        <form action="#">
+            <div class="form-row">
+                <div class="input-data">
+                    <input type="text" required>
+                    <div class="underline"></div>
+                    <label for="">Building Code</label>
+                </div>
+                <div class="input-data">
+                    <input type="text" required>
+                    <div class="underline"></div>
+                    <label for="">Building Name</label>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-data">
+                    <input type="text" required>
+                    <div class="underline"></div>
+                    <label for="">Max length</label>
+                </div>
+                <div class="input-data">
+                    <input type="text" required>
+                    <div class="underline"></div>
+                    <label for="">Max width</label>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-data textarea">
+                    <textarea rows="8" cols="80" required></textarea>
+                    <br />
+                    <div class="underline"></div>
+                    <label for="">Description</label>
+                    <br />
+                    <div class="form-row submit-btn">
+                        <div class="input-data">
+                            <div class="inner"></div>
+                            <a [routerLink]="['/building']"><input type="submit" value="submit" (click)="createBuilding()" > </a>
+                        </div>
+                    </div>
+                  </div>
+              </div>
+        </form>
+    </div>
+    </section>
