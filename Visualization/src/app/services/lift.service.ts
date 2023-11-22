@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import {FloorInfo} from "../Floor/floor-info/floorinfo";
 import {LiftInfo} from "../Lift/lift-info/liftinfo";
 
 
@@ -51,6 +50,40 @@ export class LiftService{
           });
 
       }
+
+  editLift(code: string , floorsArray: string[] , brand: string , model: string, serialNumber: string, description: string) {
+
+    return new Promise((resolve, reject) => {
+
+      const jsonMessage = JSON.stringify(
+          {
+            floors: floorsArray,
+            brand: brand,
+            model: model,
+            serialNumber: serialNumber,
+            description: description
+          });
+      const url = 'http://localhost:4000/api/lift/' + code;
+      const httprequest = new XMLHttpRequest();
+      httprequest.open('PATCH', url , true);
+      httprequest.setRequestHeader('Content-Type', 'application/json',);
+      let response;
+      httprequest.onload = function () {
+
+        if (httprequest.status === 200) {
+          console.log("Lift edited");
+          response = httprequest.status;
+          resolve(true);
+        } else {
+          response = httprequest.status;
+          console.log("Lift not edited");
+          reject(false);
+        }
+      }
+      httprequest.send(jsonMessage);
+
+    });
+  }
 
   listLifts() {
     return new Promise((resolve, reject) => {
