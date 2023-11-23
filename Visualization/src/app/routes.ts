@@ -25,17 +25,17 @@ import {RoomCreateComponent} from "./Room/roomCreate.component";
 import {BuildingDetailsComponent} from "./Building/details/details.component";
 import {AboutUsComponent} from "./AboutUs/aboutUs.component";
 import { RobotComponent } from "./Robot/robot.component";
-import { RobotCreateComponent } from "./Robot/robotCreate.component";
+import { RobotCreateComponent } from "./Robot/robotCreate/robotCreate.component";
 import { PassagewayDetailsComponent } from "./PassageWay/details/details.component";
 import {HomeFleetComponent} from "./home/homeFleet.component";
 import {RobotTypeComponent} from "./RobotType/robotType.component";
 import {RobotTypeCreateComponent} from "./RobotType/robotTypeCreate/robotTypeCreate.component";
 import {CampusComponent} from "./campus/campus.component";
 import {LoadMapComponent} from "./campus/loadMap.component";
-import {RobotEnableDisableComponent} from "./Robot/robotEnableDisable.component"
+import {RobotEnableDisableComponent} from "./Robot/robotEnableDisable/robotEnableDisable.component"
 import {PlantComponent} from "./visualization_3d/plant/plant.component";
 import {ViewMapComponent} from "./campus/viewMap.component";
-import {RobotListComponent} from "./Robot/robotList.component";
+import {RobotListComponent} from "./Robot/robotList/robotList.component";
 import {RobotDetailsComponent} from "./Robot/details/details.component"
 
 

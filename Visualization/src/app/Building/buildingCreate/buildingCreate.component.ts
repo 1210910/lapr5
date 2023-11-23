@@ -37,7 +37,7 @@ export class BuildingCreateComponent {
             alert("Building Created");
 
         }).catch((error) => {
-            alert("Fail: " + error);
+            alert("Fail Error ");
         });
     }
 }

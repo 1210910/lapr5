@@ -18,13 +18,14 @@
     "importHelpers": true,
     "useDefineForClassFields": false,
     "target": "ES2022",
+    "esModuleInterop": true,
     "module": "ES2022",
     "lib": [
       "ES2022",
       "dom"
     ],
     "allowJs": true,
-    "checkJs": false,
+    "checkJs": false
 
   },
   "angularCompilerOptions": {

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RobotEnableDisableComponent } from './robotEnableDisable.component';
-import { RobotService } from '../services/robot.service';
+import { RobotService } from '../../services/robot.service';
 import { ActivatedRoute } from '@angular/router'; 
 
 
