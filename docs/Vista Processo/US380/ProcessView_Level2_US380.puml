@@ -4,13 +4,13 @@
 autonumber
 skinparam packageStyle rect
 
-title List all robots of a lit
+title List all robots of the fleet
 
-participant "MasterData" as MD <<Component>>
+participant "Information Manager" as MD <<Component>>
 
 ?o->> MD : GET
 
 activate MD
-?o<<--- MD : 201|400
+?o<<--- MD : 200 OK
 deactivate MD
 @enduml

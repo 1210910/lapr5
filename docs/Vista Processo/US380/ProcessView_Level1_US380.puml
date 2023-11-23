@@ -4,11 +4,11 @@
 autonumber
 title List all robots from the lit
 
-participant "System" as Sys <<System>>
+participant "RobDroneGo" as Sys <<System>>
 
 ?o->> Sys : GET
 
 activate Sys
-?o<<-- Sys : 201|400
+?o<<-- Sys : 201
 deactivate Sys
 @enduml
