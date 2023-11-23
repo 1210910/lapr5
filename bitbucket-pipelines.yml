@@ -13,6 +13,7 @@ pipelines:
             caches:
               - node
             script:
-              - npm install
-              - npm test
-        
+             - if [ "$MODULE" == "information_manager" ]; then
+                npm install
+                npm test
+              fi
