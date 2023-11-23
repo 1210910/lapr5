@@ -1,0 +1,26 @@
+<section>
+    <header class="brand-name">
+      <nav>
+        <ul class="menuItems">
+          <li>
+            <a [routerLink]="['/robot']">
+              <img class="brand-logo" src="/assets/logoRobot.svg" alt="logo" aria-hidden="true">
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+  </section>
+  <section class="list-container">
+    <div class="body">
+  <section>
+    <div class="card-container">
+      <div *ngFor="let robot of robotList" class="card">
+        <div class="card-content">
+        </div>
+      </div>
+    </div>
+  </section>
+      <app-robot-info *ngFor="let RobotInfo of robotList" [robotInfo]="RobotInfo"></app-robot-info>
+    </div>
+  </section>
