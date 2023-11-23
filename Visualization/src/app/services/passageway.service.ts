@@ -33,7 +33,7 @@ export class PassagewayService {
         } else {
           response = httprequest.status;
           console.log("Passageway not created");
-          reject(false);
+          reject(httprequest.responseText);
         }
       };
       httprequest.send(jsonMessage);
@@ -60,7 +60,7 @@ export class PassagewayService {
         } else {
           response = httprequest.status;
           console.log("Passageway not edited");
-          reject(false);
+          reject(httprequest.responseText);
         }
       };
       httprequest.send(jsonMessage);
