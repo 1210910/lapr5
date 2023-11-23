@@ -4,13 +4,13 @@
 autonumber
 skinparam packageStyle rect
 
-title List all floors of a building
+title List lifts of a building
 
-participant "System" as Sys <<System>>
+participant "RobDroneGo" as Sys <<System>>
 
 ?o->> Sys : GET
 
 activate Sys
-?o<<-- Sys : 201|400
+?o<<-- Sys : 201
 deactivate Sys
 @enduml
