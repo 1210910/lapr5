@@ -1,0 +1,85 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title Edit a lift
+
+participant "Routing" as routing <<component>>
+participant "Controller" as controller <<component>>
+participant "Service" as service <<component>>
+participant "Lift Repository" as liftrepo <<component>>
+participant "Floor Repository" as floorrepo <<component>>
+participant "Passageway" as lift <<component>>
+participant "Map" as map <<component>>
+participant "DTO" as dto <<component>>
+database "Database" as db <<component>>
+
+?o->> routing : PATCH /:id
+activate routing
+routing ->> controller : edit lift
+
+activate controller
+controller ->> service : edit lift
+
+activate service
+service ->> liftrepo : verifies if lift \n already exists
+
+activate liftrepo
+liftrepo ->> db : select lift
+activate db
+db -->> liftrepo : lift
+deactivate db
+
+liftrepo -->> service : lift found
+deactivate liftrepo
+
+service ->> floorrepo : verifies if floors exists
+activate floorrepo
+floorrepo ->> db : select floors
+activate db
+db -->> floorrepo : floors
+deactivate db
+
+floorrepo -->> service : floors found
+deactivate floorrepo
+
+service ->> lift** : edit
+activate lift
+
+lift -->> lift: verifies
+
+lift -->> service : edited
+deactivate lift
+
+service ->> liftrepo : save
+liftrepo ->> db : insert lift
+activate db
+db -->> liftrepo : success
+deactivate db
+
+liftrepo -->> service : success
+deactivate liftrepo
+
+service ->> map : convert to DTO
+activate map
+
+map -->> dto** : convert
+activate dto
+
+dto -->> map : dto
+deactivate dto
+
+map -->> service : dto
+deactivate map
+
+service -->> controller : success
+deactivate service
+
+controller -->> routing : success
+deactivate controller
+
+?o<<-- routing : 200 OK
+deactivate routing
+
+@enduml
