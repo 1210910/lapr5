@@ -6,10 +6,10 @@ import {BuildingInfo} from "../Building/building-info/buildingInfo";
   providedIn: 'root'
 })
 export class BuildingService{
-  BuildingList: BuildingInfo[] ;
+  buildingListInfo: BuildingInfo[] ;
 
   constructor() {
-    this.BuildingList = [];
+    this.buildingListInfo = [];
   }
 
   public createBuilding(code:string , name:string, description:string, maxLength:number, maxWidth:number) {
@@ -96,9 +96,10 @@ export class BuildingService{
 
   buildingList(response: any) {
     const buildingsList = JSON.parse(response);
-    this.BuildingList = [];
+    this.buildingListInfo = [];
     for (const building of buildingsList) {
-      this.BuildingList.push({
+      console.log("Building: " + building)
+      this.buildingListInfo.push({
         code: building.code,
           name: building.name,
           description: building.description,
@@ -108,7 +109,7 @@ export class BuildingService{
     }
   }
   getBuildingByCode(position: string): BuildingInfo | undefined{
-    return this.BuildingList.find((building) => building.code === position);
+    return this.buildingListInfo.find((building) => building.code === position);
   }
 
 

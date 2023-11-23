@@ -1,0 +1,56 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title List all floors of a building
+
+participant "Routing" as routing <<component>>
+participant "Controller" as controller <<component>>
+participant "Service" as service <<component>>
+participant "Floor Repository" as floorrepo <<component>>
+participant "Map" as map <<component>>
+participant "DTO" as dto <<component>>
+database "Database" as db <<component>>
+
+?o->> routing : GET
+activate routing
+routing ->> controller : list all floors of a building
+
+activate controller
+controller ->> service : list all floors of a building
+
+activate service
+service ->> floorrepo : get list of floors of a building
+
+activate floorrepo
+floorrepo ->> db : select floors
+activate db
+db -->> floorrepo : list
+deactivate db
+
+floorrepo -->> service : list of floors of a building
+deactivate floorrepo
+
+service ->> map : convert to DTO List
+activate map
+
+map -->> dto** : convert
+activate dto
+
+dto -->> map : dto list
+deactivate dto
+
+map -->> service : dto list
+deactivate map
+
+service -->> controller : success
+deactivate service
+
+controller -->> routing : success
+deactivate controller
+
+?o<<-- routing : 200 OK
+deactivate routing
+
+@enduml

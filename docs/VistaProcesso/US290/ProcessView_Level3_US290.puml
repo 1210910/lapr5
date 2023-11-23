@@ -1,0 +1,56 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title List all lifts of a building
+
+participant "Routing" as routing <<component>>
+participant "Controller" as controller <<component>>
+participant "Service" as service <<component>>
+participant "Lift Repository" as liftrepo <<component>>
+participant "Map" as map <<component>>
+participant "DTO" as dto <<component>>
+database "Database" as db <<component>>
+
+?o->> routing : GET
+activate routing
+routing ->> controller : list all lifts of a building
+
+activate controller
+controller ->> service : list all lifts of a building
+
+activate service
+service ->> liftrepo : get list of lifts of a building
+
+activate liftrepo
+liftrepo ->> db : select lifts
+activate db
+db -->> liftrepo : list
+deactivate db
+
+liftrepo -->> service : list of lifts of a building
+deactivate liftrepo
+
+service ->> map : convert to DTO List
+activate map
+
+map -->> dto** : convert
+activate dto
+
+dto -->> map : dto list
+deactivate dto
+
+map -->> service : dto list
+deactivate map
+
+service -->> controller : success
+deactivate service
+
+controller -->> routing : success
+deactivate controller
+
+?o<<-- routing : 200 OK
+deactivate routing
+
+@enduml
