@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from "@angular/router";
 import { BuildingService } from '../../services/building.service';
 
-
 @Component({
     selector: 'app-building-create',
     standalone: true,

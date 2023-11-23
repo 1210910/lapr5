@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BuildingCreateComponent } from './buildingCreate.component';
 import { BuildingService } from '../../services/building.service';
-import { ActivatedRoute } from '@angular/router'; 
+import { ActivatedRoute } from '@angular/router';
+import { By } from '@angular/platform-browser';
 
 
 describe('RobotEnableDisableComponent', () => {
@@ -17,7 +18,7 @@ describe('RobotEnableDisableComponent', () => {
     } as any;
 
     mockActivatedRoute = {
-      
+
     };
 
     TestBed.overrideProvider(ActivatedRoute, { useValue: mockActivatedRoute });
@@ -25,12 +26,12 @@ describe('RobotEnableDisableComponent', () => {
 
     fixture = TestBed.createComponent(BuildingCreateComponent);
     component = fixture.componentInstance;
-    
+
     component.buildingService = mockBuildingService;
 
   });
 
-  it('should create the component', async() => {
+  it('should create the component', async () => {
     global.alert = jest.fn();
     expect(component).toBeTruthy();
   });
@@ -40,7 +41,32 @@ describe('RobotEnableDisableComponent', () => {
     component.createBuilding();
     expect(alertSpy).toHaveBeenCalledWith('Please fill in all fields');
   });
+
+
+  test('yourFunction processes DOM elements correctly', async () => {
+
+    const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
+    const nameInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
+    const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
+    const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
+    const widthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
+
+
+    codeInput.value = 'code';
+    nameInput.value = 'name';
+    descriptionTextarea.value = 'descripiton';
+    lengthInput.value = '10';
+    widthInput.value = '10';
+
+    mockBuildingService.createBuilding.mockReturnValue(Promise.resolve(null));
+
+    await component.createBuilding()
   
+    expect(window.alert).toHaveBeenCalledWith('Building Created');
+   
+
+  });
+
 
 
 });

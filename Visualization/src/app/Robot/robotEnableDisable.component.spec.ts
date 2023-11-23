@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RobotEnableDisableComponent } from './robotEnableDisable.component';
 import { RobotService } from '../services/robot.service';
 import { ActivatedRoute } from '@angular/router'; 
-import { throwError } from 'rxjs';
 
 
 describe('RobotEnableDisableComponent', () => {
@@ -47,7 +46,19 @@ describe('RobotEnableDisableComponent', () => {
     expect(component.robots).toEqual(mockRobots);
   });
 
-  it('should toggle robot status', async() => {
+  it('should catch exeption on list robots', async() => {
+    const originalConsoleError = console.error;
+    console.error = jest.fn();
+
+    mockRobotService.listAllRobots.mockRejectedValue(new Error('Error'));
+    
+    await component.ngOnInit();
+    
+    expect(console.error).toHaveBeenCalledWith('Erro ao listar robôs:', new Error('Error'));
+    console.error = originalConsoleError;
+  });
+
+  it('should call sevice with right parameters toggleRobotStatus', async() => {
     const robotCode = '123';
     const enable = true;
     mockRobotService.toggleRobotStatus.mockReturnValue(Promise.resolve(null));
@@ -64,5 +75,19 @@ describe('RobotEnableDisableComponent', () => {
     expect(mockRobotService.toggleRobotStatus).toHaveBeenCalledWith(robotCode, enable);
   });
 
-  // Add more test cases as needed
+  it('should catch error in toggleRobotStatus', async() => {
+    const originalConsoleError = console.error;
+    console.error = jest.fn();
+
+    const robotCode = '123';
+    const enable = true;
+    mockRobotService.toggleRobotStatus.mockRejectedValue(new Error('Error'));
+
+    await component.toggleRobotStatus(robotCode, enable);
+
+    expect(console.error).toHaveBeenCalledWith('Erro ao tentar alterar o status do robô ' + robotCode);
+    console.error = originalConsoleError;
+  });
+
+
 });
