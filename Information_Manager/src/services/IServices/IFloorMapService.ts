@@ -5,4 +5,5 @@ import IFloorMapDTO from "../../dto/IFloorMapDTO";
 export default interface IFloorMapService  {
     createFloorMap(floorCode:string ,file:any): Promise<Result<IFloorMapDTO>>;
     getFloorMap(floorCode:string): Promise<Result<String>>;
+    getFloorMaps():Promise<Result<Array<String>>>;
 }

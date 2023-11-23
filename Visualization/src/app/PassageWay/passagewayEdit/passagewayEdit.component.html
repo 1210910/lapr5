@@ -1,0 +1,61 @@
+<section>
+    <header class="brand-name">
+
+        <nav>
+            <ul class="menuItems">
+                <li><a [routerLink]="['/passageway']">
+                    <img class="brand-logo" src="/assets/logoPassageway.svg" alt="logo" aria-hidden="true">
+                </a></li>
+            </ul>
+        </nav>
+    </header>
+
+</section>
+<section class="body">
+    <div class="container">
+        <div class="text">
+            Insert Data
+        </div>
+        <form action="#">
+          <div class="form-row">
+            <div class="input-data">
+              <input type="text" required>
+              <div class="underline"></div>
+              <label for="">Passage code to edit </label>
+            </div>
+            <div class="input-data">
+              <input type="text" >
+              <div class="underline"></div>
+              <label for="">New Passage Code</label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="input-data">
+              <input type="text" >
+              <div class="underline"></div>
+              <label for="">Floor1</label>
+            </div>
+            <div class="input-data">
+              <input type="text" >
+              <div class="underline"></div>
+              <label for="">Floor2</label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="input-data textarea">
+              <textarea rows="8" cols="80" ></textarea>
+              <br />
+              <div class="underline"></div>
+              <label for="">Description</label>
+              <br />
+              <div class="form-row submit-btn">
+                <div class="input-data">
+                  <div class="inner"></div>
+                  <a [routerLink]="['/passageway']"><input type="submit" value="submit" (click)="editPassageway()" > </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+    </div>
+    </section>

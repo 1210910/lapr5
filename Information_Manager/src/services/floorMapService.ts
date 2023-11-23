@@ -11,6 +11,7 @@ import {Result} from "../core/logic/Result";
 import { FloorMapMap } from "../mappers/floorMapMap";
 import fs from "fs";
 import path from "path";
+import {floor} from "lodash";
 
 
 
@@ -24,6 +25,34 @@ export default class FloorMapService implements IFloorMapService {
 
     ) {}
 
+    public async getFloorMaps(){
+      try{
+        const floorMaps = await this.floorMapRepo.findAll();
+
+        console.log(floorMaps)
+
+        if(floorMaps.isFailure){
+          return Result.fail<Array<String>>("no floor founds")
+        }
+
+        const  floorMapsMocks :any[] = []
+
+
+
+        for (let i=0; i <floorMaps.getValue().length;i++){
+          const maze= floorMaps.getValue()[i].maze.map;
+          const mockDto={
+            floorCode:floorMaps.getValue()[i].floorCode,
+            maze: maze
+          }
+          floorMapsMocks.push(mockDto)
+        }
+
+       return Result.ok<Array<any>>(floorMapsMocks)
+      }catch (e){
+        throw  (e)
+      }
+    }
     public async getFloorMap(floorCode :string) : Promise<Result<String>> {
         try {
             const floorMap = await this.floorMapRepo.findByFloorCode(floorCode);
