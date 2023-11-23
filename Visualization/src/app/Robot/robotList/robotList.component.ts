@@ -1,10 +1,10 @@
 import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
-import {RobotInfoComponent} from "./robot-info/robot-info.component";
-import {RobotInfo} from "./robot-info/robotinfo";
-import {RobotService} from "../services/robot.service";
-import {FloorInfoComponent} from "../Floor/floor-info/floor-info.component";
+import {RobotInfoComponent} from "../robot-info/robot-info.component";
+import {RobotInfo} from "../robot-info/robotinfo";
+import {RobotService} from "../../services/robot.service";
+import {FloorInfoComponent} from "../../Floor/floor-info/floor-info.component";
 
 
 @Component({
@@ -40,7 +40,7 @@ import {FloorInfoComponent} from "../Floor/floor-info/floor-info.component";
       </section>
 
   `,
-    styleUrls: ["./robotCreate.component.css"]
+    styleUrls: ["../robotCreate/robotCreate.component.css"]
 
 })
 

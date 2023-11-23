@@ -1,8 +1,8 @@
 import { Component, OnInit, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
-import { RobotService } from "../services/robot.service";
-import {RobotInfo} from "./robot-info/robotinfo";
+import { RobotService } from "../../services/robot.service";
+import {RobotInfo} from "../robot-info/robotinfo";
 
 @Component({
   selector: "app-robot-enable-disable",
