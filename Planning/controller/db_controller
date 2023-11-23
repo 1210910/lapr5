@@ -52,6 +52,7 @@ get_maps():-
 load_db() :-
     get_floors,
     get_maps,
+    get_rooms,
     get_passageways,
     get_lifts,
     get_buildings.

@@ -32,3 +32,5 @@ maps_url(URL):-
     api_domain_url(MAIN),
     atom_concat(MAIN,'/floorMap',URL).
 
+
+

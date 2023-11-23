@@ -32,7 +32,7 @@ save_floors([_|Rest]) :-
 save_rooms([]).
 save_rooms([Room|Rest]) :-
 
-    Room = json([roomcode=RoomCode,floor=FloorCode | _]),
+    Room = json([roomCode=RoomCode,floor=FloorCode | _]),
     \+ db:room(RoomCode,_), !,
     write('Saving room: '), writeln(Room),
     assertz(db:room(RoomCode,FloorCode)),
@@ -71,10 +71,10 @@ save_lifts([_|Rest]) :-
 %save map
 save_maps([]).
 save_maps([Map|Rest]):-
-    Map = json([floorCode=FloorCode,maze=Maze| _]),
-    \+ db:map(FloorCode,_), !,
+    Map = json([floorCode=FloorCode,maze=Maze,exits=Exits ,elevator=Elevator| _]),
+    \+ db:map(FloorCode,_,_,_), !,
         write('Saving Map: '), writeln(Map),
-        assertz(db:map(FloorCode,Maze)),
+        assertz(db:map(FloorCode,Maze,Exits,Elevator)),
         save_lifts(Rest).
 
 save_maps([_|Rest]) :-

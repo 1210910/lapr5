@@ -29,7 +29,6 @@ export default class FloorMapService implements IFloorMapService {
       try{
         const floorMaps = await this.floorMapRepo.findAll();
 
-        console.log(floorMaps)
 
         if(floorMaps.isFailure){
           return Result.fail<Array<String>>("no floor founds")
@@ -41,9 +40,13 @@ export default class FloorMapService implements IFloorMapService {
 
         for (let i=0; i <floorMaps.getValue().length;i++){
           const maze= floorMaps.getValue()[i].maze.map;
+          const exits = floorMaps.getValue()[i].maze.exits;
+          const elevator = floorMaps.getValue()[i].maze.elevators;
           const mockDto={
             floorCode:floorMaps.getValue()[i].floorCode,
-            maze: maze
+            maze: maze,
+            exits:exits,
+            elevator:elevator
           }
           floorMapsMocks.push(mockDto)
         }

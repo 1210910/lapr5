@@ -14,7 +14,21 @@ export default class RoomController implements IRoomController {
     constructor(
         @Inject(config.services.room.name) private RoomServiceInstance : IRoomService
     ) {}
+        public async listAllRooms(req: Request, res: Response, next: NextFunction){
+            try{
+                const listOrError = await this.RoomServiceInstance.listAllRooms() as Result<Array<IRoomDTO>>;
 
+                if(listOrError.isFailure){
+                    return res.status(404).send();
+                }
+
+                const roomDto = listOrError.getValue();
+                return res.status(200).json(roomDto);
+
+            }catch (e){
+                return next(e);
+            }
+      }
         public async createRoom(req: Request, res: Response, next: NextFunction){
             try{
                 const floor = req.params.floor.toString();

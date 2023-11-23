@@ -3,7 +3,7 @@
 :- use_module('../persistence/DB').
 
 converte_mapa(X):-
-    db:map(X, Y),
+    db:map(X, Y,_,_),
     converte_mapa(Y).
 
 converte_mapa(Mapa) :-
@@ -37,7 +37,7 @@ numero_maximo_colunas(Matriz, NumeroColunas) :-
         ).
 
 cria_grafo(X):-
-    db:map(X, Y),
+    db:map(X, Y,_,_),
     numero_maximo_linhas(Y, Linhas),
     numero_maximo_colunas(Y, Colunas),
     cria_grafo(Colunas,Linhas).
@@ -76,6 +76,61 @@ path_buildings2(BdAct,BdDest,LBdPassed,LBdPath):-(liga(BdAct,BdInt);liga(BdInt,B
 
 all_path_buildings(BdOr,BdDest,LTPathBd):-findall(LBdPath,path_buildings(BdOr,BdDest,LBdPath),LTPathBd).
 
+
+
+% Método para criar os fatos floors/2 a partir de floor/3
+create_floors :-
+    findall(Building-FloorCodes, floors_building(Building, FloorCodes), BuildingFloorsList),
+    create_floors_facts(BuildingFloorsList).
+
+% Método para encontrar todos os códigos de andares de um edifício
+floors_building(Building, FloorCodes) :-
+    setof(Code, Number^floor(Code, Number, Building), FloorCodes).
+
+% Método para criar os fatos floors/2 a partir da lista de Building-FloorCodes
+create_floors_facts([]).
+create_floors_facts([Building-FloorCodes | Rest]) :-
+    assertz(floors(Building, FloorCodes)),
+    create_floors_facts(Rest).
+
+
+% Método para criar os fatos elevator/2 a partir de lift/3
+create_elevators :-
+    findall(Building-Floors, lift(_, Building, Floors), BuildingFloorsList),
+    create_elevator_facts(BuildingFloorsList).
+
+% Método para criar os fatos elevator/2 a partir da lista de Building-Floors
+create_elevator_facts([]).
+create_elevator_facts([Building-Floors | Rest]) :-
+    assertz(elevator(Building, Floors)),
+    create_elevator_facts(Rest).
+
+
+% Método para criar os fatos corridor/4 a partir de passageway/3
+create_corridors :-
+    findall(Floor1-Floor2, passageway(_, Floor1, Floor2), CorridorList),
+    create_corridor_facts(CorridorList).
+
+% Método para criar os fatos corridor/4 a partir da lista de Building1-Building2-Floor1-Floor2
+create_corridor_facts([]).
+create_corridor_facts([Floor1-Floor2 | Rest]) :-
+    atom_chars(Floor1, [Building1Code | _]), % Extrai o primeiro caractere do código do andar para o código do edifício
+    atom_chars(Floor2, [Building2Code | _]), % Extrai o primeiro caractere do código do andar para o código do edifício
+    assertz(corridor(Building1Code, Building2Code, Floor1, Floor2)),
+    create_corridor_facts(Rest).
+
+room_location(3,2).
+
+path_floors(FloorOr,FloorDest,LBdPath,LCon):-
+    floors(BdOr,LFloorOr),member(FloorOr,LFloorOr),
+    floors(BdDest,LFloorsDest),member(FloorDest,LFloorsDest), path_buildings(BdOr,BdDest,LBdPath), follow_floors(FloorOr,FloorDest,LBdPath,LCon).
+    follow_floors(FloorDest,FloorDest,_,[]).
+follow_floors(FloorDest1,FloorDest,[BdDest],[elev(FloorDest1,FloorDest)]):-
+    FloorDest\==FloorDest1, elevator(BdDest,LFloors),member(FloorDest1,LFloors), member(FloorDest,LFloors).
+follow_floors(FloorAct,FloorDest,[BdAct,BdNext|LOthersBd],[cor(FloorAct,FloorNext)|LOtherCon]):-
+    (corridor(BdAct,BdNext,FloorAct,FloorNext);corridor(BdNext,BdAct,FloorNext,FloorAct)), follow_floors(FloorNext,FloorDest,[BdNext|LOthersBd],LOtherCon).
+follow_floors(FloorAct,FloorDest,[BdAct,BdNext|LOthersBd], [elev(FloorAct,FloorAct1),cor(FloorAct1,FloorNext)|LOtherCon]):-
+    (corridor(BdAct,BdNext,FloorAct1,FloorNext); corridor(BdNext,BdAct,FloorNext,FloorAct1)),FloorAct1\==FloorAct, elevator(BdAct,LFloors),member(FloorAct,LFloors),member(FloorAct1,LFloors), follow_floors(FloorNext,FloorDest,[BdNext|LOthersBd],LOtherCon).
 
 
 

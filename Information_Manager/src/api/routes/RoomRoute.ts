@@ -24,4 +24,7 @@ export default (app: Router) => {
     }),
     (req,res,next) => RoomController.createRoom(req,res,next) );
 
+
+  route.get('', (req,res,next) => RoomController.listAllRooms(req,res,next) );
+
 };

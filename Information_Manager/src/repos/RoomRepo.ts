@@ -8,6 +8,8 @@ import { RoomId } from '../domain/RoomId';
 import { Document, FilterQuery, Model } from 'mongoose';
 import { IRoomPersistence } from '../dataschema/IRoomPersistence';
 import {RoomType} from "../domain/RoomType";
+import {Result} from "../core/logic/Result";
+import {element} from "three/examples/jsm/nodes/shadernode/ShaderNodeBaseElements";
 
 @Service()
 export default class RoomRepo implements IRoomRepo {
@@ -60,12 +62,16 @@ export default class RoomRepo implements IRoomRepo {
         }
     }
 
-    public async findAll(): Promise<Room[]> {
+    public async findAll(): Promise<Result<Array<Room>>> {
         const roomRecord = await this.roomSchema.find();
-
-        return roomRecord.map((item) => {
-            return RoomMap.toDomain(item);
-        });
+        if (!roomRecord) {
+            return Result.fail<Array<Room>>("No rooms found")
+        }else{
+            const roomDomain = roomRecord.map((room) => {
+                return RoomMap.toDomain(room)
+            })
+            return Result.ok<Array<Room>>(roomDomain)
+        }
     }
 
     public async findByCode(roomCode: Room | string): Promise<Room> {

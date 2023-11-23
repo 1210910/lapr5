@@ -84,16 +84,16 @@ export default class RoomService implements IRoomService {
 
     }
 
-    public async listRoom(): Promise<Result<Array<IRoomDTO>>> {
+    public async listAllRooms(): Promise<Result<Array<IRoomDTO>>> {
         try {
             const listOrError = await this.roomRepo.findAll();
 
-            if (listOrError==null) {
-                return Result.fail<Array<IRoomDTO>>("no rooms found");
-            }
+           if (listOrError.isFailure) {
+                  return Result.fail<Array<IRoomDTO>>(listOrError.errorValue());
+              }
 
-            const roomResult = listOrError;
-
+            const roomResult = listOrError.getValue();
+            console.log(roomResult)
             const roomDTOResult = RoomMap.toDTOList(roomResult) as Array<IRoomDTO>;
             return Result.ok<Array<IRoomDTO>>(roomDTOResult)
         } catch (e) {
