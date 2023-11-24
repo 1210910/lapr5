@@ -33,7 +33,7 @@ describe('BuildingListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  /*it('should fetch building list on initialization', async() => {
+  it('should fetch building list on initialization', async() => {
     const building1: BuildingInfo = {
       code: 'B',
       name: 'Office Building',
@@ -50,13 +50,14 @@ describe('BuildingListComponent', () => {
       maxWidth: 12,
     };
     const mockBuildingList = [building1,building2];
-    mockBuildingService.listAllBuildings.mockResolvedValue((mockBuildingList));
-    
-    await component.ngOnInit();
-    expect(mockBuildingService.listAllBuildings).toHaveBeenCalled();
+    mockBuildingService.listAllBuildings.mockResolvedValue(mockBuildingList);
 
+    await component.ngOnInit();
+    
+    expect(mockBuildingService.listAllBuildings).toHaveBeenCalled();
     expect(mockBuildingService.buildingList).toHaveBeenCalledWith(mockBuildingList);
-    expect(component.buildingListInfo).toEqual(mockBuildingList);
-  });*/
+    //expect(component.buildingListInfo).toEqual(mockBuildingList);
+
+  });
 
 });
