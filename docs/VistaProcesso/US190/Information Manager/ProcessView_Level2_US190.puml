@@ -2,17 +2,16 @@
 'https://plantuml.com/sequence-diagram
 
 autonumber
+
 skinparam packageStyle rect
 
 title Create a floor of a building
 
-participant "RobDroneGo" as Sys <<System>>
+participant "Information Manager" as MD <<Component>>
 
-?o->> Sys : POST
+?o->> MD : POST
 
-activate Sys
-?o<<-- Sys : 201 Created
-deactivate Sys
-
-
+activate MD
+?o<<-- MD : 201 Created
+deactivate MD
 @enduml

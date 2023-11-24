@@ -2,16 +2,18 @@
 'https://plantuml.com/sequence-diagram
 
 autonumber
-
 skinparam packageStyle rect
 
-title createa a floor of a building
+title Create a floor in a building
 
-participant "MasterData" as MD <<Component>>
+participant "Visualization" as MD <<Component>>
 
 ?o->> MD : POST
 
 activate MD
-?o<<-- MD : 201|400
+?o<<--MD : 201 Created
+
 deactivate MD
+
+
 @enduml

@@ -1,0 +1,86 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title Create a floor of a building
+
+participant "Routing" as routing <<component>>
+participant "Controller" as controller <<component>>
+participant "Service" as service <<component>>
+participant "Floor Repository" as floorrepo <<component>>
+participant "Building Repository" as buildingrepo <<component>>
+participant "Floor" as floor <<component>>
+participant "Map" as map <<component>>
+participant "DTO" as dto <<component>>
+database "Database" as db <<component>>
+
+?o->> routing : POST
+activate routing
+routing ->> controller : create floor
+
+activate controller
+controller ->> service : create floor
+
+activate service
+service ->> buildingrepo : verifies if building exists
+activate buildingrepo
+buildingrepo ->> db : select building
+activate db
+db -->> buildingrepo : building
+deactivate db
+
+buildingrepo -->> service : building found
+deactivate buildingrepo
+
+service ->> floorrepo : verifies if floor \n already exists
+
+activate floorrepo
+floorrepo ->> db : select floor
+activate db
+db -->> floorrepo : floor
+deactivate db
+
+floorrepo -->> service : floor not found
+deactivate floorrepo
+
+
+service ->> floor** : create
+activate floor
+
+floor -->> floor: verifies
+
+floor -->> service : created
+deactivate floor
+
+service ->> floorrepo : save
+floorrepo ->> db : insert floor
+activate db
+db -->> floorrepo : success
+deactivate db
+
+floorrepo -->> service : success
+deactivate floorrepo
+
+service ->> map : convert to DTO
+activate map
+
+map -->> dto** : convert
+activate dto
+
+dto -->> map : dto
+deactivate dto
+
+map -->> service : dto
+deactivate map
+
+service -->> controller : success
+deactivate service
+
+controller -->> routing : success
+deactivate controller
+
+?o<<-- routing : 201 Created
+deactivate routing
+
+@enduml
