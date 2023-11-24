@@ -1,0 +1,20 @@
+@startuml Process View - Level 2 - Edit a passageway
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+skinparam packageStyle rect
+
+title Edit a passageway
+
+participant "InformationManager" as IM <<Component>>
+
+?o->> IM : PATCH /:id
+
+activate IM
+
+?o<<--IM : 201 OK
+
+deactivate IM
+
+@enduml

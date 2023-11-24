@@ -1,0 +1,16 @@
+@startuml Process View - Level 2 - Edit a passageway
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title Edit a passageway
+
+participant "Visualization" as MD <<Component>>
+
+?o->> MD : PATCH
+
+activate MD
+?o<<--- MD : 200 OK
+deactivate MD
+@enduml

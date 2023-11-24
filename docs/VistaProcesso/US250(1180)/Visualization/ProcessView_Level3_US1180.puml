@@ -1,0 +1,31 @@
+@startuml Process View - Level 3 - Edit a passageway
+
+autonumber
+skinparam packageStyle rect
+
+title Edit a passageway
+
+participant "Routing" as routing <<component>>
+participant "Component" as comp <<component>>
+participant "Service" as service <<component>>
+
+
+?o->> routing : PATCH /:id
+activate routing
+routing ->> comp : edit passageway
+
+activate comp
+comp ->> service : edit passageway
+
+service ->> : Http request
+service <<-- : Http response
+
+service -->> comp : success
+deactivate service
+
+comp -->> routing : success
+
+?o<<-- routing : 200 OK
+deactivate routing
+
+@enduml
