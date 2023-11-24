@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import { RoomService } from '../../services/room.service';
-import { RoomInfo } from '../room-info/roominfo';
+import { RoomInfo } from '../Room-info/roominfo';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
