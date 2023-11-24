@@ -52,9 +52,24 @@ ColS is Col+1, ColA is Col-1, LinS is Lin+1,LinA is Lin-1,
 ((m(ColA,Lin,0),assertz(ligacel(cel(Col,Lin),cel(ColA,Lin)));true)),
 ((m(Col,LinS,0),assertz(ligacel(cel(Col,Lin),cel(Col,LinS)));true)),
 ((m(Col,LinA,0),assertz(ligacel(cel(Col,Lin),cel(Col,LinA)));true)),
+(m(ColS,LinS,0),assertz(ligacel(cel(Col,Lin),cel(ColS,LinS)));true)),
+((m(ColA,LinA,0),assertz(ligacel(cel(Col,Lin),cel(ColA,LinA)));true)),
+((m(ColS,LinA,0),assertz(ligacel(cel(Col,Lin),cel(ColS,LinA)));true)),
+((m(ColA,LinS,0),assertz(ligacel(cel(Col,Lin),cel(ColA,LinS)));true)),
 Col1 is Col-1,
 cria_grafo_lin(Col1,Lin).
 cria_grafo_lin(Col,Lin):-Col1 is Col-1,cria_grafo_lin(Col1,Lin).
+
+dfs(Orig,Dest,Cam):-
+       dfs2(Orig,Dest,[Orig],Cam).
+dfs2(Dest,Dest,LA,Cam):-
+       reverse(LA,Cam).
+dfs2(Act,Dest,LA,Cam):-ligacel(Act,X),\+ member(X,LA), dfs2(X,Dest,[X|LA],Cam).
+all_dfs(Orig,Dest,LCam):-findall(Cam,dfs(Orig,Dest,Cam),LCam).
+better_dfs(Orig,Dest,Cam):-all_dfs(Orig,Dest,LCam), shortlist(LCam,Cam,_).
+shortlist([L],L,N):-!,length(L,N). shortlist([L|LL],Lm,Nm):-shortlist(LL,Lm1,Nm1),
+length(L,NL),
+((NL<Nm1,!,Lm=L,Nm is NL);(Lm=Lm1,Nm is Nm1)).
 
 carrega_conexoes :-
     findall(passageway(X, Y, Z), db:passageway(X, Y, Z), Passagens), % Encontra todas as passagens carregadas
@@ -120,6 +135,74 @@ create_corridor_facts([Floor1-Floor2 | Rest]) :-
     create_corridor_facts(Rest).
 
 room_location(3,2).
+
+extract_building_floor(RoomCode, BuildingCode, FloorCode) :-
+    atom_chars(RoomCode, [BuildingCode | Rest]),
+    append([BuildingCode], FloorChars, Rest),
+    atom_chars(FloorCode, FloorChars).
+
+get_all_floors(LCon, AllFloors) :-
+        findall(Floor, (
+            member(cell(_, _, Floor), LCon), % Extrai o piso de cada célula em LCon
+            atom_chars(Floor, [BuildingCode | _]), % Extrai o código do edifício
+            atom_chars(Floor, [_, FloorCode | _]), % Extrai o código do piso
+            % Monta o código completo do piso
+            atom_concat(BuildingCode, FloorCode, FullFloorCode),
+            % Adiciona o código completo do piso à lista de pisos
+            \+ member(FullFloorCode, AllFloors), % Verifica se o piso já foi adicionado
+            AllFloors = [FullFloorCode | Rest] % Adiciona o piso à lista
+        ), AllFloors).
+
+% Predicado para determinar a posição de entrada/saída nos pisos
+get_entry_exit_positions([First | Rest], EntryExitPositions) :-
+    get_entry_exit_positions([First | Rest],  EntryExitPositions).
+
+% Se for o primeiro
+get_entry_exit_positions([First, Last], EntryExitPositions) :-
+    room_location(X, Y),
+    EntryRoom = cel(X, Y),
+    ExitRoom = cel(X, Y),
+    map(First, _,ExitEntry,_),
+    [EntryLast , ExitFirst ] = ExitEntry,
+    EntryExitFirst = cam(First, EntryRoom, ExitFirst),
+    EntryExitLast = cam(Last, EntryLast, ExitRoom),
+    append(EntryExitFirst, EntryExitLast, EntryExitPositions).
+
+get_entry_exit_positions([Floor1| Rest], EntryExitPositions) :-
+    (
+        [Floor2 | _] = Rest,
+        is_same_building_transition(Floor1,Floor2) ->
+            db:map(Floor, _, _, Exit),
+            db:map(Floor, _, Entry, _),
+            % o entry é um array de arrays , e eu quero apenas o primeiro elemento do primeiro array
+            [FirstEntry | _] = Entry,
+            EntryExitPosition = cam(Floor, FirstEntry, Exit)
+        ; % Outros tipos de transições
+            db:map(Floor, _, ExitEntry, _),
+            [Entry , Exit ] = ExitEntry,
+            EntryExitPosition = cam(Floor, Entry, Exit)
+    ),
+    EntryExitPositions = [EntryExitPosition | RestEntryExitPositions],
+    get_entry_exit_positions(Rest, RestEntryExitPositions).
+
+% Lógica para identificar se é uma transição no mesmo edifício (considerada elevador)
+is_same_building_transition(Floor1, Floor2) :-
+    atom_chars(Floor1, [Building1Code | _]),
+    atom_chars(Floor2, [Building2Code | _]),
+    Building1Code == Building2Code.
+
+% Predicado para percorrer a lista de transições
+process_path([]).
+process_path([cam(Floor, Entry, Exit) | Rest],Path) :-
+    cria_grafo(Floor),
+    better_dfs(Entry, Exit, Cam),
+    Caminho = cam(Floor, Cam),
+    append(Caminho, Path),
+    process_transitions(Rest,Path).
+
+
+
+
 
 path_floors(FloorOr,FloorDest,LBdPath,LCon):-
     floors(BdOr,LFloorOr),member(FloorOr,LFloorOr),

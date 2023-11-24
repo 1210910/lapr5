@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RoomInfo } from '../Room/room-info/roominfo'
+import { RoomInfo } from '../Room/Room-info/roominfo'
 
 
 @Injectable({

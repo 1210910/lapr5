@@ -66,6 +66,10 @@ ColS is Col+1, ColA is Col-1, LinS is Lin+1,LinA is Lin-1,
 ((m(ColA,Lin,0),assertz(ligacel(cel(Col,Lin),cel(ColA,Lin)));true)), 
 ((m(Col,LinS,0),assertz(ligacel(cel(Col,Lin),cel(Col,LinS)));true)), 
 ((m(Col,LinA,0),assertz(ligacel(cel(Col,Lin),cel(Col,LinA)));true)),
+((m(ColS,LinS,0),assertz(ligacel(cel(Col,Lin),cel(ColS,LinS)));true)),
+((m(ColA,LinA,0),assertz(ligacel(cel(Col,Lin),cel(ColA,LinA)));true)),
+((m(ColS,LinA,0),assertz(ligacel(cel(Col,Lin),cel(ColS,LinA)));true)),
+((m(ColA,LinS,0),assertz(ligacel(cel(Col,Lin),cel(ColA,LinS)));true)),
 Col1 is Col-1,
 cria_grafo_lin(Col1,Lin).
 cria_grafo_lin(Col,Lin):-Col1 is Col-1,cria_grafo_lin(Col1,Lin).
