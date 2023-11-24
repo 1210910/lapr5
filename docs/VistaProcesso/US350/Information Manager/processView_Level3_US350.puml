@@ -1,0 +1,75 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title Create a robot type
+
+participant "Routing" as routing <<component>>
+participant "Controller" as controller <<component>>
+participant "Service" as service <<component>>
+participant "RobotType Repository" as robotTyperepo <<component>>
+participant "RobotType" as robotType <<component>>
+participant "Map" as map <<component>>
+participant "DTO" as dto <<component>>
+database "Database" as db <<component>>
+
+?o->> routing : POST
+activate routing
+routing ->> controller : create a robot type
+
+activate controller
+controller ->> service : create a robot type
+
+activate service
+service ->> robotTyperepo : verifies if robot type already exists
+
+activate robotTyperepo
+robotTyperepo ->> db : select robot type
+activate db
+db -->> robotTyperepo : robot type
+deactivate db
+
+robotTyperepo -->> service : robot type not found
+deactivate robotTyperepo
+
+
+service ->> robotType** : create
+activate robotType
+
+robotType -->> robotType: verifies
+
+robotType -->> service : created
+deactivate robotType
+
+service ->> robotTyperepo : save
+robotTyperepo ->> db : insert robotType
+activate db
+db -->> robotTyperepo : success
+deactivate db
+
+robotTyperepo -->> service : success
+deactivate robotTyperepo
+
+service ->> map : convert to DTO
+activate map
+
+map -->> dto** : convert
+activate dto
+
+dto -->> map : dto
+deactivate dto
+
+map -->> service : dto
+deactivate map
+
+service -->> controller : success
+deactivate service
+
+controller -->> routing : success
+deactivate controller
+
+?o<<-- routing : 201 Created
+deactivate routing
+
+@enduml

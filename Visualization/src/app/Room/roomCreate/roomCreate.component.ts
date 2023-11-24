@@ -1,8 +1,8 @@
 import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
-import routes from "../routes";
-import {RoomService} from "../services/room.service";
+import routes from "../../routes";
+import {RoomService} from "../../services/room.service";
 import {result} from "lodash";
 
 @Component({
@@ -55,7 +55,6 @@ import {result} from "lodash";
                     </div>
                       <div class="form-row">
                       <label for="roomtype">Choose a room type:</label>
-                          
                           <select id="roomtype">
                               <option value= "office">Office</option>
                               <option value="amphitheater">Amphitheater</option>
@@ -106,16 +105,14 @@ export class RoomCreateComponent {
         if (roomCode == "" || floor == "" || length == null || width == null || description == "" || roomType == ""){
             alert("Please fill in all fields");
             return;
-
         }
 
-        console.log(roomCode , floor , description , width , length, roomType);
        this.roomService.createRoom(roomCode , floor , description , width , length, roomType).then(result =>{
 
               alert("Room Created");
 
        }).catch(error => {
-              alert("Fail: " + error);
+              alert("Room not created: " + error);
          });
    }
 

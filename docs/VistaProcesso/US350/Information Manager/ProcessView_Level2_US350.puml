@@ -5,13 +5,13 @@ autonumber
 
 skinparam packageStyle rect
 
-title create a robot type
+title Create a robot type
 
-participant "MasterData" as MD <<Component>>
+participant "Information Manager" as MD <<Component>>
 
 ?o->> MD : POST
 
 activate MD
-?o<<-- MD : 201|400
+?o<<-- MD : 201 Created
 deactivate MD
 @enduml
