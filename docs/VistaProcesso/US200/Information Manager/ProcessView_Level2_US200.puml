@@ -5,9 +5,9 @@ autonumber
 
 skinparam packageStyle rect
 
-title Edit information of a floor
+title Edit a floor
 
-participant "MasterData" as MD <<Component>>
+participant "Visualization" as MD <<Component>>
 
 ?o->> MD : PATCH
 
