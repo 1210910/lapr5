@@ -1,4 +1,4 @@
-@startuml Process View - Level 3
+@startuml Process View - Level 3 - List all passageways
 
 autonumber
 skinparam packageStyle rect
@@ -28,13 +28,6 @@ passagewayrepo ->> db : select passageways
 activate db
 db -->> passagewayrepo : list
 deactivate db
-
-alt passageways not found
-    passagewayrepo -->> service : passageways not found
-    service -->> controller : fail
-    controller -->> routing : fail
-    ?o<<-- routing : 404 Not Found
-end alt
 
 passagewayrepo -->> service : list of passageways
 deactivate passagewayrepo

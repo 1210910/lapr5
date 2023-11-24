@@ -1,0 +1,17 @@
+@startuml Process View - Level 2 - List all passageways
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+skinparam packageStyle rect
+
+title List all passageways
+
+participant "Visualization" as V <<Component>>
+
+?o->> V : GET
+
+activate V
+?o<<-- V : 200 OK
+deactivate V
+@enduml

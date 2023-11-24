@@ -1,0 +1,19 @@
+@startuml Process View - Level 2 - List all passageways
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+skinparam packageStyle rect
+
+title List all passageways
+
+participant "InformationManager" as IM <<Component>>
+
+?o->> IM : GET
+
+activate IM
+
+?o<<--IM : 200 OK
+
+deactivate IM
+@enduml
