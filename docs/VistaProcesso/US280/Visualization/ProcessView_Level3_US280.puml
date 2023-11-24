@@ -1,0 +1,31 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title Edit a lift
+
+participant "Routing" as routing <<component>>
+participant "Component" as comp <<component>>
+participant "Service" as service <<component>>
+
+
+?o->> routing : PATCH /:id
+activate routing
+routing ->> comp : edit lift
+
+activate comp
+comp ->> service : edit lift
+
+service ->> : Http request
+service <<-- : Http response
+
+service -->> comp : success
+deactivate service
+
+comp -->> routing : success
+
+?o<<-- routing : 200 OK
+deactivate routing
+
+@enduml
