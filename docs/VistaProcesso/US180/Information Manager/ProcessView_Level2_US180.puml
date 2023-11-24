@@ -7,11 +7,11 @@ skinparam packageStyle rect
 
 title List all buildings min and max floors
 
-participant "MasterData" as MD <<Component>>
+participant "Information Manager" as MD <<Component>>
 
 ?o->> MD : GET
 
 activate MD
-?o<<-- MD : 201|404
+?o<<-- MD : 201 OK
 deactivate MD
 @enduml
