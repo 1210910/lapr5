@@ -25,7 +25,6 @@ export class BuildingListComponent implements OnInit {
 
   ngOnInit() {
     this.buildingService.listAllBuildings().then((result) => {
-      console.log("result "+ result)
       this.buildingService.buildingList(result);
       this.buildingListInfo = this.buildingService.buildingListInfo;
     });
@@ -49,7 +48,5 @@ export class BuildingListComponent implements OnInit {
 
     });
   }
-
-
 
 }
