@@ -1,0 +1,19 @@
+@startuml Process View - Level 1 - Edit a passageway
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title Edit a passageway
+
+participant "System" as Sys <<System>>
+
+?o->> Sys : PATCH /:id
+
+activate Sys
+
+?o<<--Sys : 200 OK
+
+deactivate Sys
+
+@enduml
