@@ -1,0 +1,19 @@
+@startuml Process View - Level 2 - Create a robot
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title Create a Robot
+
+participant "InformationManager" as IM <<Component>>
+
+?o->> IM : POST
+
+activate IM
+
+?o<<--IM : 201 Created
+
+deactivate IM
+
+@enduml

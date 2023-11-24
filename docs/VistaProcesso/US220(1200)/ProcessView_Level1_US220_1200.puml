@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title List all floors with passageways of a building
+
+participant "System" as Sys <<System>>
+
+?o->> Sys : GET /:buildingCode
+
+activate Sys
+
+?o<<--Sys : 200 OK
+
+deactivate Sys
+
+@enduml
