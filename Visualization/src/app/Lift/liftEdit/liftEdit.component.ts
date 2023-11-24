@@ -2,9 +2,9 @@ import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
 
-import routes from "../routes";
-import {LiftService} from "../services/lift.service";
-import {BuildingInfo} from "../Building/building-info/buildingInfo";
+import routes from "../../routes";
+import {LiftService} from "../../services/lift.service";
+import {BuildingInfo} from "../../Building/building-info/buildingInfo";
 
 
 @Component({
@@ -81,7 +81,7 @@ import {BuildingInfo} from "../Building/building-info/buildingInfo";
           </div>
           </section>
   `,
-  styleUrls: ["./liftCreate.component.css"]
+  styleUrls: ["../liftCreate/liftCreate.component.css"]
 
 })
 

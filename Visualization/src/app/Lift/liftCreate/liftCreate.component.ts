@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
-import {LiftService} from "../services/lift.service"
+import {LiftService} from "../../services/lift.service"
 @Component({
     selector: 'app-floor-create',
     standalone: true,

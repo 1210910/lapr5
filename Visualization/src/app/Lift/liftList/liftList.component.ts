@@ -1,9 +1,9 @@
 import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
-import {LiftInfoComponent} from "./lift-info/lift-info.component";
-import {LiftInfo} from "./lift-info/liftinfo";
-import {LiftService} from "../services/lift.service";
+import {LiftInfoComponent} from "../lift-info/lift-info.component";
+import {LiftInfo} from "../lift-info/liftinfo";
+import {LiftService} from "../../services/lift.service";
 
 @Component({
   selector: 'app-floor-list',
@@ -37,7 +37,7 @@ import {LiftService} from "../services/lift.service";
         </section>
       </section>
   `,
-  styleUrls: ["./liftCreate.component.css"]
+  styleUrls: ["../liftCreate/liftCreate.component.css"]
 
 })
 
