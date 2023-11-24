@@ -12,6 +12,6 @@ participant "Information Manager" as MD <<Component>>
 ?o->> MD : GET
 
 activate MD
-?o<<-- MD : 201 OK
+?o<<-- MD : 200 OK
 deactivate MD
 @enduml

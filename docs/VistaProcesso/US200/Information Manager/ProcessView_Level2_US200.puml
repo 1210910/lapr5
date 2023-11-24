@@ -12,6 +12,6 @@ participant "Visualization" as MD <<Component>>
 ?o->> MD : PATCH
 
 activate MD
-?o<<-- MD : 200|400
+?o<<-- MD : 200 OK
 deactivate MD
 @enduml
