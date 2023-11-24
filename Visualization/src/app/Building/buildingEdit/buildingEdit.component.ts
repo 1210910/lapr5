@@ -24,7 +24,7 @@ export class BuildingEditComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.listbuildings();
+    this.listBuildings();
   }
 
   editBuilding() {
@@ -63,11 +63,11 @@ export class BuildingEditComponent implements OnInit{
     }
   }
 
-  public listbuildings() {
+  public listBuildings() {
     this.buildingService.listAllBuildings()
       .then((response: any) => {
-        const b = JSON.parse(response);
-        const buildingsArray: BuildingInfo[] = b.map((building: any) => {
+       // const b = JSON.parse(response);
+        const buildingsArray: BuildingInfo[] = response.map((building: any) => {
           return {
             code: building.code,
             name: building.name,
@@ -79,7 +79,7 @@ export class BuildingEditComponent implements OnInit{
         this.buildings = buildingsArray;
       })
       .catch((error) => {
-        console.error("Error listing buildings: ", error);
+        console.error("Error listing buildings", error);
       });
   }
 

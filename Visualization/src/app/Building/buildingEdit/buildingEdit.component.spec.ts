@@ -6,7 +6,7 @@ import { By } from '@angular/platform-browser';
 import {BuildingInfo} from "../building-info/buildingInfo";
 
 
-describe('RobotEnableDisableComponent', () => {
+describe('BuildingEditComponent', () => {
   let component: BuildingEditComponent;
   let fixture: ComponentFixture<BuildingEditComponent>;
   let mockBuildingService: jest.Mocked<BuildingService>;
@@ -14,7 +14,7 @@ describe('RobotEnableDisableComponent', () => {
 
   beforeEach(() => {
     mockBuildingService = {
-      BuildingList: [],
+      buildingListInfo: [],
       listAllBuildings: jest.fn(),
       editBuilding: jest.fn(),
     } as any;
@@ -127,7 +127,7 @@ describe('RobotEnableDisableComponent', () => {
 
   });
 
-  /*it('should fetch building list on initialization to get codes', async() => {
+  it('should fetch building list on initialization to get codes', async() => {
     const building1: BuildingInfo = {
       code: 'B',
       name: 'Office Building',
@@ -139,7 +139,7 @@ describe('RobotEnableDisableComponent', () => {
     const building2: BuildingInfo = {
       code: 'C',
       name: 'Building of engineering',
-      description: 'A tall tower',
+      description: 'A tall building',
       maxLength: 12,
       maxWidth: 12,
     };
@@ -149,10 +149,23 @@ describe('RobotEnableDisableComponent', () => {
     await component.ngOnInit();
 
     expect(mockBuildingService.listAllBuildings).toHaveBeenCalled();
-    expect(mockBuildingService.buildingList).toHaveBeenCalledWith(mockBuildingList);
     expect(component.buildings).toEqual(mockBuildingList);
 
-  });*/
- 
+  });
 
+
+  it('should catch errors buildingList on initialization to get codes', async() => {
+
+    const originalConsoleError = console.error;
+    console.error = jest.fn();
+
+    mockBuildingService.listAllBuildings.mockRejectedValue(new Error('Error'));
+
+    await component.ngOnInit();
+
+    expect(mockBuildingService.listAllBuildings).toHaveBeenCalled();
+    expect(console.error).toHaveBeenCalledWith('Error listing buildings', new Error('Error'));
+    console.error = originalConsoleError;
+
+  });
 });
