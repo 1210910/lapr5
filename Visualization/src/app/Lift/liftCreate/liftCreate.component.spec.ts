@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { LiftCreateComponent } from "./liftCreate.component";
-import { LiftService } from "../services/lift.service";
+import { LiftService } from "../../services/lift.service";
 import { ActivatedRoute } from "@angular/router";
 import { By } from "@angular/platform-browser";
 
