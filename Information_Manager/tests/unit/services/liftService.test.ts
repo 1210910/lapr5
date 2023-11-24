@@ -68,7 +68,8 @@ describe("liftService", () => {
     when(liftRepo.findByCode(liftDto.code)).thenReturn(null);
     when(liftRepo.findIfBuildingAlreadyHasLift(liftDto.buildingCode)).thenReturn(Promise.resolve(false));
     when(floorRepo.findByBuildingId(liftDto.buildingCode)).thenReturn(Promise.resolve([floor1, floor2]));
-
+    when(floorRepo.findByFloorCode(floor1Dto.floorCode)).thenReturn(Promise.resolve(floor1));
+    when(floorRepo.findByFloorCode(floor2Dto.floorCode)).thenReturn(Promise.resolve(floor2));
     const result = await liftService.createLift(liftDto);
     expect(result.isSuccess).to.be.true;
   });
@@ -184,7 +185,8 @@ describe("liftService", () => {
 
     when(liftRepo.findByCode(liftDto.code)).thenReturn(Promise.resolve(lift));
     when(floorRepo.findByBuildingId(liftDto.buildingCode)).thenReturn(Promise.resolve([floor1, floor2]));
-
+    when(floorRepo.findByFloorCode(floor1Dto.floorCode)).thenReturn(Promise.resolve(floor1));
+    when(floorRepo.findByFloorCode(floor2Dto.floorCode)).thenReturn(Promise.resolve(floor2));
     const result = await liftService.updateLift(liftDto.code, liftDto);
     expect(result.isSuccess).to.be.true;
   });

@@ -6,7 +6,7 @@ skinparam packageStyle rect
 
 title Edit a lift
 
-participant "Information Manager" as MD <<Component>>
+participant "Visualization" as MD <<Component>>
 
 ?o->> MD : PATCH
 

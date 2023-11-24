@@ -17,6 +17,7 @@ import IBuildingRepo from "../../src/services/IRepos/IBuildingRepo";
 import BuildingRepo from "../../src/repos/buildingRepo";
 
 import { Result } from "../../src/core/logic/Result";
+import {when} from "ts-mockito";
 
 describe("Lift Integration Tests", () => {
   let liftController: LiftController;
@@ -88,7 +89,8 @@ describe("Lift Integration Tests", () => {
     (liftRepo.findByCode as sinon.SinonStub).withArgs(liftDto.code).resolves(Promise.resolve(null));
     (liftRepo.findIfBuildingAlreadyHasLift as sinon.SinonStub).withArgs(liftDto.buildingCode).resolves(Promise.resolve(false));
     (floorRepo.findByBuildingId as sinon.SinonStub).withArgs(liftDto.buildingCode).resolves(Promise.resolve([floor1, floor2]));
-
+    (floorRepo.findByFloorCode as sinon.SinonStub).withArgs(floor1Dto.floorCode).resolves(Promise.resolve(floor1));
+    (floorRepo.findByFloorCode as sinon.SinonStub).withArgs(floor2Dto.floorCode).resolves(Promise.resolve(floor2));
     await liftController.createLift(req as Request, res as Response, () => {
     });
     sinon.assert.calledWith(res.status as sinon.SinonStub, 201);
@@ -313,7 +315,8 @@ describe("Lift Integration Tests", () => {
 
     (liftRepo.findByCode as sinon.SinonStub).withArgs(lift.code).resolves(Promise.resolve(lift));
     (floorRepo.findByBuildingId as sinon.SinonStub).withArgs(liftDto.buildingCode).resolves(Promise.resolve([floor1, floor2]));
-
+    (floorRepo.findByFloorCode as sinon.SinonStub).withArgs(floor1Dto.floorCode).resolves(Promise.resolve(floor1));
+    (floorRepo.findByFloorCode as sinon.SinonStub).withArgs(floor2Dto.floorCode).resolves(Promise.resolve(floor2));
     await liftController.updateLift(req as Request, res as Response, () => {});
     sinon.assert.calledWith(res.status as sinon.SinonStub, 200);
   });

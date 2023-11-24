@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title List all robots of the fleet
+
+participant "Visualization" as MD <<Component>>
+
+?o->> MD : GET
+
+activate MD
+?o<<--- MD : 200 OK
+deactivate MD
+@enduml

@@ -13,6 +13,7 @@ pipelines:
             caches:
               - node
             script:
-              - npm install
-              - npm test
-        
+                - cd Information_Manager
+                - npm install
+                - npm test
+              
