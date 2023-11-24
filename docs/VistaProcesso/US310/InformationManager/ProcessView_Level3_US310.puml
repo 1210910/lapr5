@@ -3,63 +3,64 @@
 autonumber
 skinparam packageStyle rect
 
-title Create a robot
+title Create a room in a floor
 
 participant "Routing" as routing <<component>>
 participant "Controller" as controller <<component>>
 participant "Service" as service <<component>>
-participant "Robot Repository" as robotrepo <<component>>
-participant "RobotType Repository" as robotTyperepo <<component>>
-participant "Robot" as robot <<component>>
+participant "Room Repository" as roomrepo <<component>>
+participant "Floor Repository" as floorrepo <<component>>
+participant "Room" as room <<component>>
 participant "Map" as map <<component>>
 participant "DTO" as dto <<component>>
 database "Database" as db <<component>>
 
 ?o->> routing : POST
 activate routing
-routing ->> controller : create robot
+routing ->> controller : create a room in a floor
 
 activate controller
-controller ->> service : create robot
+controller ->> service : create a room in a floor
 
 activate service
-service ->> robotrepo : verifies if robot \n already exists
+service ->> roomrepo : verifies if room already exists
 
-activate robotrepo
-robotrepo ->> db : select robot
+activate roomrepo
+roomrepo ->> db : select room
 activate db
-db -->> robotrepo : robot
+db -->> roomrepo : room
 deactivate db
 
-robotrepo -->> service : robot not found
-deactivate robotrepo
+roomrepo -->> service : room not found
+deactivate roomrepo
 
-service ->> robotTyperepo : verifies if robotType exists
-activate robotTyperepo
-robotTyperepo ->> db : select robotType
+service ->> floorrepo : verifies if floor exists
+activate floorrepo
+floorrepo ->> db : select floor
 activate db
-db -->> robotTyperepo : robotType
+db -->> floorrepo : floor
 deactivate db
 
-robotTyperepo -->> service : robotType found
-deactivate robotTyperepo
+floorrepo -->> service : floor found
+deactivate floorrepo
 
-service ->> robot** : create
-activate robot
 
-robot -->> robot: verifies
+service ->> room** : create
+activate room
 
-robot -->> service : created
-deactivate robot
+room -->> room: verifies
 
-service ->> robotrepo : save
-robotrepo ->> db : insert robot
+room -->> service : created
+deactivate room
+
+service ->> roomrepo : save
+roomrepo ->> db : insert robot
 activate db
-db -->> robotrepo : success
+db -->> roomrepo : success
 deactivate db
 
-robotrepo -->> service : success
-deactivate robotrepo
+roomrepo -->> service : success
+deactivate roomrepo
 
 service ->> map : convert to DTO
 activate map
