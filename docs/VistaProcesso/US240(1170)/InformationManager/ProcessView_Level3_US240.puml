@@ -1,4 +1,4 @@
-@startuml Process View - Level 3
+@startuml Process View - Level 3 - Create a passageway
 
 autonumber
 skinparam packageStyle rect
@@ -31,13 +31,6 @@ activate db
 db -->> passagewayrepo : passageway
 deactivate db
 
-alt passageway found
-    passagewayrepo -->> service : passageway found
-    service -->> controller : fail
-    controller -->> routing : fail
-    ?o<<-- routing : 400 Bad Request
-end alt
-
 passagewayrepo -->> service : passageway not found
 deactivate passagewayrepo
 
@@ -48,13 +41,6 @@ activate db
 db -->> floorrepo : floors
 deactivate db
 
-alt floors not found
-    floorrepo -->> service : floors not found
-    service -->> controller : fail
-    controller -->> routing : fail
-    ?o<<-- routing : 404 Not Found
-end alt
-
 floorrepo -->> service : floors found
 deactivate floorrepo
 
@@ -62,13 +48,6 @@ service ->> passageway** : create
 activate passageway
 
 passageway -->> passageway: verifies
-
-alt passageway not valid
-    passageway -->> service : passageway not valid
-    service -->> controller : fail
-    controller -->> routing : fail
-    ?o<<-- routing : 400 Bad Request
-end alt
 
 passageway -->> service : created
 deactivate passageway
