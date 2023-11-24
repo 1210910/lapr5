@@ -6,12 +6,12 @@ skinparam packageStyle rect
 
 title Load floor map
 
-participant "System" as Sys <<System>>
+participant "RobDroneGO" as Sys <<System>>
 
 ?o->> Sys : POST
 
 activate Sys
-?o<<-- Sys : 201|400
+?o<<-- Sys : 201 Created
 deactivate Sys
 
 

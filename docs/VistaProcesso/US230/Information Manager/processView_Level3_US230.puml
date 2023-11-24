@@ -1,0 +1,78 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title Create a FloorMap
+
+participant "Routing" as routing <<component>>
+participant "Controller" as controller <<component>>
+participant "Service" as service <<component>>
+participant "FloorMap Repository" as floorMaprepo <<component>>
+participant "FloorMap" as floorMap <<component>>
+participant "Map" as map <<component>>
+participant "DTO" as dto <<component>>
+database "Database" as db <<component>>
+
+?o->> routing : POST
+activate routing
+routing ->> controller : create floorMap
+
+activate controller
+controller ->> service : create floorMap
+
+activate service
+service ->> floorMaprepo : verifies if floor already exists
+
+activate floorMaprepo
+floorMaprepo ->> db : select floor
+activate db
+db -->> floorMaprepo : floor
+deactivate db
+
+floorMaprepo -->> service : floor found
+deactivate floorMaprepo
+
+note right of service
+The file is read(floorMap);
+end note
+
+service ->> floorMap** : create
+activate floorMap
+
+floorMap -->> floorMap: verifies
+
+floorMap -->> service : created
+deactivate floorMap
+
+service ->> floorMaprepo : save
+floorMaprepo ->> db : insert floorMap
+activate db
+db -->> floorMaprepo : success
+deactivate db
+
+floorMaprepo -->> service : success
+deactivate floorMaprepo
+
+service ->> map : convert to DTO
+activate map
+
+map -->> dto** : convert
+activate dto
+
+dto -->> map : dto
+deactivate dto
+
+map -->> service : dto
+deactivate map
+
+service -->> controller : success
+deactivate service
+
+controller -->> routing : success
+deactivate controller
+
+?o<<-- routing : 201 Created
+deactivate routing
+
+@enduml
