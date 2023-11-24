@@ -1,4 +1,4 @@
-@startuml Process View - Level 3
+@startuml Process View - Level 3 - Create a robot
 
 autonumber
 skinparam packageStyle rect
@@ -31,13 +31,6 @@ activate db
 db -->> robotrepo : robot
 deactivate db
 
-alt robot found
-    robotrepo -->> service : robot found
-    service -->> controller : fail
-    controller -->> routing : fail
-    ?o<<-- routing : 400 Bad Request
-end alt
-
 robotrepo -->> service : robot not found
 deactivate robotrepo
 
@@ -48,13 +41,6 @@ activate db
 db -->> robottyperepo : robottypes
 deactivate db
 
-alt robottypes not found
-    robottyperepo -->> service : robottypes not found
-    service -->> controller : fail
-    controller -->> routing : fail
-    ?o<<-- routing : 404 Not Found
-end alt
-
 robottyperepo -->> service : robottypes found
 deactivate robottyperepo
 
@@ -62,13 +48,6 @@ service ->> robot** : create
 activate robot
 
 robot -->> robot: verifies
-
-alt robot not valid
-    robot -->> service : robot not valid
-    service -->> controller : fail
-    controller -->> routing : fail
-    ?o<<-- routing : 400 Bad Request
-end alt
 
 robot -->> service : created
 deactivate robot
