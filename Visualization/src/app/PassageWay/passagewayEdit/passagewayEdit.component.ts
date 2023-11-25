@@ -31,7 +31,7 @@ export class PassagewayEditComponent {
     {
       alert("Passageway edited successfully");
     }).catch((error) => {
-      alert(error);
+      alert("Passageway not edited: " + error);
     });
 
 
