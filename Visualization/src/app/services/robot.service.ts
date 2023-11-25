@@ -50,8 +50,10 @@ export class RobotService {
 
       httprequest.onload = function () {
         if (httprequest.status === 200) {
-          console.log("Robot listed");
+          //console.log("Robot listed");
           response = httprequest.response;
+          console.log(typeof response); // log the type
+          console.log(response);         // log the content
           // Parse do JSON para um array de Robotinfo
           const robotInfoArray: RobotInfo[] = JSON.parse(response);
           resolve(robotInfoArray);
@@ -84,11 +86,11 @@ export class RobotService {
       httprequest.onload = function () {
 
         if (httprequest.status === 204) {
-          console.log("Robot status edited");
+          //console.log("Robot status edited");
           response = httprequest.status;
           resolve(true);
         } else {
-          console.error(httprequest.responseText);
+
           const errorResponse = JSON.parse(httprequest.responseText);
           reject(errorResponse);
         }
