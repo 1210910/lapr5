@@ -47,7 +47,7 @@ describe('BuildingService', () => {
     });
 
 
-    it('should fail create a building with correct status 404', async () => {
+    it('should fail create a building with status 404', async () => {
 
         const mockXMLHttpRequest = prepareMockWithStatus(404, null);
 
