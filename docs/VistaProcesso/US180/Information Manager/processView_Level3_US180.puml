@@ -1,0 +1,56 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title List all buildings min and max floors
+
+participant "Routing" as routing <<component>>
+participant "Controller" as controller <<component>>
+participant "Service" as service <<component>>
+participant "Building Repository" as buildingrepo <<component>>
+participant "Map" as map <<component>>
+participant "DTO" as dto <<component>>
+database "Database" as db <<component>>
+
+?o->> routing : GET
+activate routing
+routing ->> controller : list all buildings min and max floors
+
+activate controller
+controller ->> service : list all buildings min and max floors
+
+activate service
+service ->> buildingrepo : list all buildings min and max floors
+
+activate buildingrepo
+buildingrepo ->> db : select buildings with min and max floors
+activate db
+db -->> buildingrepo : list
+deactivate db
+
+buildingrepo -->> service : list of buildings with min and max floors
+deactivate buildingrepo
+
+service ->> map : convert to DTO List
+activate map
+
+map -->> dto** : convert
+activate dto
+
+dto -->> map : dto list
+deactivate dto
+
+map -->> service : dto list
+deactivate map
+
+service -->> controller : success
+deactivate service
+
+controller -->> routing : success
+deactivate controller
+
+?o<<-- routing : 200 OK
+deactivate routing
+
+@enduml

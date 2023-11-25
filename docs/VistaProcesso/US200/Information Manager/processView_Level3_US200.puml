@@ -1,0 +1,75 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title Edit a floor
+
+participant "Routing" as routing <<component>>
+participant "Controller" as controller <<component>>
+participant "Service" as service <<component>>
+participant "Floor Repository" as floorrepo <<component>>
+participant "Floor" as floor <<component>>
+participant "Map" as map <<component>>
+participant "DTO" as dto <<component>>
+database "Database" as db <<component>>
+
+?o->> routing : PATCH /:id
+activate routing
+routing ->> controller : edit floor
+
+activate controller
+controller ->> service : edit floor
+
+activate service
+service ->> floorrepo : verifies if floor already exists
+
+activate floorrepo
+floorrepo ->> db : select floor
+activate db
+db -->> floorrepo : floor
+deactivate db
+
+floorrepo -->> service : floor found
+deactivate floorrepo
+
+
+service ->> floor** : edit
+activate floor
+
+floor -->> floor: verifies
+
+floor -->> service : edited
+deactivate floor
+
+service ->> floorrepo : save
+floorrepo ->> db : insert floor
+activate db
+db -->> floorrepo : success
+deactivate db
+
+floorrepo -->> service : success
+deactivate floorrepo
+
+service ->> map : convert to DTO
+activate map
+
+map -->> dto** : convert
+activate dto
+
+dto -->> map : dto
+deactivate dto
+
+map -->> service : dto
+deactivate map
+
+service -->> controller : success
+deactivate service
+
+controller -->> routing : success
+deactivate controller
+
+?o<<-- routing : 200 OK
+deactivate routing
+
+@enduml

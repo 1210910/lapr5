@@ -11,7 +11,7 @@ participant "System" as Sys <<System>>
 ?o->> Sys : PATCH
 
 activate Sys
-?o<<-- Sys : 200|400
+?o<<-- Sys : 200 OK
 deactivate Sys
 
 

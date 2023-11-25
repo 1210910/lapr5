@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
 import {FloorInfoComponent} from "../floor-info/floor-info.component";
@@ -15,22 +15,24 @@ import { PassagewayService } from "../../services/passageway.service";
 
 })
 
-export class FloorListComponent{
+export class FloorListComponent implements OnInit{
   floorList: FloorInfo[] = [];
   floorService: FloorService = inject(FloorService);
   passagewayService: PassagewayService = inject(PassagewayService);
 
   constructor() {
+  }
+
+  ngOnInit() {
     this.floorService.listFloors().then((result) => {
       this.floorService.floorList(result);
       this.floorList = this.floorService.FloorList;
     });
 
     this.passagewayService.listPassageways().then((result) => {
-        this.passagewayService.passagewayList(result);
-      }
+          this.passagewayService.passagewayList(result);
+        }
     );
-
   }
 
   CallMethod(value: string) {

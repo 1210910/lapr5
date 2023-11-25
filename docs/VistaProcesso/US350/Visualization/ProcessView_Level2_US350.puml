@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title Create a floor in a building
+
+participant "Visualization" as MD <<Component>>
+
+?o->> MD : POST
+
+activate MD
+?o<<--MD : 201 Created
+
+deactivate MD
+
+
+@enduml

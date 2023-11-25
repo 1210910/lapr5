@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from "@angular/router";
 import { BuildingService } from '../../services/building.service';
@@ -14,14 +14,17 @@ import { FormsModule } from '@angular/forms';
 
 })
 
-export class BuildingEditComponent {
+export class BuildingEditComponent implements OnInit{
   buildingService: BuildingService = inject(BuildingService);
   buildings: BuildingInfo[];
   selectedBuilding: any;
 
   constructor() {
     this.buildings = [];
-    this.listbuildings();
+  }
+
+  ngOnInit() {
+    this.listBuildings();
   }
 
   editBuilding() {
@@ -31,9 +34,6 @@ export class BuildingEditComponent {
     const description = document.getElementsByTagName("textarea")[0].value;
     const length = Number(document.getElementsByTagName("input")[1].value);
     const width = Number(document.getElementsByTagName("input")[2].value);
-
-    console.log("Lenght" + length)
-    console.log("WITH" + width)
 
     const editedData: any = {};
     if (code !== "") {
@@ -51,8 +51,7 @@ export class BuildingEditComponent {
     if (width !== 0) {
       editedData['maxWidth'] = width;
     }
-
-    if (Object.keys(editedData).length > 0) {
+    if (Object.keys(editedData).length > 1) {
       this.buildingService.editBuilding(editedData).then((result) => {
         alert("Building edited");
         console.log("Resultado : " + result)
@@ -64,11 +63,11 @@ export class BuildingEditComponent {
     }
   }
 
-  public listbuildings() {
+  public listBuildings() {
     this.buildingService.listAllBuildings()
       .then((response: any) => {
-        const b = JSON.parse(response);
-        const buildingsArray: BuildingInfo[] = b.map((building: any) => {
+       // const b = JSON.parse(response);
+        const buildingsArray: BuildingInfo[] = response.map((building: any) => {
           return {
             code: building.code,
             name: building.name,
@@ -78,12 +77,9 @@ export class BuildingEditComponent {
           };
         });
         this.buildings = buildingsArray;
-        console.log("TGTTGGTGT")
-        console.log(this.buildings)
-
       })
       .catch((error) => {
-        console.error("Error listing buildings: ", error);
+        console.error("Error listing buildings", error);
       });
   }
 

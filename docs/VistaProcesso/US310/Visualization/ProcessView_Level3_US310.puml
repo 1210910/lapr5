@@ -3,7 +3,7 @@
 autonumber
 skinparam packageStyle rect
 
-title Create a robot
+title Create a room in a floor
 
 participant "Routing" as routing <<component>>
 participant "Component" as comp <<component>>
@@ -11,10 +11,10 @@ participant "Service" as service <<component>>
 
 ?o->> routing : POST
 activate routing
-routing ->> comp : create robot
+routing ->> comp : create room
 
 activate comp
-comp ->> service : create robot
+comp ->> service : create room
 
 activate service
 service ->> : Http Request

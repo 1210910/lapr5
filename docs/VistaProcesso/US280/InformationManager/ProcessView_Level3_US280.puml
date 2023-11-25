@@ -10,7 +10,7 @@ participant "Controller" as controller <<component>>
 participant "Service" as service <<component>>
 participant "Lift Repository" as liftrepo <<component>>
 participant "Floor Repository" as floorrepo <<component>>
-participant "Passageway" as lift <<component>>
+participant "Lift" as lift <<component>>
 participant "Map" as map <<component>>
 participant "DTO" as dto <<component>>
 database "Database" as db <<component>>

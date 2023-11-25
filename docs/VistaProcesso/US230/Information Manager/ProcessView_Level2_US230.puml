@@ -1,0 +1,17 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+skinparam packageStyle rect
+
+title Create a FloorMap
+
+participant "Information Manager" as MD <<Component>>
+
+?o->> MD : POST
+
+activate MD
+?o<<-- MD : 201 Created
+deactivate MD
+@enduml

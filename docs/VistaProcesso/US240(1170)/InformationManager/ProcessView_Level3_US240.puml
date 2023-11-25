@@ -1,0 +1,85 @@
+@startuml Process View - Level 3 - Create a passageway
+
+autonumber
+skinparam packageStyle rect
+
+title Create a passageway
+
+participant "Routing" as routing <<component>>
+participant "Controller" as controller <<component>>
+participant "Service" as service <<component>>
+participant "Passageway Repository" as passagewayrepo <<component>>
+participant "Floor Repository" as floorrepo <<component>>
+participant "Passageway" as passageway <<component>>
+participant "Map" as map <<component>>
+participant "DTO" as dto <<component>>
+database "Database" as db <<component>>
+
+?o->> routing : POST
+activate routing
+routing ->> controller : create passageway
+
+activate controller
+controller ->> service : create passageway
+
+activate service
+service ->> passagewayrepo : verifies if passageway \n already exists
+
+activate passagewayrepo
+passagewayrepo ->> db : select passageway
+activate db
+db -->> passagewayrepo : passageway
+deactivate db
+
+passagewayrepo -->> service : passageway not found
+deactivate passagewayrepo
+
+service ->> floorrepo : verifies if floors exists
+activate floorrepo
+floorrepo ->> db : select floors
+activate db
+db -->> floorrepo : floors
+deactivate db
+
+floorrepo -->> service : floors found
+deactivate floorrepo
+
+service ->> passageway** : create
+activate passageway
+
+passageway -->> passageway: verifies
+
+passageway -->> service : created
+deactivate passageway
+
+service ->> passagewayrepo : save
+passagewayrepo ->> db : insert passageway
+activate db
+db -->> passagewayrepo : success
+deactivate db
+
+passagewayrepo -->> service : success
+deactivate passagewayrepo
+
+service ->> map : convert to DTO
+activate map
+
+map -->> dto** : convert
+activate dto
+
+dto -->> map : dto
+deactivate dto
+
+map -->> service : dto
+deactivate map
+
+service -->> controller : success
+deactivate service
+
+controller -->> routing : success
+deactivate controller
+
+?o<<-- routing : 201 Created
+deactivate routing
+
+@enduml

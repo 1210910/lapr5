@@ -4,14 +4,14 @@
 autonumber
 skinparam packageStyle rect
 
-title list all buildings by min max floors
+title List all buildings by min max floors
 
 participant "System" as Sys <<System>>
 
 ?o->> Sys : GET
 
 activate Sys
-?o<<-- Sys : 201|404
+?o<<-- Sys : 201 OK
 deactivate Sys
 
 

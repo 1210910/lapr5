@@ -177,12 +177,9 @@ export class FloorService{
     this.FloorList = floorList;
   }
 
-
   getFloorByCode(position: string): FloorInfo | undefined{
     return this.FloorList.find((floor) => floor.floorCode === position);
   }
-
-
 
 }
 

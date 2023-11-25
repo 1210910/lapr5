@@ -4,14 +4,14 @@
 autonumber
 skinparam packageStyle rect
 
-title create a floor of a building
+title Create a floor of a building
 
-participant "System" as Sys <<System>>
+participant "RobDroneGo" as Sys <<System>>
 
 ?o->> Sys : POST
 
 activate Sys
-?o<<-- Sys : 201|400
+?o<<-- Sys : 201 Created
 deactivate Sys
 
 

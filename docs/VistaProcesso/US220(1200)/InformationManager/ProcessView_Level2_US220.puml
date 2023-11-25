@@ -1,0 +1,19 @@
+@startuml Process View - Level 2 - List all floors with passageways of a building
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title List all floors with passageways of a building
+
+participant "InformationManager" as IM <<Component>>
+
+?o->> IM : GET /:buildingCode
+
+activate IM
+
+?o<<--IM : 200 OK
+
+deactivate IM
+
+@enduml

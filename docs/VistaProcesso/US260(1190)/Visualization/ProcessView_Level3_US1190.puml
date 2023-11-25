@@ -1,0 +1,35 @@
+@startuml Process View - Level 3 - List all passageways
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title List all passageways
+
+participant "Routing" as routing <<component>>
+participant "Component" as comp <<component>>
+participant "Service" as service <<component>>
+
+
+?o->> routing : GET
+activate routing
+routing ->> comp : list all passageways
+
+activate comp
+comp ->> service : list all passageways
+
+activate service
+service --> : HttpRequest
+service<<--  : HttpResponse
+comp <<-- service : HttpResponse
+comp ->> service: HttpResponse to list
+comp <<-- service : List
+deactivate service
+
+comp -->> routing : success
+deactivate comp
+
+?o<<-- routing : 200 OK
+deactivate routing
+
+@enduml

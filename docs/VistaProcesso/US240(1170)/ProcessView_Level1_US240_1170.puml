@@ -1,0 +1,19 @@
+@startuml Process View - Level 1 - Create a passageway
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title Create a passageway
+
+participant "System" as Sys <<System>>
+
+?o->> Sys : POST
+
+activate Sys
+
+?o<<--Sys : 201 Created
+
+deactivate Sys
+
+@enduml
