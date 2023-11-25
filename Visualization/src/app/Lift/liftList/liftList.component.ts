@@ -45,11 +45,14 @@ export class LiftListComponent {
   liftList: LiftInfo[] = [];
   liftService: LiftService = inject(LiftService);
 
-  constructor() {
+  ngOnInit() {
     this.liftService.listLifts().then((result) => {
       this.liftService.liftList(result)
       this.liftList = this.liftService.LiftList;
     });
+  }
+
+  constructor() {
   }
 
   CallMethod(building: string) {
