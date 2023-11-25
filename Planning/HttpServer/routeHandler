@@ -1,13 +1,26 @@
+
 :- use_module(library(http/http_client)).
 :- use_module(library(http/thread_httpd)).
 :- use_module(library(http/http_json)).
 :- use_module(library(http/json)).
 :- use_module(library(http/json_convert)).
 
+:- use_module('../controller/getPath').
 
-:- http_handler('/buildings', handle_buildings, []).
+
+:- http_handler('/:room1;:room2', handle_getpath, []).
 
 
+handle_getpath(Request) :-
+    http_parameters(Request,
+        [
+            room1(Room1, [uri]),
+            room2(Room2, [uri])
+        ]),
+    % Chama a sequência de operações definidas no map_service
+    getPath_controller:get_path(Room1, Room2, Response),
+    % Responde à solicitação HTTP
+    reply_json(Response).
 
 
 

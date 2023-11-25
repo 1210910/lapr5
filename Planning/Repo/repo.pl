@@ -71,11 +71,13 @@ save_lifts([_|Rest]) :-
 %save map
 save_maps([]).
 save_maps([Map|Rest]):-
+
     Map = json([floorCode=FloorCode,maze=Maze,exits=Exits ,elevator=Elevator| _]),
+
     \+ db:map(FloorCode,_,_,_), !,
         write('Saving Map: '), writeln(Map),
         assertz(db:map(FloorCode,Maze,Exits,Elevator)),
-        save_lifts(Rest).
+        save_maps(Rest).
 
 save_maps([_|Rest]) :-
         save_maps(Rest).

@@ -48,8 +48,12 @@ export default class FloorMapRepo implements IFloorMapRepo {
         try {
             if (floorMapDocument === null) {
 
-                const rawFloorMap: any = await FloorMapMap.toPersistence(floorMap);
+                console.log("floorMapDocument is null")
+
+                const rawFloorMap: any =  FloorMapMap.toPersistence(floorMap);
+                console.log("rawFloorMap: ", rawFloorMap)
                 const floorMapCreated = await this.floorMapSchema.create(rawFloorMap);
+                console.log("floorMapCreated: ", floorMapCreated)
 
 
                 return FloorMapMap.toDomain(floorMapCreated);

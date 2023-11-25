@@ -37,6 +37,8 @@ import {PlantComponent} from "./visualization_3d/plant/plant.component";
 import {ViewMapComponent} from "./campus/viewMap.component";
 import {RobotListComponent} from "./Robot/robotList/robotList.component";
 import {RobotDetailsComponent} from "./Robot/details/details.component"
+import {FleetComponent} from "./Fleet/fleet.component";
+import {GetPathComponent} from "./Fleet/getPath.component";
 
 
 const routeConfig: Routes = [
@@ -45,6 +47,19 @@ const routeConfig: Routes = [
     component: LoginComponent,
     title: 'Login page'
   },
+  {
+    path: 'fleet',
+    component: FleetComponent,
+    title: 'Fleet page'
+  },
+
+  {
+  path:"getPath",
+    component: GetPathComponent,
+    title: 'Get Path page'
+
+  },
+
   {
     path:"view",
     component: ViewMapComponent,

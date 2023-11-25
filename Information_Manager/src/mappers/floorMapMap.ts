@@ -45,9 +45,9 @@ export class FloorMapMap extends Mapper<FloorMap> {
         return floorMapOrError.getValue();
     }
 
-    public static async toPersistence( floorMap: FloorMap): Promise<any> {
+    public static  toPersistence( floorMap: FloorMap): any {
         return {
-            domainid: floorMap.id.toString(),
+            domainId: floorMap.id.toString(),
             floorCode: floorMap.floorCode,
             maze: JSON.stringify(floorMap.maze),
             ground: JSON.stringify(floorMap.ground),

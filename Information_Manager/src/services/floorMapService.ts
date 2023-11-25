@@ -116,7 +116,7 @@ export default class FloorMapService implements IFloorMapService {
             const floorExists = await this.floorRepo.existsByFloorCode(floorCode);
 
             if (!floorExists) {
-                return Result.fail<IFloorMapDTO>("Floor not found");
+                return Result.fail<IFloorMapDTO>("Floor exists");
             }
 
             let fileContent: { maze: any; ground: any; wall: any; player: any; };
@@ -124,6 +124,7 @@ export default class FloorMapService implements IFloorMapService {
             await readJSONFile(file.path).then((content) => {
                 fileContent = content;
             }).catch((error) => {
+                console.log("aqui")
                 return Result.fail<IFloorMapDTO>(error);
             }
             );
@@ -141,16 +142,22 @@ export default class FloorMapService implements IFloorMapService {
                 player: fileContent.player
             }
 
-
+            console.log("aqui1")
             const floorMapOrError = FloorMap.create(floorProps);
 
             if (floorMapOrError.isFailure) {
+                console.log("aqui2")
                 return Result.fail<IFloorMapDTO>("floorMapOrError.errorValue()");
             }
+
+            console.log(floorMapOrError)
 
             const floorMapResult = floorMapOrError.getValue();
 
             await this.floorMapRepo.save(floorMapResult);
+
+
+            console.log("aqui3")
 
 
 

@@ -3,7 +3,7 @@
 
 :- use_module('HttpServer/server').
 :- use_module('controller/db_controller').
-:- use_module('controller/map_controller').
+:- use_module('controller/getPath_controller').
 
 % Bootstrap
 bootstrap :-

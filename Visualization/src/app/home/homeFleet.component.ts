@@ -16,7 +16,7 @@ import {RouterLink} from "@angular/router";
             <li><a [routerLink]="['/']">
               <img class="brand-logo" src="/assets/logoFleet.svg" alt="logo" aria-hidden="true">
             </a></li>
-            <li><a [routerLink]="['/']" data-item='Fleet'>Fleet</a></li>
+            <li><a [routerLink]="['/fleet']" data-item='Fleet'>Fleet</a></li>
             <li><a [routerLink]="['/robot']" data-item='Robot'>Robot</a></li>
             <li><a [routerLink]="['/robotType']" data-item='RobotType'>RobotType</a></li>
             <li >
