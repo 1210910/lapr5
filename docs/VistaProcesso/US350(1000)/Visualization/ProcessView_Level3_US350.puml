@@ -1,0 +1,35 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title Create a robot type
+
+actor "Fleet Manager" as FM <<Human>>
+participant "Routing" as routing <<component>>
+participant "Component" as comp <<component>>
+participant "Service" as service <<component>>
+
+
+activate FM
+FM->> routing : Navigate to createFloor page
+activate routing
+routing ->> comp : create a robot type
+
+activate comp
+comp ->> service : create a robot type
+
+activate service
+service ->> : Http Request
+service <<-- : Http Response
+
+service -->> comp : success
+deactivate service
+
+comp -->> routing : success
+deactivate comp
+
+FM<<-- routing : Successfully response
+deactivate routing
+
+@enduml

@@ -1,0 +1,19 @@
+@startuml Process View - Level 2 - Inhibit a robot
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+skinparam packageStyle rect
+
+title Inhibit a robot
+
+actor "Campus Manager" as CM
+participant "Visualization" as V <<Component>>
+
+CM->> V : Navigate to InhibitARobot page
+activate CM
+activate V
+CM<<--- V : Successfully response
+deactivate V
+deactivate CM
+@enduml

@@ -1,0 +1,34 @@
+@startuml Process View - Level 3 - Inhibit a robot
+
+autonumber
+skinparam packageStyle rect
+
+title  Inhibit a robot
+
+actor "Campus Manager" as CM
+participant "Routing" as routing <<component>>
+participant "Component" as comp <<component>>
+participant "Service" as service <<component>>
+
+CM->> routing : Navigate to InhibitARobot page
+activate CM
+activate routing
+routing ->> comp : inhibit a robot
+
+activate comp
+comp ->> service : inhibit a robot
+
+activate service
+service ->> : Http Request
+service <<-- : Http Response
+
+service -->> comp : success
+deactivate service
+
+comp -->> routing : success
+deactivate comp
+
+CM<<-- routing : Successfully response
+deactivate routing
+deactivate CM
+@enduml

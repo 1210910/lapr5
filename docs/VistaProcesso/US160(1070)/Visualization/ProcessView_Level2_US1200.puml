@@ -1,0 +1,19 @@
+@startuml Process View - Level 2 - Create a passageway
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+skinparam packageStyle rect
+
+title Edit a building
+
+actor "Campus Manager" as CM
+participant "Visualization" as V <<Component>>
+
+CM->> V : Navigate to EditBuilding
+activate CM
+activate V
+CM<<--- V : Edited Successfully
+deactivate V
+deactivate CM
+@enduml

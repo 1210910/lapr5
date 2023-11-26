@@ -1,0 +1,17 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+title list all robots of the fleet
+
+actor "Fleet Manager" as FM
+participant "RobDroneGo" as Sys <<System>>
+
+
+activate FM
+FM->> Sys : GET
+
+activate Sys
+FM<<-- Sys : 201
+deactivate Sys
+@enduml

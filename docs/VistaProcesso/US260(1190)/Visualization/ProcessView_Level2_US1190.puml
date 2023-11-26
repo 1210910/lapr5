@@ -7,11 +7,15 @@ skinparam packageStyle rect
 
 title List all passageways
 
+actor "Campus Manager" as CM
 participant "Visualization" as V <<Component>>
 
-?o->> V : GET
+CM->> V : wants to list all passageways
 
+activate CM
 activate V
-?o<<-- V : 200 OK
+CM<<-- V : lists all passageways
 deactivate V
+deactivate CM
+
 @enduml

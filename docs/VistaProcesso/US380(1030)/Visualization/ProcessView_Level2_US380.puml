@@ -1,0 +1,18 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title List all robots of the fleet
+
+actor "Fleet Manager" as FM
+participant "Visualization" as MD <<Component>>
+
+activate FM
+FM->> MD : Navigate to ListAllRobots page
+
+activate MD
+FM<<--- MD : Successfully response
+deactivate MD
+@enduml

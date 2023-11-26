@@ -72,7 +72,7 @@ import {LiftService} from "../../services/lift.service"
                           <div class="form-row submit-btn">
                               <div class="input-data">
                                   <div class="inner"></div>
-                                  <a [routerLink]="['/lift']"><input type="submit" value="submit" (click)="createLift()" > </a>
+                                  <a [routerLink]="['/lift']"><input type="submit" value="submit" (click)="createLift()" data-cy="createLiftButton"> </a>
                               </div>
                           </div>
                       </div>

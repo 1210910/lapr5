@@ -1,0 +1,23 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title Create a building
+
+participant "InformationManager" as IM <<Component>>
+
+?o->> IM : POST
+
+activate IM
+alt Created
+   ?o<<--IM : 201 Created
+end
+alt Bad Request
+   ?o<<--IM : 400 Bad Request
+end
+deactivate IM
+
+
+@enduml

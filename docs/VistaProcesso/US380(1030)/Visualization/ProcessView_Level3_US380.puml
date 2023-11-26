@@ -1,0 +1,36 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title list all robots of the fleet
+
+actor "Fleet Manager" as FM
+participant "Routing" as routing <<component>>
+participant "Component" as comp <<component>>
+participant "Service" as service <<component>>
+
+activate FM
+FM->> routing : Navigate to ListAllRobots page
+activate routing
+routing ->> comp : list all robot of the fleet
+
+activate comp
+comp ->> service : list all robot of the fleet
+
+activate service
+service --> : HttpRequest
+service<<--  : HttpResponse
+comp <<-- service : HttpResponse
+comp ->> service: HttpResponse to list
+comp <<-- service : List
+
+deactivate service
+
+comp -->> routing : success
+deactivate comp
+
+FM<<-- routing : Successfully response
+deactivate routing
+
+@enduml

@@ -1,0 +1,20 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title List all buildings by min max floors
+
+actor "Campus Manager" as CM
+participant "System" as Sys <<System>>
+
+activate CM
+CM->> Sys : GET
+
+activate Sys
+CM<<-- Sys : 201 OK
+deactivate Sys
+
+
+@enduml

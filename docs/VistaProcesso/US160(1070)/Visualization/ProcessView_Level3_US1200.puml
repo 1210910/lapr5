@@ -1,0 +1,34 @@
+@startuml Process View - Level 3 - Edit a building
+
+autonumber
+skinparam packageStyle rect
+
+title Edit a building
+
+actor "Campus Manager" as CM
+participant "Routing" as routing <<component>>
+participant "Component" as comp <<component>>
+participant "Service" as service <<component>>
+
+activate CM
+CM->> routing : Navigate to EditBuilding
+activate routing
+routing ->> comp : edit building
+
+activate comp
+comp ->> service : edit building
+
+activate service
+service ->> : Http Request
+service <<-- : Http Response
+
+service -->> comp : success
+deactivate service
+
+comp -->> routing : success
+deactivate comp
+
+CM<<-- routing : Edited successfully
+deactivate routing
+deactivate CM
+@enduml

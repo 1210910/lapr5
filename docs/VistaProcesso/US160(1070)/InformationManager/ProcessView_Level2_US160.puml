@@ -1,0 +1,22 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+skinparam packageStyle rect
+
+title Edit a building
+
+participant "MasterData" as MD <<Component>>
+
+?o->> MD : PATCH
+
+activate MD
+alt Edit
+   ?o<<--MD : 200 OK Edited
+end
+alt Bad Request
+   ?o<<--MD : 400 Bad Request
+end
+deactivate MD
+@enduml

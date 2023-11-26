@@ -5,27 +5,31 @@ skinparam packageStyle rect
 
 title Edit a passageway
 
+actor "Campus Manager" as CM
 participant "Routing" as routing <<component>>
 participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
 
 
-?o->> routing : PATCH /:id
+CM->> routing : wants to edit passageway
+activate CM
 activate routing
 routing ->> comp : edit passageway
 
 activate comp
 comp ->> service : edit passageway
 
-service ->> : Http request
-service <<-- : Http response
+service ->> : Http request (PATCH)
+service <<-- : Http response (200)
 
 service -->> comp : success
 deactivate service
 
 comp -->> routing : success
+deactivate comp
 
-?o<<-- routing : 200 OK
+CM<<-- routing : success message
 deactivate routing
+deactivate CM
 
 @enduml

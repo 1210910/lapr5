@@ -35,7 +35,7 @@ export class BuildingService{
           //response = httprequest.status;
           resolve(true);
         } else {
-          console.log(httprequest.responseText);
+
           const errorResponse = JSON.parse(httprequest.responseText);
           //response = httprequest.status;
           console.log("Building not created");
@@ -112,14 +112,9 @@ export class BuildingService{
     return this.buildingListInfo.find((building) => building.code === position);
   }
 
-
-
-
   public editBuilding(editedData: { code?: string, name?: string, description?: string, maxLength?: number, maxWidth?: number }) {
 
     return new Promise((resolve, reject) => {
-
-      //const filteredData = Object.fromEntries(Object.entries(editedData).filter(([_, value]) => value !== undefined));
 
       const jsonMessage = JSON.stringify(
         {
@@ -139,7 +134,6 @@ export class BuildingService{
           console.log(successResponse);
           resolve(true);
         } else {
-          console.error(httprequest.responseText);
           const errorResponse = JSON.parse(httprequest.responseText);
           console.log("Building not edited");
           reject(errorResponse.error);

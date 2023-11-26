@@ -1,0 +1,26 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title Create a lift
+
+actor "Campus Manager" as CM
+participant "System" as Sys <<System>>
+
+CM->> Sys : POST
+
+activate CM
+activate Sys
+alt Created
+   CM<<--Sys : 201 Created
+end
+alt Bad Request
+   CM<<--Sys : 400 Bad Request
+end
+deactivate CM
+deactivate Sys
+
+
+@enduml

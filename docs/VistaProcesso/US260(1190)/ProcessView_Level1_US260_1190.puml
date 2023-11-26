@@ -6,15 +6,17 @@ skinparam packageStyle rect
 
 title List all passageways
 
+actor "Campus Manager" as CM
 participant "System" as Sys <<System>>
 
-?o->> Sys : GET
+CM->> Sys : wants to list all passageways
 
+activate CM
 activate Sys
 
-?o<<--Sys : 200 OK
+CM<<--Sys : lists all passageways
 
 deactivate Sys
-
+deactivate CM
 
 @enduml

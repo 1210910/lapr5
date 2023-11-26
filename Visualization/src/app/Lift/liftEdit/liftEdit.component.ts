@@ -1,10 +1,7 @@
 import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
-
-import routes from "../../routes";
 import {LiftService} from "../../services/lift.service";
-import {BuildingInfo} from "../../Building/building-info/buildingInfo";
 
 
 @Component({
@@ -107,7 +104,7 @@ export class LiftEditComponent {
     {
       alert("Lift edited successfully");
 
-    }).catch((error) => {
+    }).catch(() => {
       alert("Lift edited Failed");
     });
 

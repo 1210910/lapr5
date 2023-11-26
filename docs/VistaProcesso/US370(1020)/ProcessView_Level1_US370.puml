@@ -1,0 +1,25 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title Inhibit a robot
+
+actor "Campus Manager" as CM
+participant "System" as Sys <<System>>
+
+CM->> Sys : PATCH
+
+activate CM
+activate Sys
+alt Edited
+   CM<<--Sys : 200 OK
+end
+alt Bad Request
+   CM<<--Sys : 400 Bad Request
+end
+deactivate Sys
+deactivate CM
+
+@enduml

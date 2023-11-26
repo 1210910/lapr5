@@ -1,0 +1,19 @@
+@startuml Process View - Level 2 - Create a Lift
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+skinparam packageStyle rect
+
+title Create a lift
+
+actor "Campus Manager" as CM
+participant "Visualization" as V <<Component>>
+
+CM->> V : Navigate to CreateLift
+activate CM
+activate V
+CM<<--- V : Successfully response
+deactivate V
+deactivate CM
+@enduml

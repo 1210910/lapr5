@@ -1,0 +1,18 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title List lifts of a building
+
+actor "Campus Manager" as CM
+participant "RobDroneGo" as Sys <<System>>
+
+activate CM
+CM->> Sys : GET
+
+activate Sys
+CM<<-- Sys : 201
+deactivate Sys
+@enduml

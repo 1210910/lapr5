@@ -6,14 +6,19 @@ skinparam packageStyle rect
 
 title Edit a passageway
 
+actor "Campus Manager" as CM
 participant "System" as Sys <<System>>
 
-?o->> Sys : PATCH /:id
+CM->> Sys : wants to edit a passageway
 
+activate CM
 activate Sys
 
-?o<<--Sys : 200 OK
+CM<<-- Sys : asks to fill a form
+CM->> Sys : fills the form
+CM<<--Sys : success message
 
 deactivate Sys
+deactivate CM
 
 @enduml

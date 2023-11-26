@@ -21,17 +21,14 @@ export class PassagewayListComponent {
   floorService: FloorService = inject(FloorService);
 
   constructor() {
-    this.passagewayService.listPassageways().then((result) => {
-        this.passagewayService.passagewayList(result);
-        this.passagewayList = this.passagewayService.PassagewayList;
-      }
-    );
+  };
 
-    this.floorService.listFloors().then((result) => {
-        this.floorService.floorList(result);
+    ngOnInit(){
+          this.passagewayService.listPassageways().then((result) => {
+              this.passagewayService.passagewayList(result);
+              this.passagewayList = this.passagewayService.PassagewayList;
+          });
       }
-    );
-  }
 
   CallMethod(buildingFrom: string, buildingTo: string, floor: string) {
     if (floor === "" && buildingFrom !== "" && buildingTo !== "") {

@@ -1,0 +1,139 @@
+@startuml Domain-Driven Design
+
+title Domain-Driven Design (DDD)
+
+skinparam packageStyle rectangle
+skinparam linetype ortho
+hide methods
+hide circle
+
+package User <<aggregate>> {
+    class user <<root>>
+    class Admin
+    class "Gestor de Frota"
+    class "Gestor de Campus"
+}
+
+package Building <<aggregate>> {
+    class building <<root>>{
+        - Code
+        - Name
+        - MaxFloorDimension
+        - MinFloorDimension
+        - Description
+    }
+}
+
+package Lift <<aggregate>> {
+    class lift <<root>>{
+        - Code
+        - BuildingCode
+        - Floors
+        - Brand
+        - Model
+        - Serial Number
+        - Description
+    }
+}
+
+package Floor <<aggregate>> {
+    class floor <<root>>{
+        - Code
+        - FloorNumber
+        - BuildingCode
+        - Description
+        - Width
+        - Length
+    }
+}
+
+package Room<<aggregate>>{
+    class room <<root>>{
+        - Code
+        - FloorCode
+        - Width
+        - Length
+        - Description
+    }
+    enum RoomType {
+        - Office
+        - Amphitheater
+        - Laboratory
+        - Other
+    }
+}
+
+package Passageway <<aggregate>>{
+    class passageway <<root>>{
+        - Code
+        - Floor1Code
+        - Floor2Code
+        - Description
+    }
+}
+
+class Campus
+
+package Robot <<aggregate>> {
+    class robot <<root>>{
+        -code
+        -name
+        -description
+    }
+    class robotType {
+        -code
+        -Brand
+        -Model
+        -Description
+    }
+}
+
+
+package Task <<aggregate>> {
+    class task <<root>>{
+        -Code
+        -Description
+    }
+    class DeliveryTask{
+        -pickupRoom
+        -deliveryRoom
+        -deliveryName
+        -deliveryContact
+        -pickupName
+        -pickupContact
+        -confirmationCode
+    }
+    class SecurityTask{
+        -locations
+        -contact
+    }
+}
+
+
+user "1" <--- "1" Admin : é / gere
+user "1" <-- "1" "Gestor de Frota": é
+user "1" <--- "1" "Gestor de Campus": é
+
+"Gestor de Frota" "1" --> "1..*" task : requests
+
+"Gestor de Campus" "1" --> "1..*" Campus : gere
+
+"Gestor de Frota" "1" --> "1..*" robot : gere
+
+Campus "1" ---> "5..*" building : constituído por
+
+building "1" --> "1..*" floor : têm
+floor "1..*" --> "0..1" lift : têm
+
+floor "1" --> "1..*" passageway: têm
+floor "1" --> "1..*" room: têm
+room "1" --> "1" RoomType: é
+
+robot "1" --> "1" robotType: têm
+robot "*" --> "1" task: executa
+
+task "1" --> "1" DeliveryTask: é
+task "1" --> "1" SecurityTask: é
+
+
+@enduml

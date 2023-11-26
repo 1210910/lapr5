@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title Edit a lift
+
+actor "Campus Manager" as CM
+participant "RobDroneGo" as Sys <<System>>
+
+activate CM
+CM->> Sys : PATCH
+
+activate Sys
+CM<<--- Sys : 201
+deactivate Sys
+
+@enduml

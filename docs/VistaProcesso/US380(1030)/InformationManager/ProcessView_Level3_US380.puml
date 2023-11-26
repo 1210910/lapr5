@@ -1,0 +1,56 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title list all robot of the fleet
+
+participant "Routing" as routing <<component>>
+participant "Controller" as controller <<component>>
+participant "Service" as service <<component>>
+participant "Robot Repository" as robotrepo <<component>>
+participant "Map" as map <<component>>
+participant "DTO" as dto <<component>>
+database "Database" as db <<component>>
+
+?o->> routing : GET
+activate routing
+routing ->> controller : list robot
+
+activate controller
+controller ->> service : list robot
+
+activate service
+service ->> robotrepo : get list of robots
+
+activate robotrepo
+robotrepo ->> db : select robots
+activate db
+db -->> robotrepo : list
+deactivate db
+
+robotrepo -->> service : list of robots
+deactivate robotrepo
+
+service ->> map : convert to DTO List
+activate map
+
+map -->> dto** : convert
+activate dto
+
+dto -->> map : dto list
+deactivate dto
+
+map -->> service : dto list
+deactivate map
+
+service -->> controller : success
+deactivate service
+
+controller -->> routing : success
+deactivate controller
+
+?o<<-- routing : 200 OK
+deactivate routing
+
+@enduml

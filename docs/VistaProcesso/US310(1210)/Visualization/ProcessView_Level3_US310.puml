@@ -1,0 +1,34 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title Create a room in a floor
+
+actor "Campus Manager" as CM
+participant "Routing" as routing <<component>>
+participant "Component" as comp <<component>>
+participant "Service" as service <<component>>
+
+activate CM
+CM->> routing : Navigate to createRoom page
+activate routing
+routing ->> comp : create room
+
+activate comp
+comp ->> service : create room
+
+activate service
+service ->> : Http Request
+service <<-- : Http Response
+
+service -->> comp : success
+deactivate service
+
+comp -->> routing : success
+deactivate comp
+
+CM<<-- routing : Successfully reponse
+deactivate routing
+
+@enduml

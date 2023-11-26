@@ -1,0 +1,18 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title Edit a lift
+
+actor "Campus Manager" as CM
+participant "Visualization" as MD <<Component>>
+
+activate CM
+CM->> MD : Navigate to editLift page
+
+activate MD
+CM<<--- MD : Successfully response
+deactivate MD
+@enduml
