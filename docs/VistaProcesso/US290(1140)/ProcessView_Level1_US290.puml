@@ -6,11 +6,13 @@ skinparam packageStyle rect
 
 title List lifts of a building
 
+actor "Campus Manager" as CM
 participant "RobDroneGo" as Sys <<System>>
 
-?o->> Sys : GET
+activate CM
+CM->> Sys : GET
 
 activate Sys
-?o<<-- Sys : 201
+CM<<-- Sys : 201
 deactivate Sys
 @enduml
