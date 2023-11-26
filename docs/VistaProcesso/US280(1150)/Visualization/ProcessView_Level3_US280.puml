@@ -5,12 +5,13 @@ skinparam packageStyle rect
 
 title Edit a lift
 
+actor "Campus Manager" as CM
 participant "Routing" as routing <<component>>
 participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
 
-
-?o->> routing : PATCH /:id
+activate CM
+CM->> routing : PATCH /:id
 activate routing
 routing ->> comp : edit lift
 
@@ -25,7 +26,7 @@ deactivate service
 
 comp -->> routing : success
 
-?o<<-- routing : 200 OK
+CM<<-- routing : 200 OK
 deactivate routing
 
 @enduml
