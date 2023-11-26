@@ -26,15 +26,15 @@ export class RobotTypeCreateComponent {
     const taskTypeCode = document.getElementsByTagName("input")[3].value;
     const description = document.getElementsByTagName("textarea")[0].value;
 
-    if (code === "" || brand === "" || model === "" || taskTypeCode === "" || description === "") {
+    if (code === "" || brand === "" || model === "" || taskTypeCode === "") {
       alert("Please fill all the fields");
       return;
     }
 
     this.robotService.createRobotType(code, brand,model,taskTypeCode,description).then(() => {
-        alert("Robot created");
+        alert("Robot type created");
     }).catch(() => {
-      alert("Robot not created");
+      alert("Robot type not created");
     });
 
   }

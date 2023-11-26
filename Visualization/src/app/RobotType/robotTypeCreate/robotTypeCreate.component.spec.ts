@@ -54,7 +54,7 @@ describe('RobotTypeCreateComponent', () => {
 
     mockRobotTypeService.createRobotType.mockReturnValue(Promise.resolve(fixture));
     await component.createRobotType();
-    expect(alertSpy).toHaveBeenCalledWith('Robot created');
+    expect(alertSpy).toHaveBeenCalledWith('Robot type created');
   });
 
   it('should show alert if robot type is not created', async () => {
@@ -73,7 +73,7 @@ describe('RobotTypeCreateComponent', () => {
 
     mockRobotTypeService.createRobotType.mockReturnValue(Promise.reject());
     await component.createRobotType();
-    expect(alertSpy).toHaveBeenCalledWith('Robot not created');
+    expect(alertSpy).toHaveBeenCalledWith('Robot type not created');
   });
 
 });
