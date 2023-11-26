@@ -10,7 +10,7 @@ participant "Routing" as routing <<component>>
 participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
 
-FM->> routing : POST
+FM->> routing : wants to create a robot
 activate FM
 activate routing
 routing ->> comp : create robot
@@ -19,8 +19,8 @@ activate comp
 comp ->> service : create robot
 
 activate service
-service ->> : Http Request
-service <<-- : Http Response
+service ->> : Http Request (POST)
+service <<-- : Http Response (201)
 
 service -->> comp : success
 deactivate service
@@ -28,7 +28,7 @@ deactivate service
 comp -->> routing : success
 deactivate comp
 
-FM<<-- routing : 201 Created
+FM<<-- routing : success message
 deactivate routing
 deactivate FM
 

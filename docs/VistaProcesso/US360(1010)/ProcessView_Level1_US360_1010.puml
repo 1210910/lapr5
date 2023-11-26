@@ -14,6 +14,8 @@ FM->> Sys : wants to create a robot
 activate FM
 activate Sys
 
+FM<<-- Sys : asks to fill a form
+FM->> Sys : fills the form
 FM<<--Sys : success message
 
 deactivate Sys

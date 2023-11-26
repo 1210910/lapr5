@@ -7,14 +7,16 @@ skinparam packageStyle rect
 title Edit a passageway
 
 actor "Campus Manager" as CM
-participant "Visualization" as MD <<Component>>
+participant "Visualization" as V <<Component>>
 
-CM->> MD : PATCH
+CM->> V : wants to edit a passageway
 
 activate CM
-activate MD
-CM<<--- MD : 200 OK
-deactivate MD
+activate V
+CM<<-- V : asks to fill a form
+CM->> V : fills the form
+CM<<--- V : success message
+deactivate V
 deactivate CM
 
 @enduml

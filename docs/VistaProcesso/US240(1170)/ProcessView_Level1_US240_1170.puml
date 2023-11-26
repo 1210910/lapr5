@@ -14,6 +14,8 @@ CM->> Sys : wants to create a passageway
 activate CM
 activate Sys
 
+CM<<-- Sys : asks to fill a form
+CM->> Sys : fills the form
 CM<<--Sys : success message
 
 deactivate Sys
