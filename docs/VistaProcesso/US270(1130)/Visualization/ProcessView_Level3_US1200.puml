@@ -1,0 +1,32 @@
+@startuml Process View - Level 3 - Create a lift
+
+autonumber
+skinparam packageStyle rect
+
+title Create a lift
+
+participant "Routing" as routing <<component>>
+participant "Component" as comp <<component>>
+participant "Service" as service <<component>>
+
+?o->> routing : POST
+activate routing
+routing ->> comp : create lift
+
+activate comp
+comp ->> service : create lift
+
+activate service
+service ->> : Http Request
+service <<-- : Http Response
+
+service -->> comp : success
+deactivate service
+
+comp -->> routing : success
+deactivate comp
+
+?o<<-- routing : 201 Created
+deactivate routing
+
+@enduml

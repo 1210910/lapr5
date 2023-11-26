@@ -81,7 +81,7 @@ deactivate service
 controller -->> routing : success
 deactivate controller
 
-?o<<-- routing : 204 Created
+?o<<-- routing : 200 Edited
 deactivate routing
 
 @enduml

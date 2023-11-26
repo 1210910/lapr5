@@ -6,18 +6,18 @@ skinparam packageStyle rect
 
 title Create a building
 
-participant "MasterData" as MD <<Component>>
+participant "InformationManager" as IM <<Component>>
 
-?o->> MD : POST
+?o->> IM : POST
 
-activate MD
+activate IM
 alt Created
-   ?o<<--MD : 201 Created
+   ?o<<--IM : 201 Created
 end
 alt Bad Request
-   ?o<<--MD : 400 Bad Request
+   ?o<<--IM : 400 Bad Request
 end
-deactivate MD
+deactivate IM
 
 
 @enduml

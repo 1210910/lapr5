@@ -1,0 +1,32 @@
+@startuml Process View - Level 3 - Create a building
+
+autonumber
+skinparam packageStyle rect
+
+title Create a building
+
+participant "Routing" as routing <<component>>
+participant "Component" as comp <<component>>
+participant "Service" as service <<component>>
+
+?o->> routing : POST
+activate routing
+routing ->> comp : create building
+
+activate comp
+comp ->> service : create building
+
+activate service
+service ->> : Http Request
+service <<-- : Http Response
+
+service -->> comp : success
+deactivate service
+
+comp -->> routing : success
+deactivate comp
+
+?o<<-- routing : 201 Created
+deactivate routing
+
+@enduml

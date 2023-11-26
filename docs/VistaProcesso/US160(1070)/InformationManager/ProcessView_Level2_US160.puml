@@ -2,22 +2,21 @@
 'https://plantuml.com/sequence-diagram
 
 autonumber
+
 skinparam packageStyle rect
 
 title Edit a building
 
-participant "System" as Sys <<System>>
+participant "MasterData" as MD <<Component>>
 
-?o->> Sys : PATCH
+?o->> MD : PATCH
 
-activate Sys
+activate MD
 alt Edit
-   ?o<<--Sys : 204 Edited
+   ?o<<--MD : 200 OK Edited
 end
 alt Bad Request
-   ?o<<--Sys : 400 Bad Request
+   ?o<<--MD : 400 Bad Request
 end
-deactivate Sys
-
-
+deactivate MD
 @enduml

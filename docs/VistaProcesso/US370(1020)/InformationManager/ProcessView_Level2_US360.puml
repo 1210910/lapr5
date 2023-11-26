@@ -13,7 +13,7 @@ participant "MasterData" as MD <<Component>>
 
 activate MD
 alt Edited
-   ?o<<--MD : 204 Edit
+   ?o<<--MD : 200 Edit
 end
 alt Bad Request
    ?o<<--MD : 400 Bad Request

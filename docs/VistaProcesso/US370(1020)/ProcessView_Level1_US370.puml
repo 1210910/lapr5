@@ -1,0 +1,23 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title Inhibit a robot
+
+participant "System" as Sys <<System>>
+
+?o->> Sys : PATCH
+
+activate Sys
+alt Edited
+   ?o<<--Sys : 200 OK
+end
+alt Bad Request
+   ?o<<--Sys : 400 Bad Request
+end
+deactivate Sys
+
+
+@enduml

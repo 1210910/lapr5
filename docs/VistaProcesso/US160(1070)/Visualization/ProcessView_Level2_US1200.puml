@@ -1,0 +1,18 @@
+@startuml Process View - Level 2 - Create a passageway
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+skinparam packageStyle rect
+
+title Edit a building
+
+participant "Visualization" as V <<Component>>
+
+?o->> V : POST
+
+activate V
+?o<<--- V : 200 Edited
+deactivate V
+
+@enduml

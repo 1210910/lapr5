@@ -1,0 +1,18 @@
+@startuml Process View - Level 2 - Inhibit a robot
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+skinparam packageStyle rect
+
+title Inhibit a robot
+
+participant "Visualization" as V <<Component>>
+
+?o->> V : PATCH
+
+activate V
+?o<<--- V : 200 OK
+deactivate V
+
+@enduml

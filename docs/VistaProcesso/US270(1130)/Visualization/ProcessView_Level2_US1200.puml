@@ -1,0 +1,18 @@
+@startuml Process View - Level 2 - Create a Lift
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+skinparam packageStyle rect
+
+title Create a lift
+
+participant "Visualization" as V <<Component>>
+
+?o->> V : POST
+
+activate V
+?o<<--- V : 201 OK
+deactivate V
+
+@enduml

@@ -4,15 +4,15 @@
 autonumber
 skinparam packageStyle rect
 
-title Inhibit a robot
+title Edit a building
 
 participant "System" as Sys <<System>>
 
 ?o->> Sys : PATCH
 
 activate Sys
-alt Edited
-   ?o<<--Sys : 204 Edit
+alt Edit
+   ?o<<--Sys : 200 Edited
 end
 alt Bad Request
    ?o<<--Sys : 400 Bad Request

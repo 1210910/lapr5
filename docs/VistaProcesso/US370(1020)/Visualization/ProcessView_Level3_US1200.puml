@@ -1,0 +1,32 @@
+@startuml Process View - Level 3 - Inhibit a robot
+
+autonumber
+skinparam packageStyle rect
+
+title  Inhibit a robot
+
+participant "Routing" as routing <<component>>
+participant "Component" as comp <<component>>
+participant "Service" as service <<component>>
+
+?o->> routing : PATCH
+activate routing
+routing ->> comp : inhibit a robot
+
+activate comp
+comp ->> service : inhibit a robot
+
+activate service
+service ->> : Http Request
+service <<-- : Http Response
+
+service -->> comp : success
+deactivate service
+
+comp -->> routing : success
+deactivate comp
+
+?o<<-- routing : 200 OK
+deactivate routing
+
+@enduml
