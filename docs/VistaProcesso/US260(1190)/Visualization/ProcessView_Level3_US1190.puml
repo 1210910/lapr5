@@ -6,12 +6,14 @@ skinparam packageStyle rect
 
 title List all passageways
 
+actor "Campus Manager" as CM
 participant "Routing" as routing <<component>>
 participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
 
 
-?o->> routing : GET
+CM->> routing : GET
+activate CM
 activate routing
 routing ->> comp : list all passageways
 
@@ -29,7 +31,8 @@ deactivate service
 comp -->> routing : success
 deactivate comp
 
-?o<<-- routing : 200 OK
+CM<<-- routing : 200 OK
 deactivate routing
+deactivate CM
 
 @enduml

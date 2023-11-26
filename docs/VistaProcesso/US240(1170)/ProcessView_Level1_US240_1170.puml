@@ -6,14 +6,17 @@ skinparam packageStyle rect
 
 title Create a passageway
 
+actor "Campus Manager" as CM <<Human>>
 participant "System" as Sys <<System>>
 
-?o->> Sys : POST
+CM->> Sys : POST
 
+activate CM
 activate Sys
 
-?o<<--Sys : 201 Created
+CM<<--Sys : 201 Created
 
 deactivate Sys
+deactivate CM
 
 @enduml

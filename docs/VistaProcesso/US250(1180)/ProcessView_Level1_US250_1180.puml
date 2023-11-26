@@ -6,14 +6,17 @@ skinparam packageStyle rect
 
 title Edit a passageway
 
+actor "Campus Manager" as CM
 participant "System" as Sys <<System>>
 
-?o->> Sys : PATCH /:id
+CM->> Sys : PATCH /:id
 
+activate CM
 activate Sys
 
-?o<<--Sys : 200 OK
+CM<<--Sys : 200 OK
 
 deactivate Sys
+deactivate CM
 
 @enduml
