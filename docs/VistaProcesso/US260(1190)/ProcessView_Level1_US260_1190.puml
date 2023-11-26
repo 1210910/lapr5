@@ -9,12 +9,12 @@ title List all passageways
 actor "Campus Manager" as CM
 participant "System" as Sys <<System>>
 
-CM->> Sys : GET
+CM->> Sys : wants to list all passageways
 
 activate CM
 activate Sys
 
-CM<<--Sys : 200 OK
+CM<<--Sys : lists all passageways
 
 deactivate Sys
 deactivate CM

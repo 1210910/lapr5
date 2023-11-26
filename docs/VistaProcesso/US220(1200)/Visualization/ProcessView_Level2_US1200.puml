@@ -10,11 +10,11 @@ title List all floors with passageways of a building
 actor "Campus Manager" as CM
 participant "Visualization" as V <<Component>>
 
-CM->> V : GET /:buildingCode
+CM->> V : wants to list all floors \nwith passageways of a building
 
 activate CM
 activate V
-CM<<--- V : 200 OK
+CM<<--- V : listed all floors \nwith passageways of a building
 deactivate V
 deactivate CM
 

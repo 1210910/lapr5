@@ -9,12 +9,12 @@ title Edit a passageway
 actor "Campus Manager" as CM
 participant "System" as Sys <<System>>
 
-CM->> Sys : PATCH /:id
+CM->> Sys : wants to edit a passageway
 
 activate CM
 activate Sys
 
-CM<<--Sys : 200 OK
+CM<<--Sys : success message
 
 deactivate Sys
 deactivate CM

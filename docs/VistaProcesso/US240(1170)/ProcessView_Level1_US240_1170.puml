@@ -9,12 +9,12 @@ title Create a passageway
 actor "Campus Manager" as CM <<Human>>
 participant "System" as Sys <<System>>
 
-CM->> Sys : POST
+CM->> Sys : wants to create a passageway
 
 activate CM
 activate Sys
 
-CM<<--Sys : 201 Created
+CM<<--Sys : success message
 
 deactivate Sys
 deactivate CM

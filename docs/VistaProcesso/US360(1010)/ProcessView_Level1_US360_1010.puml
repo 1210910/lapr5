@@ -9,12 +9,12 @@ title Create a robot
 actor "Fleet Manager" as FM
 participant "System" as Sys <<System>>
 
-FM->> Sys : POST
+FM->> Sys : wants to create a robot
 
 activate FM
 activate Sys
 
-FM<<--Sys : 201 Created
+FM<<--Sys : success message
 
 deactivate Sys
 deactivate FM

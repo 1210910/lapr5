@@ -10,11 +10,11 @@ title Create a robot
 actor "Fleet Manager" as FM
 participant "Visualization" as V <<Component>>
 
-FM->> V : POST
+FM->> V : wants to create a robot
 
 activate FM
 activate V
-FM<<--- V : 201 OK
+FM<<--- V : success message
 deactivate V
 deactivate FM
 

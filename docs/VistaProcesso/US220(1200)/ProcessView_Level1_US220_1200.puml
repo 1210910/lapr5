@@ -9,12 +9,12 @@ title List all floors with passageways of a building
 actor "Campus Manager" as CM
 participant "System" as Sys <<System>>
 
-CM->> Sys : GET /:buildingCode
+CM->> Sys : wants to list all floors \nwith passageways of a building
 
 activate CM
 activate Sys
 
-CM<<--Sys : 200 OK
+CM<<--Sys : listed all floors \nwith passageways of a building
 
 deactivate Sys
 deactivate CM

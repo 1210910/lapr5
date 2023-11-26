@@ -12,7 +12,7 @@ participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
 
 
-CM->> routing : GET
+CM->> routing : wants to list all passageways
 activate CM
 activate routing
 routing ->> comp : list all passageways
@@ -31,7 +31,7 @@ deactivate service
 comp -->> routing : success
 deactivate comp
 
-CM<<-- routing : 200 OK
+CM<<-- routing : lists all passageways
 deactivate routing
 deactivate CM
 
