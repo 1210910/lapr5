@@ -5,11 +5,13 @@ skinparam packageStyle rect
 
 title Create a passageway
 
+actor "Campus Manager" as CM <<Human>>
 participant "Routing" as routing <<component>>
 participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
 
-?o->> routing : POST
+CM->> routing : POST
+activate CM
 activate routing
 routing ->> comp : create passageway
 
@@ -26,7 +28,8 @@ deactivate service
 comp -->> routing : success
 deactivate comp
 
-?o<<-- routing : 201 Created
+CM<<-- routing : 201 Created
 deactivate routing
+deactivate CM
 
 @enduml

@@ -96,11 +96,11 @@ it('should fetch lift list on initialization', async() => {
     mockLiftService.LiftList.push(lift1);
     mockLiftService.LiftList.push(lift2);
 
-    component.CallMethod('B');
+    await component.CallMethod('B');
 
     expect(mockLiftService.listLifts).toHaveBeenCalled();
     expect(mockLiftService.liftListFromABuilding).toHaveBeenCalledWith(mockLiftList, 'B');
-    expect(component.liftList).toEqual([lift1]);
+    expect(component.liftList).toEqual(mockLiftList);
   });
 
 });

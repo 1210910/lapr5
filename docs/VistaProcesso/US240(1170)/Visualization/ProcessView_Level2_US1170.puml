@@ -7,12 +7,15 @@ skinparam packageStyle rect
 
 title Create a passageway
 
+actor "Campus Manager" as CM <<Human>>
 participant "Visualization" as V <<Component>>
 
-?o->> V : POST
+CM->> V : POST
 
+activate CM
 activate V
-?o<<--- V : 201 OK
+CM<<--- V : 201 OK
 deactivate V
+deactivate CM
 
 @enduml

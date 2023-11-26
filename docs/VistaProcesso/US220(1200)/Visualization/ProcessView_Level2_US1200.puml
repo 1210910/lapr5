@@ -7,12 +7,15 @@ skinparam packageStyle rect
 
 title List all floors with passageways of a building
 
+actor "Campus Manager" as CM
 participant "Visualization" as V <<Component>>
 
-?o->> V : GET /:buildingCode
+CM->> V : GET /:buildingCode
 
+activate CM
 activate V
-?o<<--- V : 200 OK
+CM<<--- V : 200 OK
 deactivate V
+deactivate CM
 
 @enduml

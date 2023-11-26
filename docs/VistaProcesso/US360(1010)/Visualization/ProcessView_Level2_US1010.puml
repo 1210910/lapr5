@@ -7,12 +7,15 @@ skinparam packageStyle rect
 
 title Create a robot
 
+actor "Fleet Manager" as FM
 participant "Visualization" as V <<Component>>
 
-?o->> V : POST
+FM->> V : POST
 
+activate FM
 activate V
-?o<<--- V : 201 OK
+FM<<--- V : 201 OK
 deactivate V
+deactivate FM
 
 @enduml
