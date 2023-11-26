@@ -6,12 +6,14 @@ skinparam packageStyle rect
 
 title List all buildings by min max floors
 
+actor "Campus Manager" as CM
 participant "System" as Sys <<System>>
 
-?o->> Sys : GET
+activate CM
+CM->> Sys : GET
 
 activate Sys
-?o<<-- Sys : 201 OK
+CM<<-- Sys : 201 OK
 deactivate Sys
 
 

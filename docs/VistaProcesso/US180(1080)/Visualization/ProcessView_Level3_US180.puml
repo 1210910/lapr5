@@ -5,12 +5,13 @@ skinparam packageStyle rect
 
 title List buildings with min and max floors
 
+actor "Campus Manager" as CM
 participant "Routing" as routing <<component>>
 participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
 
-
-?o->> routing : GET
+activate CM
+CM->> routing : GET
 activate routing
 routing ->> comp : list buildings with min and max floors
 
@@ -28,7 +29,7 @@ deactivate service
 comp -->> routing : success
 deactivate comp
 
-?o<<-- routing : 200 OK
+CM<<-- routing : 200 OK
 deactivate routing
 
 @enduml
