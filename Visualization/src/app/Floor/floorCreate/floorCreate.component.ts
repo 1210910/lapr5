@@ -33,7 +33,7 @@ export class FloorCreateComponent {
         const width = Number(document.getElementsByTagName("input")[3].value);
         const description = document.getElementsByTagName("textarea")[0].value;
         const buildingCode = document.getElementsByTagName("input")[4].value;
-        if (code == "" || name == null || length == null || width == null || description == ""){
+        if (code == "" || name == null || length == null || width == null || buildingCode == ""){
             alert("Please fill in all fields");
             return;
 
