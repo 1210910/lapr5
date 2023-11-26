@@ -7,11 +7,13 @@ skinparam packageStyle rect
 
 title List all floors of a building
 
+actor "Campus Manager" as CM
 participant "Visualization" as MD <<Component>>
 
-?o->> MD : GET
+activate CM
+CM->> MD : GET
 
 activate MD
-?o<<-- MD : 200 OK
+CM<<-- MD : 200 OK
 deactivate MD
 @enduml

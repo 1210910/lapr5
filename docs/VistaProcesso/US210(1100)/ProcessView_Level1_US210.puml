@@ -6,12 +6,14 @@ skinparam packageStyle rect
 
 title List all floors of a building
 
+actor "Campus Manager" as CM
 participant "RobDroneGo" as Sys <<System>>
 
-?o->> Sys : GET
+activate CM
+CM->> Sys : GET
 
 activate Sys
-?o<<-- Sys : 200 OK
+CM<<-- Sys : 200 OK
 deactivate Sys
 
 
