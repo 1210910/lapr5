@@ -24,13 +24,13 @@ export class FloorEditComponent {
   editFloor(){
 
     const code = document.getElementsByTagName("input")[0].value;
-    const name = Number(document.getElementsByTagName("input")[1].value);
+    const floorNumber = Number(document.getElementsByTagName("input")[1].value);
     const length = Number(document.getElementsByTagName("input")[2].value);
     const width = Number(document.getElementsByTagName("input")[3].value);
     const description = document.getElementsByTagName("textarea")[0].value;
 
 
-    this.floorService.editFloor(code , name , length , width , description).then(() => {
+    this.floorService.editFloor(code , floorNumber , length , width , description).then(() => {
 
       alert("Floor edited");
 
