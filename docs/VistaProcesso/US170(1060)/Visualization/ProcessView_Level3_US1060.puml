@@ -6,12 +6,14 @@ skinparam packageStyle rect
 
 title List all buildings
 
+actor "Campus Manager" as CM
 participant "Routing" as routing <<component>>
 participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
 
 
-?o->> routing : GET
+CM->> routing : Navigate to listAllbuildings page
+activate CM
 activate routing
 routing ->> comp : list all buildings
 
@@ -27,7 +29,8 @@ deactivate service
 comp -->> routing : success
 deactivate comp
 
-?o<<-- routing : 200 OK
+CM<<-- routing : List successfully response
 deactivate routing
+deactivate CM
 
 @enduml

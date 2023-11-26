@@ -5,11 +5,13 @@ skinparam packageStyle rect
 
 title Edit a building
 
+actor "Campus Manager" as CM
 participant "Routing" as routing <<component>>
 participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
 
-?o->> routing : PATCH
+activate CM
+CM->> routing : Navigate to EditBuilding
 activate routing
 routing ->> comp : edit building
 
@@ -26,7 +28,7 @@ deactivate service
 comp -->> routing : success
 deactivate comp
 
-?o<<-- routing : 200 Edited
+CM<<-- routing : Edited successfully
 deactivate routing
-
+deactivate CM
 @enduml

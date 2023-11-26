@@ -11,7 +11,7 @@ participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
 
 
-CM->> routing : wants to edit a passageway
+CM->> routing : PATCH /:id
 activate CM
 activate routing
 routing ->> comp : edit passageway
@@ -28,7 +28,7 @@ deactivate service
 comp -->> routing : success
 deactivate comp
 
-CM<<-- routing : success message
+CM<<-- routing : 200 OK
 deactivate routing
 deactivate CM
 

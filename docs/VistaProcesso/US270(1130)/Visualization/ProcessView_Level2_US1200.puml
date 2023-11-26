@@ -7,12 +7,13 @@ skinparam packageStyle rect
 
 title Create a lift
 
+actor "Campus Manager" as CM
 participant "Visualization" as V <<Component>>
 
-?o->> V : POST
-
+CM->> V : Navigate to CreateLift
+activate CM
 activate V
-?o<<--- V : 201 OK
+CM<<--- V : Successfully response
 deactivate V
-
+deactivate CM
 @enduml

@@ -10,7 +10,7 @@ participant "Routing" as routing <<component>>
 participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
 
-CM->> routing : wants to list all floors \nwith passageways of a building
+CM->> routing : GET /:buildingCode
 activate CM
 activate routing
 routing ->> comp : list all floors with passageways of a building
@@ -29,7 +29,7 @@ deactivate service
 comp -->> routing : success
 deactivate comp
 
-CM<<-- routing : listed all floors \nwith passageways of a building
+CM<<-- routing : 200 OK
 deactivate routing
 deactivate CM
 

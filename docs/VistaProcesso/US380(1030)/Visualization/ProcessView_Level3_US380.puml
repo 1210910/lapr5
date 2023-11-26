@@ -11,7 +11,7 @@ participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
 
 activate FM
-FM->> routing : GET
+FM->> routing : Navigate to ListAllRobots page
 activate routing
 routing ->> comp : list all robot of the fleet
 
@@ -30,7 +30,7 @@ deactivate service
 comp -->> routing : success
 deactivate comp
 
-FM<<-- routing : 200 OK
+FM<<-- routing : Successfully response
 deactivate routing
 
 @enduml

@@ -12,7 +12,7 @@ participant "Service" as service <<component>>
 
 
 activate FM
-FM->> routing : POST
+FM->> routing : Navigate to createFloor page
 activate routing
 routing ->> comp : create a robot type
 
@@ -29,7 +29,7 @@ deactivate service
 comp -->> routing : success
 deactivate comp
 
-FM<<-- routing : 201 Created
+FM<<-- routing : Successfully response
 deactivate routing
 
 @enduml

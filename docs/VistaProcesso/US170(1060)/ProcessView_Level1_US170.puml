@@ -6,17 +6,20 @@ skinparam packageStyle rect
 
 title List all buildings
 
+actor "Campus Manager" as CM
 participant "System" as Sys <<System>>
 
-?o->> Sys : GET
+CM->> Sys : GET
 
 activate Sys
+activate CM
 alt List
-   ?o<<--Sys : 200 Listed
+   CM<<--Sys : 200 Listed
 end
 alt Bad Request
-   ?o<<--Sys : 400 Bad Request
+   CM<<--Sys : 400 Bad Request
 end
+activate CM
 deactivate Sys
 
 

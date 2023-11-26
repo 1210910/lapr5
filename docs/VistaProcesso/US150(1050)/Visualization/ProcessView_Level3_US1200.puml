@@ -4,12 +4,12 @@ autonumber
 skinparam packageStyle rect
 
 title Create a building
-
+actor "Campus Manager" as CM
 participant "Routing" as routing <<component>>
 participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
-
-?o->> routing : POST
+activate CM
+CM->> routing : Navigate to CreateBuilding
 activate routing
 routing ->> comp : create building
 
@@ -26,7 +26,7 @@ deactivate service
 comp -->> routing : success
 deactivate comp
 
-?o<<-- routing : 201 Created
+CM<<-- routing : Successfully Response
 deactivate routing
-
+deactivate CM
 @enduml

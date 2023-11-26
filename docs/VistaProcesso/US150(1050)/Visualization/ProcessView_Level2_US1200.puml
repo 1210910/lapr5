@@ -7,12 +7,14 @@ skinparam packageStyle rect
 
 title Create a building
 
+actor "Campus Manager" as CM
 participant "Visualization" as V <<Component>>
 
-?o->> V : POST
 
+CM->> V : Navigate to CreateBuilding
+activate CM
 activate V
-?o<<--- V : 201 OK
+CM<<--- V : Successfully response
 deactivate V
-
+deactivate CM
 @enduml

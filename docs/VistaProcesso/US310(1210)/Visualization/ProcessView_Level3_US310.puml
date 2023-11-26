@@ -11,7 +11,7 @@ participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
 
 activate CM
-CM->> routing : POST
+CM->> routing : Navigate to createRoom page
 activate routing
 routing ->> comp : create room
 
@@ -28,7 +28,7 @@ deactivate service
 comp -->> routing : success
 deactivate comp
 
-CM<<-- routing : 201 Created
+CM<<-- routing : Successfully reponse
 deactivate routing
 
 @enduml

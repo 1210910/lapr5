@@ -10,11 +10,11 @@ title Create a passageway
 actor "Campus Manager" as CM <<Human>>
 participant "Visualization" as V <<Component>>
 
-CM->> V : wants to create a passageway
+CM->> V : POST
 
 activate CM
 activate V
-CM<<--- V : success message
+CM<<--- V : 201 OK
 deactivate V
 deactivate CM
 

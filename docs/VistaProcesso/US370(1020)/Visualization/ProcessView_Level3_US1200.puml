@@ -5,11 +5,13 @@ skinparam packageStyle rect
 
 title  Inhibit a robot
 
+actor "Campus Manager" as CM
 participant "Routing" as routing <<component>>
 participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
 
-?o->> routing : PATCH
+CM->> routing : Navigate to InhibitARobot page
+activate CM
 activate routing
 routing ->> comp : inhibit a robot
 
@@ -26,7 +28,7 @@ deactivate service
 comp -->> routing : success
 deactivate comp
 
-?o<<-- routing : 200 OK
+CM<<-- routing : Successfully response
 deactivate routing
-
+deactivate CM
 @enduml
