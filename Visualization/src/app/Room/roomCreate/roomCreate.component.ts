@@ -73,7 +73,7 @@ import {result} from "lodash";
                           <div class="form-row submit-btn">
                               <div class="input-data">
                                   <div class="inner"></div>
-                                  <a [routerLink]="['/room']"><input type="submit" value="submit" (click)="createRoom()" > </a>
+                                  <a [routerLink]="['/room']"><input type="submit" value="submit" (click)="createRoom()" data-cy="roomCreateButton" > </a>
                               </div>
                           </div>
                         </div>
