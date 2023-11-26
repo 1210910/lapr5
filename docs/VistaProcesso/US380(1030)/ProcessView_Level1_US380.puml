@@ -2,13 +2,16 @@
 'https://plantuml.com/sequence-diagram
 
 autonumber
-title List all robots from the lit
+title list all robots of the fleet
 
+actor "Fleet Manager" as FM
 participant "RobDroneGo" as Sys <<System>>
 
-?o->> Sys : GET
+
+activate FM
+FM->> Sys : GET
 
 activate Sys
-?o<<-- Sys : 201
+FM<<-- Sys : 201
 deactivate Sys
 @enduml

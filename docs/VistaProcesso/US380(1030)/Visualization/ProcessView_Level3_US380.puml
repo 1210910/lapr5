@@ -3,14 +3,15 @@
 autonumber
 skinparam packageStyle rect
 
-title list all robot of the fleet
+title list all robots of the fleet
 
+actor "Fleet Manager" as FM
 participant "Routing" as routing <<component>>
 participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
 
-
-?o->> routing : GET
+activate FM
+FM->> routing : GET
 activate routing
 routing ->> comp : list all robot of the fleet
 
@@ -29,7 +30,7 @@ deactivate service
 comp -->> routing : success
 deactivate comp
 
-?o<<-- routing : 200 OK
+FM<<-- routing : 200 OK
 deactivate routing
 
 @enduml

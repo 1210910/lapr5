@@ -3,7 +3,7 @@
 autonumber
 skinparam packageStyle rect
 
-title List all robots
+title list all robot of the fleet
 
 participant "Routing" as routing <<component>>
 participant "Controller" as controller <<component>>

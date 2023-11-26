@@ -6,11 +6,13 @@ skinparam packageStyle rect
 
 title List all robots of the fleet
 
+actor "Fleet Manager" as FM
 participant "Visualization" as MD <<Component>>
 
-?o->> MD : GET
+activate FM
+FM->> MD : GET
 
 activate MD
-?o<<--- MD : 200 OK
+FM<<--- MD : 200 OK
 deactivate MD
 @enduml
