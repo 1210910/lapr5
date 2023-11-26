@@ -10,11 +10,11 @@ title List all passageways
 actor "Campus Manager" as CM
 participant "Visualization" as V <<Component>>
 
-CM->> V : wants to list all passageways
+CM->> V : GET
 
 activate CM
 activate V
-CM<<-- V : lists all passageways
+CM<<-- V : 200 OK
 deactivate V
 deactivate CM
 

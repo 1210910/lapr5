@@ -10,10 +10,10 @@ actor "Campus Manager" as CM
 participant "Visualization" as MD <<Component>>
 
 activate CM
-CM->> MD : POST
+CM->> MD : Navigate to createRoom page
 
 activate MD
-CM<<--MD : 201 Created
+CM<<--MD : Successfully response
 
 deactivate MD
 

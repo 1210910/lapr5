@@ -6,18 +6,20 @@ skinparam packageStyle rect
 
 title Inhibit a robot
 
+actor "Campus Manager" as CM
 participant "System" as Sys <<System>>
 
-?o->> Sys : PATCH
+CM->> Sys : PATCH
 
+activate CM
 activate Sys
 alt Edited
-   ?o<<--Sys : 200 OK
+   CM<<--Sys : 200 OK
 end
 alt Bad Request
-   ?o<<--Sys : 400 Bad Request
+   CM<<--Sys : 400 Bad Request
 end
 deactivate Sys
-
+deactivate CM
 
 @enduml

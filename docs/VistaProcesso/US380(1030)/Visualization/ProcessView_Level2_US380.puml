@@ -10,9 +10,9 @@ actor "Fleet Manager" as FM
 participant "Visualization" as MD <<Component>>
 
 activate FM
-FM->> MD : GET
+FM->> MD : Navigate to ListAllRobots page
 
 activate MD
-FM<<--- MD : 200 OK
+FM<<--- MD : Successfully response
 deactivate MD
 @enduml

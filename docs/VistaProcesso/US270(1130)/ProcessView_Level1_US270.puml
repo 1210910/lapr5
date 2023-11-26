@@ -6,18 +6,20 @@ skinparam packageStyle rect
 
 title Create a lift
 
+actor "Campus Manager" as CM
 participant "System" as Sys <<System>>
 
-?o->> Sys : POST
+CM->> Sys : POST
 
+activate CM
 activate Sys
 alt Created
-   ?o<<--Sys : 201 Created
+   CM<<--Sys : 201 Created
 end
 alt Bad Request
-   ?o<<--Sys : 400 Bad Request
+   CM<<--Sys : 400 Bad Request
 end
-
+deactivate CM
 deactivate Sys
 
 

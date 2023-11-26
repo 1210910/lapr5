@@ -10,9 +10,9 @@ actor "Campus Manager" as CM
 participant "Visualization" as MD <<Component>>
 
 activate CM
-CM->> MD : PATCH
+CM->> MD : Navigate to editFloor page
 
 activate MD
-CM<<--- MD : 200 OK
+CM<<--- MD :Successfully response
 deactivate MD
 @enduml

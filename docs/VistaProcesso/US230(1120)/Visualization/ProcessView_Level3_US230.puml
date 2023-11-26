@@ -11,7 +11,7 @@ participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
 
 activate CM
-CM->> routing : Create FloorMap
+CM->> routing : Navigate to FloorMap page
 activate routing
 routing ->> comp : create FloorMap
 
@@ -26,7 +26,7 @@ deactivate service
 
 comp -->> routing : success
 
-CM<<-- routing : 201 Created
+CM<<-- routing :Successfully response
 deactivate routing
 
 @enduml

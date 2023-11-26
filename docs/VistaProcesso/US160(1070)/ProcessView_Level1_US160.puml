@@ -6,17 +6,20 @@ skinparam packageStyle rect
 
 title Edit a building
 
+actor "Campus Manager" as CM
 participant "System" as Sys <<System>>
 
-?o->> Sys : PATCH
+CM->> Sys : PATCH
 
 activate Sys
+activate CM
 alt Edit
-   ?o<<--Sys : 200 Edited
+   CM<<--Sys : 200 Edited
 end
 alt Bad Request
-   ?o<<--Sys : 400 Bad Request
+   CM<<--Sys : 400 Bad Request
 end
+deactivate CM
 deactivate Sys
 
 

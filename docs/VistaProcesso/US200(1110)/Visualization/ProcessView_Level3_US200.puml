@@ -11,7 +11,7 @@ participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
 
 activate CM
-CM->> routing : PATCH /:id
+CM->> routing :  Navigate to editFloor page
 activate routing
 routing ->> comp : edit floor
 
@@ -26,7 +26,7 @@ deactivate service
 
 comp -->> routing : success
 
-CM<<-- routing : 200 OK
+CM<<-- routing : Successfully response
 deactivate routing
 
 @enduml

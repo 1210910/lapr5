@@ -11,7 +11,7 @@ participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
 
 activate CM
-CM->> routing : GET
+CM->> routing : Navigate to listBuildings page
 activate routing
 routing ->> comp : list buildings with min and max floors
 
@@ -29,7 +29,7 @@ deactivate service
 comp -->> routing : success
 deactivate comp
 
-CM<<-- routing : 200 OK
+CM<<-- routing : Successfully response
 deactivate routing
 
 @enduml

@@ -10,7 +10,7 @@ participant "Routing" as routing <<component>>
 participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
 
-CM->> routing : wants to create a passageway
+CM->> routing : POST
 activate CM
 activate routing
 routing ->> comp : create passageway
@@ -28,7 +28,7 @@ deactivate service
 comp -->> routing : success
 deactivate comp
 
-CM<<-- routing : success message
+CM<<-- routing : 201 Created
 deactivate routing
 deactivate CM
 
