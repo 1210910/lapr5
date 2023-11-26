@@ -6,13 +6,16 @@ skinparam packageStyle rect
 
 title Create a robot type
 
+actor "Fleet Manager" as FM <<Human>>
 participant "RobDroneGO" as Sys <<System>>
 
-?o->> Sys : POST
+activate FM
+FM->> Sys : POST
 
 activate Sys
-?o<<-- Sys : 201 Created
+FM <<-- Sys : 201 Created
 deactivate Sys
+
 
 
 @enduml

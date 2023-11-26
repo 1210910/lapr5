@@ -6,12 +6,14 @@ skinparam packageStyle rect
 
 title Create a floor in a building
 
+actor "Fleet Manager" as FM <<Human>>
 participant "Visualization" as MD <<Component>>
 
-?o->> MD : POST
+activate FM
+FM->> MD : POST
 
 activate MD
-?o<<--MD : 201 Created
+FM<<--MD : 201 Created
 
 deactivate MD
 
