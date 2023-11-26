@@ -185,7 +185,7 @@ import UserInterface from "./user_interface.js";
  *   focus: Float
  *  }
  * }
- * 
+ *
  * shadowsParameters = {
  *  enabled: Boolean,
  *  type: Integer
@@ -346,7 +346,7 @@ import UserInterface from "./user_interface.js";
  */
 
 export default class ThumbRaiser {
-    constructor(generalParameters, audioParameters, cubeTexturesParameters, mazeParameters, playerParameters, ambientLightParameters, directionalLightParameters, spotLightParameters, flashLightParameters, shadowsParameters, fogParameters, collisionDetectionParameters, fixedViewCameraParameters, firstPersonViewCameraParameters, thirdPersonViewCameraParameters, topViewCameraParameters, miniMapCameraParameters) {
+    constructor(generalParameters, audioParameters, cubeTexturesParameters, mazeParameters, playerParameters, ambientLightParameters, directionalLightParameters, spotLightParameters, flashLightParameters, shadowsParameters, fogParameters, collisionDetectionParameters, fixedViewCameraParameters, firstPersonViewCameraParameters, thirdPersonViewCameraParameters, topViewCameraParameters, miniMapCameraParameters,build) {
         this.generalParameters = merge({}, generalData, generalParameters);
         this.audioParameters = merge({}, audioData, audioParameters);
         this.cubeTexturesParameters = merge({}, cubeTextureData, cubeTexturesParameters);
@@ -364,6 +364,7 @@ export default class ThumbRaiser {
         this.thirdPersonViewCameraParameters = merge({}, cameraData, thirdPersonViewCameraParameters);
         this.topViewCameraParameters = merge({}, cameraData, topViewCameraParameters);
         this.miniMapCameraParameters = merge({}, cameraData, miniMapCameraParameters);
+        this.build=build;
 
         // Set the game state
         this.gameRunning = false;
@@ -1219,7 +1220,7 @@ export default class ThumbRaiser {
                 }
 
                 // Create the user interface
-                this.userInterface = new UserInterface(this);
+                this.userInterface = new UserInterface(this,this.build);
 
                 // Get and configure the user interface checkbox
                 this.userInterface.checkBox = document.getElementById("user-interface");

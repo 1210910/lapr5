@@ -14,7 +14,6 @@
 options_request_handler(_Request) :-
     cors_enable,
     format('~n'). % Responder sem corpo para solicitações OPTIONS
-
 :- http_handler('/data', data_handler, []).
 data_handler(_Request) :-
     cors_enable,
@@ -22,6 +21,7 @@ data_handler(_Request) :-
     format('Content-type: application/json\r\n\r\n'), % Tipo de conteúdo JSON
     Reply = _{ message: "Exemplo de dados JSON do servidor Prolog" },
     format('~q', [Reply]). % Imprimir os dados JSON diretamente
+
 
 :- http_handler('/rooms', handle_rooms, []).
 handle_rooms(Request) :-

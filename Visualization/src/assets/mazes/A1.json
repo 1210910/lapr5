@@ -5,14 +5,94 @@
       "depth": 7
     },
     "map": [
-      [3, 2, 2, 2, 2, 3, 2, 2, 1],
-      [1, 0, 0, 0, 0, 1, 0, 0, 1],
-      [2, 2, 2, 0, 2, 2, 0, 2, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [3, 2, 0, 2, 2, 2, 1, 0, 1],
-      [1, 0, 0, 0, 0, 0, 1, 0, 0],
-      [1, 0, 0, 0, 0, 0, 1, 0, 0],
-      [2, 2, 2, 2, 2, 2, 2, 2, 0]
+      [
+        3,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      [
+        2,
+        2,
+        2,
+        0,
+        2,
+        2,
+        0,
+        2,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        3,
+        2,
+        0,
+        2,
+        2,
+        2,
+        2,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        0
+      ]
     ],
     "exits": [
       [
@@ -49,11 +129,11 @@
     "primaryColor": "0xffffff",
     "maps": {
       "color": {
-        "url": "./../../assets/textures/ground_0003_2k_372HqZ/ground_0003_color_2k.jpg"
+        "url": "./../../assets/textures/WoodPlanks/wood_planks_diff_4k.jpg"
       },
       "ao": {
-        "url": "./../../assets/textures/ground_0003_2k_372HqZ/ground_0003_ao_2k.jpg",
-        "intensity": 1
+        "url": "./../../assets/textures/WoodPlanks/wood_planks_disp_4k.png",
+        "intensity": 0
       },
       "displacement": {
         "url": "",
@@ -61,7 +141,7 @@
         "bias": 0
       },
       "normal": {
-        "url": "./../../assets/textures/ground_0003_2k_372HqZ/ground_0003_normal_opengl_2k.png",
+        "url": "./../../assets/textures/WoodPlanks/wood_planks_diff_4k.jpg",
         "type": 0,
         "scale": {
           "x": 2,
@@ -73,8 +153,8 @@
         "scale": 1
       },
       "roughness": {
-        "url": "./../../assets/textures/ground_0003_2k_372HqZ/ground_0003_roughness_2k.jpg",
-        "rough": 1
+        "url": "./../../assets/textures/WoodPlanks/wood_planks_disp_4k.png",
+        "rough": 0
       }
     },
     "wrapS": 1,
@@ -95,11 +175,11 @@
     "primaryColor": "0xffffff",
     "maps": {
       "color": {
-        "url": "./../../assets/textures/concrete_0007_2k_xtGY5J/concrete_0007_color_2k.jpg"
+        "url": "./../../assets/textures/PlasteredWall/plastered_wall_diff_4k.jpg"
       },
       "ao": {
-        "url": "./../../assets/textures/concrete_0007_2k_xtGY5J/concrete_0007_ao_2k.jpg",
-        "intensity": 1
+        "url": "./../../assets/textures/PlasteredWall/plastered_wall_disp_4k.png",
+        "intensity": 0
       },
       "displacement": {
         "url": "",
@@ -107,7 +187,7 @@
         "bias": 0
       },
       "normal": {
-        "url": "./../../assets/textures/concrete_0007_2k_xtGY5J/concrete_0007_normal_opengl_2k.png",
+        "url": "./../../assets/textures/PlasteredWall/plastered_wall_diff_4k.jpg",
         "type": 0,
         "scale": {
           "x": 2,
@@ -119,8 +199,8 @@
         "scale": 1
       },
       "roughness": {
-        "url": "./../../assets/textures/concrete_0007_2k_xtGY5J/concrete_0007_roughness_2k.jpg",
-        "rough": 1
+        "url": "./../../assets/textures/PlasteredWall/plastered_wall_disp_4k.png",
+        "rough": 0
       }
     },
     "wrapS": 1,

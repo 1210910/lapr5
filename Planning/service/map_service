@@ -3,11 +3,26 @@
 :- use_module('../persistence/DB').
 
 clear_map_facts :-
-    retractall(m(_, _, _)).
+    retractall(m(_, _, _)),
+    retractall(node(_, _, _)).
 
 clear_graph_facts :-
-    retractall(ligacel(_, _)).
+    retractall(ligacel(_, _)),
+    retractall(edge(_, _, _)).
 
+cria_fatos(0, _).
+cria_fatos(Colunas, Linhas) :-
+    Colunas > 0,
+    cria_linha(Colunas, Linhas),
+    NovasColunas is Colunas - 1,
+    cria_fatos(NovasColunas, Linhas).
+
+cria_linha(_, 0).
+cria_linha(Colunas, Linha) :-
+    Linha > 0,
+    assertz(m(Colunas, Linha, 0)),
+    NovaLinha is Linha - 1,
+    cria_linha(Colunas, NovaLinha).
 
 converte_mapa(X):-
     db:map(X, Y,_,_),
@@ -56,27 +71,108 @@ cria_grafo_lin(0,_):-!.
 cria_grafo_lin(Col,Lin):-m(Col,Lin,0),!,
 ColS is Col+1, ColA is Col-1, LinS is Lin+1,LinA is Lin-1,
 ((m(ColS,Lin,0),asserta(ligacel(cel(Col,Lin),cel(ColS,Lin)));true)),
+((m(ColS,Lin,0),asserta(edge(cel(Col,Lin),cel(ColS,Lin),1));true)),
 ((m(ColA,Lin,0),asserta(ligacel(cel(Col,Lin),cel(ColA,Lin)));true)),
+((m(ColA,Lin,0),asserta(edge(cel(Col,Lin),cel(ColA,Lin),1));true)),
 ((m(Col,LinS,0),asserta(ligacel(cel(Col,Lin),cel(Col,LinS)));true)),
+((m(Col,LinS,0),asserta(edge(cel(Col,Lin),cel(Col,LinS),1));true)),
 ((m(Col,LinA,0),asserta(ligacel(cel(Col,Lin),cel(Col,LinA)));true)),
+((m(Col,LinA,0),asserta(edge(cel(Col,Lin),cel(Col,LinA),1));true)),
+%diagonais
 ((m(ColS,LinS,0),asserta(ligacel(cel(Col,Lin),cel(ColS,LinS)));true)),
+((m(ColS,LinS,0),asserta(edge(cel(Col,Lin),cel(ColS,LinS),1.4));true)),
 ((m(ColA,LinA,0),asserta(ligacel(cel(Col,Lin),cel(ColA,LinA)));true)),
+((m(ColA,LinA,0),asserta(edge(cel(Col,Lin),cel(ColA,LinA),1.4));true)),
 ((m(ColS,LinA,0),asserta(ligacel(cel(Col,Lin),cel(ColS,LinA)));true)),
+((m(ColS,LinA,0),asserta(edge(cel(Col,Lin),cel(ColS,LinA),1.4));true)),
 ((m(ColA,LinS,0),asserta(ligacel(cel(Col,Lin),cel(ColA,LinS)));true)),
+((m(ColA,LinS,0),asserta(edge(cel(Col,Lin),cel(ColA,LinS),1.4));true)),
 Col1 is Col-1,
 cria_grafo_lin(Col1,Lin).
 cria_grafo_lin(Col,Lin):-Col1 is Col-1,cria_grafo_lin(Col1,Lin).
 
+
+
 dfs(Orig,Dest,Cam):-
-       dfs2(Orig,Dest,[Orig],Cam).
+        get_time(Ti),
+        dfs2(Orig,Dest,[Orig],Cam),
+        get_time(Tf),
+        T is Tf-Ti,
+        assertz(tempo(T)).
 dfs2(Dest,Dest,LA,Cam):-
        reverse(LA,Cam).
 dfs2(Act,Dest,LA,Cam):-ligacel(Act,X),\+ member(X,LA), dfs2(X,Dest,[X|LA],Cam).
+
+
+
+
 all_dfs(Orig,Dest,LCam):-findall(Cam,dfs(Orig,Dest,Cam),LCam).
-better_dfs(Orig,Dest,Cam):-all_dfs(Orig,Dest,LCam), shortlist(LCam,Cam,_).
+better_dfs(Orig,Dest,Cam):-
+get_time(Ti),
+all_dfs(Orig,Dest,LCam), shortlist(LCam,Cam,_),
+get_time(Tf),
+T is Tf-Ti,
+assertz(tempo(T)).
+
 shortlist([L],L,N):-!,length(L,N). shortlist([L|LL],Lm,Nm):-shortlist(LL,Lm1,Nm1),
 length(L,NL),
 ((NL<Nm1,!,Lm=L,Nm is NL);(Lm=Lm1,Nm is Nm1)).
+
+
+
+bfs(Orig,Dest,Cam):-
+get_time(Ti),
+bfs2(Dest,[[Orig]],Cam),
+get_time(Tf),
+T is Tf-Ti,
+assertz(tempo(T)).
+
+bfs2(Dest,[[Dest|T]|_],Cam):- reverse([Dest|T],Cam).
+bfs2(Dest,[LA|Outros],Cam):- LA=[Act|_],
+findall([X|LA],
+(Dest\==Act,ligacel(Act,X),\+ member(X,LA)), Novos),
+append(Outros,Novos,Todos), bfs2(Dest,Todos,Cam).
+
+
+aStar(Orig,Dest,Cam,Custo):-
+        get_time(Ti),
+        aStar2(Dest,[(0,0,[Orig])],Cam,Custo),
+        get_time(Tf),
+        T is Tf-Ti,
+        assertz(tempo(T)).
+
+aStar2(Dest,[(_,Custo,[Dest|T])|_],Cam,Custo):-
+	reverse([Dest|T],Cam).
+
+aStar2(Dest,[(_,Ca,LA)|Outros],Cam,Custo):-
+	LA=[Act|_],
+	findall((CEX,CaX,[X|LA]),
+		(Dest\==Act,edge(Act,X,CustoX),\+ member(X,LA),
+		CaX is CustoX + Ca, estimativa(X,Dest,EstX),
+		CEX is CaX +EstX),Novos),
+	append(Outros,Novos,Todos),
+	sort(Todos,TodosOrd),
+	aStar2(Dest,TodosOrd,Cam,Custo).
+
+% substituir a chamada edge(Act,X,CustoX)
+% por (edge(Act,X,CustoX);edge(X,Act,CustoX))
+% se quiser ligacoes bidirecionais
+
+
+estimativa(Nodo1,Nodo2,Estimativa):-
+	node(Nodo1,X1,Y1),
+	node(Nodo2,X2,Y2),
+	Estimativa is sqrt((X1-X2)^2+(Y1-Y2)^2).
+
+transform_node :-
+          findall(m(X,Y,Z), m(X,Y,Z), Ms),
+          transform_list(Ms).
+
+transform_list([]).
+transform_list([m(X,Y,_)|Ms]) :-
+          assertz(node(cel(X,Y),X,Y)),
+          transform_list(Ms).
+
 
 carrega_conexoes :-
     findall(passageway(X, Y, Z), db:passageway(X, Y, Z), Passagens), % Encontra todas as passagens carregadas
@@ -226,7 +322,8 @@ process_path([], ResultPath, ResultPath).
 process_path([cam(Floor, Entry, Exit) | Rest], CurrentPath, ResultPath) :-
     converte_mapa(Floor),
     cria_grafo(Floor),
-    better_dfs(Entry, Exit, Cam),
+    transform_node,
+    aStar(Entry, Exit, Cam, _),
     write('Path: '), writeln(Cam),
     clear_map_facts,
     clear_graph_facts,
@@ -247,7 +344,19 @@ follow_floors(FloorDest1,FloorDest,[BdDest],[elev(FloorDest1,FloorDest)]):-
 follow_floors(FloorAct,FloorDest,[BdAct,BdNext|LOthersBd],[cor(FloorAct,FloorNext)|LOtherCon]):-
     (corridor(BdAct,BdNext,FloorAct,FloorNext);corridor(BdNext,BdAct,FloorNext,FloorAct)), follow_floors(FloorNext,FloorDest,[BdNext|LOthersBd],LOtherCon).
 follow_floors(FloorAct,FloorDest,[BdAct,BdNext|LOthersBd], [elev(FloorAct,FloorAct1),cor(FloorAct1,FloorNext)|LOtherCon]):-
-    (corridor(BdAct,BdNext,FloorAct1,FloorNext); corridor(BdNext,BdAct,FloorNext,FloorAct1)),FloorAct1\==FloorAct, elevator(BdAct,LFloors),member(FloorAct,LFloors),member(FloorAct1,LFloors), follow_floors(FloorNext,FloorDest,[BdNext|LOthersBd],LOtherCon).
+    (corridor(BdAct,BdNext,FloorAct1,FloorNext); corridor(BdNext,BdAct,FloorNext,FloorAct1)),FloorAct1\==FloorAct, elevator(BdAct,LFloors),member(FloorAct,LFloors),
+    member(FloorAct1,LFloors), follow_floors(FloorNext,FloorDest,[BdNext|LOthersBd],LOtherCon).
 
+% d Choose the path that involves fewer elevator usages, and in case of equality, less usage of corridors, fewer transfers.
+better_path_floors(FloorOr,FloorDest,LBetterCon):-
+    findall(LLCon,path_floors(FloorOr,FloorDest,_,LLCon),LLLCon),
+    less_elevators(LLLCon,LBetterCon,_,_).
+less_elevators([LLCon],LLCon,NElev,NCor):-count(LLCon,NElev,NCor). less_elevators([LCon|OthersLCon],LConR,NElevR,NCorR):-
+        less_elevators(OthersLCon,LConM,NElev,NCor),
+        count(LCon,NElev1,NCor1),
+        (((NElev1<NElev;(NElev1==NElev,NCor1<NCor)),!,
+        NElevR is NElev1, NCorR is NCor1,LConR=LCon);
+        (NElevR is NElev,NCorR is NCor,LConR=LConM)).
+count([],0,0). count([elev(_,_)|L],NElev,NCor):-count(L,NElevL,NCor),NElev is NElevL+1. count([cor(_,_)|L],NElev,NCor):-count(L,NElev,NCorL),NCor is NCorL+1.
 
 

@@ -1,8 +1,12 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild, OnInit} from '@angular/core';
+import {AfterViewInit, Component} from '@angular/core';
 import * as THREE from "three";
 import Orientation from './orientation.js';
 import ThumbRaiser from "./thumb_raiser.js";
 import {ActivatedRoute} from "@angular/router";
+import {FloorService} from "../../services/floor.service";
+import {BuildingService} from "../../services/building.service";
+import {combineLatest, map} from "rxjs";
+
 declare var _: any;
 
 
@@ -15,16 +19,61 @@ declare var _: any;
 export class PlantComponent implements AfterViewInit {
   url: string="";
   thumbRaiser!: ThumbRaiser;
-  constructor(private route : ActivatedRoute) {
+  private data : any;
+  buildingService: BuildingService;
+  floorService: FloorService;
+  constructor(private route : ActivatedRoute, buildingService: BuildingService, floorService: FloorService) {
     this.route.queryParams.subscribe(params => {
         this.url = params['url'];
         console.log(this.url);
     } );
+    this.buildingService = buildingService;
+    this.floorService = floorService;
+  }
+
+  getData(){
+    // @ts-ignore
+   const buildings1 =  this.buildingService.listAllBuildings().then((data) => {
+      console.log(data);
+      this.buildingService.buildingList(data);
+       return this.buildingService.buildingListInfo;
+    });
+
+
+    const floors = this.floorService;
+    // @ts-ignore
+    let floors1= this.floorService.listFloors().then((data) => {
+      console.log(data);
+      this.floorService.floorList(data);
+      return this.floorService.FloorList;
+    }
+    );
+
+
+    return combineLatest([buildings1, floors1]).pipe(map
+      // @ts-ignore
+    (([buildings, floors]) => {
+      // @ts-ignore
+      return buildings.map((building: any) => {
+        return {
+          ...building,
+          // @ts-ignore
+          floors: floors.filter((floor: any) => floor.buildingID === building.code)
+        }
+      }
+      )
+    }));
+
   }
 
 
 
   initialize() {
+
+    this.getData().subscribe((data) => {
+      console.log(data);
+      this.data = data;
+      const build = data ;
     // Create the game
    this.thumbRaiser = new ThumbRaiser(
       {}, // General Parameters
@@ -272,14 +321,19 @@ export class PlantComponent implements AfterViewInit {
       { view: "first-person", initialViewport: new THREE.Vector4(1.0, 1.0, 0.55, 0.5), initialOrientation: new Orientation(0.0, -10.0), orientationMax: new Orientation(180.0, 90.0), initialFogDensity: 0.7 }, // First-person view camera parameters
       { view: "third-person", initialViewport: new THREE.Vector4(0.0, 0.0, 0.55, 0.5), initialOrientation: new Orientation(0.0, -20.0), initialDistance: 2.0, distanceMin: 1.0, distanceMax: 4.0, initialFogDensity: 0.3 }, // Third-person view camera parameters
       { view: "top", initialViewport: new THREE.Vector4(1.0, 0.0, 0.45, 0.5), initialOrientation: new Orientation(0.0, -90.0), initialDistance: 4.0, distanceMin: 1.0, distanceMax: 16.0, initialFogDensity: 0.2 }, // Top view camera parameters
-      { view: "mini-map", initialViewport: new THREE.Vector4(0.5, 0.5, 0.3, 0.3), initialOrientation: new Orientation(180.0, -90.0), initialZoom: 0.64, zoomMin: 0.64, zoomMax: 5.12 } // Mini-map view camera parameters
+      { view: "mini-map", initialViewport: new THREE.Vector4(0.5, 0.5, 0.3, 0.3), initialOrientation: new Orientation(180.0, -90.0), initialZoom: 0.64, zoomMin: 0.64, zoomMax: 5.12 }, // Mini-map view camera parameters
+     {build}
     );
+  });
   }
+
   animate() {
     requestAnimationFrame(this.animate);
     // Update the game
     // @ts-ignore
-    this.thumbRaiser.update();
+    if (this.thumbRaiser) {
+      this.thumbRaiser.update();
+    }
   }
 
 

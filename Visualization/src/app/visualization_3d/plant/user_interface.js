@@ -4,7 +4,7 @@ import CubeTexture from "./cubetexture.js";
 import { GUI } from "three/addons/libs/lil-gui.module.min.js";
 
 export default class UserInterface extends GUI {
-    constructor(thumbRaiser) {
+    constructor(thumbRaiser,build) {
         super();
 
         const audioCallback = function (enabled) {
@@ -166,6 +166,52 @@ export default class UserInterface extends GUI {
         collisionDetectionFolder.add(collisionDetectionParameters, "method").options(collisionDetectionOptions).onChange(name => thumbRaiser.setCollisionDetectionMethod(["bc-aabb", "obb-aabb"][collisionDetectionOptions.indexOf(name)]));
         collisionDetectionFolder.add(thumbRaiser.collisionDetectionParameters.boundingVolumes, "visible").onChange(visible => thumbRaiser.setBoundingVolumesVisibility(visible)).listen();
         collisionDetectionFolder.close();
+
+      let gui = null;
+      let buildingControl = null;
+      let floorControl = null;
+      const buildings = build.build;
+      console.log(buildings);
+      function createGUI(building) {
+        // Remova a GUI antiga, se existir
+        if (gui) {
+          gui.destroy();
+        }
+
+        // Crie uma nova GUI
+        gui = new GUI({ hideable: false });
+
+        // Crie uma pasta para a seleção do edifício
+        const buildingNames =  buildings.map(b => b.code);
+
+        buildingControl = gui.add({ building }, 'building', buildingNames).onChange(createGUI);
+        let i=3;
+        for (let index = 0; index < buildings.length; index++) {
+          if(buildings[index].buildingCode==building ){
+            i=index;
+          }
+        }
+        // Crie uma pasta para a seleção do piso, se houver pisos disponíveis
+        const floors = buildings[i].floors.map(floor => floor.floorCode );
+        if (floors.length > 1 && floors[0] !== '') {
+          console.log(floors);
+          floorControl = gui.add({ floor: floors[0] }, 'floor', floors);
+          floorControl.onChange(function(floor) {
+            console.log('Piso selecionado:', floor);
+            //loadMap(floor);  // Carregue o mapa quando o piso for alterado
+          });
+        }else if(floors.length==1 && floors[0] !== ''){
+          console.log(floors);
+          floorControl = gui.add({ floor: floors[0] }, 'floor', floors);
+          console.log('Piso selecionado:', floors[0]);
+          //loadMap(floor);  // Carregue o mapa quando o piso for alterado
+        }else {
+          gui.add({ message: 'Este edifício não tem pisos' }, 'message');
+        }
+      }
+
+      createGUI(Object.keys(buildings)[0]);
+
 
         // Create the reset button
         this.add({ reset: () => this.resetUserInterface() }, "reset");

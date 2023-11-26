@@ -79,7 +79,7 @@ export class BuildingService{
       httprequest.onload = function () {
 
         if (httprequest.status === 200) {
-         
+
           response = httprequest.response;
           resolve(response);
         } else {
@@ -133,7 +133,7 @@ export class BuildingService{
       httprequest.open('PATCH', 'http://localhost:4000/api/buildings/' + editedData.code, true);
       httprequest.setRequestHeader('Content-Type', 'application/json',);
       httprequest.onload = function () {
-      
+
         if (httprequest.status === 200) {
           const successResponse = JSON.parse(httprequest.responseText);
           console.log(successResponse);

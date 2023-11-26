@@ -20,7 +20,7 @@ export class PlanningService{
       //let response;
       httprequest.onload = function () {
 
-          resolve(httprequest.responseText);
+        resolve(httprequest.responseText);
 
       }
       httprequest.send();
