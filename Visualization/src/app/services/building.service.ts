@@ -116,8 +116,6 @@ export class BuildingService{
 
     return new Promise((resolve, reject) => {
 
-      //const filteredData = Object.fromEntries(Object.entries(editedData).filter(([_, value]) => value !== undefined));
-
       const jsonMessage = JSON.stringify(
         {
           name: editedData.name,
