@@ -6,12 +6,14 @@ skinparam packageStyle rect
 
 title Edit a lift
 
+actor "Campus Manager" as CM
 participant "RobDroneGo" as Sys <<System>>
 
-?o->> Sys : PATCH
+activate CM
+CM->> Sys : PATCH
 
 activate Sys
-?o<<--- Sys : 201
+CM<<--- Sys : 201
 deactivate Sys
 
 @enduml

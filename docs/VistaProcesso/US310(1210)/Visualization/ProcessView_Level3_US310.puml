@@ -3,32 +3,32 @@
 autonumber
 skinparam packageStyle rect
 
-title List lifts of a building
+title Create a room in a floor
 
+actor "Campus Manager" as CM
 participant "Routing" as routing <<component>>
 participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
 
-
-?o->> routing : GET
+activate CM
+CM->> routing : POST
 activate routing
-routing ->> comp : list lifts of a building
+routing ->> comp : create room
 
 activate comp
-comp ->> service : list lifts of a building
+comp ->> service : create room
 
 activate service
-service --> : HttpRequest
-service<<--  : HttpResponse
-comp <<-- service : HttpResponse
-comp ->> service: HttpResponse to list
-comp <<-- service : List
+service ->> : Http Request
+service <<-- : Http Response
+
+service -->> comp : success
 deactivate service
 
 comp -->> routing : success
 deactivate comp
 
-?o<<-- routing : 200 OK
+CM<<-- routing : 201 Created
 deactivate routing
 
 @enduml

@@ -3,30 +3,30 @@
 autonumber
 skinparam packageStyle rect
 
-title Create a room in a floor
+title Edit a lift
 
+actor "Campus Manager" as CM
 participant "Routing" as routing <<component>>
 participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
 
-?o->> routing : POST
+activate CM
+CM->> routing : PATCH /:id
 activate routing
-routing ->> comp : create room
+routing ->> comp : edit lift
 
 activate comp
-comp ->> service : create room
+comp ->> service : edit lift
 
-activate service
-service ->> : Http Request
-service <<-- : Http Response
+service ->> : Http request
+service <<-- : Http response
 
 service -->> comp : success
 deactivate service
 
 comp -->> routing : success
-deactivate comp
 
-?o<<-- routing : 201 Created
+CM<<-- routing : 200 OK
 deactivate routing
 
 @enduml

@@ -4,13 +4,17 @@
 autonumber
 skinparam packageStyle rect
 
-title List lifts of a building
+title Create a room in a floor
 
+actor "Campus Manager" as CM
 participant "RobDroneGo" as Sys <<System>>
 
-?o->> Sys : GET
+activate CM
+CM->> Sys : POST
 
 activate Sys
-?o<<-- Sys : 201
+CM<<--Sys : 201 Created
 deactivate Sys
+
+
 @enduml
