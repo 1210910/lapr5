@@ -5,11 +5,13 @@ skinparam packageStyle rect
 
 title Create a room in a floor
 
+actor "Campus Manager" as CM
 participant "Routing" as routing <<component>>
 participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
 
-?o->> routing : POST
+activate CM
+CM->> routing : POST
 activate routing
 routing ->> comp : create room
 
@@ -26,7 +28,7 @@ deactivate service
 comp -->> routing : success
 deactivate comp
 
-?o<<-- routing : 201 Created
+CM<<-- routing : 201 Created
 deactivate routing
 
 @enduml
