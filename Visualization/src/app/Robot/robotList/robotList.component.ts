@@ -24,17 +24,9 @@ export class RobotListComponent {
   }
 
   ngOnInit() {
-    this.listRobot();
+    this.robotService.listAllRobots().then((result) => {
+      this.robotService.robotList(result);
+      this.robotList = this.robotService.RobotList;
+    });
   }
-
-  public listRobot() {
-    this.robotService.listAllRobots()
-      .then((robots: RobotInfo[]) => {
-        this.robotList = robots;
-      })
-      .catch((error) => {
-        console.error("Erro ao listar robôs:", error);
-      });
-  }
-
 }

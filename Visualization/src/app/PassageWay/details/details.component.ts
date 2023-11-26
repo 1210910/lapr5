@@ -28,7 +28,7 @@ import { PassagewayInfo } from "../passageway-info/passagewayinfo";
         <h2 class="listing-heading">{{passagewayInfo?.passageCode}}</h2>
       </section>
       <section class="listing-features">
-        <h2 class="section-heading">About this Building</h2>
+        <h2 class="section-heading">About this Passageway</h2>
         <ul>
           <li>Floor 1: {{passagewayInfo?.floor1}}</li>
           <li>Floor 2: {{passagewayInfo?.floor2}}</li>

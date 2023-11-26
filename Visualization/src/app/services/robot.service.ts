@@ -50,21 +50,14 @@ export class RobotService {
 
       httprequest.onload = function () {
         if (httprequest.status === 200) {
-          //console.log("Robot listed");
-          response = httprequest.response;
-          console.log(typeof response); // log the type
-          console.log(response);         // log the content
-          // Parse do JSON para um array de Robotinfo
-          const robotInfoArray: RobotInfo[] = JSON.parse(response);
-          resolve(robotInfoArray);
+          console.log("Robot listed");
+          resolve(httprequest.response);
         } else {
-          console.log(httprequest.response)
           response = httprequest.status;
           console.log("Robot not listed");
           reject(false);
         }
-      }
-
+      };
       httprequest.send();
     });
   }
@@ -115,11 +108,6 @@ export class RobotService {
   }
 
   getRobotByCode(code: string): RobotInfo | undefined {
-    for(const robot of this.RobotList) {
-      if (robot.code === code) {
-        return robot;
-      }
-    }
-    return undefined;
+    return this.RobotList.find((robot) => robot.code === code);
   }
 }

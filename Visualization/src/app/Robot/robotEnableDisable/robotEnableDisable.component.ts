@@ -21,17 +21,10 @@ export class RobotEnableDisableComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.listRobot();
-  }
-
-  private async listRobot(): Promise<void> {
-    this.robotService.listAllRobots()
-      .then((robots: RobotInfo[]) => {
-        this.robots = robots;
-      })
-      .catch((error) => {
-        console.error("Erro ao listar robôs:", error);
-      });
+    this.robotService.listAllRobots().then((result) => {
+      this.robotService.robotList(result);
+      this.robots = this.robotService.RobotList;
+    });
   }
 
   public async toggleRobotStatus(robotCode: string, enable: boolean):Promise<void>  {

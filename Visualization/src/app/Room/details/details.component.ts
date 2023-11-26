@@ -28,7 +28,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
           <h2 class="listing-heading">{{roomInfo?.roomCode}}</h2>
         </section>
         <section class="listing-features">
-          <h2 class="section-heading">About this Lift</h2>
+          <h2 class="section-heading">About this Room</h2>
           <ul>
             <li>Floor: {{roomInfo?.floor}}</li>
             <li>Description: {{roomInfo?.description}}</li>

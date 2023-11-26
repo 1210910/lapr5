@@ -54,7 +54,6 @@ export class BuildingEditComponent implements OnInit{
     if (Object.keys(editedData).length > 1) {
       this.buildingService.editBuilding(editedData).then((result) => {
         alert("Building edited");
-        console.log("Resultado : " + result)
       }).catch((err) => {
         alert("Building edition failed");
       });
