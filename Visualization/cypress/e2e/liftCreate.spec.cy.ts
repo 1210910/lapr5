@@ -13,10 +13,10 @@ describe('LiftCreateComponent', () => {
     // Fill in form data
     cy.get('input').eq(0).type('YourCode');
     cy.get('input').eq(1).type('B1,B2');
-    cy.get('input').eq(2).type('YourBrand'); // Example length
-    cy.get('input').eq(3).type('YourModel');  // Example width
-    cy.get('input').eq(4).type('B');  // Example width
-    cy.get('input').eq(5).type('123');  // Example width
+    cy.get('input').eq(2).type('YourBrand');
+    cy.get('input').eq(3).type('YourModel');
+    cy.get('input').eq(4).type('B');
+    cy.get('input').eq(5).type('123');
     cy.get('textarea').eq(0).type('YourDescription');
 
     // Intercept the HTTP request and stub it with a success response
@@ -40,10 +40,10 @@ describe('LiftCreateComponent', () => {
     // Fill in form data
     cy.get('input').eq(0).type('YourCode');
     cy.get('input').eq(1).type('B1,B2');
-    cy.get('input').eq(2).type('YourBrand'); // Example length
-    cy.get('input').eq(3).type('YourModel');  // Example width
-    cy.get('input').eq(4).type('B');  // Example width
-    cy.get('input').eq(5).type('123');  // Example width
+    cy.get('input').eq(2).type('YourBrand');
+    cy.get('input').eq(3).type('YourModel');
+    cy.get('input').eq(4).type('B');
+    cy.get('input').eq(5).type('123');
 
     // Intercept the HTTP request and stub it with a success response
     cy.intercept('POST', 'http://localhost:4000/api/lift', {
@@ -65,10 +65,10 @@ describe('LiftCreateComponent', () => {
     });
     // Fill in form data
     cy.get('input').eq(1).type('B1,B2');
-    cy.get('input').eq(2).type('YourBrand'); // Example length
-    cy.get('input').eq(3).type('YourModel');  // Example width
-    cy.get('input').eq(4).type('B');  // Example width
-    cy.get('input').eq(5).type('123');  // Example width
+    cy.get('input').eq(2).type('YourBrand');
+    cy.get('input').eq(3).type('YourModel');
+    cy.get('input').eq(4).type('B');
+    cy.get('input').eq(5).type('123');
 
     // Intercept the HTTP request and stub it with a success response
     cy.intercept('POST', 'http://localhost:4000/api/lift', {
@@ -90,10 +90,10 @@ describe('LiftCreateComponent', () => {
     });
     // Fill in form data
     cy.get('input').eq(0).type('YourCode');
-    cy.get('input').eq(2).type('YourBrand'); // Example length
-    cy.get('input').eq(3).type('YourModel');  // Example width
-    cy.get('input').eq(4).type('B');  // Example width
-    cy.get('input').eq(5).type('123');  // Example width
+    cy.get('input').eq(2).type('YourBrand');
+    cy.get('input').eq(3).type('YourModel');
+    cy.get('input').eq(4).type('B');
+    cy.get('input').eq(5).type('123');
 
     // Intercept the HTTP request and stub it with a success response
     cy.intercept('POST', 'http://localhost:4000/api/lift', {
@@ -116,9 +116,9 @@ describe('LiftCreateComponent', () => {
     // Fill in form data
     cy.get('input').eq(0).type('YourCode');
     cy.get('input').eq(1).type('B1,B2');
-    cy.get('input').eq(2).type('YourBrand'); // Example length
-    cy.get('input').eq(3).type('YourModel');  // Example width
-    cy.get('input').eq(5).type('123');  // Example width
+    cy.get('input').eq(2).type('YourBrand');
+    cy.get('input').eq(3).type('YourModel');
+    cy.get('input').eq(5).type('123');
 
     // Intercept the HTTP request and stub it with a success response
     cy.intercept('POST', 'http://localhost:4000/api/lift', {
@@ -141,10 +141,10 @@ describe('LiftCreateComponent', () => {
     // Fill in form data
     cy.get('input').eq(0).type('YourCode');
     cy.get('input').eq(1).type('B1,B2');
-    cy.get('input').eq(2).type('YourBrand'); // Example length
-    cy.get('input').eq(3).type('YourModel');  // Example width
-    cy.get('input').eq(4).type('B');  // Example width
-    cy.get('input').eq(5).type('123');  // Example width
+    cy.get('input').eq(2).type('YourBrand');
+    cy.get('input').eq(3).type('YourModel');
+    cy.get('input').eq(4).type('B');
+    cy.get('input').eq(5).type('123');
     cy.get('textarea').eq(0).type('YourDescription');
 
     // Intercept the HTTP request and stub it with a success response

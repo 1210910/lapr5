@@ -170,4 +170,29 @@ describe('RobotTypeCreateComponent', () => {
     cy.get('[data-cy="createRobotTypeButton"]').should('be.visible').click();
   });
 
+  it("should not create a robot type due to an error", () => {
+    cy.on('window:alert', (alertMessage) => {
+      // Check the alert message
+      expect(alertMessage).to.equal("Robot type not created");
+    });
+    // Fill in form data
+    cy.get('input').eq(0).type('YourCode');
+    cy.get('input').eq(1).type('YourBrand');
+    cy.get('input').eq(2).type('YourModel');
+    cy.get('input').eq(3).type('YourTaskTypeCode');
+    cy.get('textarea').eq(0).type('YourDescription');
+
+    // Intercept the HTTP request and stub it with a success response
+    cy.intercept('POST', 'http://localhost:4000/api/robotType', {
+      statusCode: 500,
+      body: {
+        success: false,
+        message: "Robot type not created",
+      },
+    }).as('createRobotType');
+
+    // Debugging output
+    cy.get('[data-cy="createRobotTypeButton"]').should('be.visible').click();
+  });
+
 });

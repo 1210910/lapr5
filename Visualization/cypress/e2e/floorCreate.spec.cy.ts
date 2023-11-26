@@ -12,9 +12,9 @@ describe('Floor Create', () => {
     // Fill in form data
     cy.get('input').eq(0).type('YourCode');
     cy.get('input').eq(1).type('YourName');
-    cy.get('input').eq(2).type('YourLength'); // Example length
-    cy.get('input').eq(3).type('YourWidth');  // Example width
-    cy.get('input').eq(4).type('YourBuildingCode');  // Example width
+    cy.get('input').eq(2).type('YourLength');
+    cy.get('input').eq(3).type('YourWidth');
+    cy.get('input').eq(4).type('YourBuildingCode');
     cy.get('textarea').eq(0).type('YourDescription');
 
     // Intercept the HTTP request and stub it with a success response
@@ -38,9 +38,9 @@ describe('Floor Create', () => {
     // Fill in form data
     cy.get('input').eq(0).type('YourCode');
     cy.get('input').eq(1).type('YourName');
-    cy.get('input').eq(2).type('YourLength'); // Example length
-    cy.get('input').eq(3).type('YourWidth');  // Example width
-    cy.get('input').eq(4).type('YourBuildingCode');  // Example width
+    cy.get('input').eq(2).type('YourLength');
+    cy.get('input').eq(3).type('YourWidth');
+    cy.get('input').eq(4).type('YourBuildingCode');
 
     // Intercept the HTTP request and stub it with a success response
     cy.intercept('POST', 'http://localhost:4000/api/floor', {
@@ -62,9 +62,9 @@ describe('Floor Create', () => {
     });
     // Fill in form data
     cy.get('input').eq(1).type('YourName');
-    cy.get('input').eq(2).type('YourLength'); // Example length
-    cy.get('input').eq(3).type('YourWidth');  // Example width
-    cy.get('input').eq(4).type('YourBuildingCode');  // Example width
+    cy.get('input').eq(2).type('YourLength');
+    cy.get('input').eq(3).type('YourWidth');
+    cy.get('input').eq(4).type('YourBuildingCode');
 
     // Intercept the HTTP request and stub it with a success response
     cy.intercept('POST', 'http://localhost:4000/api/floor', {
@@ -86,9 +86,9 @@ describe('Floor Create', () => {
     });
     // Fill in form data
     cy.get('input').eq(0).type('YourCode');
-    cy.get('input').eq(2).type('YourLength'); // Example length
-    cy.get('input').eq(3).type('YourWidth');  // Example width
-    cy.get('input').eq(4).type('YourBuildingCode');  // Example width
+    cy.get('input').eq(2).type('YourLength');
+    cy.get('input').eq(3).type('YourWidth');
+    cy.get('input').eq(4).type('YourBuildingCode');
 
     // Intercept the HTTP request and stub it with a success response
     cy.intercept('POST', 'http://localhost:4000/api/floor', {
@@ -111,8 +111,8 @@ describe('Floor Create', () => {
     // Fill in form data
     cy.get('input').eq(0).type('YourCode');
     cy.get('input').eq(1).type('YourName');
-    cy.get('input').eq(3).type('YourWidth');  // Example width
-    cy.get('input').eq(4).type('YourBuildingCode');  // Example width
+    cy.get('input').eq(3).type('YourWidth');
+    cy.get('input').eq(4).type('YourBuildingCode');
 
     // Intercept the HTTP request and stub it with a success response
     cy.intercept('POST', 'http://localhost:4000/api/floor', {
@@ -135,8 +135,8 @@ describe('Floor Create', () => {
     // Fill in form data
     cy.get('input').eq(0).type('YourCode');
     cy.get('input').eq(1).type('YourName');
-    cy.get('input').eq(2).type('YourLength'); // Example length
-    cy.get('input').eq(4).type('YourBuildingCode');  // Example width
+    cy.get('input').eq(2).type('YourLength');
+    cy.get('input').eq(4).type('YourBuildingCode');
 
     // Intercept the HTTP request and stub it with a success response
     cy.intercept('POST', 'http://localhost:4000/api/floor', {
@@ -159,8 +159,8 @@ describe('Floor Create', () => {
     // Fill in form data
     cy.get('input').eq(0).type('YourCode');
     cy.get('input').eq(1).type('YourName');
-    cy.get('input').eq(2).type('YourLength'); // Example length
-    cy.get('input').eq(3).type('YourWidth');  // Example width
+    cy.get('input').eq(2).type('YourLength');
+    cy.get('input').eq(3).type('YourWidth');
 
     // Intercept the HTTP request and stub it with a success response
     cy.intercept('POST', 'http://localhost:4000/api/floor', {
@@ -168,6 +168,32 @@ describe('Floor Create', () => {
       body: {
         success: true,
         message: 'Floor created',
+      },
+    }).as('createFloor');
+
+    // Debugging output
+    cy.get('[data-cy="createFloorButton"]').should('be.visible').click();
+  });
+
+  it('should not create a floor due to an error', () => {
+    cy.on('window:alert', (alertMessage) => {
+      // Check the alert message
+      expect(alertMessage).to.equal('Floor not created');
+    });
+    // Fill in form data
+    cy.get('input').eq(0).type('YourCode');
+    cy.get('input').eq(1).type('YourName');
+    cy.get('input').eq(2).type('YourLength');
+    cy.get('input').eq(3).type('YourWidth');
+    cy.get('input').eq(4).type('YourBuildingCode');
+    cy.get('textarea').eq(0).type('YourDescription');
+
+    // Intercept the HTTP request and stub it with a success response
+    cy.intercept('POST', 'http://localhost:4000/api/floor', {
+      statusCode: 500,
+      body: {
+        success: false,
+        message: 'Floor not created',
       },
     }).as('createFloor');
 
