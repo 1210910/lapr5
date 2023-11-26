@@ -6,12 +6,14 @@ skinparam packageStyle rect
 
 title Load floor map
 
+actor "Campus Manager" as CM
 participant "RobDroneGO" as Sys <<System>>
 
-?o->> Sys : POST
+activate CM
+CM->> Sys : POST
 
 activate Sys
-?o<<-- Sys : 201 Created
+CM<<-- Sys : 201 Created
 deactivate Sys
 
 

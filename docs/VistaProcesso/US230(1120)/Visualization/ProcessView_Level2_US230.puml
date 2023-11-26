@@ -6,11 +6,13 @@ skinparam packageStyle rect
 
 title Create a Floor Map
 
+actor "Campus Manager" as CM
 participant "Visualization" as MD <<Component>>
 
-?o->> MD : Post
+activate CM
+CM->> MD : Post
 
 activate MD
-?o<<--- MD : 201 Created
+CM<<--- MD : 201 Created
 deactivate MD
 @enduml

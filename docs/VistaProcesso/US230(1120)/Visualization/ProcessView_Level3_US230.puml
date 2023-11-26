@@ -5,12 +5,13 @@ skinparam packageStyle rect
 
 title Create a FloorMap
 
+actor "Campus Manager" as CM
 participant "Routing" as routing <<component>>
 participant "Component" as comp <<component>>
 participant "Service" as service <<component>>
 
-
-?o->> routing : Create FloorMap
+activate CM
+CM->> routing : Create FloorMap
 activate routing
 routing ->> comp : create FloorMap
 
@@ -25,7 +26,7 @@ deactivate service
 
 comp -->> routing : success
 
-?o<<-- routing : 201 Created
+CM<<-- routing : 201 Created
 deactivate routing
 
 @enduml
