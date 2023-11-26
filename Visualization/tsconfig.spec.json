@@ -1,6 +1,6 @@
 /* To learn more about this file see: https://angular.io/guide/typescript-configuration. */
 {
-  "extends": "./tsconfig.json",
+  "extends": "./tsconfig1.spec.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
     "types": [
