@@ -6,12 +6,14 @@ skinparam packageStyle rect
 
 title Create a floor in a building
 
+actor "Campus Manager" as CM
 participant "Visualization" as MD <<Component>>
 
-?o->> MD : POST
+activate CM
+CM->> MD : POST
 
 activate MD
-?o<<--MD : 201 Created
+CM<<--MD : 201 Created
 
 deactivate MD
 
