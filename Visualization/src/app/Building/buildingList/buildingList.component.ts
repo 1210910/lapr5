@@ -25,6 +25,7 @@ export class BuildingListComponent implements OnInit {
 
   ngOnInit() {
     this.buildingService.listAllBuildings().then((result) => {
+      
       this.buildingService.buildingList(result);
       this.buildingListInfo = this.buildingService.buildingListInfo;
     });

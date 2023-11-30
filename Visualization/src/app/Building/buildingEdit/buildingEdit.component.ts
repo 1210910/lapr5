@@ -65,8 +65,8 @@ export class BuildingEditComponent implements OnInit{
   public listBuildings() {
     this.buildingService.listAllBuildings()
       .then((response: any) => {
-       // const b = JSON.parse(response);
-        const buildingsArray: BuildingInfo[] = response.map((building: any) => {
+        const responseJson = JSON.parse(response);
+        const buildingsArray: BuildingInfo[] = responseJson.map((building: any) => {
           return {
             code: building.code,
             name: building.name,

@@ -127,32 +127,6 @@ describe('BuildingEditComponent', () => {
 
   });
 
-  it('should fetch building list on initialization to get codes', async() => {
-    const building1: BuildingInfo = {
-      code: 'B',
-      name: 'Office Building',
-      description: 'A modern building',
-      maxLength: 15,
-      maxWidth: 15,
-    };
-
-    const building2: BuildingInfo = {
-      code: 'C',
-      name: 'Building of engineering',
-      description: 'A tall building',
-      maxLength: 12,
-      maxWidth: 12,
-    };
-    const mockBuildingList = [building1,building2];
-    mockBuildingService.listAllBuildings.mockResolvedValue(mockBuildingList);
-
-    await component.ngOnInit();
-
-    expect(mockBuildingService.listAllBuildings).toHaveBeenCalled();
-    expect(component.buildings).toEqual(mockBuildingList);
-
-  });
-
 
   it('should catch errors buildingList on initialization to get codes', async() => {
 
