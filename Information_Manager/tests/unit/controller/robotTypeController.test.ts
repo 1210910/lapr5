@@ -7,7 +7,7 @@ import {Request , Response } from 'express';
 import RobotTypeController  from '../../../src/controllers/robotTypeController';
 import IRobotTypeService  from '../../../src/services/IServices/IRobotTypeService';
 import RobotTypeService  from '../../../src/services/robotTypeService';
-import { RobotType } from '../../../src/domain/robotType';
+import { RobotType } from '../../../src/domain/robotType/robotType';
 import { Result } from '../../../src/core/logic/Result';
 
 chai.use(sinonChai);

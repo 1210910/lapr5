@@ -4,7 +4,7 @@ import { expect } from "chai";
 import IRobotTypeRepo from "../../../src/services/IRepos/IRobotTypeRepo";
 import IRobotTypeService from "../../../src/services/IServices/IRobotTypeService";
 import RoboTypeService from "../../../src/services/robotTypeService";
-import { RobotType } from "../../../src/domain/robotType";
+import { RobotType } from "../../../src/domain/robotType/robotType";
 
 describe("RobotTypeService", async () => {
 
