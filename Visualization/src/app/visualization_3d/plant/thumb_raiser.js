@@ -1428,4 +1428,28 @@ export default class ThumbRaiser {
             }
         }
     }
+
+    loadMap(floor) {
+        const mazeURL = "./../../assets/mazes/" + floor + ".json";
+
+
+        const mazeParams ={
+            url:mazeURL,
+            helpersColor: new THREE.Color(0xff0077)
+        }
+
+        // change the map
+
+        this.scene.remove(this.maze);
+
+        this.mazeParameters = merge({},mazeData,mazeParams);
+
+        this.maze = new Maze(this.mazeParameters);
+
+
+        this.scene.add(this.maze);
+
+
+
+    }
 }

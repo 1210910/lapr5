@@ -45,19 +45,19 @@ export class PlantComponent implements AfterViewInit {
     let floors1= this.floorService.listFloors().then((data) => {
       console.log(data);
       this.floorService.floorList(data);
+      console.log(this.floorService.FloorList);
       return this.floorService.FloorList;
     }
     );
 
 
     return combineLatest([buildings1, floors1]).pipe(map
-      // @ts-ignore
+
     (([buildings, floors]) => {
-      // @ts-ignore
+
       return buildings.map((building: any) => {
         return {
-          ...building,
-          // @ts-ignore
+           ...building,
           floors: floors.filter((floor: any) => floor.buildingID === building.code)
         }
       }
@@ -71,7 +71,7 @@ export class PlantComponent implements AfterViewInit {
   initialize() {
 
     this.getData().subscribe((data) => {
-      console.log(data);
+        console.log(data);
       this.data = data;
       const build = data ;
     // Create the game

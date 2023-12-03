@@ -187,24 +187,24 @@ export default class UserInterface extends GUI {
         buildingControl = gui.add({ building }, 'building', buildingNames).onChange(createGUI);
         let i=3;
         for (let index = 0; index < buildings.length; index++) {
-          if(buildings[index].buildingCode==building ){
+          if(buildings[index].code ==building ){
             i=index;
           }
         }
         // Crie uma pasta para a seleção do piso, se houver pisos disponíveis
-        const floors = buildings[i].floors.map(floor => floor.floorCode );
+        const floors = buildings[i].floors.map(f => f.floorCode);
         if (floors.length > 1 && floors[0] !== '') {
           console.log(floors);
           floorControl = gui.add({ floor: floors[0] }, 'floor', floors);
           floorControl.onChange(function(floor) {
             console.log('Piso selecionado:', floor);
-            //loadMap(floor);  // Carregue o mapa quando o piso for alterado
+            thumbRaiser.loadMap(floor);  // Carregue o mapa quando o piso for alterado
           });
         }else if(floors.length==1 && floors[0] !== ''){
           console.log(floors);
           floorControl = gui.add({ floor: floors[0] }, 'floor', floors);
           console.log('Piso selecionado:', floors[0]);
-          //loadMap(floor);  // Carregue o mapa quando o piso for alterado
+            thumbRaiser.loadMap(floor);  // Carregue o mapa quando o piso for alterado
         }else {
           gui.add({ message: 'Este edifício não tem pisos' }, 'message');
         }
@@ -218,6 +218,8 @@ export default class UserInterface extends GUI {
 
         this.close();
     }
+
+
 
     setVisibility(visible) {
         if ("show" in this && "hide" in this) {
