@@ -32,10 +32,14 @@
         8
       ]
     ],
-    "exitLocation": [
-      2,
-      8
+    "rooms": [{
+      "roomCode": "Auditorio_Prof_Nunes",
+      "position": [5, 9]}
     ]
+
+
+
+
   },
   "ground": {
     "size": {

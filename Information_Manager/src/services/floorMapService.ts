@@ -40,13 +40,15 @@ export default class FloorMapService implements IFloorMapService {
 
         for (let i=0; i <floorMaps.getValue().length;i++){
           const maze= floorMaps.getValue()[i].maze.map;
-          const exits = floorMaps.getValue()[i].maze.exits;
+          const exits = floorMaps.getValue()[i].maze.passageways;
           const elevator = floorMaps.getValue()[i].maze.elevators;
+          const rooms = floorMaps.getValue()[i].maze.rooms;
           const mockDto={
             floorCode:floorMaps.getValue()[i].floorCode,
             maze: maze,
             exits:exits,
-            elevator:elevator
+            elevator:elevator,
+            rooms:rooms
           }
           floorMapsMocks.push(mockDto)
         }

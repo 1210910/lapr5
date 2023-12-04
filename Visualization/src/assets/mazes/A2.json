@@ -16,25 +16,54 @@
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1],
     [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0]
 ],
-    "exits": [
-      [
-        3,
-        0
-      ],
-      [
-        5,
-        8
-      ]
+    "passageways": [
+      {
+        "passagewayCode": "PA2B2",
+        "position": [5, 21]
+      }
     ],
     "elevators": [
       [
-        2,
-        8
+        0,
+        20
       ]
     ],
-    "exitLocation": [
-      2,
-      8
+    "rooms": [{
+        "roomCode": "A201",
+        "position": [4, 3]
+      },
+      {
+       "roomCode": "A202",
+        "position": [6, 8]
+      },
+      {
+        "roomCode": "A203",
+        "position": [3, 7]
+      },
+      {
+        "roomCode": "A204",
+        "position": [6, 10]
+      },
+      {
+        "roomCode": "A205",
+        "position": [3, 9]
+      },
+      {
+        "roomCode": "A206",
+        "position": [6, 13]
+      },
+      {
+        "roomCode": "A207",
+        "position": [3, 12]
+      },
+      {
+        "roomCode": "A208",
+        "position": [7, 16]
+      },
+      {
+        "roomCode": "A209",
+        "position": [2, 17]
+      }
     ]
   },
   "ground": {

@@ -11,9 +11,19 @@ interface MazeSizeProps {
 interface MazeProps {
     size: MazeSizeProps;
     map: string[][];
-    exits: string[][];
+    passageways: passagewaysProps[],
     elevators: string[];
-    exitLocation: string[];
+    rooms: roomProps[];
+
+}
+
+interface passagewaysProps {
+    passagewayCode: string;
+    position: number[];
+}
+interface roomProps {
+    roomCode: string;
+    position: number[];
 }
 
 interface GroundSizeProps {
