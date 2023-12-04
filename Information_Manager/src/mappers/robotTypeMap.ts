@@ -2,7 +2,7 @@ import { Mapper } from "../core/infra/Mapper";
 import { Document, Model } from 'mongoose';
 import { IRobotTypePersistence } from '../dataschema/IRobotTypePersistence';
 import IRobotTypeDTO from "../dto/IRobotTypeDTO";
-import { RobotType } from "../domain/robotType";
+import { RobotType } from "../domain/robotType/robotType";
 
 export class RobotTypeMap extends Mapper<RobotType> {
 

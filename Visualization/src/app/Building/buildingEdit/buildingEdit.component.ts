@@ -54,7 +54,6 @@ export class BuildingEditComponent implements OnInit{
     if (Object.keys(editedData).length > 1) {
       this.buildingService.editBuilding(editedData).then((result) => {
         alert("Building edited");
-        console.log("Resultado : " + result)
       }).catch((err) => {
         alert("Building edition failed");
       });
@@ -66,8 +65,8 @@ export class BuildingEditComponent implements OnInit{
   public listBuildings() {
     this.buildingService.listAllBuildings()
       .then((response: any) => {
-       // const b = JSON.parse(response);
-        const buildingsArray: BuildingInfo[] = response.map((building: any) => {
+        const responseJson = JSON.parse(response);
+        const buildingsArray: BuildingInfo[] = responseJson.map((building: any) => {
           return {
             code: building.code,
             name: building.name,

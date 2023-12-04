@@ -23,7 +23,6 @@ export default (app: Router) => {
         }),
     }),
     (req,res,next) => {
-        console.log(req.body); //Debug
         passagewayController.createPassageway(req,res,next);
     });
 

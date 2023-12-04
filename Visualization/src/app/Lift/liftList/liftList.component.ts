@@ -9,34 +9,7 @@ import {LiftService} from "../../services/lift.service";
   selector: 'app-floor-list',
   standalone: true,
   imports: [CommonModule, RouterLink, LiftInfoComponent],
-  template: `
-      <section>
-          <header class="brand-name">
-
-              <nav>
-                  <ul class="menuItems">
-                      <li><a [routerLink]="['/lift']">
-                          <img class="brand-logo" src="/assets/logoLift.svg" alt="logo" aria-hidden="true">
-                      </a></li>
-                    <li>Lift by building
-                      <div class="search-box">
-                        <input type="text" class="input-search" placeholder="Lift..." #lift>
-                        <button class="btn-search" type="button" (click)="CallMethod(lift.value)">
-                          <i class="fa fa-search" aria-hidden="true"></i>
-                        </button>
-                      </div>
-                    </li>
-                  </ul>
-              </nav>
-          </header>
-
-        <section class="list-container">
-          <div class="body">
-            <app-lift-info *ngFor="let LiftInfo of liftList" [liftInfo]="LiftInfo"></app-lift-info>
-          </div>
-        </section>
-      </section>
-  `,
+  templateUrl: './liftList.component.html',
   styleUrls: ["../liftCreate/liftCreate.component.css"]
 
 })

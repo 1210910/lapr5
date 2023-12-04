@@ -97,8 +97,8 @@ export class RoomCreateComponent {
         const roomCode = document.getElementsByTagName("input")[0].value;
         const floor = document.getElementsByTagName("input")[1].value;
         const description = document.getElementsByTagName("textarea")[0].value;
-        const width = Number(document.getElementsByTagName("input")[2].value);
-        const length = Number(document.getElementsByTagName("input")[3].value);
+        const length = Number(document.getElementsByTagName("input")[2].value);
+        const width = Number(document.getElementsByTagName("input")[3].value);
         const roomType = document.getElementsByTagName("select")[0].value;
 
 
