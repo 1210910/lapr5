@@ -18,21 +18,42 @@
       [1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1],
       [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0]
     ],
-    "exits": [
-      [
-        12,
-        19
-      ]
+    "passageways": [
+      {
+        "passagewayCode": "PC3D3",
+        "position": [11, 18]
+      },
+      {
+        "passagewayCode": "PB2D3",
+        "position": [9, 19]
+      }
     ],
     "elevators": [
       [
-        1,
-        19
+        0,
+        18
       ]
     ],
-    "exitLocation": [
-      1,
-      19
+    "rooms": [{
+      "roomCode": "D301",
+      "position": [4, 10]
+      },
+      {
+        "roomCode": "D302",
+        "position": [6, 10]
+      },
+      {
+        "roomCode": "D303",
+        "position": [4, 8]
+      },
+      {
+        "roomCode": "D304",
+        "position": [6, 8]
+      },
+      {
+        "roomCode": "D305",
+        "position": [5, 3]
+      }
     ]
   },
   "ground": {
