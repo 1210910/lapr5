@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { anyOfClass, anything, instance, mock, when } from "ts-mockito";
 
-import { Building }  from '../../../src/domain/Building';
+import { Building }  from '../../../src/domain/building/Building';
 import  IBuildingService  from '../../../src/services/IServices/IBuildingService';
 import IBuildingRepo from '../../../src/services/IRepos/IBuildingRepo';
 import  BuildingService  from '../../../src/services/buildingService';
@@ -42,6 +42,14 @@ describe('Building Service', () => {
     const buildingRepo: IBuildingRepo = mock<IBuildingRepo>();
     const buildingService: IBuildingService = new BuildingService(instance(buildingRepo));
 
+      const buildingDTO = {
+        code: 'B1',
+        name: 'Building 1',
+        description: 'Building 1',
+        maxLength: 100,
+        maxWidth: 100,
+      }
+
       const building = Building.create({
         code: 'B1',
         name: 'Building 1',
@@ -52,7 +60,7 @@ describe('Building Service', () => {
 
     when (buildingRepo.findByCode('B1')).thenResolve(building);
 
-    const result = await buildingService.createBuilding(building);
+    const result = await buildingService.createBuilding(buildingDTO);
 
     expect(result.errorValue()).to.equal("Building already exists with code = B1");
 

@@ -31,7 +31,7 @@ export default class FloorService implements IFloorService {
             }
 
 
-            if (buildingExists.maxLength < floorDTO.length || buildingExists.maxWidth < floorDTO.width) {
+            if (buildingExists.maxLength.value < floorDTO.length || buildingExists.maxWidth.value < floorDTO.width) {
                 return Result.fail<IFloorDTO>("Floor is too big for building");
             }
 

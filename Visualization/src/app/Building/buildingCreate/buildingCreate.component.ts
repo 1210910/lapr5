@@ -28,7 +28,7 @@ export class BuildingCreateComponent {
         const length = Number(document.getElementsByTagName("input")[2].value);
         const width = Number(document.getElementsByTagName("input")[3].value);
 
-        if (code == "" || name == "" || length == null || width == null || description == "") {
+        if (code == "" || name == "" || length == null || width == null) {
             alert("Please fill in all fields");
             return;
         }

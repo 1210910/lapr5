@@ -1,5 +1,5 @@
 import { Repo } from "../../core/infra/Repo";
-import { Building } from "../../domain/Building";
+import { Building } from "../../domain/building/Building";
 import { Result } from "../../core/logic/Result";
 
 export default interface IBuildingRepo extends Repo<Building> {

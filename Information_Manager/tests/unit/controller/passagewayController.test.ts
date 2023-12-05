@@ -9,7 +9,7 @@ import  IPassagewayService  from '../../../src/services/IServices/IPassagewaySer
 import  PassagewayService  from '../../../src/services/PassagewayService';
 import { Passageway } from '../../../src/domain/Passageway';
 import {Room} from "../../../src/domain/Room";
-import {Building} from "../../../src/domain/Building";
+import {Building} from "../../../src/domain/building/Building";
 
 chai.use(sinonChai);
 
