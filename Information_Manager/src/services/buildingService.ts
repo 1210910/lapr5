@@ -1,7 +1,7 @@
 import { Service, Inject } from 'typedi';
 import config from "../../config";
 import {IBuildingDTO} from '../dto/IBuildingDTO';
-import { Building } from "../domain/Building";
+import { Building } from "../domain/building/Building";
 import IBuildingRepo from '../services/IRepos/IBuildingRepo';
 import IBuildingService from './IServices/IBuildingService';
 import { Result } from "../core/logic/Result";
@@ -18,7 +18,6 @@ export default class BuildingService implements IBuildingService{
 
     public async createBuilding(buildingDTO: IBuildingDTO): Promise<Result<IBuildingDTO>> {
         try {
-
           const buildingDocument = await this.buildingRepo.findByCode(buildingDTO.code)
 
           const found = !!buildingDocument;

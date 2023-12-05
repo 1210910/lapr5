@@ -2,7 +2,7 @@ import { Mapper } from "../core/infra/Mapper";
 
 import {IBuildingDTO} from "../dto/IBuildingDTO";
 
-import { Building } from "../domain/Building";
+import { Building } from "../domain/building/Building";
 import { UniqueEntityID } from "../core/domain/UniqueEntityID";
 
 
@@ -11,10 +11,10 @@ export class BuildingMap extends Mapper<Building> {
   public static toDTO( building: Building): IBuildingDTO {
     return {
       code: building.code,
-      name: building.name,
-      description: building.description,
-      maxLength: building.maxLength,
-      maxWidth: building.maxWidth
+      name: building.name.value,
+      description: building.description.value,
+      maxLength: building.maxLength.value,
+      maxWidth: building.maxWidth.value
     } as IBuildingDTO;
   }
 
@@ -37,10 +37,10 @@ export class BuildingMap extends Mapper<Building> {
     const e = {
       domainId: building.id.toString(),
       code: building.code,
-      name: building.name,
-      description: building.description,
-      maxLength:building.maxLength,
-      maxWidth:building.maxWidth
+      name: building.name.value,
+      description: building.description.value,
+      maxLength:building.maxLength.value,
+      maxWidth:building.maxWidth.value
     }
     return e;
   }

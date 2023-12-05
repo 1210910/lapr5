@@ -9,7 +9,7 @@ import { IRobotPersistence } from '../dataschema/IRobotPersistence';
 import { Result } from "../core/logic/Result";
 import { Document, FilterQuery, Model } from 'mongoose';
 import { code } from "three/examples/jsm/nodes/shadernode/ShaderNodeBaseElements";
-import { Building } from "../domain/Building";
+import { Building } from "../domain/building/Building";
 import { BuildingMap } from "../mappers/BuildingMap";
 
 @Service()

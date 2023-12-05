@@ -8,8 +8,8 @@ import IFloorRepo from '../services/IRepos/IFloorRepo';
 
 
 import IBuildingRepo from "../services/IRepos/IBuildingRepo";
-import { Building } from "../domain/Building";
-import { BuildingId } from "../domain/BuildingId";
+import { Building } from "../domain/building/Building";
+import { BuildingId } from "../domain/building/BuildingId";
 import { BuildingMap } from "../mappers/BuildingMap";
 
 
@@ -55,10 +55,10 @@ export default class BuildingRepo implements IBuildingRepo {
         return BuildingMap.toDomain(buildingCreated);
       } else {
         buildingDocument.code = building.code;
-        buildingDocument.name = building.name;
-        buildingDocument.description = building.description;
-        buildingDocument.maxLength = building.maxLength;
-        buildingDocument.maxWidth = building.maxLength;
+        buildingDocument.name = building.name.value;
+        buildingDocument.description = building.description.value;
+        buildingDocument.maxLength = building.maxLength.value;
+        buildingDocument.maxWidth = building.maxLength.value;
         await buildingDocument.save();
 
         return building;

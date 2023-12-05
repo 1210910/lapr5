@@ -5,7 +5,7 @@ import { Passageway } from "../domain/Passageway";
 import IPassagewayDTO from "../dto/IPassagewayDTO";
 
 import { UniqueEntityID } from "../core/domain/UniqueEntityID";
-import { Building } from "../domain/Building";
+import { Building } from "../domain/building/Building";
 
 export class PassagewayMap extends Mapper<Passageway> {
 

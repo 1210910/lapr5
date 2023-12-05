@@ -11,14 +11,18 @@ export class Description extends ValueObject<{ description: string }> {
   }
 
   public static valueOf(value: string): Result<any> {
-    value = value?.trim();
-    if (!value) {
-      value = "";
+    const valid = this.isValidDescription(value);
+    if (valid.isFailure) {
+      return Result.fail(valid.errorValue());
     }
+    return Result.ok(new Description({ description: value }));
+  }
+
+  private static isValidDescription(value: string): Result<any> {
     if (value.length > 250) {
       return Result.fail("Description must be 250 characters or less");
     }
-    return Result.ok(new Description({ description: value }));
+    return Result.ok();
   }
 
 }
