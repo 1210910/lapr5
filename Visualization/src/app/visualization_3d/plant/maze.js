@@ -320,6 +320,8 @@ export default class Maze extends THREE.Group {
         return false;
     }
 
+
+
     // Detect collisions
     collision(method, position, halfSize, direction) {
         const indices = this.cartesianToCell(position);
@@ -333,7 +335,6 @@ export default class Maze extends THREE.Group {
                 this.cornerCollision(indices, [1, 1], 0, position, { x: -0.5, z: -0.525 }, halfSize, "southeast corner (WE-oriented wall)") || // Collision with southeast corner (WE-oriented wall)
                 this.cornerCollision(indices, [1, 1], 1, position, { x: -0.525, z: -0.5 }, halfSize, "southeast corner (NS-oriented wall)") || // Collision with southeast corner (NS-oriented wall)
                 this.cornerCollision(indices, [0, 1], 0, position, { x: -0.5, z: -0.475 }, halfSize, "northeast corner (WE-oriented wall)") || // Collision with northeast corner (WE-oriented wall)
-
                 indices[0] > 0 && (
                     this.cornerCollision(indices, [-1, 1], 1, position, { x: -0.525, z: 0.5 }, halfSize, "northeast corner (NS-oriented wall)") || // Collision with northeast corner (NS-oriented wall)
                     this.cornerCollision(indices, [-1, 0], 1, position, { x: -0.475, z: 0.5 }, halfSize, "northwest corner (NS-oriented wall)") // Collision with northwest corner (NS-oriented wall)
@@ -377,6 +378,14 @@ export default class Maze extends THREE.Group {
             // No collision
             return false;
         }
+    }
+
+    elevatorEntrance(position) {
+        const indices = this.cartesianToCell(position);
+        if (this.map[indices[0]][indices[1]] == 5 || this.map[indices[0]][indices[1]] == 6) {
+            return true;
+        }
+        return false;
     }
 
     foundExit(position) {

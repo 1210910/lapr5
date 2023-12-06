@@ -14,7 +14,6 @@ interface MazeProps {
     passageways: passagewaysProps[],
     elevators: string[];
     rooms: roomProps[];
-
 }
 
 interface passagewaysProps {

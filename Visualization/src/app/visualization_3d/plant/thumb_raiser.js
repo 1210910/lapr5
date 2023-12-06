@@ -346,6 +346,7 @@ import UserInterface from "./user_interface.js";
  */
 
 export default class ThumbRaiser {
+    usedElevator = true ;
     constructor(generalParameters, audioParameters, cubeTexturesParameters, mazeParameters, playerParameters, ambientLightParameters, directionalLightParameters, spotLightParameters, flashLightParameters, shadowsParameters, fogParameters, collisionDetectionParameters, fixedViewCameraParameters, firstPersonViewCameraParameters, thirdPersonViewCameraParameters, topViewCameraParameters, miniMapCameraParameters,build) {
         this.generalParameters = merge({}, generalData, generalParameters);
         this.audioParameters = merge({}, audioData, audioParameters);
@@ -1341,6 +1342,16 @@ export default class ThumbRaiser {
                     else if (this.player.keyStates.thumbsUp) {
                         this.animations.fadeToAction("ThumbsUp", 0.2);
                     }
+                    else if (this.maze.elevatorEntrance(position)) {
+
+
+                        const fileName = this.mazeParameters.url.split("/")[5];
+                        const floor = fileName.split(".")[0];
+                        this.userInterface.showSelectionFloors(this.build, floor);
+
+
+
+                    }
                     else {
                         if (playerTurned) {
                             this.player.direction = directionDeg;
@@ -1431,7 +1442,6 @@ export default class ThumbRaiser {
 
     loadMap(floor) {
         const mazeURL = "./../../assets/mazes/" + floor + ".json";
-
 
         const mazeParams ={
             url:mazeURL,
