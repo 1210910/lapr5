@@ -32,7 +32,7 @@ export default class Maze extends THREE.Group {
             this.size = description.maze.size;
             this.halfSize = { width: this.size.width / 2.0, depth: this.size.depth / 2.0 };
             this.map = description.maze.map;
-            this.exitLocation = this.cellToCartesian(description.maze.exitLocation);
+            this.exitLocation = []
             this.elevators = this.cellToCartesian(description.maze.elevators);
 
             // Create the helpers

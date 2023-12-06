@@ -19,11 +19,11 @@ interface MazeProps {
 
 interface passagewaysProps {
     passagewayCode: string;
-    position: number[];
+    position: string[];
 }
 interface roomProps {
     roomCode: string;
-    position: number[];
+    position: string[];
 }
 
 interface GroundSizeProps {
