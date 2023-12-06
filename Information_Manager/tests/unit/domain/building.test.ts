@@ -393,7 +393,7 @@ describe("Building Test", () => {
 
       const building = buildingOrError.getValue();
 
-      building.name = Name.valueOf("Building2").getValue();
+      building.name = Name.valueOf("Building2");
 
       assert(building.name.value !== buildingDTO.name);
 
@@ -436,7 +436,7 @@ describe("Building Test", () => {
 
       const building = buildingOrError.getValue();
 
-      building.description = Description.valueOf("undefined").getValue();
+      building.description = Description.valueOf("undefined");
 
       assert(building.description.value !== buildingDTO.description);
 

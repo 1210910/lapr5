@@ -27,23 +27,22 @@ export class FloorCreateComponent {
 
    createFloor(){
 
-        const code = document.getElementsByTagName("input")[0].value;
-        const name = Number(document.getElementsByTagName("input")[1].value);
-        const length = Number(document.getElementsByTagName("input")[2].value);
-        const width = Number(document.getElementsByTagName("input")[3].value);
-        const description = document.getElementsByTagName("textarea")[0].value;
-        const buildingCode = document.getElementsByTagName("input")[4].value;
-        if (code == "" || name == null || length == null || width == null || buildingCode == ""){
+     const buildingCode = document.getElementsByTagName("input")[0].value;
+     const number = Number(document.getElementsByTagName("input")[1].value);
+     const length = Number(document.getElementsByTagName("input")[2].value);
+     const width = Number(document.getElementsByTagName("input")[3].value);
+     const description = document.getElementsByTagName("textarea")[0].value;
+        if (number == null || length == null || width == null || buildingCode == ""){
             alert("Please fill in all fields");
             return;
 
         }
-     this.floorService.createFloor(code , name , length , width , description, buildingCode).then((result) => {
+     this.floorService.createFloor(number , length , width , description, buildingCode).then((result) => {
 
        alert("Floor created");
 
      }).catch((err) => {
-       alert("Floor not created");
+       alert(err);
      });
 
    }

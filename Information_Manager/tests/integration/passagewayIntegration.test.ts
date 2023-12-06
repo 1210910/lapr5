@@ -10,7 +10,7 @@ import IPassagewayRepo from "../../src/services/IRepos/IPassagewayRepo";
 import IFloorRepo  from "../../src/services/IRepos/IFloorRepo";
 import PassagewayRepo from "../../src/repos/PassagewayRepo";
 import FloorRepo from "../../src/repos/floorRepo";
-import { Floor } from "../../src/domain/floor";
+import { Floor } from "../../src/domain/floor/floor";
 import {Passageway} from "../../src/domain/Passageway";
 
 

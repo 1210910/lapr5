@@ -1,6 +1,6 @@
 import { Repo } from "../../core/infra/Repo";
 import { Result } from "../../core/logic/Result";
-import { Floor } from "../../domain/floor";
+import { Floor } from "../../domain/floor/floor";
 
 
 export default interface IFloorRepo extends Repo<Floor> {

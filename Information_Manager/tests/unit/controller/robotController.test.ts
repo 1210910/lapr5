@@ -5,7 +5,7 @@ import IRobotService from "../../../src/services/IServices/IRobotService";
 import RobotController from "../../../src/controllers/robotController";
 import RobotService from "../../../src/services/robotService";
 import { NextFunction, Request, Response } from "express";
-import { Floor } from "../../../src/domain/floor";
+import { Floor } from "../../../src/domain/floor/floor";
 import { Result } from "../../../src/core/logic/Result";
 import { Robot } from "../../../src/domain/robot";
 import IRobotDTO from "../../../src/dto/IRobotDTO";

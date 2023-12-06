@@ -7,7 +7,7 @@ import IFloorRepo from '../services/IRepos/IFloorRepo';
 import ILiftService from './IServices/ILiftService';
 import { Result } from "../core/logic/Result";
 import { LiftMap } from "../mappers/LiftMap";
-import {Floor} from "../domain/floor";
+import {Floor} from "../domain/floor/floor";
 import {floor, forEach} from "lodash";
 import floorSchema from "../persistence/schemas/floorSchema";
 

@@ -1,5 +1,4 @@
 import { ValueObject } from "../../core/domain/ValueObject";
-import { Result } from "../../core/logic/Result";
 
 export class Measures extends ValueObject<{ measure: number }> {
   private constructor(props: { measure: number }) {
@@ -10,21 +9,18 @@ export class Measures extends ValueObject<{ measure: number }> {
     return this.props.measure;
   }
 
-  public static valueOf(value: number): Result<any> {
-    const valid = this.isValidMeasure(value);
-    if (valid.isFailure) {
-      return Result.fail(valid.errorValue());
-    }
-    return Result.ok(new Measures({ measure: value }));
+  public static valueOf(value: number): Measures {
+    this.isValidMeasure(value);
+    return new Measures({ measure: value });
   }
 
-  private static isValidMeasure(value: number): Result<any> {
+  private static isValidMeasure(value: number): boolean {
     if (value <= 0) {
-      return Result.fail("Measures cannot be negative");
+      throw new Error("Measures cannot be negative");
     }
     if (value >= Number.MAX_SAFE_INTEGER) {
-      return Result.fail("Measure out of boundaries");
+      throw new Error("Measure out of boundaries");
     }
-    return Result.ok();
+    return true;
   }
 }

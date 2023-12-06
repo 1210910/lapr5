@@ -1,4 +1,4 @@
-import { Floor } from "../domain/floor";
+import { Floor } from "../domain/floor/floor";
 import { RoomType } from "../domain/RoomType";
 
 export interface IRoomPersistence {

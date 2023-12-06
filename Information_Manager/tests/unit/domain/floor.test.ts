@@ -1,39 +1,37 @@
 import { expect } from 'chai';
-import { Floor } from '../../../src/domain/floor';
+import { Floor } from '../../../src/domain/floor/floor';
 
 describe('Floor Test', () => {
     it('Test Create Valid Floor', async function () {
         // Arrange
         const floorProps = {
-            floorCode: 'F1',
             floorNumber: 1,
             width: 5,
             length: 5,
             description: 'First floor',
-            buildingID: 'B1',
+            buildingID: 'B',
         };
         // Act
         const result = Floor.create(floorProps);
         // Assert
         expect(result.isSuccess).to.be.true;
         const floor = result.getValue();
-        expect(floor.floorCode).to.equal('F1');
-        expect(floor.floorNumber).to.equal(1);
-        expect(floor.width).to.equal(5);
-        expect(floor.length).to.equal(5);
-        expect(floor.description).to.equal('First floor');
-        expect(floor.buildingID).to.equal('B1');
+        expect(floor.floorCode.value).to.equal('B1');
+        expect(floor.floorNumber.value).to.equal(1);
+        expect(floor.width.value).to.equal(5);
+        expect(floor.length.value).to.equal(5);
+        expect(floor.description.value).to.equal('First floor');
+        expect(floor.buildingID.value).to.equal('B');
     });
 
     it('Test Create Floor with code more than 10 characteres FAIL', () => {
         // Arrange
         const floorProps = {
-            floorCode: 'F2111111111',
             floorNumber: 2,
             width: 10,
             length: 10,
             description: 'Descrição',
-            buildingID: 'B2',
+            buildingID: 'B'.repeat(11),
         };
 
         // Act
@@ -44,15 +42,14 @@ describe('Floor Test', () => {
         expect(result.error).to.equal('Floor code cannot be longer than 10 characters');
     });
 
-    it('Test Create Floor with description more than 255 characteres FAIL',async function () {
+    it('Test Create Floor with description more than 250 characteres FAIL',async function () {
         // Arrange
         const floorProps = {
-            floorCode: 'F1',
             floorNumber: 2,
             width: 10,
             length: 10,
             description: 'a'.repeat(251),
-            buildingID: 'B2',
+            buildingID: 'B',
         };
 
         // Act
@@ -60,10 +57,10 @@ describe('Floor Test', () => {
 
         // Assert
         expect(result.isFailure).to.be.true;
-        expect(result.error).to.equal('Description cannot be longer than 250 characters');
+        expect(result.error).to.equal("Description must be 250 characters or less");
     });
 
-   it('Test Create Floor with floor code null argument FAIL', async function()  {
+   /*it('Test Create Floor with floor code null argument FAIL', async function()  {
         // Arrange
         const validFloorProps = {
             floorCode: null,
@@ -81,17 +78,16 @@ describe('Floor Test', () => {
         // Assert
         expect(result.isFailure).to.be.true;
         expect(result.error).to.equal('floorCode is null or undefined');
-    });
+    });*/
 
     it('Test Create Floor with floorNumber null argument FAIL', async function () {
         // Arrange
         const validFloorProps = {
-            floorCode: 'F1',
             floorNumber: null,
             width: 1,
             length: 10,
             description: 'a',
-            buildingID: 'B2',
+            buildingID: 'B',
           };
 
 
@@ -107,12 +103,11 @@ describe('Floor Test', () => {
     it('Test Create Floor with width null argument FAIL', async function () {
         // Arrange
         const validFloorProps = {
-            floorCode: 'F1',
             floorNumber: 1,
             width: null,
             length: 10,
             description: 'a',
-            buildingID: 'B2',
+            buildingID: 'B',
           };
 
 
@@ -127,12 +122,11 @@ describe('Floor Test', () => {
     it('Test Create Floor with length null argument FAIL',async function ()  {
         // Arrange
         const validFloorProps = {
-            floorCode: 'F1',
             floorNumber: 1,
             width: 5,
             length: null,
             description: 'a',
-            buildingID: 'B2',
+            buildingID: 'B',
           };
 
 
@@ -147,7 +141,6 @@ describe('Floor Test', () => {
     it('Test Create Floor with buildingID null argument FAIL', async function () {
         // Arrange
         const validFloorProps = {
-            floorCode: 'F1',
             floorNumber: 1,
             width: 5,
             length: 6,
@@ -169,22 +162,20 @@ describe('Floor Test', () => {
     it('Test edit floor properties description successfully', () => {
         // Arrange
         const initialProps = {
-          floorCode: 'F1',
           floorNumber: 1,
           width: 2,
           length: 10,
           description: 'Initial description',
-          buildingID: 'B2',
+          buildingID: 'B',
         };
         const floorOrError = Floor.create(initialProps).getValue();
 
         const editedProps = {
-          floorCode: 'F1',
           floorNumber: 1,
           width: 2,
           length: 9,
           description: 'edited description',
-          buildingID: 'B2',
+          buildingID: 'B',
         };
 
         // Act
@@ -193,28 +184,26 @@ describe('Floor Test', () => {
         // Assert
         expect(result.isSuccess).to.be.true;
         const editedFloor = result.getValue();
-        expect(editedFloor.description).to.equal(editedProps.description);
+        expect(editedFloor.description.value).to.equal(editedProps.description);
       });
 
       it('Test edit floor properties floorNumber successfully', () => {
         // Arrange
         const initialProps = {
-          floorCode: 'F1',
           floorNumber: 1,
           width: 2,
           length: 10,
           description: 'Initial description',
-          buildingID: 'B2',
+          buildingID: 'B',
         };
         const floorOrError = Floor.create(initialProps).getValue();
 
         const editedProps = {
-          floorCode: 'F1',
           floorNumber: 2,
           width: 2,
           length: 9,
           description: 'Initial description',
-          buildingID: 'B2',
+          buildingID: 'B',
         };
 
         // Act
@@ -223,29 +212,27 @@ describe('Floor Test', () => {
         // Assert
         expect(result.isSuccess).to.be.true;
         const editedFloor = result.getValue();
-        expect(editedFloor.floorNumber).to.equal(editedProps.floorNumber);
+        expect(editedFloor.floorNumber.value).to.equal(editedProps.floorNumber);
       });
 
 
       it('Test edit floor properties width successfully', () => {
         // Arrange
         const initialProps = {
-          floorCode: 'F1',
           floorNumber: 1,
           width: 2,
           length: 10,
           description: 'Initial description',
-          buildingID: 'B2',
+          buildingID: 'B',
         };
         const floorOrError = Floor.create(initialProps).getValue();
 
         const editedProps = {
-          floorCode: 'F1',
           floorNumber: 2,
           width: 5,
           length: 9,
           description: 'Initial description',
-          buildingID: 'B2',
+          buildingID: 'B',
         };
 
         // Act
@@ -254,28 +241,26 @@ describe('Floor Test', () => {
         // Assert
         expect(result.isSuccess).to.be.true;
         const editedFloor = result.getValue();
-        expect(editedFloor.width).to.equal(editedProps.width);
+        expect(editedFloor.width.value).to.equal(editedProps.width);
       });
 
       it('Test edit floor properties length successfully', () => {
         // Arrange
         const initialProps = {
-          floorCode: 'F1',
           floorNumber: 1,
           width: 2,
           length: 10,
           description: 'Initial description',
-          buildingID: 'B2',
+          buildingID: 'B',
         };
         const floorOrError = Floor.create(initialProps).getValue();
 
         const editedProps = {
-          floorCode: 'F1',
           floorNumber: 2,
           width: 2,
           length: 9,
           description: 'Initial description',
-          buildingID: 'B2',
+          buildingID: 'B',
         };
 
         // Act
@@ -284,13 +269,12 @@ describe('Floor Test', () => {
         // Assert
         expect(result.isSuccess).to.be.true;
         const editedFloor = result.getValue();
-        expect(editedFloor.length).to.equal(editedProps.length);
+        expect(editedFloor.length.value).to.equal(editedProps.length);
       });
 
       it('Test edit floor properties floorCode successfully', () => {
         // Arrange
         const initialProps = {
-          floorCode: 'B1',
           floorNumber: 1,
           width: 2,
           length: 10,
@@ -300,7 +284,6 @@ describe('Floor Test', () => {
         const floorOrError = Floor.create(initialProps).getValue();
 
         const editedProps = {
-          floorCode: 'B2',
           floorNumber: 2,
           width: 2,
           length: 9,
@@ -314,6 +297,6 @@ describe('Floor Test', () => {
         // Assert
         expect(result.isSuccess).to.be.true;
         const editedFloor = result.getValue();
-        expect(editedFloor.floorCode).to.equal(editedProps.floorCode);
+        expect(editedFloor.floorCode.value).to.equal("B2");
       });
 });

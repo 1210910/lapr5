@@ -34,8 +34,8 @@ export class FloorEditComponent {
 
       alert("Floor edited");
 
-    }).catch(() => {
-      alert("Floor edition failed");
+    }).catch((err) => {
+      alert(err);
     });
 
 

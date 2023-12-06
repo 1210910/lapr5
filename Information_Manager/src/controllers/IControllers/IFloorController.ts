@@ -5,5 +5,5 @@ export default interface IFloorController {
   updateFloor(req: Request, res: Response, next: NextFunction);
   listFloor(req: Request, res: Response, next: NextFunction);
   listAllFloor(req: Request, res: Response, next: NextFunction);
-  getFloorsWithPassageway(req: Request, res: Response, next: NextFunction);
+  // getFloorsWithPassageway(req: Request, res: Response, next: NextFunction);
 }
