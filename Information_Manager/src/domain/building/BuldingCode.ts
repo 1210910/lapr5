@@ -1,5 +1,4 @@
 import {ValueObject} from "../../core/domain/ValueObject";
-import {Result} from "../../core/logic/Result";
 
 export class BuildingCode extends ValueObject<{ code: string }> {
   private constructor(props: { code: string }) {
@@ -10,14 +9,14 @@ export class BuildingCode extends ValueObject<{ code: string }> {
     return this.props.code;
   }
 
-  public static valueOf(value: string): Result<any> {
+  public static valueOf(value: string): BuildingCode {
     value = value?.trim();
     if (!value) {
-      return Result.fail("There is no code");
+      throw new Error("There is no code");
     }
     if (value.length > 10) {
-      return Result.fail("Building code cannot be longer than 10 characters");
+      throw new Error("Building code cannot be longer than 10 characters");
     }
-    return Result.ok(new BuildingCode({ code: value }));
+    return (new BuildingCode({ code: value }));
   }
 }

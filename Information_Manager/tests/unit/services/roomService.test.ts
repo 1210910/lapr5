@@ -7,7 +7,7 @@ import  IRoomService  from '../../../src/services/IServices/IRoomService';
 import IRoomRepo from '../../../src/services/IRepos/IRoomRepo';
 import IFloorRepo from '../../../src/services/IRepos/IFloorRepo';
 import RoomService from '../../../src/services/RoomService';
-import { Floor } from '../../../src/domain/floor';
+import { Floor } from '../../../src/domain/floor/floor';
 
 
 describe('Room service test', () => {

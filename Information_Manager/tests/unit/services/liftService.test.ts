@@ -6,7 +6,7 @@ import ILiftService from "../../../src/services/IServices/ILiftService";
 import LiftService from "../../../src/services/liftService";
 import { Lift } from "../../../src/domain/Lift";
 import IFloorRepo from "../../../src/services/IRepos/IFloorRepo";
-import { Floor } from "../../../src/domain/floor";
+import { Floor } from "../../../src/domain/floor/floor";
 import IBuildingRepo from "../../../src/services/IRepos/IBuildingRepo";
 import IBuildingService from "../../../src/services/IServices/IBuildingService";
 import BuildingService from "../../../src/services/buildingService";

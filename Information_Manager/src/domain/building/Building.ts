@@ -73,7 +73,6 @@ export class Building extends AggregateRoot<BuildingProps> {
     const guardedProps = [
       { argument: props.code, argumentName: "code" },
       { argument: props.name, argumentName: "name" },
-      { argument: props.description, argumentName: "description" },
       { argument: props.maxLength, argumentName: "maxLength" },
       { argument: props.maxWidth, argumentName: "maxWidth" }
     ];
@@ -86,11 +85,11 @@ export class Building extends AggregateRoot<BuildingProps> {
 
     try {
       const building = new Building({
-        code: BuildingCode.valueOf(props.code).getValue(),
-        name: Name.valueOf(props.name).getValue(),
-        description: Description.valueOf(props.description).getValue(),
-        maxLength: Measures.valueOf(props.maxLength).getValue(),
-        maxWidth: Measures.valueOf(props.maxWidth).getValue()
+        code: BuildingCode.valueOf(props.code),
+        name: Name.valueOf(props.name),
+        description: Description.valueOf(props.description),
+        maxLength: Measures.valueOf(props.maxLength),
+        maxWidth: Measures.valueOf(props.maxWidth)
       }, id);
       return Result.ok<Building>(building);
     } catch (err) {
@@ -100,10 +99,10 @@ export class Building extends AggregateRoot<BuildingProps> {
 
   public static edit(props: IBuildingDTO | any, building: Building): Result<Building> {
     try {
-      building.name = Name.valueOf(props.name).getValue() ?? building.name;
-      building.description = Description.valueOf(props.description).getValue() ?? building.description;
-      building.maxLength = Measures.valueOf(props.maxLength).getValue() ?? building.maxLength;
-      building.maxWidth = Measures.valueOf(props.maxWidth).getValue() ?? building.maxWidth;
+      building.name = Name.valueOf(props.name) ?? building.name;
+      building.description = Description.valueOf(props.description) ?? building.description;
+      building.maxLength = Measures.valueOf(props.maxLength) ?? building.maxLength;
+      building.maxWidth = Measures.valueOf(props.maxWidth) ?? building.maxWidth;
 
       return Result.ok<Building>(building);
     } catch (err) {

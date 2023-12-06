@@ -1,4 +1,4 @@
-import { Floor } from "../domain/floor";
+import { Floor } from "../domain/floor/floor";
 
 export interface IPassagewayPersistence {
     _id: string;

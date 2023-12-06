@@ -7,7 +7,7 @@ import IPassagewayRepo from '../../../src/services/IRepos/IPassagewayRepo';
 import IFloorRepo from '../../../src/services/IRepos/IFloorRepo';
 import PassagewayService from '../../../src/services/PassagewayService';
 import {Result} from "../../../src/core/logic/Result";
-import {Floor} from "../../../src/domain/floor";
+import {Floor} from "../../../src/domain/floor/floor";
 import IFloorService from "../../../src/services/IServices/IFloorService";
 import IBuildingService from "../../../src/services/IServices/IBuildingService";
 import {UniqueEntityID} from "../../../src/core/domain/UniqueEntityID";

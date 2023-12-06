@@ -9,7 +9,7 @@ import { Lift } from "../../src/domain/Lift";
 import ILiftRepo from "../../src/services/IRepos/ILiftRepo";
 import LiftRepo from "../../src/repos/liftRepo";
 
-import { Floor } from "../../src/domain/floor";
+import { Floor } from "../../src/domain/floor/floor";
 import IFloorRepo from "../../src/services/IRepos/IFloorRepo";
 import FloorRepo from "../../src/repos/floorRepo";
 

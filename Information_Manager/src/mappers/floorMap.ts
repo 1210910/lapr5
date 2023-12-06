@@ -2,7 +2,7 @@ import { Mapper } from "../core/infra/Mapper";
 import { Document, Model } from 'mongoose';
 import { IFloorPersistence } from '../dataschema/IFloorPersistence';
 import IFloorDTO from "../dto/IFloorDTO";
-import { Floor } from "../domain/floor";
+import { Floor } from "../domain/floor/floor";
 
 import { UniqueEntityID } from "../core/domain/UniqueEntityID";
 
@@ -11,12 +11,12 @@ export class FloorMap extends Mapper<Floor> {
     public static toDTO( floor: Floor): IFloorDTO {
         return {
             //_id: floor.id.toString(),
-            floorCode: floor.floorCode,
-            floorNumber: floor.floorNumber,
-            width: floor.width,
-            length: floor.length,
-            description: floor.description,
-            buildingID: floor.buildingID
+            floorCode: floor.floorCode.value,
+            floorNumber: floor.floorNumber.value,
+            width: floor.width.value,
+            length: floor.length.value,
+            description: floor.description.value,
+            buildingID: floor.buildingID.value
         } as IFloorDTO;
     }
 
@@ -35,12 +35,12 @@ export class FloorMap extends Mapper<Floor> {
     public static toPersistence (floor: Floor): any {
         return {
             domainId: floor.id.toString(),
-            floorCode: floor.floorCode,
-            floorNumber: floor.floorNumber,
-            width: floor.width,
-            length: floor.length,
-            description: floor.description,
-            buildingID: floor.buildingID
+            floorCode: floor.floorCode.value,
+            floorNumber: floor.floorNumber.value,
+            width: floor.width.value,
+            length: floor.length.value,
+            description: floor.description.value,
+            buildingID: floor.buildingID.value
         }
     }
 

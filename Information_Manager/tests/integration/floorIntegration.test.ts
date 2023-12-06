@@ -14,7 +14,7 @@ import IFloorRepo from "../../src/services/IRepos/IFloorRepo";
 import IPassagewayRepo from "../../src/services/IRepos/IPassagewayRepo";
 import FloorRepo from "../../src/repos/floorRepo";
 import FloorService from "../../src/services/floorService";
-import { Floor } from "../../src/domain/floor";
+import { Floor } from "../../src/domain/floor/floor";
 
 chai.use(sinonChai);
 

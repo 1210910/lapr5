@@ -1,7 +1,7 @@
 import {Service, Inject} from 'typedi';
 
 import IFloorRepo from '../services/IRepos/IFloorRepo';
-import { Floor } from '../domain/floor';
+import { Floor } from '../domain/floor/floor';
 import { FloorMap } from '../mappers/floorMap';
 
 import { Document, FilterQuery, Model } from 'mongoose';
@@ -69,11 +69,11 @@ export default class FloorRepo implements IFloorRepo {
 
                     return FloorMap.toDomain(floorCreated);
                 } else {
-                    floorDocument.floorCode = floor.floorCode;
-                    floorDocument.floorNumber = floor.floorNumber;
-                    floorDocument.length = floor.length;
-                    floorDocument.width = floor.width;
-                    floorDocument.description = floor.description;
+                    floorDocument.floorCode = floor.floorCode.value;
+                    floorDocument.floorNumber = floor.floorNumber.value;
+                    floorDocument.length = floor.length.value;
+                    floorDocument.width = floor.width.value;
+                    floorDocument.description = floor.description.value;
                     await floorDocument.save();
 
                     return floor;

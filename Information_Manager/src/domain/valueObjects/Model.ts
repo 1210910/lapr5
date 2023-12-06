@@ -1,5 +1,4 @@
 import { ValueObject } from "../../core/domain/ValueObject";
-import { Result } from "../../core/logic/Result";
 
 export class Model extends ValueObject<{ name: string }>{
   private constructor (props: { name: string }) {
@@ -10,14 +9,14 @@ export class Model extends ValueObject<{ name: string }>{
     return this.props.name;
   }
 
-  public static valueOf(value: string): Result<any> {
+  public static valueOf(value: string): Model {
     value = value?.trim();
     if (!value) {
-      return Result.fail("There is no model");
+      throw new Error("There is no model");
     }
     if (value.length > 100) {
-      return Result.fail("Model must be 100 characters or less.");
+      throw new Error("Model must be 100 characters or less.");
     }
-    return Result.ok(new Model({ name: value }));
+    return (new Model({ name: value }));
   }
 }

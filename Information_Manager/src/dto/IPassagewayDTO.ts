@@ -1,4 +1,4 @@
-import { Floor } from "../domain/floor";
+import { Floor } from "../domain/floor/floor";
 
 export default interface IPassagewayDTO{
     passageCode: string;

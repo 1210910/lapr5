@@ -20,13 +20,12 @@ export class FloorService{
 
 
 
-  createFloor(code:string , number:number, length:number, width:number, description:string, buildingID:string) {
+  createFloor(number:number, length:number, width:number, description:string, buildingID:string) {
 
     return new Promise((resolve, reject) => {
 
       const jsonMessage = JSON.stringify(
         {
-          floorCode: code,
           floorNumber: number,
           length: length,
           width: width,
@@ -46,7 +45,7 @@ export class FloorService{
         } else {
           response = httprequest.status;
           console.log("Floor not created");
-          reject(false);
+          reject(httprequest.responseText);
         }
       }
       httprequest.send(jsonMessage);
@@ -79,7 +78,7 @@ export class FloorService{
         } else {
           response = httprequest.status;
           console.log("Floor not edited");
-          reject(false);
+          reject(httprequest.responseText);
         }
       }
       httprequest.send(jsonMessage);

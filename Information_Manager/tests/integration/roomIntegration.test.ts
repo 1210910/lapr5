@@ -10,7 +10,7 @@ import IRoomRepo from "../../src/services/IRepos/IRoomRepo";
 import IFloorRepo  from "../../src/services/IRepos/IFloorRepo";
 import RoomRepo from "../../src/repos/RoomRepo";
 import FloorRepo from "../../src/repos/floorRepo";
-import { Floor } from "../../src/domain/floor";
+import { Floor } from "../../src/domain/floor/floor";
 
 
 chai.use(sinonChai);

@@ -1,6 +1,6 @@
 import {Service, Inject} from "typedi";
 import config from "../../config";
-import {Floor} from "../domain/floor";
+import {Floor} from "../domain/floor/floor";
 import IFloorDTO from "../dto/IFloorDTO";
 import IFloorRepo from "../services/IRepos/IFloorRepo";
 import IFloorService from "./IServices/IFloorService";
@@ -138,7 +138,7 @@ export default class FloorService implements IFloorService {
         }
     }
 
-    public async getFloorsWithPassageway(buildingCode: string): Promise<Result<Array<IFloorDTO>>>{
+    /*public async getFloorsWithPassageway(buildingCode: string): Promise<Result<Array<IFloorDTO>>>{
         try {
             let floors: Array<IFloorDTO> = [];
 
@@ -167,7 +167,7 @@ export default class FloorService implements IFloorService {
             throw e;
         }
 
-    }
+    }*/
 
 }
 

@@ -16,7 +16,6 @@ export default (app: Router) => {
     route.post('',
     celebrate({
         body: Joi.object({
-            floorCode: Joi.string().max(10).required(),
             floorNumber: Joi.number().required(),
             width: Joi.number().required(),
             length: Joi.number().required(),
@@ -41,6 +40,6 @@ export default (app: Router) => {
 
     route.get('/:buildingId', (req,res,next) => floorController.listFloor(req,res,next) );
 
-    route.get('/passageways/:buildingCode', (req,res,next) => floorController.getFloorsWithPassageway(req,res,next) );
+    // route.get('/passageways/:buildingCode', (req,res,next) => floorController.getFloorsWithPassageway(req,res,next) );
 
 }
