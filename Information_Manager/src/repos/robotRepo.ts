@@ -1,8 +1,8 @@
 import { Service, Inject } from 'typedi';
 
 import IRobotRepo from "../services/IRepos/IRobotRepo";
-import { Robot } from "../domain/robot";
-import { RobotId } from "../domain/robotId";
+import { Robot } from "../domain/robot/robot";
+import { RobotId } from "../domain/robot/robotId";
 import { RobotMap } from "../mappers/robotMap";
 import { IRobotPersistence } from '../dataschema/IRobotPersistence';
 
@@ -43,7 +43,7 @@ export default class RobotRepo implements IRobotRepo {
     }
 
     public async save(robot: Robot): Promise<Robot> {
-        const query = { code: robot.code };
+        const query = { code: robot.code.value };
 
         const robotDocument = await this.robotSchema.findOne(query);
 
@@ -55,11 +55,11 @@ export default class RobotRepo implements IRobotRepo {
 
                 return RobotMap.toDomain(robotCreated);
             } else {
-                robotDocument.code = robot.code;
-                robotDocument.name = robot.name;
-                robotDocument.type = robot.type;
+                robotDocument.code = robot.code.value;
+                robotDocument.name = robot.name.value;
+                robotDocument.type = robot.type.value;
                 robotDocument.enabled = robot.enabled;
-                robotDocument.description = robot.description;
+                robotDocument.description = robot.description.value;
 
                 await robotDocument.save();
 

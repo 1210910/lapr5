@@ -1,7 +1,7 @@
 import { Mapper } from "../core/infra/Mapper";
 import { Document, Model } from 'mongoose';
 import { IRobotPersistence } from '../dataschema/IRobotPersistence';
-import { Robot } from "../domain/robot";
+import { Robot } from "../domain/robot/robot";
 import IRobotDTO from "../dto/IRobotDTO";
 
 import { UniqueEntityID } from "../core/domain/UniqueEntityID";
@@ -10,11 +10,11 @@ export class RobotMap extends Mapper<Robot> {
 
     public static toDTO(robot: Robot): IRobotDTO {
         return {
-            code: robot.code,
-            name: robot.name,
-            type: robot.type,
+            code: robot.code.value,
+            name: robot.name.value,
+            type: robot.type.value,
             enabled: robot.enabled,
-            description: robot.description
+            description: robot.description.value
         } as IRobotDTO;
     }
 
@@ -35,11 +35,11 @@ export class RobotMap extends Mapper<Robot> {
     public static toPersistence(robot: Robot): any {
         return {
             domainId: robot.id.toString(),
-            code: robot.code,
-            name: robot.name,
-            type: robot.type,
+            code: robot.code.value,
+            name: robot.name.value,
+            type: robot.type.value,
             enabled: robot.enabled,
-            description: robot.description
+            description: robot.description.value
         }
     }
 

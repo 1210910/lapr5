@@ -34,7 +34,7 @@ export class RobotService {
         } else {
           response = httprequest.status;
           console.log("Robot not created");
-          reject(false);
+          reject(httprequest.responseText);
         }
       };
       httprequest.send(jsonMessage);
@@ -55,7 +55,7 @@ export class RobotService {
         } else {
           response = httprequest.status;
           console.log("Robot not listed");
-          reject(false);
+          reject(httprequest.responseText);
         }
       };
       httprequest.send();

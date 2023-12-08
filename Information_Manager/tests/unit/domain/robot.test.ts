@@ -1,5 +1,5 @@
 import  assert  from 'assert';
-import { Robot } from '../../../src/domain/robot';
+import { Robot } from '../../../src/domain/robot/robot';
 
 
 describe("Robot Test", () => {
@@ -34,7 +34,7 @@ describe("Robot Test", () => {
     assert(robotOrError.isFailure);
   });
 
-  it("should fail a valid Robot when description is null", () => {
+  it("should create a valid Robot when description is null", () => {
 
     const robotDTO = {
       code: "R1",
@@ -46,7 +46,7 @@ describe("Robot Test", () => {
 
 
     const robotOrError = Robot.create(robotDTO);
-    assert(robotOrError.isFailure);
+    assert(robotOrError.isSuccess);
   });
 
   it("should fail a valid Robot when name is null", () => {
@@ -135,7 +135,7 @@ describe("Robot Test", () => {
     }
 
     const robotOrError = Robot.create(robotDTO);
-    assert.equal(robotOrError.getValue().code,robotDTO.code);
+    assert.equal(robotOrError.getValue().code.value,robotDTO.code);
   });
 
   it("should pass when get name", () => {
@@ -149,7 +149,7 @@ describe("Robot Test", () => {
     }
 
     const robotOrError = Robot.create(robotDTO);
-    assert.equal(robotOrError.getValue().name,robotDTO.name);
+    assert.equal(robotOrError.getValue().name.value,robotDTO.name);
   });
 
   it("should pass when get type", () => {
@@ -163,7 +163,7 @@ describe("Robot Test", () => {
     }
 
     const robotOrError = Robot.create(robotDTO);
-    assert.equal(robotOrError.getValue().type,robotDTO.type);
+    assert.equal(robotOrError.getValue().type.value,robotDTO.type);
   });
 
   it("should pass when get enabled", () => {
@@ -191,7 +191,7 @@ describe("Robot Test", () => {
     }
 
     const robotOrError = Robot.create(robotDTO);
-    assert.equal(robotOrError.getValue().description,robotDTO.description);
+    assert.equal(robotOrError.getValue().description.value,robotDTO.description);
   });
 
 

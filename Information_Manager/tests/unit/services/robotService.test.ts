@@ -4,7 +4,7 @@ import IRobotRepo from "../../../src/services/IRepos/IRobotRepo";
 import IRobotTypeRepo from "../../../src/services/IRepos/IRobotTypeRepo";
 import IRobotService from "../../../src/services/IServices/IRobotService";
 import RobotService from "../../../src/services/robotService";
-import { Robot } from "../../../src/domain/robot";
+import { Robot } from "../../../src/domain/robot/robot";
 import sinon from "sinon";
 import jsonPatch from 'json-patch';
 import { Result } from "../../../src/core/logic/Result";
@@ -75,7 +75,7 @@ describe('Robot Service', () => {
 
       const result = await robotService.createRobot(robotDTO);
       expect(result.isFailure).to.equal(true);
-      expect(result.errorValue()).to.equal("Description property cannot have more than 255 letters");
+      expect(result.errorValue()).to.equal("Description must be 250 characters or less");
 
 
     }
