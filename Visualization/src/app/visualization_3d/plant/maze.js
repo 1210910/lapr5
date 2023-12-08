@@ -5,6 +5,7 @@ import Ground from "./ground.js";
 import Wall from "./wall.js";
 import Elevator from "./elevator";
 import Exit from "./exits";
+import {forEach} from "lodash";
 
 /*
  * parameters = {
@@ -34,6 +35,7 @@ export default class Maze extends THREE.Group {
             this.map = description.maze.map;
             this.exitLocation = []
             this.elevators = this.cellToCartesian(description.maze.elevators);
+            this.passageways = JSON.parse(description.maze.passageways);
 
             // Create the helpers
             this.helper = new THREE.Group();
@@ -343,6 +345,42 @@ export default class Maze extends THREE.Group {
         return false;
     }
 
+    passagewayCollision(indices, offsets, orientation, position, delta, radius, name, proximityDistance) {
+        const row = indices[0] + offsets[0];
+        const column = indices[1] + offsets[1];
+
+        // Verifica se o objeto está próximo do elevador
+        if (this.isObjectNearPassageway(row, column, proximityDistance, position, delta, radius, orientation)) {
+            console.log("Object near " + name + ".");
+            return true;
+        }
+        return false;
+    }
+
+    isObjectNearPassageway(row, column, proximityDistance, position, delta, radius, orientation) {
+        // Verifica se a posição está dentro dos limites do mapa
+        if (
+            row >= 0 &&
+            column >= 0 &&
+            row < this.map.length &&
+            column < this.map[0].length
+        ) {
+            // Verifica se a posição está perto do elevador
+            if (this.map[row][column] == 7 || this.map[row][column] == 8) {
+                if (orientation != 0) {
+                    if (Math.abs(position.x - (this.cellToCartesian([row, column]).x + delta.x * this.scale.x)) < proximityDistance + radius) {
+                        return true;
+                    }
+                } else {
+                    if (Math.abs(position.z - (this.cellToCartesian([row, column]).z + delta.z * this.scale.z)) < proximityDistance + radius) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     // Detect collision with walls and corners (method: OBB/AABB)
     wallAndCornerCollision(indices, offsets, orientation, obb, name) {
         const row = indices[0] + offsets[0];
@@ -430,6 +468,27 @@ export default class Maze extends THREE.Group {
 
     }
 
+    passagewayEntrance(method, position, halfSize) {
+      const indices = this.cartesianToCell(position);
+      if (method != "obb-aabb") {
+        if(
+          this.passagewayCollision(indices, [0, 0], 0, position, {x: 0.0, z: -0.475}, halfSize, "north wall",0.2) ){
+
+          return true;
+        }
+      }
+
+    }
+
+    checkIfIsPassageWay(position) {
+        const indices = this.cartesianToCell(position);
+        forEach(this.passageways, (passageway) => {
+            if (passageway.position[0] == indices[0] && passageway.position[1] == indices[1]) {
+                return passageway;
+            }
+        });
+        return null;
+    }
     isInElevatorEntrance(position) {
         const indices = this.cartesianToCell(position);
         if (this.map[indices[0]][indices[1]] == 5 || this.map[indices[0]][indices[1]] == 6) {

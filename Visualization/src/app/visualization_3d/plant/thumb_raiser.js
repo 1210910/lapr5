@@ -1375,6 +1375,29 @@ export default class ThumbRaiser {
 
                       }
 
+                    }else if(this.maze.passagewayEntrance(this.collisionDetectionParameters.method,position,this.collisionDetectionParameters.method != "obb-aabb" ? this.player.radius : this.player.halfSize)) {
+
+                        const passageway = this.maze.checkIfIsPassageWay(this.player.position);
+
+                        if (passageway) {
+                            const fileName = this.mazeParameters.url.split("/")[5];
+                            const floor = fileName.split(".")[0];
+                            const texto = passageway.passagewayCode;
+                            const regex = /P(\w{2})(\w{2})/;
+                            const matches = texto.match(regex);
+
+                            if (matches) {
+                                if (matches[0] == floor) {
+                                    console.log(matches[1])
+                                    this.loadMap(matches[1])
+                                } else if (matches[1] == floor) {
+                                    console.log(matches[0])
+                                    this.loadMap(matches[0])
+                                }
+                            }
+                        }
+
+
                     }
 
                     else {
