@@ -19,21 +19,20 @@ export class LiftCreateComponent {
 
    createLift(){
 
-        const code = document.getElementsByTagName("input")[0].value;
-        const floors = document.getElementsByTagName("input")[1].value;
-        const brand = document.getElementsByTagName("input")[2].value;
-        const model = document.getElementsByTagName("input")[3].value;
-        const buildingCode = document.getElementsByTagName("input")[4].value;
+     const buildingCode = document.getElementsByTagName("input")[0].value;
+     const floors = document.getElementsByTagName("input")[1].value;
+     const brand = document.getElementsByTagName("input")[2].value;
+     const model = document.getElementsByTagName("input")[3].value;
         const serialNumber = document.getElementsByTagName("input")[5].value;
         const description = document.getElementsByTagName("textarea")[0].value;
 
-        if (code == "" || floors == "" || buildingCode == "" ){
+        if (floors == "" || buildingCode == "" ){
             alert("Please fill the required options");
             return;
         }
         const floorsArray = floors.split(',').map(value => value.trim());
 
-        this.liftService.createLift(code, floorsArray, brand, model, buildingCode, serialNumber, description).then((result) => {
+        this.liftService.createLift(floorsArray, brand, model, buildingCode, serialNumber, description).then((result) => {
             alert("Lift Created");
 
         }).catch((error) => {
