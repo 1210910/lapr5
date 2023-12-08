@@ -191,7 +191,7 @@ describe("Robot type test", () => {
             const robotTypeOrError = RobotType.create(robotTypeDto);
 
             assert(robotTypeOrError.isSuccess);
-            assert(robotTypeOrError.getValue().code === robotTypeDto.code);
+            assert(robotTypeOrError.getValue().code.value === robotTypeDto.code);
         });
 
     it("valid robot should return the same brand", () => {
@@ -207,7 +207,7 @@ describe("Robot type test", () => {
             const robotTypeOrError = RobotType.create(robotTypeDto);
 
             assert(robotTypeOrError.isSuccess);
-            assert(robotTypeOrError.getValue().brand === robotTypeDto.brand);
+            assert(robotTypeOrError.getValue().brand.value === robotTypeDto.brand);
         });
 
     it("valid robot should return the same model", () => {
@@ -223,7 +223,7 @@ describe("Robot type test", () => {
             const robotTypeOrError = RobotType.create(robotTypeDto);
 
             assert(robotTypeOrError.isSuccess);
-            assert(robotTypeOrError.getValue().model === robotTypeDto.model);
+            assert(robotTypeOrError.getValue().model.value === robotTypeDto.model);
         });
 
     it("valid robot should return the same description", () => {
@@ -239,7 +239,7 @@ describe("Robot type test", () => {
             const robotTypeOrError = RobotType.create(robotTypeDto);
 
             assert(robotTypeOrError.isSuccess);
-            assert(robotTypeOrError.getValue().description === robotTypeDto.description);
+            assert(robotTypeOrError.getValue().description.value === robotTypeDto.description);
         });
 
     it("valid robot should return the same task type code", () => {

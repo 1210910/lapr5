@@ -10,6 +10,10 @@ export class Description extends ValueObject<{ description: string }> {
   }
 
   public static valueOf(value: string): Description {
+    value = value?.trim();
+    if (!value || value.length === 0) {
+      return new Description({ description: "" });
+    }
     this.isValidDescription(value);
     return new Description({ description: value });
   }
