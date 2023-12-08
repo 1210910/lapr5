@@ -25,11 +25,11 @@ export default class RoomService implements IRoomService {
             if (!floorExists) {
                 return Result.fail<IRoomDTO>("Floor does not exist");
             }
-            roomDTO.floor = floorExists.floorCode;
+            roomDTO.floor = floorExists.floorCode.value;
             const roomOrError =  Room.create(roomDTO);
 
 
-             if (roomDTO.length > floorExists.length || roomDTO.width > floorExists.width) {
+             if (roomDTO.length > floorExists.length.value || roomDTO.width > floorExists.width.value) {
                 return Result.fail<IRoomDTO>("Room is bigger than floor");
             }
 
@@ -40,7 +40,7 @@ export default class RoomService implements IRoomService {
             if (!floorExists) {
                 return Result.fail<IRoomDTO>("Floor does not exist");
             }
-            roomDTO.floor = floorExists.floorCode;
+            roomDTO.floor = floorExists.floorCode.value;
 
             const roomResult = roomOrError.getValue();
 

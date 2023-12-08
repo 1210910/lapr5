@@ -54,27 +54,27 @@ describe("Passageway Test", () => {
     assert(passagewayOrError.isFailure);
   });
 
-  it("should not create a passageway when the description is null", () => {
+  it("should create a passageway when the description is null", () => {
     const passagewayDTO = {
       floor1: "A1",
       floor2: "B1",
       description: null
     };
     const passagewayOrError = Passageway.create(passagewayDTO);
-    assert(passagewayOrError.isFailure);
+    assert(passagewayOrError.isSuccess);
   });
 
-  it("should not create a passageway when the description is undefined", () => {
+  it("should create a passageway when the description is undefined", () => {
     const passagewayDTO = {
       floor1: "A1",
       floor2: "B1",
       description: undefined
     };
     const passagewayOrError = Passageway.create(passagewayDTO);
-    assert(passagewayOrError.isFailure);
+    assert(passagewayOrError.isSuccess);
   });
 
-  it("should not create a passageway when the description has more than 255 characters", () => {
+  it("should not create a passageway when the description has more than 250 characters", () => {
     const passagewayDTO = {
       floor1: "A1",
       floor2: "B1",

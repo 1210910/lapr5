@@ -6,8 +6,8 @@ import { Document, FilterQuery, Model } from 'mongoose';
 import { ILiftPersistence } from '../dataschema/ILiftPersistance';
 import ILiftRepo from '../services/IRepos/ILiftRepo';
 
-import { Lift } from "../domain/Lift";
-import { LiftId } from "../domain/LiftId";
+import { Lift } from "../domain/lift/Lift";
+import { LiftId } from "../domain/lift/LiftId";
 import { LiftMap } from "../mappers/LiftMap";
 
 
@@ -41,13 +41,13 @@ export default class LiftRepo implements ILiftRepo {
 
         return LiftMap.toDomain(liftCreated);
       } else {
-        liftDocument.code = lift.code;
-        liftDocument.buildingCode = lift.buildingCode;
-        liftDocument.floors = lift.floors;
-        liftDocument.brand = lift.brand;
-        liftDocument.model = lift.model;
-        liftDocument.serialNumber = lift.serialNumber;
-        liftDocument.description = lift.description;
+        liftDocument.code = lift.code.value;
+        liftDocument.buildingCode = lift.buildingCode.value;
+        liftDocument.floors = lift.floors.map((floor) => floor.value);
+        liftDocument.brand = lift.brand.value;
+        liftDocument.model = lift.model.value;
+        liftDocument.serialNumber = lift.serialNumber.value;
+        liftDocument.description = lift.description.value;
         await liftDocument.save();
 
         return lift;

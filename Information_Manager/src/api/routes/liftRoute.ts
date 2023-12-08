@@ -16,7 +16,7 @@ export default (app: Router) => {
     route.post('',
     celebrate({
         body: Joi.object({
-            code: Joi.string().required(),
+            code: Joi.string(),
             buildingCode: Joi.string().required(),
             floors: Joi.array().items(Joi.string()).required(),
             brand: Joi.string().max(50).optional(),

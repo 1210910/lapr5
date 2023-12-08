@@ -8,7 +8,7 @@ import { Document, FilterQuery, Model } from 'mongoose';
 import { IFloorPersistence } from '../dataschema/IFloorPersistence';
 import { Result } from '../core/logic/Result';
 import IFloorDTO from '../dto/IFloorDTO';
-import {Lift} from "../domain/Lift";
+import {Lift} from "../domain/lift/Lift";
 import {LiftMap} from "../mappers/LiftMap";
 
 @Service()
