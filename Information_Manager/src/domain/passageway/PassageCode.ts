@@ -9,6 +9,10 @@ export class PassageCode extends ValueObject<{ code: string }> {
     return this.props.code;
   }
 
+  public static toDomain(value: string): PassageCode {
+    return new PassageCode({ code: value });
+  }
+
   public static valueOf(floor1: string, floor2: string): PassageCode {
     floor1 = floor1?.trim();
     floor2 = floor2?.trim();

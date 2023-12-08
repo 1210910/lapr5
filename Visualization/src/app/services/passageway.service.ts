@@ -89,6 +89,7 @@ export class PassagewayService {
     const passagewayList = JSON.parse(response);
     this.PassagewayList = [];
     for (const passageway of passagewayList) {
+      console.log(passageway);
       this.PassagewayList.push({
         passageCode: passageway.passageCode,
         floor1: passageway.floor1,

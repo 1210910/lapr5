@@ -9,6 +9,10 @@ export class FloorCode extends ValueObject<{ code: string }> {
     return this.props.code;
   }
 
+  public static toDomain(value: string): FloorCode {
+    return (new FloorCode({ code: value }));
+  }
+
   public static valueOf(value: string): FloorCode {
     value = value?.trim();
     if (value.length > 10) {
