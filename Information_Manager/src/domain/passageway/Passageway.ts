@@ -74,7 +74,7 @@ export class Passageway extends AggregateRoot<PassagewayProps> {
 
     try {
       const passageway = new Passageway({
-        passageCode: props.passageCode ?? PassageCode.valueOf(props.floor1, props.floor2),
+        passageCode: PassageCode.toDomain(props.passageCode) ?? PassageCode.valueOf(props.floor1, props.floor2),
         floor1: FloorCode.valueOf(props.floor1),
         floor2: FloorCode.valueOf(props.floor2),
         description: Description.valueOf(props.description)
