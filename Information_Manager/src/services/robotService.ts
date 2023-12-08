@@ -1,6 +1,6 @@
 import { Service, Inject } from "typedi";
 import config from "../../config";
-import { Robot } from "../domain/robot";
+import { Robot } from "../domain/robot/robot";
 import { RobotMap } from "../mappers/robotMap";
 import IRobotDTO from "../dto/IRobotDTO";
 import IRobotService from "./IServices/IRobotService";
@@ -54,11 +54,11 @@ export default class RobotService implements IRobotService {
         const updatedRobotData = jsonPatch.apply(robotDocument.props, patchedRobot);
 
         const robotOrError = await Robot.create({
-          code: updatedRobotData.code,
-          name: updatedRobotData.name,
-          type: updatedRobotData.type,
+          code: updatedRobotData.code.value,
+          name: updatedRobotData.name.value,
+          type: updatedRobotData.type.value,
           enabled: updatedRobotData.enabled,
-          description: updatedRobotData.description,
+          description: updatedRobotData.description.value,
         },updatedRobotData.id);
 
         if(robotOrError.isFailure){

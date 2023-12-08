@@ -23,20 +23,20 @@ export class RobotType extends AggregateRoot<RobotTypeProps> {
         return this._id;
     }
 
-    get code (): string {
-        return this.props.code.value;
+    get code (): RobotTypeCode {
+        return this.props.code;
     }
 
-    get  brand (): string {
-        return this.props.brand.value;
+    get  brand (): Brand {
+        return this.props.brand;
     }
 
-    get model (): string {
-        return this.props.model.value;
+    get model (): Model {
+        return this.props.model;
     }
 
-    get description (): string {
-        return this.props.description.value;
+    get description (): Description {
+        return this.props.description;
     }
 
     get taskTypeCode (): string {
@@ -72,10 +72,10 @@ export class RobotType extends AggregateRoot<RobotTypeProps> {
             try {
                 const robotType = new RobotType(
                   {
-                      code: RobotTypeCode.valueOf(props.code).getValue(),
-                      brand: Brand.valueOf(props.brand).getValue(),
-                      model: Model.valueOf(props.model).getValue(),
-                      description: Description.valueOf(props.description).getValue(),
+                      code: RobotTypeCode.valueOf(props.code),
+                      brand: Brand.valueOf(props.brand),
+                      model: Model.valueOf(props.model),
+                      description: Description.valueOf(props.description),
                       taskTypeCode: props.taskTypeCode
                   }
                   , id);

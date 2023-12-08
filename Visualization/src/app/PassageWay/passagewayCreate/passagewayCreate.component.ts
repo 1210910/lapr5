@@ -19,17 +19,16 @@ export class PassagewayCreateComponent {
   }
 
   createPassageway() {
-    const passageCode = document.getElementsByTagName("input")[0].value;
-    const floor1 = document.getElementsByTagName("input")[1].value;
-    const floor2 = document.getElementsByTagName("input")[2].value;
+    const floor1 = document.getElementsByTagName("input")[0].value;
+    const floor2 = document.getElementsByTagName("input")[1].value;
     const description = document.getElementsByTagName("textarea")[0].value;
 
-    if (passageCode == "" || floor1 == "" || floor2 == "" || description == "") {
+    if (floor1 == "" || floor2 == "") {
       alert("Please fill in all fields");
       return;
 
     }
-    this.passagewayService.createPassageway(passageCode, floor1, floor2, description).then(() => {
+    this.passagewayService.createPassageway(floor1, floor2, description).then(() => {
 
       alert("Passageway created");
 

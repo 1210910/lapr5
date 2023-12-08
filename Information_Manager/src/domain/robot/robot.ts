@@ -1,15 +1,18 @@
-import { AggregateRoot } from "../core/domain/AggregateRoot";
-import { UniqueEntityID } from "../core/domain/UniqueEntityID";
-import { Result } from "../core/logic/Result"
-import { RobotId } from "./robotId";
-import { Guard } from "../core/logic/Guard";
+import { AggregateRoot } from "../../core/domain/AggregateRoot";
+import { UniqueEntityID } from "../../core/domain/UniqueEntityID";
+import { Result } from "../../core/logic/Result";
+import { Guard } from "../../core/logic/Guard";
+import { Name } from "../valueObjects/Name";
+import { RobotTypeCode } from "../robotType/RobotTypeCode";
+import { Description } from "../valueObjects/Description";
+import { RobotCode } from "./RobotCode";
 
 interface robotProps {
-    code: string;
-    name: string;
-    type: string;
+    code: RobotCode;
+    name: Name;
+    type: RobotTypeCode;
     enabled: boolean;
-    description: string;
+    description: Description;
 }
 
 export class Robot extends AggregateRoot<robotProps>{
@@ -22,19 +25,18 @@ export class Robot extends AggregateRoot<robotProps>{
         return RobotId.caller(this.id);
     }*/
 
-    get code(): string {
+    get code(): RobotCode {
         return this.props.code;
     }
 
-    get name(): string {
+    get name(): Name {
         return this.props.name;
     }
 
 
-    get type(): string {
+    get type(): RobotTypeCode {
         return this.props.type;
     }
-
 
 
     get enabled(): boolean {
@@ -42,11 +44,11 @@ export class Robot extends AggregateRoot<robotProps>{
     }
 
 
-    get description(): string {
+    get description(): Description {
         return this.props.description;
     }
 
-    set description(description: string) {
+    set description(description: Description) {
         this.props.description = description;
     }
 
@@ -60,25 +62,25 @@ export class Robot extends AggregateRoot<robotProps>{
         { argument: props.name, argumentName: 'name' },
         { argument: props.type, argumentName: 'type' },
         { argument: props.enabled, argumentName: 'enabled' },
-        { argument: props.description, argumentName: 'description' }
       ];
       const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
       if (!guardResult.succeeded) {
         return Result.fail<Robot>(guardResult.message)
       }
-      if(props.name.length > 30 ){
-        return Result.fail<Robot>("Name cannot have more than 30 letters")
+
+      try {
+        const robot = new Robot({
+          code: RobotCode.valueOf(props.code),
+          name: Name.valueOf(props.name),
+          type: RobotTypeCode.valueOf(props.type),
+          enabled: props.enabled,
+          description: Description.valueOf(props.description)
+        }, id);
+
+        return Result.ok<Robot>(robot);
       }
-      if(props.description.length > 250 ){
-        return Result.fail<Robot>("Description property cannot have more than 255 letters")
+      catch (err) {
+        return Result.fail<Robot>(err.message);
       }
-
-
-      const robot = new Robot({
-        ...props
-      }, id);
-
-
-      return Result.ok<Robot>(robot);
     }
 }

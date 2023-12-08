@@ -21,13 +21,16 @@ export class PassagewayEditComponent {
 
   async editPassageway() {
     const passageCode = document.getElementsByTagName("input")[0].value;
-    const newPassageCode = document.getElementsByTagName("input")[1].value;
-    const floor1 = document.getElementsByTagName("input")[2].value;
-    const floor2 = document.getElementsByTagName("input")[3].value;
+    const floor1 = document.getElementsByTagName("input")[1].value;
+    const floor2 = document.getElementsByTagName("input")[2].value;
     const description = document.getElementsByTagName("textarea")[0].value;
 
+    if ((floor1 == "" && floor2 !== "") || (floor1 !== "" && floor2 == "")) {
+      alert("Please fill both floors or leave both empty");
+      return;
+    }
 
-    this.passagewayService.editPassageway(passageCode, newPassageCode, floor1, floor2, description).then(()=>
+    this.passagewayService.editPassageway(passageCode, floor1, floor2, description).then(()=>
     {
       alert("Passageway edited successfully");
     }).catch((error) => {

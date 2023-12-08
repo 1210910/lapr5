@@ -1,6 +1,6 @@
 import { ValueObject } from "../../core/domain/ValueObject";
 
-export class RobotTypeCode extends ValueObject<{ code: string }> {
+export class RobotCode extends ValueObject<{ code: string }> {
   private constructor(props: { code: string }) {
     super(props);
   }
@@ -9,14 +9,14 @@ export class RobotTypeCode extends ValueObject<{ code: string }> {
     return this.props.code;
   }
 
-  public static valueOf(value: string): RobotTypeCode {
+  public static valueOf(value: string): RobotCode {
     value = value?.trim();
     if (!value) {
       throw new Error("There is no code");
     }
-    if (value.length > 25) {
-      throw new Error("Code must be 25 characters or less.");
+    if (value.length > 10) {
+      throw new Error("Robot code cannot be longer than 10 characters");
     }
-    return (new RobotTypeCode({ code: value }));
+    return (new RobotCode({ code: value }));
   }
 }

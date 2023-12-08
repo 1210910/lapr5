@@ -13,10 +13,9 @@ export class PassagewayService {
     this.PassagewayList = [];
   }
 
-  createPassageway(passageCode: string, floor1: string, floor2: string, description: string) {
+  createPassageway(floor1: string, floor2: string, description: string) {
     return new Promise((resolve, reject) => {
       const jsonMessage = JSON.stringify({
-        passageCode: passageCode,
         floor1: floor1,
         floor2: floor2,
         description: description
@@ -40,10 +39,9 @@ export class PassagewayService {
     });
   }
 
-  editPassageway(passageCode: string, newPassageCode: string, floor1: string, floor2: string, description: string) {
+  editPassageway(passageCode: string, floor1: string, floor2: string, description: string) {
     return new Promise((resolve, reject) => {
       const jsonMessage = JSON.stringify({
-        passageCode: newPassageCode,
         floor1: floor1,
         floor2: floor2,
         description: description

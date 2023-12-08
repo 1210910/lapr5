@@ -11,7 +11,7 @@ import IFloorRepo  from "../../src/services/IRepos/IFloorRepo";
 import PassagewayRepo from "../../src/repos/PassagewayRepo";
 import FloorRepo from "../../src/repos/floorRepo";
 import { Floor } from "../../src/domain/floor/floor";
-import {Passageway} from "../../src/domain/Passageway";
+import { UniqueEntityID } from "../../src/core/domain/UniqueEntityID";
 
 
 chai.use(sinonChai);
@@ -32,7 +32,6 @@ describe('PassageWay Integration', () => {
 
   it('should show success when creating a passageway', async () => {
     let requestBody = {
-      passageCode: 'PA1B1',
       floor1: "A1",
       floor2: "B2",
       description: 'description',
@@ -56,7 +55,7 @@ describe('PassageWay Integration', () => {
       buildingID: "A"
     };
 
-    const floor1 = Floor.create(floor1DTO).getValue();
+    const floor1 = Floor.create(floor1DTO, new UniqueEntityID("FLR0")).getValue();
 
     const floor2DTO = {
       floorCode: "B2",
@@ -67,14 +66,14 @@ describe('PassageWay Integration', () => {
       buildingID: "B"
     };
 
-    const floor2 = Floor.create(floor2DTO).getValue();
+    const floor2 = Floor.create(floor2DTO, new UniqueEntityID("FLR1")).getValue();
 
 
-    (passagewayRepo.existsByCode as sinon.SinonStub).resolves(null);
-    (floorRepo.existsByFloorCode as sinon.SinonStub).resolves(floor1);
-    (floorRepo.existsByFloorCode as sinon.SinonStub).resolves(floor2);
-    (floorRepo.findByFloorCode as sinon.SinonStub).resolves(floor1);
-    (floorRepo.findByFloorCode as sinon.SinonStub).resolves(floor2);
+    (passagewayRepo.existsByCode as sinon.SinonStub).resolves(Promise.resolve(null));
+    (floorRepo.existsByFloorCode as sinon.SinonStub).resolves(Promise.resolve(floor1));
+    (floorRepo.existsByFloorCode as sinon.SinonStub).resolves(Promise.resolve(floor2));
+    (floorRepo.findByFloorCode as sinon.SinonStub).resolves(Promise.resolve(floor1));
+    (floorRepo.findByFloorCode as sinon.SinonStub).resolves(Promise.resolve(floor2));
 
     await passagewayController.createPassageway(req as Request, res as Response, () => {
     });
@@ -85,7 +84,6 @@ describe('PassageWay Integration', () => {
   it('should show error when creating a passageway when floor1 that does not exist', async () => {
 
     let requestBody = {
-      passageCode: 'PA1B1',
       floor1: null,
       floor2: "B2",
       description: 'description',
@@ -111,8 +109,8 @@ describe('PassageWay Integration', () => {
 
     const floor2 = Floor.create(floor2DTO).getValue();
 
-    (passagewayRepo.existsByCode as sinon.SinonStub).resolves(false);
-    (floorRepo.existsByFloorCode as sinon.SinonStub).withArgs(null).resolves(false);
+    (passagewayRepo.existsByCode as sinon.SinonStub).resolves(Promise.resolve(null));
+    (floorRepo.existsByFloorCode as sinon.SinonStub).withArgs(null).resolves(Promise.resolve(false));
     (floorRepo.existsByFloorCode as sinon.SinonStub).resolves(floor2);
 
 
@@ -126,7 +124,6 @@ describe('PassageWay Integration', () => {
   it('should show error when creating a passageway when floor2 that does not exist', async () => {
 
     let requestBody = {
-      passageCode: 'PA1B1',
       floor1: "A1",
       floor2: null,
       description: 'description',

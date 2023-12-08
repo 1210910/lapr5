@@ -95,7 +95,7 @@ describe("Building Test", () => {
     assert(buildingOrError.isFailure);
   });
 
-  it("shouldn't create a valid building when description is undefined", () => {
+  it("should create a valid building when description is undefined", () => {
 
     const buildingDTO = {
       code: "B",
@@ -107,7 +107,7 @@ describe("Building Test", () => {
 
     const buildingOrError = Building.create(buildingDTO);
 
-    assert(buildingOrError.isFailure);
+    assert(buildingOrError.isSuccess);
   });
 
   it("shouldn't create a valid building when maxLength is 0", () => {
@@ -171,7 +171,7 @@ describe("Building Test", () => {
 
   });
 
-  it("shouldn't create a valid building when description is null", () => {
+  it("should create a valid building when description is null", () => {
 
     const buildingDTO = {
       code: "B",
@@ -182,7 +182,7 @@ describe("Building Test", () => {
     };
 
     const buildingOrError = Building.create(buildingDTO);
-    assert(buildingOrError.isFailure);
+    assert(buildingOrError.isSuccess);
 
   });
 

@@ -9,7 +9,6 @@ import { Floor } from "../../../src/domain/floor/floor";
 import { Building } from "../../../src/domain/building/Building";
 import { Result } from "../../../src/core/logic/Result";
 import IBuildingRepo from "../../../src/services/IRepos/IBuildingRepo";
-import { Passageway } from "../../../src/domain/Passageway";
 
 
 

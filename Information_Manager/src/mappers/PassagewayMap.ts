@@ -1,7 +1,7 @@
 import { Mapper } from "../core/infra/Mapper";
 import { Document, Model } from 'mongoose';
 import { IPassagewayPersistence } from '../dataschema/IPassagewayPersistence';
-import { Passageway } from "../domain/Passageway";
+import { Passageway } from "../domain/passageway/Passageway";
 import IPassagewayDTO from "../dto/IPassagewayDTO";
 
 import { UniqueEntityID } from "../core/domain/UniqueEntityID";
@@ -11,10 +11,10 @@ export class PassagewayMap extends Mapper<Passageway> {
 
     public static toDTO(passageway: Passageway): IPassagewayDTO {
         return {
-            passageCode: passageway.passageCode,
-            floor1: passageway.floor1,
-            floor2: passageway.floor2,
-            description: passageway.description
+            passageCode: passageway.passageCode.value,
+            floor1: passageway.floor1.value,
+            floor2: passageway.floor2.value,
+            description: passageway.description.value
         } as IPassagewayDTO;
     }
 
@@ -47,10 +47,10 @@ export class PassagewayMap extends Mapper<Passageway> {
   public static toPersistence(passageway: Passageway): any {
         return {
             domainId: passageway.id.toString(),
-            passageCode: passageway.passageCode,
-            floor1: passageway.floor1,
-            floor2: passageway.floor2,
-            description: passageway.description
+            passageCode: passageway.passageCode.value,
+            floor1: passageway.floor1.value,
+            floor2: passageway.floor2.value,
+            description: passageway.description.value
         }
     }
 

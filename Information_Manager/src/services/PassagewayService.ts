@@ -1,12 +1,13 @@
 import { Service, Inject } from "typedi";
 import config from "../../config";
-import { Passageway } from "../domain/Passageway";
+import { Passageway } from "../domain/passageway/Passageway";
 import { PassagewayMap } from "../mappers/PassagewayMap";
 import IPassagewayDTO from "../dto/IPassagewayDTO";
 import IPassagewayService from "./IServices/IPassagewayService";
 import IPassagewayRepo from "./IRepos/IPassagewayRepo";
 import IFloorRepo from "./IRepos/IFloorRepo";
 import { Result } from "../core/logic/Result";
+import { PassageCode } from "../domain/passageway/PassageCode";
 
 
 
@@ -19,7 +20,9 @@ export default class PassagewayService implements IPassagewayService {
 
     public async createPassageway(passagewayDTO: IPassagewayDTO): Promise<Result<IPassagewayDTO>> {
         try {
-            if (await this.passagewayRepo.existsByCode(passagewayDTO.passageCode)) {
+            const potencialCode = PassageCode.valueOf(passagewayDTO.floor1, passagewayDTO.floor2).value;
+
+            if (await this.passagewayRepo.existsByCode(potencialCode)) {
                 return Result.fail<IPassagewayDTO>("Passageway already exists");
             }
 
@@ -34,6 +37,7 @@ export default class PassagewayService implements IPassagewayService {
             const floor1 = await this.floorRepo.findByFloorCode(passagewayDTO.floor1);
             const floor2 = await this.floorRepo.findByFloorCode(passagewayDTO.floor2);
 
+            passagewayDTO.passageCode = potencialCode;
             passagewayDTO.floor1 = floor1.id.toString();
             passagewayDTO.floor2 = floor2.id.toString();
 
@@ -49,17 +53,19 @@ export default class PassagewayService implements IPassagewayService {
             const passagewayDTOResult = PassagewayMap.toDTO(passagewayResult) as IPassagewayDTO;
             return Result.ok<IPassagewayDTO>(passagewayDTOResult)
         } catch (e) {
-            throw e;
+            return Result.fail(e.message);
         }
     }
 
     public async updatePassageway(passageCode: string, passagewayDTO: IPassagewayDTO): Promise<Result<IPassagewayDTO>> {
         try {
+            const potencialCode = PassageCode.valueOf(passagewayDTO.floor1, passagewayDTO.floor2).value;
+
             if (!await this.passagewayRepo.existsByCode(passageCode)) {
                 return Result.fail<IPassagewayDTO>("Passageway doesn't exists");
             }
 
-            if (passageCode != passagewayDTO.passageCode && await this.passagewayRepo.existsByCode(passagewayDTO.passageCode)) {
+            if (await this.passagewayRepo.existsByCode(potencialCode)) {
                 return Result.fail<IPassagewayDTO>("Passageway already exists");
             }
 
@@ -109,8 +115,8 @@ export default class PassagewayService implements IPassagewayService {
             //change all floor ids to floor codes
 
           for (let i = 0; i < listOrError.length; i++) {
-            const floor1 = await this.floorRepo.findByDomainId(listOrError[i].floor1);
-            const floor2 = await this.floorRepo.findByDomainId(listOrError[i].floor2);
+            const floor1 = await this.floorRepo.findByDomainId(listOrError[i].floor1.value);
+            const floor2 = await this.floorRepo.findByDomainId(listOrError[i].floor2.value);
             listOrError[i].floor1 = floor1.floorCode;
             listOrError[i].floor2 = floor2.floorCode;
           }

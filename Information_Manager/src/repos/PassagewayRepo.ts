@@ -1,9 +1,9 @@
 import { Service, Inject } from 'typedi';
 
 import IPassagewayRepo from "../services/IRepos/IPassagewayRepo";
-import { Passageway } from "../domain/Passageway";
+import { Passageway } from "../domain/passageway/Passageway";
 import { PassagewayMap } from "../mappers/PassagewayMap";
-import { PassagewayId } from '../domain/PassagewayId';
+import { PassagewayId } from '../domain/passageway/PassagewayId';
 
 import { Document, FilterQuery, Model } from 'mongoose';
 import { IPassagewayPersistence } from '../dataschema/IPassagewayPersistence';
@@ -55,9 +55,9 @@ export default class PassagewayRepo implements IPassagewayRepo {
 
                 return PassagewayMap.toDomain(passagewayCreated);
             } else {
-                passagewayDocument.floor1 = passageway.floor1;
-                passagewayDocument.floor2 = passageway.floor2;
-                passagewayDocument.description = passageway.description;
+                passagewayDocument.floor1 = passageway.floor1.value;
+                passagewayDocument.floor2 = passageway.floor2.value;
+                passagewayDocument.description = passageway.description.value;
                 await passagewayDocument.save();
 
                 return passageway;
