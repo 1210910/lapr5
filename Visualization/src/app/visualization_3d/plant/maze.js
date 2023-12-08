@@ -307,6 +307,42 @@ export default class Maze extends THREE.Group {
         return false;
     }
 
+    elevatorCollision(indices, offsets, orientation, position, delta, radius, name, proximityDistance) {
+        const row = indices[0] + offsets[0];
+        const column = indices[1] + offsets[1];
+
+        // Verifica se o objeto está próximo do elevador
+        if (this.isObjectNearElevator(row, column, proximityDistance, position, delta, radius, orientation)) {
+            console.log("Object near " + name + ".");
+            return true;
+        }
+        return false;
+    }
+
+    isObjectNearElevator(row, column, proximityDistance, position, delta, radius, orientation) {
+        // Verifica se a posição está dentro dos limites do mapa
+        if (
+            row >= 0 &&
+            column >= 0 &&
+            row < this.map.length &&
+            column < this.map[0].length
+        ) {
+            // Verifica se a posição está perto do elevador
+            if (this.map[row][column] == 5 || this.map[row][column] == 6) {
+                if (orientation != 0) {
+                    if (Math.abs(position.x - (this.cellToCartesian([row, column]).x + delta.x * this.scale.x)) < proximityDistance + radius) {
+                        return true;
+                    }
+                } else {
+                    if (Math.abs(position.z - (this.cellToCartesian([row, column]).z + delta.z * this.scale.z)) < proximityDistance + radius) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     // Detect collision with walls and corners (method: OBB/AABB)
     wallAndCornerCollision(indices, offsets, orientation, obb, name) {
         const row = indices[0] + offsets[0];
@@ -319,6 +355,8 @@ export default class Maze extends THREE.Group {
         }
         return false;
     }
+
+
 
 
 
@@ -380,12 +418,25 @@ export default class Maze extends THREE.Group {
         }
     }
 
-    elevatorEntrance(position) {
+    elevatorEntrance(method, position, halfSize) {
+      const indices = this.cartesianToCell(position);
+      if (method != "obb-aabb") {
+        if(
+          this.elevatorCollision(indices, [0, 0], 0, position, {x: 0.0, z: -0.475}, halfSize, "north wall",0.2) ){
+
+          return true;
+        }
+      }
+
+    }
+
+    isInElevatorEntrance(position) {
         const indices = this.cartesianToCell(position);
         if (this.map[indices[0]][indices[1]] == 5 || this.map[indices[0]][indices[1]] == 6) {
             return true;
         }
         return false;
+
     }
 
     foundExit(position) {

@@ -266,7 +266,7 @@ export class PlantComponent implements AfterViewInit {
       {url :"./../../assets/models/gltf/RobotExpressive/RobotExpressive.glb",
         helpersColor: new THREE.Color(0x00333) }, // Player parameters
       {
-        intensity: 0.1
+        intensity: 1
       }, // Ambient light parameters
       {
         intensity: 0.5,

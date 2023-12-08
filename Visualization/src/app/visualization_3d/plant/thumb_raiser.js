@@ -1154,6 +1154,7 @@ export default class ThumbRaiser {
     }
 
     update() {
+      let elevator = true;
         if (!this.gameRunning) {
             if (this.audio.loaded() && this.maze.loaded && this.player.loaded) { // If all resources have been loaded
                 // Add positional audio sources to objects
@@ -1342,16 +1343,40 @@ export default class ThumbRaiser {
                     else if (this.player.keyStates.thumbsUp) {
                         this.animations.fadeToAction("ThumbsUp", 0.2);
                     }
-                    else if (this.maze.elevatorEntrance(position)) {
+                    else if (this.maze.elevatorEntrance(this.collisionDetectionParameters.method,position,this.collisionDetectionParameters.method != "obb-aabb" ? this.player.radius : this.player.halfSize)) {
 
-
+                      if (elevator) {
+                        elevator = false;
                         const fileName = this.mazeParameters.url.split("/")[5];
                         const floor = fileName.split(".")[0];
                         this.userInterface.showSelectionFloors(this.build, floor);
 
+                        // Assuming a function to check if the player is still in the elevator area
+                        function isPlayerInPosition(maze,player,method, halfSize) {
+                          if (maze.isInElevatorEntrance(player.position)){
+                            console.log("Player is in the elevator area")
+                            return true;
+                          }
+                          else {
+                            console.log("Player is not in the elevator area")
+                            return false;
+                          }
+                        }
 
+                        // Active waiting loop
+                        const waitingInterval = setInterval(() => {
+                          if (!isPlayerInPosition(this.maze,this.player,this.collisionDetectionParameters.method,this.player.halfSize)) {
+                            elevator = true;
+                            this.userInterface.hideSelectionFloors();
+                            clearInterval(waitingInterval); // Stop the active waiting
+                          }
+                        }, 1000); // Check every second (you can adjust the interval)
+
+
+                      }
 
                     }
+
                     else {
                         if (playerTurned) {
                             this.player.direction = directionDeg;

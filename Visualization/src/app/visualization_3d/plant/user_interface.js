@@ -4,7 +4,7 @@ import CubeTexture from "./cubetexture.js";
 import { GUI } from "three/addons/libs/lil-gui.module.min.js";
 
 export default class UserInterface extends GUI {
-
+    popUpCreated = false;
     thumbRaiser ;
     constructor(thumbRaiser,build) {
         super();
@@ -228,12 +228,14 @@ export default class UserInterface extends GUI {
 
 
 
-    showSelectionFloors(building, currentFloor){
 
+    showSelectionFloors(building, currentFloor){
+      if (!this.popUpCreated) {
         const buildings = building.build;
 
         console.log(buildings);
         const popUp = document.createElement('div');
+        popUp.id = 'popUp';
         popUp.style.position = 'absolute';
         popUp.style.top = '50%';
         popUp.style.left = '50%';
@@ -274,46 +276,62 @@ export default class UserInterface extends GUI {
         // create options
 
         console.log(currentFloor.charAt(0));
-        let i =0;
+        let i = 0;
 
         for (let index = 0; index < buildings.length; index++) {
-            if(buildings[index].code ==currentFloor.charAt(0) ){
-                i=index;
-            }
+          if (buildings[index].code == currentFloor.charAt(0)) {
+            i = index;
+          }
         }
         const floors = buildings[i].floors.map(f => f.floorCode);
 
 
         for (let i = 0; i < floors.length; i++) {
-            const option = document.createElement('option');
-            option.textContent = floors[i];
-            option.value = floors[i];
-            select.appendChild(option);
+          const option = document.createElement('option');
+          option.textContent = floors[i];
+          option.value = floors[i];
+          select.appendChild(option);
         }
         popUp.appendChild(select);
 
 
+        // create a button
+        const button = document.createElement('button');
+        button.style.fontSize = '16px';
+        button.style.padding = '10px';
+        button.style.borderRadius = '5px';
+        button.style.border = '1px solid #ccc';
+        button.style.backgroundColor = '#fff';
+        button.style.outline = 'none';
+        button.style.color = '#333';
+        button.style.fontFamily = 'sans-serif';
+        button.textContent = 'Selecionar';
+        popUp.appendChild(button);
 
         // add the popup to the document
 
         document.body.appendChild(popUp);
 
-        let selectValue = select.value;
         // add an event listener to the button
-        select.addEventListener('change', function() {
-            selectValue = select.value;
-            if (selectValue !== '') {
-                console.log('Piso selecionado:', selectValue);
-                this.thumbRaiser.loadMap(selectValue);  // Carregue o mapa quando o piso for alterado
-            }
-            document.body.removeChild(popUp);
-        });
 
+        button.addEventListener('click', () => {
+          const floor = select.value;
+          this.thumbRaiser.loadMap(floor);  // Carregue o mapa quando o piso for alterado
+          document.body.removeChild(popUp);
+          this.popUpCreated = false;
+
+
+        });
+        this.popUpCreated = true;
+      }
     }
 
     hideSelectionFloors(){
-        const popUp = document.querySelector('div');
+      const popUp = document.getElementById('popUp');
+      if (popUp){
         document.body.removeChild(popUp);
+        this.popUpCreated = false;
+      }
     }
     setVisibility(visible) {
         if ("show" in this && "hide" in this) {
@@ -334,3 +352,4 @@ export default class UserInterface extends GUI {
         }
     }
 }
+
