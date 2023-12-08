@@ -4,8 +4,11 @@ import CubeTexture from "./cubetexture.js";
 import { GUI } from "three/addons/libs/lil-gui.module.min.js";
 
 export default class UserInterface extends GUI {
+
+    thumbRaiser ;
     constructor(thumbRaiser,build) {
         super();
+        this.thumbRaiser = thumbRaiser;
 
         const audioCallback = function (enabled) {
             if (!enabled) {
@@ -210,6 +213,10 @@ export default class UserInterface extends GUI {
         }
       }
 
+
+
+
+
       createGUI(Object.keys(buildings)[0]);
 
 
@@ -221,6 +228,93 @@ export default class UserInterface extends GUI {
 
 
 
+    showSelectionFloors(building, currentFloor){
+
+        const buildings = building.build;
+
+        console.log(buildings);
+        const popUp = document.createElement('div');
+        popUp.style.position = 'absolute';
+        popUp.style.top = '50%';
+        popUp.style.left = '50%';
+        popUp.style.transform = 'translate(-50%, -50%)';
+        popUp.style.backgroundColor = 'white';
+        popUp.style.padding = '20px';
+        popUp.style.zIndex = '100';
+        popUp.style.borderRadius = '10px';
+        popUp.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.25)';
+        popUp.style.display = 'flex';
+        popUp.style.flexDirection = 'column';
+        popUp.style.alignItems = 'center';
+        popUp.style.justifyContent = 'center';
+        popUp.style.fontFamily = 'sans-serif';
+
+        // create a title
+        const title = document.createElement('h1');
+        title.style.fontSize = '32px';
+        title.style.margin = '0';
+        title.style.marginBottom = '20px';
+        title.style.textAlign = 'center';
+        title.style.color = '#333';
+        title.textContent = 'Selecione o piso';
+        popUp.appendChild(title);
+
+        // create a select
+        const select = document.createElement('select');
+        select.style.fontSize = '16px';
+        select.style.padding = '10px';
+        select.style.marginBottom = '20px';
+        select.style.borderRadius = '5px';
+        select.style.border = '1px solid #ccc';
+        select.style.backgroundColor = '#fff';
+        select.style.outline = 'none';
+        select.style.color = '#333';
+        select.style.fontFamily = 'sans-serif';
+
+        // create options
+
+        console.log(currentFloor.charAt(0));
+        let i =0;
+
+        for (let index = 0; index < buildings.length; index++) {
+            if(buildings[index].code ==currentFloor.charAt(0) ){
+                i=index;
+            }
+        }
+        const floors = buildings[i].floors.map(f => f.floorCode);
+
+
+        for (let i = 0; i < floors.length; i++) {
+            const option = document.createElement('option');
+            option.textContent = floors[i];
+            option.value = floors[i];
+            select.appendChild(option);
+        }
+        popUp.appendChild(select);
+
+
+
+        // add the popup to the document
+
+        document.body.appendChild(popUp);
+
+        let selectValue = select.value;
+        // add an event listener to the button
+        select.addEventListener('change', function() {
+            selectValue = select.value;
+            if (selectValue !== '') {
+                console.log('Piso selecionado:', selectValue);
+                this.thumbRaiser.loadMap(selectValue);  // Carregue o mapa quando o piso for alterado
+            }
+            document.body.removeChild(popUp);
+        });
+
+    }
+
+    hideSelectionFloors(){
+        const popUp = document.querySelector('div');
+        document.body.removeChild(popUp);
+    }
     setVisibility(visible) {
         if ("show" in this && "hide" in this) {
             if (visible) {
