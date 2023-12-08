@@ -1,7 +1,7 @@
 import { Repo } from "../../core/infra/Repo";
 import { Result } from "../../core/logic/Result";
-import { Passageway } from "../../domain/Passageway";
-import { PassagewayId } from "../../domain/PassagewayId";
+import { Passageway } from "../../domain/passageway/Passageway";
+import { PassagewayId } from "../../domain/passageway/PassagewayId";
 
 export default interface IPassagewayRepo extends Repo<Passageway> {
   save(passageway: Passageway): Promise<Passageway>;

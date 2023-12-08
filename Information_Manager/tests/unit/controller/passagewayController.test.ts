@@ -7,7 +7,7 @@ import { Result } from '../../../src/core/logic/Result';
 import  PassagewayController  from '../../../src/controllers/PassagewayController';
 import  IPassagewayService  from '../../../src/services/IServices/IPassagewayService';
 import  PassagewayService  from '../../../src/services/PassagewayService';
-import { Passageway } from '../../../src/domain/Passageway';
+import { Passageway } from '../../../src/domain/passageway/Passageway';
 import {Room} from "../../../src/domain/Room";
 import {Building} from "../../../src/domain/building/Building";
 
