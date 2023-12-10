@@ -1,7 +1,7 @@
 import { Service, Inject } from 'typedi';
 import config from "../../config";
 import {ILiftDTO} from '../dto/ILiftDTO';
-import { Lift } from "../domain/Lift";
+import { Lift } from "../domain/lift/Lift";
 import ILiftRepo from '../services/IRepos/ILiftRepo';
 import IFloorRepo from '../services/IRepos/IFloorRepo';
 import ILiftService from './IServices/ILiftService';
@@ -73,7 +73,7 @@ export default class LiftService implements ILiftService{
           if(lift == null){
             return Result.fail<ILiftDTO>("Lift not found");
           }else{
-            const checkFloors= await this.checkFloors(lift.buildingCode,liftDTO.floors);
+            const checkFloors= await this.checkFloors(lift.buildingCode.value,liftDTO.floors);
             if(checkFloors== null){
               return Result.fail<ILiftDTO>("Floor does not exist in this building");
             }
@@ -124,7 +124,7 @@ export default class LiftService implements ILiftService{
               const floors = liftOrError.getValue()[i].floors;
               const floorCodes = [];
               for(let j = 0; j < floors.length; j++){
-                  const floor = await this.floorRepo.findByDomainId(floors[j]);
+                  const floor = await this.floorRepo.findByDomainId(floors[j].value);
                   floorCodes.push(floor.floorCode);
               }
               liftOrError.getValue()[i].floors = floorCodes;
@@ -149,7 +149,7 @@ export default class LiftService implements ILiftService{
         if(floorsOfBuilding == null  ){
           return null;
         }
-        const floorCodes = floorsOfBuilding.map(floor => floor.floorCode);
+        const floorCodes = floorsOfBuilding.map(floor => floor.floorCode.value);
 
         const allFloorsExist :Floor[]= [];
         for (let i = 0; i < floors.length; i++) {

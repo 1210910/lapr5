@@ -99,10 +99,21 @@ export class Building extends AggregateRoot<BuildingProps> {
 
   public static edit(props: IBuildingDTO | any, building: Building): Result<Building> {
     try {
-      building.name = Name.valueOf(props.name) ?? building.name;
-      building.description = Description.valueOf(props.description) ?? building.description;
-      building.maxLength = Measures.valueOf(props.maxLength) ?? building.maxLength;
-      building.maxWidth = Measures.valueOf(props.maxWidth) ?? building.maxWidth;
+      if (props.name !== undefined && props.name !== null) {
+        building.name = Name.valueOf(props.name);
+    }
+    
+    if (props.description !== undefined && props.description !== null) {
+        building.description = Description.valueOf(props.description);
+    }
+    
+    if (props.maxLength !== undefined && props.maxLength !== null) {
+        building.maxLength = Measures.valueOf(props.maxLength);
+    }
+    
+    if (props.maxWidth !== undefined && props.maxWidth !== null) {
+        building.maxWidth = Measures.valueOf(props.maxWidth);
+    }
 
       return Result.ok<Building>(building);
     } catch (err) {

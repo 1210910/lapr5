@@ -4,13 +4,14 @@ import { expect } from "chai";
 import ILiftRepo from "../../../src/services/IRepos/ILiftRepo";
 import ILiftService from "../../../src/services/IServices/ILiftService";
 import LiftService from "../../../src/services/liftService";
-import { Lift } from "../../../src/domain/Lift";
+import { Lift } from "../../../src/domain/lift/Lift";
 import IFloorRepo from "../../../src/services/IRepos/IFloorRepo";
 import { Floor } from "../../../src/domain/floor/floor";
 import IBuildingRepo from "../../../src/services/IRepos/IBuildingRepo";
 import IBuildingService from "../../../src/services/IServices/IBuildingService";
 import BuildingService from "../../../src/services/buildingService";
 import { Result } from "../../../src/core/logic/Result";
+import { UniqueEntityID } from "../../../src/core/domain/UniqueEntityID";
 
 describe("liftService", () => {
 
@@ -62,8 +63,8 @@ describe("liftService", () => {
       description: "Description"
     };
 
-    const floor1 = Floor.create(floor1Dto).getValue();
-    const floor2 = Floor.create(floor2Dto).getValue();
+    const floor1 = Floor.create(floor1Dto, new UniqueEntityID("FLR0")).getValue();
+    const floor2 = Floor.create(floor2Dto, new UniqueEntityID("FLR1")).getValue();
 
     when(liftRepo.findByCode(liftDto.code)).thenReturn(null);
     when(liftRepo.findIfBuildingAlreadyHasLift(liftDto.buildingCode)).thenReturn(Promise.resolve(false));
@@ -178,8 +179,8 @@ describe("liftService", () => {
       description: "Description"
     };
 
-    const floor1 = Floor.create(floor1Dto).getValue();
-    const floor2 = Floor.create(floor2Dto).getValue();
+    const floor1 = Floor.create(floor1Dto, new UniqueEntityID("FLR0")).getValue();
+    const floor2 = Floor.create(floor2Dto, new UniqueEntityID("FLR1")).getValue();
 
     const lift = Lift.create(liftDto).getValue();
 

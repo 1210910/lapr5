@@ -90,7 +90,7 @@ export class Floor extends AggregateRoot<FloorProps> {
 
     try {
       const floor = new Floor({
-        floorCode: FloorCode.toDomain(props.floorCode) ?? FloorCode.valueOf(props.buildingID + props.floorNumber),
+        floorCode: FloorCode.valueOf(props.buildingID + props.floorNumber),
         floorNumber: FloorNumber.valueOf(props.floorNumber),
         width: Measures.valueOf(props.width),
         length: Measures.valueOf(props.length),

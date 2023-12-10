@@ -12,13 +12,12 @@ export class LiftService{
     this.LiftList = [];
   }
 
-      public createLift(code:string , floors:string[], brand:string,  model:string, buildingCode:string, serialNumber:string, description:string) {
+      public createLift(floors:string[], brand:string,  model:string, buildingCode:string, serialNumber:string, description:string) {
 
         return new Promise((resolve, reject) => {
 
             const jsonMessage = JSON.stringify(
               {
-                code: code,
                 floors: floors,
                 brand: brand,
                 model: model,

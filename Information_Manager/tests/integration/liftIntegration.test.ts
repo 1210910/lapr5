@@ -5,7 +5,7 @@ import { Request, Response } from "express";
 import LiftController from "../../src/controllers/liftController";
 import ILiftService from "../../src/services/IServices/ILiftService";
 import LiftService from "../../src/services/liftService";
-import { Lift } from "../../src/domain/Lift";
+import { Lift } from "../../src/domain/lift/Lift";
 import ILiftRepo from "../../src/services/IRepos/ILiftRepo";
 import LiftRepo from "../../src/repos/liftRepo";
 
@@ -18,6 +18,8 @@ import BuildingRepo from "../../src/repos/buildingRepo";
 
 import { Result } from "../../src/core/logic/Result";
 import {when} from "ts-mockito";
+import { UniqueEntityID } from "../../src/core/domain/UniqueEntityID";
+import { ILiftDTO } from "../../src/dto/ILiftDTO";
 
 describe("Lift Integration Tests", () => {
   let liftController: LiftController;
@@ -36,7 +38,6 @@ describe("Lift Integration Tests", () => {
 
   it("should show success creating a valid lift", async () => {
     let requestBody = {
-      code: "LA",
       buildingCode: "A",
       floors: ["A1", "A2"],
       brand: "Brand",
@@ -83,8 +84,8 @@ describe("Lift Integration Tests", () => {
       description: "Description"
     };
 
-    const floor1 = Floor.create(floor1Dto).getValue();
-    const floor2 = Floor.create(floor2Dto).getValue();
+    const floor1 = Floor.create(floor1Dto, new UniqueEntityID("FLR0")).getValue();
+    const floor2 = Floor.create(floor2Dto, new UniqueEntityID("FLR1")).getValue();
 
     (liftRepo.findByCode as sinon.SinonStub).withArgs(liftDto.code).resolves(Promise.resolve(null));
     (liftRepo.findIfBuildingAlreadyHasLift as sinon.SinonStub).withArgs(liftDto.buildingCode).resolves(Promise.resolve(false));
@@ -258,7 +259,6 @@ describe("Lift Integration Tests", () => {
 
   it("should show success updating a lift", async () => {
     let requestBody = {
-      code: "LA",
       buildingCode: "A",
       floors: ["A1", "A2"],
       brand: "Brand1",
@@ -306,14 +306,13 @@ describe("Lift Integration Tests", () => {
       model: "Model",
       serialNumber: "123456789",
       description: "Description",
-      id: "123456789"
-    };
+    } as ILiftDTO;
 
-    const floor1 = Floor.create(floor1Dto).getValue();
-    const floor2 = Floor.create(floor2Dto).getValue();
+    const floor1 = Floor.create(floor1Dto, new UniqueEntityID("FLR0")).getValue();
+    const floor2 = Floor.create(floor2Dto, new UniqueEntityID("FLR1")).getValue();
     const lift = Lift.create(liftDto).getValue();
 
-    (liftRepo.findByCode as sinon.SinonStub).withArgs(lift.code).resolves(Promise.resolve(lift));
+    (liftRepo.findByCode as sinon.SinonStub).withArgs(liftDto.code).resolves(Promise.resolve(lift));
     (floorRepo.findByBuildingId as sinon.SinonStub).withArgs(liftDto.buildingCode).resolves(Promise.resolve([floor1, floor2]));
     (floorRepo.findByFloorCode as sinon.SinonStub).withArgs(floor1Dto.floorCode).resolves(Promise.resolve(floor1));
     (floorRepo.findByFloorCode as sinon.SinonStub).withArgs(floor2Dto.floorCode).resolves(Promise.resolve(floor2));

@@ -2,7 +2,7 @@ import { Mapper } from "../core/infra/Mapper";
 
 import {ILiftDTO} from "../dto/ILiftDTO";
 
-import { Lift } from "../domain/Lift";
+import { Lift } from "../domain/lift/Lift";
 import { UniqueEntityID } from "../core/domain/UniqueEntityID";
 
 export class LiftMap extends Mapper<Lift> {
@@ -10,13 +10,13 @@ export class LiftMap extends Mapper<Lift> {
 
     public static toDTO( lift: Lift): ILiftDTO {
         return {
-          code: lift.code,
-          buildingCode: lift.buildingCode,
-          floors: lift.floors,
-          brand: lift.brand,
-          model: lift.model,
-          serialNumber: lift.serialNumber,
-          description: lift.description
+          code: lift.code.value,
+          buildingCode: lift.buildingCode.value,
+          floors: lift.floors.map((floor) => floor.value),
+          brand: lift.brand.value,
+          model: lift.model.value,
+          serialNumber: lift.serialNumber.value,
+          description: lift.description.value
         } as ILiftDTO;
       }
 
@@ -40,13 +40,13 @@ export class LiftMap extends Mapper<Lift> {
       public static toPersistence (lift: Lift): any {
         const e = {
           domainId: lift.id.toString(),
-          code: lift.code,
-          buildingCode: lift.buildingCode,
-          floors: lift.floors,
-          brand: lift.brand,
-          model: lift.model,
-          serialNumber: lift.serialNumber,
-          description: lift.description
+          code: lift.code.value,
+          buildingCode: lift.buildingCode.value,
+          floors: lift.floors.map((floor) => floor.value),
+          brand: lift.brand.value,
+          model: lift.model.value,
+          serialNumber: lift.serialNumber.value,
+          description: lift.description.value
         }
         return e;
       }

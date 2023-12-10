@@ -1,5 +1,5 @@
 import { Repo } from "../../core/infra/Repo";
-import { Lift } from "../../domain/Lift";
+import { Lift } from "../../domain/lift/Lift";
 import { Result } from "../../core/logic/Result";
 
 export default interface ILiftRepo extends Repo<Lift> {
