@@ -27,6 +27,7 @@ import { AmbientLight, DirectionalLight, SpotLight, FlashLight } from "./lights.
 import Fog from "./fog.js";
 import Camera from "./camera.js";
 import UserInterface from "./user_interface.js";
+import {forEach} from "lodash";
 
 /*
  * generalParameters = {
@@ -347,6 +348,7 @@ import UserInterface from "./user_interface.js";
 
 export default class ThumbRaiser {
     usedElevator = true ;
+    usedPassageway  = null;
     constructor(generalParameters, audioParameters, cubeTexturesParameters, mazeParameters, playerParameters, ambientLightParameters, directionalLightParameters, spotLightParameters, flashLightParameters, shadowsParameters, fogParameters, collisionDetectionParameters, fixedViewCameraParameters, firstPersonViewCameraParameters, thirdPersonViewCameraParameters, topViewCameraParameters, miniMapCameraParameters,build) {
         this.generalParameters = merge({}, generalData, generalParameters);
         this.audioParameters = merge({}, audioData, audioParameters);
@@ -1376,28 +1378,56 @@ export default class ThumbRaiser {
                       }
 
                     }else if(this.maze.passagewayEntrance(this.collisionDetectionParameters.method,position,this.collisionDetectionParameters.method != "obb-aabb" ? this.player.radius : this.player.halfSize)) {
+                      if (elevator) {
+                          elevator = false;
+                          const passageway = this.maze.checkIfIsPassageWay(this.player.position);
+                          console.log(passageway)
 
-                        const passageway = this.maze.checkIfIsPassageWay(this.player.position);
+                          if (passageway != null) {
 
-                        if (passageway) {
-                            const fileName = this.mazeParameters.url.split("/")[5];
-                            const floor = fileName.split(".")[0];
-                            const texto = passageway.passagewayCode;
-                            const regex = /P(\w{2})(\w{2})/;
-                            const matches = texto.match(regex);
-
-                            if (matches) {
-                                if (matches[0] == floor) {
-                                    console.log(matches[1])
-                                    this.loadMap(matches[1])
-                                } else if (matches[1] == floor) {
-                                    console.log(matches[0])
-                                    this.loadMap(matches[0])
-                                }
-                            }
-                        }
+                              const fileName = this.mazeParameters.url.split("/")[5];
+                              const floor = fileName.split(".")[0];
+                              const texto = passageway.passagewayCode;
+                              console.log(texto)
+                              const regex = /P(\w{2})(\w{2})/;
+                              const matches = texto.match(regex);
+                              console.log(matches)
 
 
+                              this.usedPassageway = passageway.passagewayCode;
+                              if (matches[1] == floor) {
+                                  this.userInterface.showConfirm( matches[2], passageway.passagewayCode);
+
+                              } else if (matches[2] == floor) {
+
+                                  this.userInterface.showConfirm( matches[1], passageway.passagewayCode);
+
+                              }
+
+                          }
+
+                          function isPlayerInPosition(maze,player) {
+                              if (maze.isInPassagewayEntrance(player.position)){
+                                  console.log("Player is in the elevator area")
+                                  return true;
+                              }
+                              else {
+                                  console.log("Player is not in the elevator area")
+                                  console.log(player.position)
+                                  return false;
+                              }
+                          }
+
+
+                          const waitingInterval = setInterval(() => {
+                              if (!isPlayerInPosition(this.maze,this.player)) {
+                                  elevator = true;
+                                  this.userInterface.hideSelectionFloors();
+                                  clearInterval(waitingInterval); // Stop the active waiting
+                              }
+                          }, 1000); // Check every second (you can adjust the interval)
+
+                      }
                     }
 
                     else {
@@ -1488,7 +1518,7 @@ export default class ThumbRaiser {
         }
     }
 
-    loadMap(floor) {
+    loadMap(floor, passageway) {
         const mazeURL = "./../../assets/mazes/" + floor + ".json";
 
         const mazeParams ={
@@ -1498,16 +1528,27 @@ export default class ThumbRaiser {
 
         // change the map
 
+
+
+
         this.scene.remove(this.maze);
+
+
+
 
         this.mazeParameters = merge({},mazeData,mazeParams);
 
         this.maze = new Maze(this.mazeParameters);
 
+        this.maze.thumbRaiser = this;
+
 
         this.scene.add(this.maze);
 
 
+    }
 
+    setPlayerPosition(position) {
+        this.player.position.set(position.x, position.y, position.z);
     }
 }

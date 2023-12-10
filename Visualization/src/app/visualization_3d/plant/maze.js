@@ -18,6 +18,7 @@ import {forEach} from "lodash";
  */
 
 export default class Maze extends THREE.Group {
+    thumbRaiser ;
     constructor(parameters) {
         super();
         merge(this, parameters);
@@ -35,7 +36,8 @@ export default class Maze extends THREE.Group {
             this.map = description.maze.map;
             this.exitLocation = []
             this.elevators = this.cellToCartesian(description.maze.elevators);
-            this.passageways = JSON.parse(description.maze.passageways);
+            this.passageways = (description.maze.passageways);
+            console.log(this.passageways);
 
             // Create the helpers
             this.helper = new THREE.Group();
@@ -223,9 +225,35 @@ export default class Maze extends THREE.Group {
                 }
             }
 
-            // Store the player's initial position and direction
-            this.initialPosition = this.cellToCartesian(description.player.initialPosition);
-            this.initialDirection = description.player.initialDirection;
+            if (this.thumbRaiser != null) {
+                if (this.thumbRaiser.usedPassageway != null) {
+
+                    forEach(this.passageways, (passageway) => {
+
+                        if (passageway.passagewayCode == this.thumbRaiser.usedPassageway) {
+
+                          const positions = [];
+
+                          positions.push(Number(passageway.position[0]));
+                          positions.push(Number(passageway.position[1]));
+
+
+
+                            this.thumbRaiser.setPlayerPosition(this.cellToCartesian(positions));
+                        }
+
+
+                    });
+
+                }
+            }else{
+              // Store the player's initial position and direction
+                this.initialPosition = this.cellToCartesian(description.player.initialPosition);
+                console.log(this.initialPosition);
+                this.initialDirection = description.player.initialDirection;
+            }
+
+
 
             this.loaded = true;
         }
@@ -460,7 +488,9 @@ export default class Maze extends THREE.Group {
       const indices = this.cartesianToCell(position);
       if (method != "obb-aabb") {
         if(
-          this.elevatorCollision(indices, [0, 0], 0, position, {x: 0.0, z: -0.475}, halfSize, "north wall",0.2) ){
+          this.elevatorCollision(indices, [0, 0], 0, position, {x: 0.0, z: -0.475}, halfSize, "north wall",0.2)
+
+        ){
 
           return true;
         }
@@ -472,7 +502,12 @@ export default class Maze extends THREE.Group {
       const indices = this.cartesianToCell(position);
       if (method != "obb-aabb") {
         if(
-          this.passagewayCollision(indices, [0, 0], 0, position, {x: 0.0, z: -0.475}, halfSize, "north wall",0.2) ){
+          this.passagewayCollision(indices, [0, 0], 0, position, {x: 0.0, z: -0.475}, halfSize, "north wall",0.2) ||
+          this.passagewayCollision(indices, [0, 0], 1, position, {x: -0.475, z: 0.0}, halfSize, "west wall",0.2) ||
+          this.passagewayCollision(indices, [1, 0], 0, position, {x: 0.0, z: -0.525}, halfSize, "south wall",0.2)
+
+
+        ){
 
           return true;
         }
@@ -482,12 +517,26 @@ export default class Maze extends THREE.Group {
 
     checkIfIsPassageWay(position) {
         const indices = this.cartesianToCell(position);
+        let foundPassageway;
+      console.log (indices[0] + " " + indices[1])
         forEach(this.passageways, (passageway) => {
             if (passageway.position[0] == indices[0] && passageway.position[1] == indices[1]) {
-                return passageway;
+
+                foundPassageway = passageway;
             }
+
         });
-        return null;
+
+        return foundPassageway;
+
+    }
+
+    isInPassagewayEntrance(position) {
+        const indices = this.cartesianToCell(position);
+        if (this.map[indices[0]][indices[1]] == 7 || this.map[indices[0]][indices[1]] == 8 || this.map[indices[0]+1][indices[1]] == 7 || this.map[indices[0]+1][indices[1]] == 8 || this.map[indices[0]][indices[1]+1] == 7 || this.map[indices[0]][indices[1]+1] == 8 ) {
+            return true;
+        }
+        return false;
     }
     isInElevatorEntrance(position) {
         const indices = this.cartesianToCell(position);
