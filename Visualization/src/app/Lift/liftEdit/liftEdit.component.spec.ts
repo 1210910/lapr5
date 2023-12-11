@@ -40,7 +40,7 @@ describe("LiftEditComponent", () => {
     const serialNumberInput = fixture.debugElement.queryAll(By.css("input"))[4].nativeElement;
     const descriptionTextarea = fixture.debugElement.queryAll(By.css("textarea"))[0].nativeElement;
 
-    codeInput.value = "code";
+    component.selectedLift = { code: 'code' };
     floorsInput.value = "floor";
     brandInput.value = "brand";
     modelInput.value = "model";
@@ -61,7 +61,7 @@ describe("LiftEditComponent", () => {
     const serialNumberInput = fixture.debugElement.queryAll(By.css("input"))[4].nativeElement;
     const descriptionTextarea = fixture.debugElement.queryAll(By.css("textarea"))[0].nativeElement;
 
-    codeInput.value = "code";
+    component.selectedLift = { code: 'code' };
     floorsInput.value = "floor";
     brandInput.value = "brand";
     modelInput.value = "model";

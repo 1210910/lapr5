@@ -107,11 +107,11 @@ export class RoomCreateComponent {
     createRoom(){
 
         const roomCode = document.getElementsByTagName("input")[0].value;
-        const floor = document.getElementsByTagName("input")[1].value;
+        const floor = this.selectedFloor.floorCode;
         const description = document.getElementsByTagName("textarea")[0].value;
-        const length = Number(document.getElementsByTagName("input")[2].value);
-        const width = Number(document.getElementsByTagName("input")[3].value);
-        const roomType = document.getElementsByTagName("select")[0].value;
+        const length = Number(document.getElementsByTagName("input")[1].value);
+        const width = Number(document.getElementsByTagName("input")[2].value);
+        const roomType = document.getElementsByTagName("select")[1].value;
 
 
         if (roomCode == "" || floor == "" || length == null || width == null || roomType == ""){
