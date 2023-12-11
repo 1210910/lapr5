@@ -35,6 +35,7 @@ describe('FloorCreateComponent', () => {
 
   it('should show alert if form is invalid', () => {
     const alertSpy = jest.spyOn(window, 'alert');
+    component.selectedBuilding = { code: 'dede' };
     component.createFloor();
     expect(alertSpy).toHaveBeenCalledWith('Please fill in all fields');
   });
