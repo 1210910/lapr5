@@ -333,6 +333,72 @@ export default class UserInterface extends GUI {
         this.popUpCreated = false;
       }
     }
+
+    showConfirm(floor, passageway){
+        if (!this.popUpCreated) {
+
+
+            const popUp = document.createElement('div');
+            popUp.id = 'popUp';
+            popUp.style.position = 'absolute';
+            popUp.style.top = '50%';
+            popUp.style.left = '50%';
+            popUp.style.transform = 'translate(-50%, -50%)';
+            popUp.style.backgroundColor = 'white';
+            popUp.style.padding = '20px';
+            popUp.style.zIndex = '100';
+            popUp.style.borderRadius = '10px';
+            popUp.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.25)';
+            popUp.style.display = 'flex';
+            popUp.style.flexDirection = 'column';
+            popUp.style.alignItems = 'center';
+            popUp.style.justifyContent = 'center';
+            popUp.style.fontFamily = 'sans-serif';
+
+            // create a title
+            const title = document.createElement('h1');
+            title.style.fontSize = '32px';
+            title.style.margin = '0';
+            title.style.marginBottom = '20px';
+            title.style.textAlign = 'center';
+            title.style.color = '#333';
+            title.textContent = 'Confirme se deseja ir para o piso '+floor;
+            popUp.appendChild(title);
+
+
+
+
+            // create a button
+            const button = document.createElement('button');
+            button.style.fontSize = '16px';
+            button.style.padding = '10px';
+            button.style.borderRadius = '5px';
+            button.style.border = '1px solid #ccc';
+            button.style.backgroundColor = '#fff';
+            button.style.outline = 'none';
+            button.style.color = '#333';
+            button.style.fontFamily = 'sans-serif';
+            button.textContent = 'Confirmar';
+            popUp.appendChild(button);
+
+            // add the popup to the document
+
+            document.body.appendChild(popUp);
+
+            // add an event listener to the button
+
+            button.addEventListener('click', () => {
+
+                this.thumbRaiser.loadMap(floor,passageway);  // Carregue o mapa quando o piso for alterado
+                document.body.removeChild(popUp);
+                this.popUpCreated = false;
+
+
+            });
+            this.popUpCreated = true;
+        }
+
+    }
     setVisibility(visible) {
         if ("show" in this && "hide" in this) {
             if (visible) {
