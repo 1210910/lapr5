@@ -1,6 +1,6 @@
 import { IRoomPersistence } from "../../dataschema/IRoomPersistence";
 import mongoose from 'mongoose';
-import { RoomType } from "../../domain/RoomType";
+import { RoomType } from "../../domain/room/RoomType";
 
 const Room = new mongoose.Schema(
     {

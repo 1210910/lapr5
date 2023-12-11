@@ -6,7 +6,7 @@ import {Request , Response } from 'express';
 import  RoomController  from '../../../src/controllers/RoomController';
 import  IRoomService  from '../../../src/services/IServices/IRoomService';
 import  RoomService  from '../../../src/services/RoomService';
-import { Room } from '../../../src/domain/Room';
+import { Room } from '../../../src/domain/room/Room';
 import { Result } from '../../../src/core/logic/Result';
 
 

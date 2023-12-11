@@ -1,7 +1,7 @@
 import { Mapper } from "../core/infra/Mapper";
 import { Document, Model } from 'mongoose';
 import { IRoomPersistence } from '../dataschema/IRoomPersistence';
-import { Room } from "../domain/Room";
+import { Room } from "../domain/room/Room";
 import IRoomDTO from "../dto/IRoomDTO";
 
 import { UniqueEntityID } from "../core/domain/UniqueEntityID";
@@ -11,11 +11,11 @@ export class RoomMap extends Mapper<Room> {
 
     public static toDTO(Room: Room): IRoomDTO {
         return {
-            roomCode: Room.roomCode,
-            floor: Room.floor,
-            description: Room.description,
-            width : Room.width,
-            length : Room.length,
+            roomCode: Room.roomCode.value,
+            floor: Room.floor.value,
+            description: Room.description.value,
+            width : Room.width.value,
+            length : Room.length.value,
             roomType: Room.roomType
         } as IRoomDTO;
     }
@@ -34,11 +34,11 @@ export class RoomMap extends Mapper<Room> {
     public static toPersistence(Room: Room): any {
         return {
             domainId: Room.id.toString(),
-            roomCode: Room.roomCode,
-            floor: Room.floor,
-            description: Room.description,
-            width: Room.width,
-            length: Room.length,
+            roomCode: Room.roomCode.value,
+            floor: Room.floor.value,
+            description: Room.description.value,
+            width: Room.width.value,
+            length: Room.length.value,
             roomType: Room.roomType
         }
     }

@@ -1,5 +1,5 @@
 import  assert  from "assert";
-import { Room } from "../../../src/domain/Room";
+import { Room } from "../../../src/domain/room/Room";
 
 
 describe("Room test", () => {
@@ -78,7 +78,7 @@ describe("Room test", () => {
     );
 
 
-    it("shouldn't create a valid room when description is null", () => {
+    it("should create a valid room when description is null", () => {
 
         const roomDto = {
             roomCode: "A101",
@@ -91,7 +91,7 @@ describe("Room test", () => {
 
         const roomOrError = Room.create(roomDto);
 
-        assert(roomOrError.isFailure);
+        assert(roomOrError.isSuccess);
 
     }
     );
@@ -270,7 +270,7 @@ describe("Room test", () => {
 
         const room = roomOrError.getValue();
 
-        assert(room.roomCode == roomDto.roomCode);
+        assert(room.roomCode.value == roomDto.roomCode);
     }
     );
 
@@ -311,7 +311,7 @@ it ("valid created room should have valid floor", () => {
 
     const room = roomOrError.getValue();
 
-    assert(room.floor == roomDto.floor);
+    assert(room.floor.value == roomDto.floor);
 
 }
 );
@@ -332,7 +332,7 @@ it ("valid created room should have valid description", () => {
 
     const room = roomOrError.getValue();
 
-    assert(room.description == roomDto.description);
+    assert(room.description.value == roomDto.description);
 
 }
 );
@@ -352,7 +352,7 @@ it ("valid created room should have valid width", () => {
 
         const room = roomOrError.getValue();
 
-        assert(room.width == roomDto.width);
+        assert(room.width.value == roomDto.width);
 
 }
 );
@@ -373,7 +373,7 @@ it ("valid created room should have valid length", () => {
 
     const room = roomOrError.getValue();
 
-    assert(room.length == roomDto.length);
+    assert(room.length.value == roomDto.length);
 
 }
 );

@@ -8,7 +8,7 @@ import  PassagewayController  from '../../../src/controllers/PassagewayControlle
 import  IPassagewayService  from '../../../src/services/IServices/IPassagewayService';
 import  PassagewayService  from '../../../src/services/PassagewayService';
 import { Passageway } from '../../../src/domain/passageway/Passageway';
-import {Room} from "../../../src/domain/Room";
+import {Room} from "../../../src/domain/room/Room";
 import {Building} from "../../../src/domain/building/Building";
 
 chai.use(sinonChai);

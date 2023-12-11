@@ -1,6 +1,6 @@
 import { Repo } from "../../core/infra/Repo";
-import { Room } from "../../domain/Room";
-import { RoomId } from "../../domain/RoomId";
+import { Room } from "../../domain/room/Room";
+import { RoomId } from "../../domain/room/RoomId";
 import {Result} from "../../core/logic/Result";
 
 export default interface IRoomRepo extends Repo<Room> {

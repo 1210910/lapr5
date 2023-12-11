@@ -16,7 +16,7 @@ export default (app: Router) => {
     celebrate({
         body: Joi.object({
             roomCode: Joi.string().max(50).required(),
-            description: Joi.string().max(250).required(),
+            description: Joi.string().max(250),
             width: Joi.number().required(),
             length: Joi.number().required(),
             roomType: Joi.string().valid('classroom','laboratory','anphitheater','office','other').required(),

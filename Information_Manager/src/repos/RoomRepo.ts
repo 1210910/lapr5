@@ -1,13 +1,13 @@
 import { Service, Inject } from 'typedi';
 
 import IRoomRepo from "../services/IRepos/IRoomRepo";
-import { Room } from "../domain/Room";
+import { Room } from "../domain/room/Room";
 import { RoomMap } from "../mappers/RoomMap";
-import { RoomId } from '../domain/RoomId';
+import { RoomId } from '../domain/room/RoomId';
 
 import { Document, FilterQuery, Model } from 'mongoose';
 import { IRoomPersistence } from '../dataschema/IRoomPersistence';
-import {RoomType} from "../domain/RoomType";
+import {RoomType} from "../domain/room/RoomType";
 import {Result} from "../core/logic/Result";
 import {element} from "three/examples/jsm/nodes/shadernode/ShaderNodeBaseElements";
 
@@ -47,11 +47,11 @@ export default class RoomRepo implements IRoomRepo {
 
                 return RoomMap.toDomain(roomCreated);
             } else {
-                RoomDocument.roomCode = room.roomCode;
-                RoomDocument.floor = room.floor;
-                RoomDocument.description = room.description;
-                RoomDocument.width = room.width;
-                RoomDocument.length = room.length;
+                RoomDocument.roomCode = room.roomCode.value;
+                RoomDocument.floor = room.floor.value;
+                RoomDocument.description = room.description.value;
+                RoomDocument.width = room.width.value;
+                RoomDocument.length = room.length.value;
                 RoomDocument.roomType = RoomType[room.roomType];
                 await RoomDocument.save();
 

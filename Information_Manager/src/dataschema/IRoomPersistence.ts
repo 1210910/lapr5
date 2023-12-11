@@ -1,5 +1,5 @@
 import { Floor } from "../domain/floor/floor";
-import { RoomType } from "../domain/RoomType";
+import { RoomType } from "../domain/room/RoomType";
 
 export interface IRoomPersistence {
     _id: string;

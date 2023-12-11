@@ -102,7 +102,7 @@ export class RoomCreateComponent {
         const roomType = document.getElementsByTagName("select")[0].value;
 
 
-        if (roomCode == "" || floor == "" || length == null || width == null || description == "" || roomType == ""){
+        if (roomCode == "" || floor == "" || length == null || width == null || roomType == ""){
             alert("Please fill in all fields");
             return;
         }

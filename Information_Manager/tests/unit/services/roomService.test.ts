@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import { instance, mock, when } from 'ts-mockito';
 
-import { Room } from '../../../src/domain/Room';
+import { Room } from '../../../src/domain/room/Room';
 import  IRoomService  from '../../../src/services/IServices/IRoomService';
 import IRoomRepo from '../../../src/services/IRepos/IRoomRepo';
 import IFloorRepo from '../../../src/services/IRepos/IFloorRepo';

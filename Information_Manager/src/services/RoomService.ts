@@ -1,6 +1,6 @@
 import { Service, Inject } from "typedi";
 
-import { Room } from "../domain/Room";
+import { Room } from "../domain/room/Room";
 import { RoomMap } from "../mappers/RoomMap";
 import IRoomDTO from "../dto/IRoomDTO";
 import IRoomService from "./IServices/IRoomService";
