@@ -13,7 +13,7 @@ describe('RobotTypeCreateComponent', () => {
   beforeEach(() => {
     mockRobotTypeService = {
       createRobotType: jest.fn()
-    } as jest.Mocked<RobotTypeService>;
+    } as any;
 
     mockActivatedRoute = {
 
