@@ -1,6 +1,6 @@
 import { Component,Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Robotinfo } from './robotinfo';
+import { RobotTypeInfo } from './robotTypeInfo';
 import { RouterLink } from '@angular/router';
 
 
@@ -21,7 +21,7 @@ import { RouterLink } from '@angular/router';
 })
 export class RobotInfoComponent {
 
-  @Input() robotInfo!: Robotinfo;
+  @Input() robotInfo!: RobotTypeInfo;
 
 
 }

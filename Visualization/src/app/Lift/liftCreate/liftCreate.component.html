@@ -18,10 +18,12 @@
         </div>
         <form action="#">
             <div class="form-row">
-                <div class="input-data">
-                    <input type="text" required>
-                    <div class="underline"></div>
-                    <label for="">Building Code</label>
+                <div class="input-data select-container">
+                    <label for="selectedBuilding">Building Code to Edit</label>
+                    <select [(ngModel)]="selectedBuilding" name="selectedBuilding" id="selectedBuilding">
+                        <option value="" disabled>Select a building</option>
+                        <option *ngFor="let building of this.buildings" [ngValue]="building">{{ building.code }}</option>
+                    </select>
                 </div>
                 <div class="input-data">
                     <input type="text" required>

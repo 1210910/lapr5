@@ -5,29 +5,39 @@ import {FloorInfoComponent} from "../floor-info/floor-info.component";
 import {HousingLocation} from "../../houselocation";
 import {FloorService} from "../../services/floor.service";
 import routes from "../../routes";
+import {BuildingInfo} from "../../Building/building-info/buildingInfo";
+import {BuildingService} from "../../services/building.service";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+
 
 
 @Component({
     selector: 'app-building-create',
     standalone: true,
-    imports: [CommonModule, RouterLink],
+    imports: [CommonModule, RouterLink, ReactiveFormsModule, FormsModule],
     templateUrl: './floorCreate.component.html',
     styleUrls: ["./floorCreate.component.css"]
 
 })
 
 export class FloorCreateComponent {
-
+    buildingService: BuildingService = inject(BuildingService);
+    buildings: BuildingInfo[];
     floorService: FloorService = inject(FloorService);
+    selectedBuilding: any;
 
 
     constructor() {
+        this.buildings = [];
+    }
 
+    ngOnInit() {
+        this.listBuildings();
     }
 
    createFloor(){
 
-     const buildingCode = document.getElementsByTagName("input")[0].value;
+     const buildingCode = this.selectedBuilding.code;
      const number = Number(document.getElementsByTagName("input")[1].value);
      const length = Number(document.getElementsByTagName("input")[2].value);
      const width = Number(document.getElementsByTagName("input")[3].value);
@@ -47,4 +57,25 @@ export class FloorCreateComponent {
 
    }
 
+    public listBuildings() {
+        this.buildingService.listAllBuildings()
+            .then((response: any) => {
+                const responseJson = JSON.parse(response);
+                const buildingsArray: BuildingInfo[] = responseJson.map((building: any) => {
+                    return {
+                        code: building.code,
+                        name: building.name,
+                        description: building.description,
+                        maxLength: building.maxLength,
+                        maxWidth: building.maxWidth
+                    };
+                });
+                this.buildings = buildingsArray;
+            })
+            .catch((error) => {
+                console.error("Error listing buildings", error);
+            });
+    };
+
 }
+

@@ -21,7 +21,7 @@
                 <div class="input-data">
                     <input type="text" required>
                     <div class="underline"></div>
-                    <label for="">Building Code</label>
+                    <label for="">Floor Code</label>
                 </div>
                 <div class="input-data">
                     <input type="text" required>
@@ -41,6 +41,15 @@
                     <label for="">Width</label>
                 </div>
               </div>
+            <div class="form-row">
+            <div class="input-data select-container">
+                <label for="selectedBuilding">Building Code to Create Floor</label>
+                <select [(ngModel)]="selectedBuilding" name="selectedBuilding" id="selectedBuilding">
+                    <option value="" disabled>Select a building</option>
+                    <option *ngFor="let building of this.buildings" [ngValue]="building">{{ building.code }}</option>
+                </select>
+            </div>
+            </div>
             <div class="form-row">
                 <div class="input-data textarea">
                     <textarea rows="8" cols="80" required></textarea>

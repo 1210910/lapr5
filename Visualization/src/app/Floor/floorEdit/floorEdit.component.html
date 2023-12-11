@@ -18,11 +18,13 @@
         </div>
         <form action="#">
           <div class="form-row">
-            <div class="input-data">
-              <input type="text" required>
-              <div class="underline"></div>
-              <label for="">Floor Code to edit</label>
-            </div>
+              <div class="input-data select-container">
+                  <label for="selectedFloor">Floor Code to Edit</label>
+                  <select [(ngModel)]="selectedFloor" name="selectedFloor" id="selectedFloor">
+                      <option value="" disabled>Select a floor</option>
+                      <option *ngFor="let floor of this.floors" [ngValue]="floor">{{ floor.floorCode}}</option>
+                  </select>
+              </div>
             <div class="input-data">
               <input type="text" >
               <div class="underline"></div>

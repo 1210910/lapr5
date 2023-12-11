@@ -18,23 +18,29 @@
         </div>
         <form action="#">
           <div class="form-row">
-            <div class="input-data">
-              <input type="text" required>
-              <div class="underline"></div>
-              <label for="">Passage code to edit </label>
-            </div>
+              <div class="input-data select-container">
+                  <label for="selectedPassageway">Passageway Code to Edit</label>
+                  <select [(ngModel)]="selectedPassageway" name="selectedPassageway" id="selectedPassageway">
+                      <option value="" disabled>Select a passageway</option>
+                      <option *ngFor="let passageway of this.passageways" [ngValue]="passageway">{{ passageway.passageCode }}</option>
+                  </select>
+              </div>
           </div>
           <div class="form-row">
-            <div class="input-data">
-              <input type="text" >
-              <div class="underline"></div>
-              <label for="">Floor1</label>
-            </div>
-            <div class="input-data">
-              <input type="text" >
-              <div class="underline"></div>
-              <label for="">Floor2</label>
-            </div>
+              <div class="input-data select-container">
+                  <label for="selectedFloor1">Floor Code to Edit</label>
+                  <select [(ngModel)]="selectedFloor1" name="selectedFloor1" id="selectedFloor1">
+                      <option value="" disabled>Select a floor</option>
+                      <option *ngFor="let floor of this.floors" [ngValue]="floor">{{ floor.floorCode}}</option>
+                  </select>
+              </div>
+              <div class="input-data select-container">
+                  <label for="selectedFloor2">Floor Code to Edit</label>
+                  <select [(ngModel)]="selectedFloor2" name="selectedFloor2" id="selectedFloor2">
+                      <option value="" disabled>Select a floor</option>
+                      <option *ngFor="let floor of this.floors" [ngValue]="floor">{{ floor.floorCode}}</option>
+                  </select>
+              </div>
           </div>
           <div class="form-row">
             <div class="input-data textarea">

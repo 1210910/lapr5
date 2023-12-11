@@ -30,12 +30,13 @@
           </div>
         </div>
         <div class="form-row">
-          <div class="input-data">
-            <input type="text" required>
-            <div class="underline"></div>
-            <label for="">Type</label>
-          </div>
-
+            <div class="input-data select-container">
+                <label for="selectedRobotType">Robot Type for Robot</label>
+                <select [(ngModel)]="selectedRobotType" name="selectedRobotType" id="selectedRobotType">
+                    <option value="" disabled>Select a RobotType</option>
+                    <option *ngFor="let robotType of this.robotTypes" [ngValue]="robotType">{{ robotType.code}}</option>
+                </select>
+            </div>
         </div>
 
         <div class="form-row">

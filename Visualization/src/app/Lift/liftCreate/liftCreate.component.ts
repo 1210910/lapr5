@@ -2,10 +2,13 @@ import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
 import {LiftService} from "../../services/lift.service"
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {BuildingInfo} from "../../Building/building-info/buildingInfo";
+import {BuildingService} from "../../services/building.service";
 @Component({
     selector: 'app-floor-create',
     standalone: true,
-    imports: [CommonModule, RouterLink],
+    imports: [CommonModule, RouterLink, ReactiveFormsModule, FormsModule],
     templateUrl: './liftCreate.component.html',
     styleUrls: ["./liftCreate.component.css"]
 })
@@ -13,16 +16,25 @@ import {LiftService} from "../../services/lift.service"
 export class LiftCreateComponent {
 
     liftService: LiftService = inject(LiftService);
+    buildingService: BuildingService = inject(BuildingService);
+    selectedBuilding: any;
+    buildings: BuildingInfo[];
 
     constructor() {
+        this.buildings = [];
+    }
+
+    ngOnInit() {
+        this.listBuildings();
     }
 
    createLift(){
 
-     const buildingCode = document.getElementsByTagName("input")[0].value;
-     const floors = document.getElementsByTagName("input")[1].value;
-     const brand = document.getElementsByTagName("input")[2].value;
-     const model = document.getElementsByTagName("input")[3].value;
+        const code = document.getElementsByTagName("input")[0].value;
+        const floors = document.getElementsByTagName("input")[1].value;
+        const brand = document.getElementsByTagName("input")[2].value;
+        const model = document.getElementsByTagName("input")[3].value;
+        const buildingCode = document.getElementsByTagName("input")[4].value;
         const serialNumber = document.getElementsByTagName("input")[5].value;
         const description = document.getElementsByTagName("textarea")[0].value;
 
@@ -40,5 +52,25 @@ export class LiftCreateComponent {
         });
 
    }
+
+    public listBuildings() {
+        this.buildingService.listAllBuildings()
+            .then((response: any) => {
+                const responseJson = JSON.parse(response);
+                const buildingsArray: BuildingInfo[] = responseJson.map((building: any) => {
+                    return {
+                        code: building.code,
+                        name: building.name,
+                        description: building.description,
+                        maxLength: building.maxLength,
+                        maxWidth: building.maxWidth
+                    };
+                });
+                this.buildings = buildingsArray;
+            })
+            .catch((error) => {
+                console.error("Error listing buildings", error);
+            });
+    }
 
 }

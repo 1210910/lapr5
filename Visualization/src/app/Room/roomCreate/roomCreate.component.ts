@@ -4,11 +4,14 @@ import {RouterLink} from "@angular/router";
 import routes from "../../routes";
 import {RoomService} from "../../services/room.service";
 import {result} from "lodash";
+import {FormsModule} from "@angular/forms";
+import {FloorService} from "../../services/floor.service";
+import {FloorInfo} from "../../Floor/floor-info/floorinfo";
 
 @Component({
     selector: 'app-floor-create',
     standalone: true,
-    imports: [CommonModule, RouterLink],
+    imports: [CommonModule, RouterLink, FormsModule],
     template: `
       <section>
           <header class="brand-name">
@@ -35,10 +38,12 @@ import {result} from "lodash";
                           <div class="underline"></div>
                           <label for="">Room Code</label>
                       </div>
-                      <div class="input-data">
-                          <input type="text" required>
-                          <div class="underline"></div>
-                          <label for="">Floor</label>
+                      <div class="input-data select-container">
+                          <label for="selectedFloor">Floor Code for Room</label>
+                          <select [(ngModel)]="selectedFloor" name="selectedFloor" id="selectedFloor">
+                              <option value="" disabled>Select a passageway</option>
+                              <option *ngFor="let floor of this.floors" [ngValue]="floor">{{ floor.floorCode }}</option>
+                          </select>
                       </div>
                   </div>
                   <div class="form-row">
@@ -88,11 +93,18 @@ import {result} from "lodash";
 
 export class RoomCreateComponent {
     roomService: RoomService = inject(RoomService);
+    selectedFloor: any;
+    floorService: FloorService = inject(FloorService);
+    floors: FloorInfo[];
 
     constructor() {
+        this.floors = [];
+    }
+    ngOnInit() {
+        this.listFloors();
     }
 
-   createRoom(){
+    createRoom(){
 
         const roomCode = document.getElementsByTagName("input")[0].value;
         const floor = document.getElementsByTagName("input")[1].value;
@@ -115,5 +127,25 @@ export class RoomCreateComponent {
               alert("Room not created: " + error);
          });
    }
+
+    public listFloors() {
+        this.floorService.listFloors()
+            .then((response: any) => {
+                const responseJson = JSON.parse(response);
+                const floorsArray: FloorInfo[] = responseJson.map((floor: any) => {
+                    return {
+                        floorCode: floor.floorCode,
+                        floorNumber: floor.floorNumber,
+                        length:floor.length,
+                        width: floor.width,
+                        description: floor.description
+                    };
+                });
+                this.floors = floorsArray;
+            })
+            .catch((error) => {
+                console.error("Error listing floors", error);
+            });
+    };
 
 }

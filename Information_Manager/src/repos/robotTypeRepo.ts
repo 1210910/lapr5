@@ -7,6 +7,8 @@ import { RobotTypeMap } from "../mappers/robotTypeMap";
 import { Document, FilterQuery, Model } from "mongoose";
 import { IRobotTypePersistence } from "../dataschema/IRobotTypePersistence";
 import { Result } from "../core/logic/Result";
+import {Robot} from "../domain/robot/robot";
+import {RobotMap} from "../mappers/robotMap";
 
 @Service()
     export default class RobotTypeRepo implements IRobotTypeRepo {
@@ -63,4 +65,12 @@ import { Result } from "../core/logic/Result";
 
 
             }
+
+    public async findAll(): Promise<Array<RobotType>> {
+        const robotTypeRecords = await this.robotTypeSchema.find();
+        const robotTypes = await Promise.all(robotTypeRecords.map(async (robotTypeRecord) =>
+            await RobotTypeMap.toDomain(robotTypeRecord)
+        ));
+        return robotTypes;
     }
+}

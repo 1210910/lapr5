@@ -28,4 +28,19 @@ export default class RobotTypeController implements IRobotTypeController {
         }
     };
 
+    public async listRobotTypes(req: Request, res: Response, next: NextFunction) {
+        try {
+            const robotTypesOrError = await this.robotTypeService.listRobotTypes() as Result<IRobotTypeDTO[]>;
+
+            if (robotTypesOrError.isFailure) {
+                return res.status(400).send();
+            }
+            const robotTypesDTO = robotTypesOrError.getValue();
+            return res.status(200).json( robotTypesDTO );
+        }
+        catch (e) {
+            return next(e);
+        }
+    };
+
 }

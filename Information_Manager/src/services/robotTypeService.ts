@@ -39,4 +39,19 @@ export default class RoboTypeService implements IRobotTypeService{
             return Result.fail<IRobotTypeDTO>('An error has occurred')
         }
     }
+
+    public async listRobotTypes(): Promise<Result<IRobotTypeDTO[]>> {
+        try {
+            const robotTypes = await this.robotTypeRepo.findAll();
+            const robotTypesDTO: IRobotTypeDTO[] = [];
+
+            robotTypes.forEach(robotType => {
+                robotTypesDTO.push(RobotTypeMap.toDTO(robotType));
+            });
+
+            return Result.ok<IRobotTypeDTO[]>(robotTypesDTO);
+        } catch (err) {
+            return Result.fail<IRobotTypeDTO[]>('An error has occurred');
+        }
+    }
 }

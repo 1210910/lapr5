@@ -18,11 +18,13 @@
         </div>
         <form action="#">
           <div class="form-row">
-            <div class="input-data">
-              <input type="text" required>
-              <div class="underline"></div>
-              <label for="">Lift Code to edit</label>
-            </div>
+              <div class="input-data select-container">
+                  <label for="selectedLift">Lift Code to Edit</label>
+                  <select [(ngModel)]="selectedLift" name="selectedLift" id="selectedLift">
+                      <option value="" disabled>Select a building</option>
+                      <option *ngFor="let lift of this.lifts" [ngValue]="lift">{{ lift.code }}</option>
+                  </select>
+              </div>
             <div class="input-data">
               <input type="text" >
               <div class="underline"></div>
