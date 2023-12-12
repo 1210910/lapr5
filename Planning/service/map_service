@@ -237,7 +237,6 @@ create_corridor_facts([Floor1-Floor2 | Rest]) :-
     assertz(corridor(Building1Code, Building2Code, Floor1, Floor2)),
     create_corridor_facts(Rest).
 
-room_location(3,2).
 
 extract_building_floor(RoomCode, BuildingCode, FloorCode) :-
     atom_chars(RoomCode, [BuildingChar1, BuildingChar2 | Rest]),
@@ -272,6 +271,32 @@ remove_duplicates([H | T], [H | T1]) :-
     \+ member(H, T),
     remove_duplicates(T, T1).
 
+create_passageways_from_map() :-
+    findall(Passageway,db:map(_, _, Passageway, _),Passageways),
+    create_passageways(Passageways).
+
+create_passageways([]).
+create_passageways([Passageway | Rest]) :-
+    Passageway=(Code, Position),
+    extract_letters(Code, F1, F2),
+     (
+            (passageway_info(F1, F2, CurrentPosition, _),retract(passageway_info(F1, F2, CurrentPosition,_ )), assert(passageway_info(F1, F2, CurrentPosition, Position)));
+            assert(passageway_info(F1, F2, Position,_))
+        ),
+    create_passageways(Rest).
+
+
+% Predicate to extract letters from a passageway code
+extract_letters(Code, FirstLetters, SecondLetters) :-
+    sub_atom(Code, 1, 2, _, FirstLetters), % Extract the first two characters
+    sub_atom(Code, 3, 2, _, SecondLetters). % Extract the following two characters
+
+% Example usage:
+passageway_code('PA1B1'), % Example passageway code
+extract_letters('PA1B1', FirstLetters, SecondLetters). % Extract the letters from the passageway code
+
+
+
 
 get_entry_exit_positions([], []).
 get_entry_exit_positions([Floor1], [EntryExitPosition]) :-
@@ -290,7 +315,7 @@ get_entry_exit_positions([Floor1 | Rest], [EntryExitPosition | RestEntryExitPosi
     (
         is_same_building_transition(Floor1, Floor2) ->
         (
-            db:map(Floor1, _, _, Exit),
+            db:map(Floor1, _, _, Exit,_),
             db:map(Floor1, _, Entry, _),
             [FirstEntry | _] = Entry,
             [LastExit | _] = Exit,
@@ -320,6 +345,7 @@ is_same_building_transition(Floor1, Floor2) :-
 
 process_path([], ResultPath, ResultPath).
 process_path([cam(Floor, Entry, Exit) | Rest], CurrentPath, ResultPath) :-
+
     converte_mapa(Floor),
     cria_grafo(Floor),
     transform_node,
@@ -331,6 +357,24 @@ process_path([cam(Floor, Entry, Exit) | Rest], CurrentPath, ResultPath) :-
     append(CurrentPath, [Caminho], NewPath),
     process_path(Rest, NewPath, ResultPath).
 
+
+load_floor_rooms():-
+    findall(Floor,db:map(Floor, _, _, _),Floors),
+    load_floor_rooms(Floors).
+
+load_floor_rooms([]).
+load_floor_rooms([Floor|Rest]) :-
+    db:map(Floor, _, _, Rooms),
+    create_rooms_facts(Rooms),
+    load_floor_rooms(Rest).
+
+
+create_rooms_facts([]).
+create_rooms_facts([Room|Rest]):-
+    Room = (Code, Position),
+    extract_building_floor(Code, BuildingCode, FloorCode),
+    assertz(room_location(Code, Position)),
+    create_rooms_facts(Rest).
 
 
 
