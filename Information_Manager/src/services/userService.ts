@@ -56,30 +56,16 @@ export default class UserService implements IUserService{
        * watches every API call and if it spots a 'password' and 'email' property then
        * it decides to steal them!? Would you even notice that? I wouldn't :/
        */
-      
 
-      const salt = randomBytes(32);
-      this.logger.silly('Hashing password');
-      const hashedPassword = await argon2.hash(userDTO.password, { salt });
-      this.logger.silly('Creating user db record');
-
-      const password = await UserPassword.create({ value: hashedPassword, hashed: true});
-      const email = await UserEmail.create( userDTO.email );
-      let role: Role;
-
-      const roleOrError = await this.getRole(userDTO.role);
-      if (roleOrError.isFailure) {
-        return Result.fail<{userDTO: IUserDTO; token: string}>(roleOrError.error);
-      } else {
-        role = roleOrError.getValue();
-      }
 
       const userOrError = await User.create({
         firstName: userDTO.firstName,
         lastName: userDTO.lastName,
-        email: email,
-        role: role,
-        password: password,
+        email: userDTO.email,
+        phone: userDTO.phone,
+        nif: userDTO.nif,
+        role: userDTO.role,
+        password: userDTO.password,
       });
 
       if (userOrError.isFailure) {
@@ -97,6 +83,7 @@ export default class UserService implements IUserService{
       //this.eventDispatcher.dispatch(events.user.signUp, { user: userResult });
 
       await this.userRepo.save(userResult);
+      console.log('User saved')
       const userDTOResult = UserMap.toDTO( userResult ) as IUserDTO;
       return Result.ok<{userDTO: IUserDTO, token: string}>( {userDTO: userDTOResult, token: token} )
 
@@ -151,7 +138,7 @@ export default class UserService implements IUserService{
     const email = user.email.value;
     const firstName = user.firstName;
     const lastName = user.lastName;
-    const role = user.role.id.value;
+    const role = user.role.value;
 
     return jwt.sign(
       {
@@ -167,7 +154,7 @@ export default class UserService implements IUserService{
   }
 
 
-  private async getRole (roleId: string): Promise<Result<Role>> {
+  /*private async getRole (roleId: string): Promise<Result<Role>> {
 
     const role = await this.roleRepo.findByDomainId( roleId );
     const found = !!role;
@@ -177,6 +164,6 @@ export default class UserService implements IUserService{
     } else {
       return Result.fail<Role>("Couldn't find role by id=" + roleId);
     }
-  }
+  }*/
 
 }

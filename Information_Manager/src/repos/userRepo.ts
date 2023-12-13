@@ -42,6 +42,7 @@ export default class UserRepo implements IUserRepo {
     try {
       if (userDocument === null ) {
         const rawUser: any = UserMap.toPersistence(user);
+        console.log("UserRepo::save::insert::rawUser", rawUser)
 
         const userCreated = await this.userSchema.create(rawUser);
 

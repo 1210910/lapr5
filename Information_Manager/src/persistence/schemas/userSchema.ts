@@ -27,9 +27,18 @@ const User = new mongoose.Schema(
       index: true,
     },
 
-    password: String,
+    phone: {
+      type: String,
+      required: true,
+      index: true,
+    },
 
-    salt: String,
+    nif: {
+      type: String,
+      index: true,
+    },
+
+    password: String,
 
     role: {
       type: String,

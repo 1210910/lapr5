@@ -11,6 +11,7 @@ import { UserEmail } from "../domain/user/userEmail";
 import { UserPassword } from "../domain/user/userPassword";
 
 import RoleRepo from "../repos/roleRepo";
+import { UserRoles } from "../domain/user/UserRoles";
 
 export class UserMap extends Mapper<User> {
 
@@ -20,23 +21,22 @@ export class UserMap extends Mapper<User> {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email.value,
+      phone: user.phone.value,
+      nif: user.nif.value,
       password: "",
-      role: user.role.id.toString()
+      role: user.role
     } as IUserDTO;
   }
 
   public static async toDomain (raw: any): Promise<User> {
-    const userEmailOrError = UserEmail.create(raw.email);
-    const userPasswordOrError = UserPassword.create({value: raw.password, hashed: true});
-    const repo = Container.get(RoleRepo);
-    const role = await repo.findByDomainId(raw.role);
-
     const userOrError = User.create({
       firstName: raw.firstName,
       lastName: raw.lastName,
-      email: userEmailOrError,
-      password: userPasswordOrError,
-      role: role,
+      email: raw.email,
+      phone: raw.phone,
+      nif: raw.nif,
+      password: raw.password,
+      role: raw.role,
     }, new UniqueEntityID(raw.domainId))
 
     userOrError.isFailure ? console.log(userOrError.error) : '';
@@ -47,11 +47,13 @@ export class UserMap extends Mapper<User> {
   public static toPersistence (user: User): any {
     const a = {
       domainId: user.id.toString(),
-      email: user.email.value,
-      password: user.password.value,
       firstName: user.firstName,
       lastName: user.lastName,
-      role: user.role.id.toValue(),
+      email: user.email.value,
+      phone: user.phone.value,
+      nif: user.nif? user.nif.value : null,
+      password: user.password.value,
+      role: user.role,
     }
     return a;
   }

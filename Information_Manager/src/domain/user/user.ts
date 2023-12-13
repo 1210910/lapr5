@@ -6,14 +6,20 @@ import { UserEmail } from "./userEmail";
 import { Role } from "../role";
 import { UserPassword } from "./userPassword";
 import { Guard } from "../../core/logic/Guard";
+import { IUserDTO } from "../../dto/IUserDTO";
+import { UserRoles } from "./UserRoles";
+import { UserPhoneNumber } from "./userPhoneNumber";
+import { UserNIF } from "./userNIF";
 
 
 interface UserProps {
   firstName: string;
   lastName: string;
   email: UserEmail;
+  phone: UserPhoneNumber;
+  nif: UserNIF;
   password: UserPassword;
-  role: Role;
+  role: UserRoles;
 }
 
 export class User extends AggregateRoot<UserProps> {
@@ -25,10 +31,6 @@ export class User extends AggregateRoot<UserProps> {
     return UserId.caller(this.id)
   }
 
-  get email (): UserEmail {
-    return this.props.email;
-  }
-
   get firstName (): string {
     return this.props.firstName
   }
@@ -37,15 +39,35 @@ export class User extends AggregateRoot<UserProps> {
     return this.props.lastName;
   }
 
+  get email (): UserEmail {
+    return this.props.email;
+  }
+
+  get phone (): UserPhoneNumber {
+    return this.props.phone;
+  }
+
+  get nif (): UserNIF {
+    return this.props.nif;
+  }
+
   get password (): UserPassword {
     return this.props.password;
   }
 
-  get role (): Role {
+  get role (): UserRoles {
     return this.props.role;
   }
-  
-  set role (value: Role) {
+
+  set phone (value: UserPhoneNumber) {
+      this.props.phone = value;
+  }
+
+  set nif (value: UserNIF) {
+      this.props.nif = value;
+  }
+
+  set role (value: UserRoles) {
       this.props.role = value;
   }
 
@@ -53,12 +75,14 @@ export class User extends AggregateRoot<UserProps> {
     super(props, id);
   }
 
-  public static create (props: UserProps, id?: UniqueEntityID): Result<User> {
+  public static async create(props: IUserDTO, id?: UniqueEntityID): Promise<Result<User>> {
 
     const guardedProps = [
       { argument: props.firstName, argumentName: 'firstName' },
       { argument: props.lastName, argumentName: 'lastName' },
       { argument: props.email, argumentName: 'email' },
+      { argument: props.phone, argumentName: 'phone' },
+      { argument: props.password, argumentName: 'password' },
       { argument: props.role, argumentName: 'role' }
     ];
 
@@ -66,16 +90,21 @@ export class User extends AggregateRoot<UserProps> {
 
     if (!guardResult.succeeded) {
       return Result.fail<User>(guardResult.message)
-    }
-    else {
+    } else {
       try {
         const user = new User({
-          ...props
+          firstName: props.firstName,
+          lastName: props.lastName,
+          email: UserEmail.create(props.email),
+          phone: UserPhoneNumber.create(props.phone),
+          nif: props.nif ? UserNIF.create(props.nif) : UserNIF.create(''),
+          password: UserPassword.create(props.password),
+          role: props.role as UserRoles
         }, id);
+        console.log(user.password.value);
 
         return Result.ok<User>(user);
-      }
-      catch (err) {
+      } catch (err) {
         return Result.fail<User>(err.message);
       }
     }
