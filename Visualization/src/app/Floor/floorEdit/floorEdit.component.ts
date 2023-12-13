@@ -32,9 +32,9 @@ export class FloorEditComponent {
   editFloor() {
 
     const code = this.selectedFloor.floorCode;
-    const floorNumber = Number(document.getElementsByTagName("input")[1].value);
-    const length = Number(document.getElementsByTagName("input")[2].value);
-    const width = Number(document.getElementsByTagName("input")[3].value);
+    const floorNumber = Number(document.getElementsByTagName("input")[0].value);
+    const length = Number(document.getElementsByTagName("input")[1].value);
+    const width = Number(document.getElementsByTagName("input")[2].value);
     const description = document.getElementsByTagName("textarea")[0].value;
 
 
@@ -43,7 +43,7 @@ export class FloorEditComponent {
       alert("Floor edited");
 
     }).catch((err) => {
-      alert(err);
+      alert("Floor edition failed");
     });
   }
 

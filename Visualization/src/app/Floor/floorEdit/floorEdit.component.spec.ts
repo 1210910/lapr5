@@ -42,7 +42,7 @@ describe('FloorEditComponent', () => {
       const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
       const widthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
 
-      codeInput.value = 'code';
+      component.selectedFloor = { floorCode: 'code' };
       nameInput.value = 'name';
       descriptionTextarea.value = 'descripiton';
       lengthInput.value = '10';
@@ -59,13 +59,13 @@ describe('FloorEditComponent', () => {
     it('Floor edited fail if service throws exception' , async () => {
       const alertSpy = jest.spyOn(window, 'alert');
 
-      const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-      const nameInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
+      const codeInput = fixture.debugElement.query(By.css('select')).nativeElement;
+      const nameInput = fixture.debugElement.queryAll(By.css('input'))[0].nativeElement;
       const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
-      const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-      const widthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
+      const lengthInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
+      const widthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
 
-      codeInput.value = 'code';
+        component.selectedFloor = { floorCode: 'code' };
       nameInput.value = 'name';
       descriptionTextarea.value = 'descripiton';
       lengthInput.value = '10';
@@ -88,7 +88,7 @@ describe('FloorEditComponent', () => {
         const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const widthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
 
-        codeInput.value = 'code';
+        component.selectedFloor = { floorCode: 'code' };
         nameInput.value = 'name';
         descriptionTextarea.value = '';
         lengthInput.value = '';
@@ -111,7 +111,7 @@ describe('FloorEditComponent', () => {
         const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const widthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
 
-        codeInput.value = 'code';
+        component.selectedFloor = { floorCode: 'code' };
         nameInput.value = '';
         descriptionTextarea.value = 'description';
         lengthInput.value = '';
@@ -134,7 +134,7 @@ describe('FloorEditComponent', () => {
         const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const widthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
 
-        codeInput.value = 'code';
+        component.selectedFloor = { floorCode: 'code' };
         nameInput.value = '';
         descriptionTextarea.value = '';
         lengthInput.value = '10';
@@ -157,7 +157,7 @@ describe('FloorEditComponent', () => {
         const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const widthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
 
-        codeInput.value = 'code';
+        component.selectedFloor = { floorCode: 'code' };
         nameInput.value = '';
         descriptionTextarea.value = '';
         lengthInput.value = '';
@@ -180,7 +180,7 @@ describe('FloorEditComponent', () => {
         const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const widthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
 
-        codeInput.value = 'code';
+        component.selectedFloor = { floorCode: 'code' };
         nameInput.value = 'name';
         descriptionTextarea.value = 'description';
         lengthInput.value = '';
@@ -203,7 +203,7 @@ describe('FloorEditComponent', () => {
         const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const widthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
 
-        codeInput.value = 'code';
+        component.selectedFloor = { floorCode: 'code' };
         nameInput.value = 'name';
         descriptionTextarea.value = '';
         lengthInput.value = '10';
@@ -226,7 +226,7 @@ describe('FloorEditComponent', () => {
         const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const widthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
 
-        codeInput.value = 'code';
+        component.selectedFloor = { floorCode: 'code' };
         nameInput.value = 'name';
         descriptionTextarea.value = '';
         lengthInput.value = '';
@@ -249,7 +249,7 @@ describe('FloorEditComponent', () => {
         const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const widthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
 
-        codeInput.value = 'code';
+        component.selectedFloor = { floorCode: 'code' };
         nameInput.value = '';
         descriptionTextarea.value = 'description';
         lengthInput.value = '10';
@@ -272,7 +272,7 @@ describe('FloorEditComponent', () => {
         const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const widthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
 
-        codeInput.value = 'code';
+        component.selectedFloor = { floorCode: 'code' };
         nameInput.value = '';
         descriptionTextarea.value = 'description';
         lengthInput.value = '';
@@ -296,7 +296,7 @@ describe('FloorEditComponent', () => {
         const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const widthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
 
-        codeInput.value = 'code';
+        component.selectedFloor = { floorCode: 'code' };
         nameInput.value = '';
         descriptionTextarea.value = '';
         lengthInput.value = '10';
@@ -320,7 +320,7 @@ describe('FloorEditComponent', () => {
         const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const widthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
 
-        codeInput.value = 'code';
+        component.selectedFloor = { floorCode: 'code' };
         nameInput.value = 'name';
         descriptionTextarea.value = 'description';
         lengthInput.value = '10';
@@ -343,7 +343,7 @@ describe('FloorEditComponent', () => {
         const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const widthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
 
-        codeInput.value = 'code';
+        component.selectedFloor = { floorCode: 'code' };
         nameInput.value = 'name';
         descriptionTextarea.value = 'description';
         lengthInput.value = '';
@@ -366,7 +366,7 @@ describe('FloorEditComponent', () => {
         const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const widthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
 
-        codeInput.value = 'code';
+        component.selectedFloor = { floorCode: 'code' };
         nameInput.value = 'name';
         descriptionTextarea.value = '';
         lengthInput.value = '10';
@@ -389,7 +389,7 @@ describe('FloorEditComponent', () => {
         const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const widthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
 
-        codeInput.value = 'code';
+        component.selectedFloor = { floorCode: 'code' };
         nameInput.value = '';
         descriptionTextarea.value = 'description';
         lengthInput.value = '10';

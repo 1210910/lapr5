@@ -38,22 +38,24 @@ describe('RoomCreateComponent', () => {
 
     it('should show alert if form is invalid', () => {
         const alertSpy = jest.spyOn(window, 'alert');
+        component.selectedFloor= {floorCode: 'code'};
         component.createRoom();
         expect(alertSpy).toHaveBeenCalledWith('Please fill in all fields');
     });
 
 
-    /*it('Room Created correctly', async () => {
+    it('Room Created correctly', async () => {
+        const alertSpy = jest.spyOn(window, 'alert');
+
 
         const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-        const floorInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
         const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
-        const widthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-        const lengthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
+        const widthInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
+        const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const roomTypeSelect = fixture.debugElement.query(By.css('select')).nativeElement;
 
         codeInput.value = 'code';
-        floorInput.value = 'floor';
+        component.selectedFloor= {floorCode: 'code'};
         descriptionTextarea.value = 'description';
         widthInput.value = 2;
         lengthInput.value = 2;
@@ -64,23 +66,22 @@ describe('RoomCreateComponent', () => {
 
         await component.createRoom();
 
-        expect(window.alert).toHaveBeenCalledWith('Room created');
+        expect(alertSpy).toHaveBeenCalledWith('Room Created');
 
-    });*/
+    });
 
     it('Room Created fail if code not inserted', async () => {
 
         const alertSpy = jest.spyOn(window, 'alert');
 
         const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-        const floorInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
         const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
-        const widthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-        const lengthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
+        const widthInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
+        const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const roomTypeSelect = fixture.debugElement.query(By.css('select')).nativeElement;
 
         codeInput.value = '';
-        floorInput.value = 'floor';
+        component.selectedFloor= {floorCode: 'code'};
         descriptionTextarea.value = 'description';
         widthInput.value = 2;
         lengthInput.value = 2;
@@ -100,14 +101,13 @@ describe('RoomCreateComponent', () => {
             const alertSpy = jest.spyOn(window, 'alert');
 
             const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-            const floorInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
             const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
-            const widthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-            const lengthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
+            const widthInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
+            const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
             const roomTypeSelect = fixture.debugElement.query(By.css('select')).nativeElement;
 
             codeInput.value = 'code';
-            floorInput.value = '';
+        component.selectedFloor= {floorCode: ''};
             descriptionTextarea.value = 'description';
             widthInput.value = 2;
             lengthInput.value = 2;
@@ -119,14 +119,13 @@ describe('RoomCreateComponent', () => {
             const alertSpy = jest.spyOn(window, 'alert');
 
             const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-            const floorInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
             const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
-            const widthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-            const lengthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
+            const widthInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
+            const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
             const roomTypeSelect = fixture.debugElement.query(By.css('select')).nativeElement;
 
             codeInput.value = 'code';
-            floorInput.value = 'floor';
+            component.selectedFloor= {floorCode: 'code'};
             descriptionTextarea.value = '';
             widthInput.value = 2;
             lengthInput.value = 2;
@@ -138,14 +137,13 @@ describe('RoomCreateComponent', () => {
             const alertSpy = jest.spyOn(window, 'alert');
 
             const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-            const floorInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
             const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
-            const widthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-            const lengthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
+            const widthInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
+            const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
             const roomTypeSelect = fixture.debugElement.query(By.css('select')).nativeElement;
 
             codeInput.value = 'code';
-            floorInput.value = 'floor';
+            component.selectedFloor= {floorCode: 'code'};
             descriptionTextarea.value = 'description';
             widthInput.value = null;
             lengthInput.value = 2;
@@ -157,14 +155,13 @@ describe('RoomCreateComponent', () => {
             const alertSpy = jest.spyOn(window, 'alert');
 
             const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-            const floorInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
             const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
-            const widthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-            const lengthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
+            const widthInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
+            const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
             const roomTypeSelect = fixture.debugElement.query(By.css('select')).nativeElement;
 
             codeInput.value = 'code';
-            floorInput.value = 'floor';
+            component.selectedFloor= {floorCode: 'code'};
             descriptionTextarea.value = 'description';
             widthInput.value = 2;
             lengthInput.value = null;
@@ -176,14 +173,13 @@ describe('RoomCreateComponent', () => {
             const alertSpy = jest.spyOn(window, 'alert');
 
             const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-            const floorInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
             const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
-            const widthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-            const lengthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
+            const widthInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
+            const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
             const roomTypeSelect = fixture.debugElement.query(By.css('select')).nativeElement;
 
             codeInput.value = 'code';
-            floorInput.value = 'floor';
+            component.selectedFloor= {floorCode: 'code'};
             descriptionTextarea.value = 'description';
             widthInput.value = 2;
             lengthInput.value = 2;
@@ -197,14 +193,13 @@ describe('RoomCreateComponent', () => {
         const alertSpy = jest.spyOn(window, 'alert');
 
         const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-        const floorInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
         const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
-        const widthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-        const lengthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
+        const widthInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
+        const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const roomTypeSelect = fixture.debugElement.query(By.css('select')).nativeElement;
 
         codeInput.value = 'code';
-        floorInput.value = 'floor';
+        component.selectedFloor= {floorCode: 'code'};
         descriptionTextarea.value = 'description';
         widthInput.value = 2;
         lengthInput.value = 2;

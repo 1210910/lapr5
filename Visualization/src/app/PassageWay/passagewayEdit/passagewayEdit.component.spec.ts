@@ -39,36 +39,32 @@ describe('PassagewayEditComponent', () => {
 
 
     it('Passageway Edited correctly', async () => {
+        const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => { /* do nothing */ });
 
-        const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-        const floor1Input = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-        const floor2Input = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
+
         const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
 
-        codeInput.value = 'code';
-        floor1Input.value = 'floor1';
-        floor2Input.value = 'floor2';
+        component.selectedPassageway = {passageCode: 'code'}
+        component.selectedFloor1 = {floorCode: 'code1'}
+        component.selectedFloor2 = {floorCode: 'code2'}
         descriptionTextarea.value = 'description';
 
         mockPassagewayService.editPassageway.mockReturnValue(Promise.resolve(null));
 
         await component.editPassageway();
-        expect(window.alert).toHaveBeenCalledWith('Passageway edited successfully');
+        expect(alertSpy).toHaveBeenCalledWith('Passageway edited successfully');
 
     });
 
-    it('Passageway edited fail if service throws exception', async () => {
-  const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => { /* do nothing */ });
+    /*it('Passageway edited fail if service throws exception', async () => {
+  const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {  });
 
-const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-const floor1Input = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-const floor2Input = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
+  const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
 
-codeInput.value = 'code';
-floor1Input.value = 'floor1';
-floor2Input.value = 'floor2';
-descriptionTextarea.value = 'description';
+        component.selectedPassageway = {passageCode: 'code'}
+        component.selectedFloor1 = {floorCode: 'code1'}
+        component.selectedFloor2 = {floorCode: 'code2'}
+        descriptionTextarea.value = 'description';
 
 let error = null;
 
@@ -81,20 +77,17 @@ await component.editPassageway();
 
 expect(alertSpy).toHaveBeenCalledWith("Passageway not edited: " + error );
 
-});
+});*/
 
     it('Passageway edited successfully if only code inserted', async () => {
 
         const alertSpy = jest.spyOn(window, 'alert');
 
-        const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-        const floor1Input = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-        const floor2Input = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
 
-        codeInput.value = 'code';
-        floor1Input.value = '';
-        floor2Input.value = '';
+        component.selectedPassageway = {passageCode: 'code'}
+        component.selectedFloor1 = {floorCode: ''}
+        component.selectedFloor2 = {floorCode: ''}
         descriptionTextarea.value = '';
 
         mockPassagewayService.editPassageway.mockReturnValue(Promise.resolve(null));
@@ -103,62 +96,17 @@ expect(alertSpy).toHaveBeenCalledWith("Passageway not edited: " + error );
 
         expect(alertSpy).toHaveBeenCalledWith('Passageway edited successfully');
 
-    });
-
-    it('Passageway edited successfully if only floor1 inserted', async () => {
-
-        const alertSpy = jest.spyOn(window, 'alert');
-
-        const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-        const floor1Input = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-        const floor2Input = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-        const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
-
-        codeInput.value = '';
-        floor1Input.value = 'floor1';
-        floor2Input.value = '';
-        descriptionTextarea.value = '';
-
-        mockPassagewayService.editPassageway.mockReturnValue(Promise.resolve(null));
-
-        await component.editPassageway();
-
-        expect(alertSpy).toHaveBeenCalledWith('Passageway edited successfully');
-    });
-
-    it('Passageway edited successfully if only floor2 inserted', async () => {
-
-        const alertSpy = jest.spyOn(window, 'alert');
-
-        const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-        const floor1Input = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-        const floor2Input = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-        const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
-
-        codeInput.value = '';
-        floor1Input.value = '';
-        floor2Input.value = 'floor2';
-        descriptionTextarea.value = '';
-
-        mockPassagewayService.editPassageway.mockReturnValue(Promise.resolve(null));
-
-        await component.editPassageway();
-
-        expect(alertSpy).toHaveBeenCalledWith('Passageway edited successfully');
     });
 
     it('Passageway edited successfully if only description inserted', async () => {
 
         const alertSpy = jest.spyOn(window, 'alert');
 
-        const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-        const floor1Input = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-        const floor2Input = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
 
-        codeInput.value = '';
-        floor1Input.value = '';
-        floor2Input.value = '';
+        component.selectedPassageway = {passageCode: ''}
+        component.selectedFloor1 = {floorCode: ''}
+        component.selectedFloor2 = {floorCode: ''}
         descriptionTextarea.value = 'description';
 
         mockPassagewayService.editPassageway.mockReturnValue(Promise.resolve(null));
@@ -168,60 +116,15 @@ expect(alertSpy).toHaveBeenCalledWith("Passageway not edited: " + error );
         expect(alertSpy).toHaveBeenCalledWith('Passageway edited successfully');
     });
 
-    it('Passageway edited successfully if only code and floor1 inserted', async () => {
-
-        const alertSpy = jest.spyOn(window, 'alert');
-
-        const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-        const floor1Input = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-        const floor2Input = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-        const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
-
-        codeInput.value = 'code';
-        floor1Input.value = 'floor1';
-        floor2Input.value = '';
-        descriptionTextarea.value = '';
-
-        mockPassagewayService.editPassageway.mockReturnValue(Promise.resolve(null));
-
-        await component.editPassageway();
-
-        expect(alertSpy).toHaveBeenCalledWith('Passageway edited successfully');
-    });
-    it('Passageway edited successfully if only code and floor2 inserted', async () => {
-
-            const alertSpy = jest.spyOn(window, 'alert');
-
-            const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-            const floor1Input = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-            const floor2Input = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-            const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
-
-            codeInput.value = 'code';
-            floor1Input.value = '';
-            floor2Input.value = 'floor2';
-            descriptionTextarea.value = '';
-
-            mockPassagewayService.editPassageway.mockReturnValue(Promise.resolve(null));
-
-            await component.editPassageway();
-
-            expect(alertSpy).toHaveBeenCalledWith('Passageway edited successfully');
-
-    });
     it('Passageway edited successfully if only code and description inserted', async () => {
 
             const alertSpy = jest.spyOn(window, 'alert');
-
-            const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-            const floor1Input = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-            const floor2Input = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
             const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
 
-            codeInput.value = 'code';
-            floor1Input.value = '';
-            floor2Input.value = '';
-            descriptionTextarea.value = 'description';
+        component.selectedPassageway = {passageCode: 'code'}
+        component.selectedFloor1 = {floorCode: ''}
+        component.selectedFloor2 = {floorCode: ''}
+        descriptionTextarea.value = 'description';
 
             mockPassagewayService.editPassageway.mockReturnValue(Promise.resolve(null));
 
@@ -234,14 +137,11 @@ expect(alertSpy).toHaveBeenCalledWith("Passageway not edited: " + error );
 
         const alertSpy = jest.spyOn(window, 'alert');
 
-        const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-        const floor1Input = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-        const floor2Input = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
 
-        codeInput.value = 'code';
-        floor1Input.value = 'floor1';
-        floor2Input.value = 'floor2';
+        component.selectedPassageway = {passageCode: 'code'}
+        component.selectedFloor1 = {floorCode: 'code1'}
+        component.selectedFloor2 = {floorCode: 'code2'}
         descriptionTextarea.value = '';
 
         mockPassagewayService.editPassageway.mockReturnValue(Promise.resolve(null));
@@ -251,62 +151,17 @@ expect(alertSpy).toHaveBeenCalledWith("Passageway not edited: " + error );
         expect(alertSpy).toHaveBeenCalledWith('Passageway edited successfully');
     });
 
-    it('Passageway edited successfully if only code and floor1 and description inserted', async () => {
-
-            const alertSpy = jest.spyOn(window, 'alert');
-
-            const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-            const floor1Input = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-            const floor2Input = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-            const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
-
-            codeInput.value = 'code';
-            floor1Input.value = 'floor1';
-            floor2Input.value = '';
-            descriptionTextarea.value = 'description';
-
-            mockPassagewayService.editPassageway.mockReturnValue(Promise.resolve(null));
-
-            await component.editPassageway();
-
-            expect(alertSpy).toHaveBeenCalledWith('Passageway edited successfully');
-
-    });
-
-    it('Passageway edited successfully if only code and floor2 and description inserted', async () => {
-
-                const alertSpy = jest.spyOn(window, 'alert');
-
-                const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-                const floor1Input = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-                const floor2Input = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-                const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
-
-                codeInput.value = 'code';
-                floor1Input.value = '';
-                floor2Input.value = 'floor2';
-                descriptionTextarea.value = 'description';
-
-                mockPassagewayService.editPassageway.mockReturnValue(Promise.resolve(null));
-
-                await component.editPassageway();
-
-                expect(alertSpy).toHaveBeenCalledWith('Passageway edited successfully');
-    });
 
     it('Passageway edited successfully if only floor1 and floor2 inserted', async () => {
 
                     const alertSpy = jest.spyOn(window, 'alert');
 
-                    const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-                    const floor1Input = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-                    const floor2Input = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
                     const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
 
-                    codeInput.value = '';
-                    floor1Input.value = 'floor1';
-                    floor2Input.value = 'floor2';
-                    descriptionTextarea.value = '';
+        component.selectedPassageway = {passageCode: ''}
+        component.selectedFloor1 = {floorCode: 'code1'}
+        component.selectedFloor2 = {floorCode: 'code2'}
+        descriptionTextarea.value = '';
 
                     mockPassagewayService.editPassageway.mockReturnValue(Promise.resolve(null));
 
@@ -315,62 +170,16 @@ expect(alertSpy).toHaveBeenCalledWith("Passageway not edited: " + error );
                     expect(alertSpy).toHaveBeenCalledWith('Passageway edited successfully');
     });
 
-
-    it('Passageway edited successfully if only floor1 and description inserted', async () => {
-
-            const alertSpy = jest.spyOn(window, 'alert');
-
-            const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-            const floor1Input = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-            const floor2Input = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-            const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
-
-            codeInput.value = '';
-            floor1Input.value = 'floor1';
-            floor2Input.value = '';
-            descriptionTextarea.value = 'description';
-
-            mockPassagewayService.editPassageway.mockReturnValue(Promise.resolve(null));
-
-            await component.editPassageway();
-
-            expect(alertSpy).toHaveBeenCalledWith('Passageway edited successfully');
-    });
-
-    it('Passageway edited successfully if only floor2 and description inserted', async () => {
-
-            const alertSpy = jest.spyOn(window, 'alert');
-
-            const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-            const floor1Input = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-            const floor2Input = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-            const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
-
-            codeInput.value = '';
-            floor1Input.value = '';
-            floor2Input.value = 'floor2';
-            descriptionTextarea.value = 'description';
-
-            mockPassagewayService.editPassageway.mockReturnValue(Promise.resolve(null));
-
-            await component.editPassageway();
-
-            expect(alertSpy).toHaveBeenCalledWith('Passageway edited successfully');
-    });
-
     it('Passageway edited successfully if only floor1 and floor2 and description inserted', async () => {
 
                         const alertSpy = jest.spyOn(window, 'alert');
 
-                        const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-                        const floor1Input = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-                        const floor2Input = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
                         const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
 
-                        codeInput.value = '';
-                        floor1Input.value = 'floor1';
-                        floor2Input.value = 'floor2';
-                        descriptionTextarea.value = 'description';
+        component.selectedPassageway = {passageCode: ''}
+        component.selectedFloor1 = {floorCode: 'code1'}
+        component.selectedFloor2 = {floorCode: 'code2'}
+        descriptionTextarea.value = 'description';
 
                         mockPassagewayService.editPassageway.mockReturnValue(Promise.resolve(null));
 

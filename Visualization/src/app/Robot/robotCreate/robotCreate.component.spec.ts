@@ -38,22 +38,23 @@ describe('RobotCreateComponent', () => {
 
     it('should show alert if form is invalid', () => {
         const alertSpy = jest.spyOn(window, 'alert');
+        component.selectedRobotType = {robotType: 'type'};
         component.createRobot();
         expect(alertSpy).toHaveBeenCalledWith('Please fill all the fields');
     });
 
 
     it('Robot Created correctly', async () => {
+        const alertSpy = jest.spyOn(window, 'alert');
 
         const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
         const nameInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-        const typeInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-        const enabledInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
+        const enabledInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
 
         codeInput.value = 'code';
         nameInput.value = 'name';
-        typeInput.value = 'type';
+        component.selectedRobotType = {robotType: 'type'};
         enabledInput.value = true;
         descriptionTextarea.value = 'description';
 
@@ -62,7 +63,7 @@ describe('RobotCreateComponent', () => {
 
         await component.createRobot();
 
-        expect(window.alert).toHaveBeenCalledWith('Robot created');
+        expect(alertSpy).toHaveBeenCalledWith('Robot created');
 
     });
 
@@ -72,13 +73,12 @@ describe('RobotCreateComponent', () => {
 
         const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
         const nameInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-        const typeInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-        const enabledInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
+        const enabledInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
 
         codeInput.value = '';
         nameInput.value = 'name';
-        typeInput.value = 'type';
+        component.selectedRobotType = {robotType: 'type'};
         enabledInput.value = true;
         descriptionTextarea.value = 'description';
 
@@ -97,68 +97,13 @@ describe('RobotCreateComponent', () => {
 
         const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
         const nameInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-        const typeInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-        const enabledInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
+        const enabledInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
 
         codeInput.value = 'code';
         nameInput.value = '';
-        typeInput.value = 'type';
+        component.selectedRobotType = {robotType: 'type'};
         enabledInput.value = true;
-        descriptionTextarea.value = 'description';
-        ;
-
-
-
-        mockRobotService.createRobot.mockReturnValue(Promise.resolve(null));
-
-        await component.createRobot();
-
-        expect(alertSpy).toHaveBeenCalledWith('Please fill all the fields');
-
-    });
-
-    it('Robot Created fail if type not inserted', async () => {
-
-        const alertSpy = jest.spyOn(window, 'alert');
-
-        const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-        const nameInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-        const typeInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-        const enabledInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
-        const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
-
-        codeInput.value = 'code';
-        nameInput.value = 'name';
-        typeInput.value = '';
-        enabledInput.value = true;
-        descriptionTextarea.value = 'description';
-        ;
-
-
-
-        mockRobotService.createRobot.mockReturnValue(Promise.resolve(null));
-
-        await component.createRobot();
-
-        expect(alertSpy).toHaveBeenCalledWith('Please fill all the fields');
-
-    });
-
-    it('Robot Created fail if state not inserted', async () => {
-
-        const alertSpy = jest.spyOn(window, 'alert');
-
-        const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-        const nameInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-        const typeInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-        const enabledInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
-        const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
-
-        codeInput.value = 'code';
-        nameInput.value = 'name';
-        typeInput.value = 'type';
-        enabledInput.value = null;
         descriptionTextarea.value = 'description';
         ;
 
@@ -178,13 +123,12 @@ describe('RobotCreateComponent', () => {
 
         const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
         const nameInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-        const typeInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-        const enabledInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
+        const enabledInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
 
         codeInput.value = 'code';
         nameInput.value = 'name';
-        typeInput.value = 'type';
+        component.selectedRobotType = {robotType: 'type'};
         enabledInput.value = true;
         descriptionTextarea.value = '';
         ;
@@ -207,13 +151,12 @@ describe('RobotCreateComponent', () => {
 
         const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
         const nameInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-        const typeInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-        const enabledInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
+        const enabledInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
 
         codeInput.value = 'code';
         nameInput.value = 'name';
-        typeInput.value = 'type';
+        component.selectedRobotType = {robotType: 'type'};
         enabledInput.value = null;
         descriptionTextarea.value = 'description';
         ;

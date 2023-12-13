@@ -1,5 +1,5 @@
 
-:- module(db, [building_code/1,floor/3,room/2,passageway/3,lift/3,map/4]).
+:- module(db, [building_code/1,floor/3,room/2,passageway/3,lift/3,map/5]).
 
 
 :- dynamic(building_code/1). % buildingCode
@@ -7,6 +7,6 @@
 :- dynamic(room/2). % roomCode
 :- dynamic(passageway/3). % passagewayCode
 :- dynamic(lift/3). % liftCode
-:- dynamic(map/4).
+:- dynamic(map/5).
 
 

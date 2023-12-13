@@ -30,12 +30,11 @@ export class LiftCreateComponent {
 
    createLift(){
 
-        const code = document.getElementsByTagName("input")[0].value;
-        const floors = document.getElementsByTagName("input")[1].value;
-        const brand = document.getElementsByTagName("input")[2].value;
-        const model = document.getElementsByTagName("input")[3].value;
-        const buildingCode = document.getElementsByTagName("input")[4].value;
-        const serialNumber = document.getElementsByTagName("input")[5].value;
+        const buildingCode = this.selectedBuilding;
+        const floors = document.getElementsByTagName("input")[0].value;
+        const brand = document.getElementsByTagName("input")[1].value;
+        const model = document.getElementsByTagName("input")[2].value;
+        const serialNumber = document.getElementsByTagName("input")[3].value;
         const description = document.getElementsByTagName("textarea")[0].value;
 
         if (floors == "" || buildingCode == "" ){

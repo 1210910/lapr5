@@ -35,7 +35,7 @@ export class PassagewayCreateComponent {
     const floor2 = this.selectedFloor2.floorCode;
     const description = document.getElementsByTagName("textarea")[0].value;
 
-    if (floor1 == "" || floor2 == "") {
+    if (floor1 == "" || floor2 == "" || description == "") {
       alert("Please fill in all fields");
       return;
 

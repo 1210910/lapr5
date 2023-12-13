@@ -21,7 +21,7 @@
               <div class="input-data select-container">
                   <label for="selectedLift">Lift Code to Edit</label>
                   <select [(ngModel)]="selectedLift" name="selectedLift" id="selectedLift">
-                      <option value="" disabled>Select a building</option>
+                      <option value="" disabled>Select a lift</option>
                       <option *ngFor="let lift of this.lifts" [ngValue]="lift">{{ lift.code }}</option>
                   </select>
               </div>

@@ -38,6 +38,8 @@ describe('PassagewayCreateComponent', () => {
 
     it('should show alert if form is invalid', () => {
         const alertSpy = jest.spyOn(window, 'alert');
+        component.selectedFloor1 = {floorCode: 'code1'}
+        component.selectedFloor2 = {floorCode: 'code2'}
         component.createPassageway();
         expect(alertSpy).toHaveBeenCalledWith('Please fill in all fields');
     });
@@ -45,45 +47,20 @@ describe('PassagewayCreateComponent', () => {
 
     it('Passageway Created correctly', async () => {
 
-        const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-        const floor1Input = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-        const floor2Input = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-        const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
-
-        codeInput.value = 'code';
-        floor1Input.value = 'floor1';
-        floor2Input.value = 'floor2';
-        descriptionTextarea.value = 'description';
-        console.log(codeInput.value, floor1Input.value, floor2Input.value, descriptionTextarea.value);
-
-
-        mockPassagewayService.createPassageway.mockReturnValue(Promise.resolve(null));
-
-        await component.createPassageway();
-
-        expect(window.alert).toHaveBeenCalledWith('Passageway created');
-
-    });
-
-    it('Passageway Created fail if code not inserted', async () => {
-
         const alertSpy = jest.spyOn(window, 'alert');
 
-        const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-        const floor1Input = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-        const floor2Input = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
 
-        codeInput.value = '';
-        floor1Input.value = 'floor1';
-        floor2Input.value = 'floor2';
-        descriptionTextarea.value = 'descripiton';
+        component.selectedFloor1 = {floorCode: 'code1'}
+        component.selectedFloor2 = {floorCode: 'code2'}
+        descriptionTextarea.value = 'description';
 
         mockPassagewayService.createPassageway.mockReturnValue(Promise.resolve(null));
 
         await component.createPassageway();
 
-        expect(alertSpy).toHaveBeenCalledWith('Please fill in all fields');
+
+        expect(alertSpy).toHaveBeenCalledWith('Passageway created');
 
     });
 
@@ -91,15 +68,11 @@ describe('PassagewayCreateComponent', () => {
 
             const alertSpy = jest.spyOn(window, 'alert');
 
-            const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-            const floor1Input = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-            const floor2Input = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
             const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
 
-            codeInput.value = 'code';
-            floor1Input.value = '';
-            floor2Input.value = 'floor2';
-            descriptionTextarea.value = 'descripiton';
+        component.selectedFloor1 = {floorCode: 'code1'}
+        component.selectedFloor2 = {floorCode: ''}
+        descriptionTextarea.value = 'description';
 
             mockPassagewayService.createPassageway.mockReturnValue(Promise.resolve(null));
 
@@ -113,15 +86,11 @@ describe('PassagewayCreateComponent', () => {
 
             const alertSpy = jest.spyOn(window, 'alert');
 
-            const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-            const floor1Input = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-            const floor2Input = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
             const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
 
-            codeInput.value = 'code';
-            floor1Input.value = 'floor1';
-            floor2Input.value = '';
-            descriptionTextarea.value = 'descripiton';
+        component.selectedFloor1 = {floorCode: 'code1'}
+        component.selectedFloor2 = {floorCode: ''}
+        descriptionTextarea.value = 'description';
 
             mockPassagewayService.createPassageway.mockReturnValue(Promise.resolve(null));
 
@@ -135,14 +104,10 @@ describe('PassagewayCreateComponent', () => {
 
             const alertSpy = jest.spyOn(window, 'alert');
 
-            const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-            const floor1Input = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-            const floor2Input = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
             const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
 
-            codeInput.value = 'code';
-            floor1Input.value = 'floor1';
-            floor2Input.value = 'floor2';
+            component.selectedFloor1 = {floorCode: 'code1'}
+            component.selectedFloor2 = {floorCode: 'code2'}
             descriptionTextarea.value = '';
 
             mockPassagewayService.createPassageway.mockReturnValue(Promise.resolve(null));
@@ -157,14 +122,10 @@ describe('PassagewayCreateComponent', () => {
 
         const alertSpy = jest.spyOn(window, 'alert');
 
-        const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-        const floor1Input = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-        const floor2Input = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
         const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
 
-        codeInput.value = 'code';
-        floor1Input.value = 'floor1';
-        floor2Input.value = 'floor2';
+        component.selectedFloor1 = {floorCode: 'code1'}
+        component.selectedFloor2 = {floorCode: 'code2'}
         descriptionTextarea.value = 'description';
         let error = null;
 

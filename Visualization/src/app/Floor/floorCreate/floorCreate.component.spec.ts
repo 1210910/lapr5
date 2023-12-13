@@ -35,33 +35,9 @@ describe('FloorCreateComponent', () => {
 
   it('should show alert if form is invalid', () => {
     const alertSpy = jest.spyOn(window, 'alert');
+    component.selectedBuilding = { code: undefined };
     component.createFloor();
     expect(alertSpy).toHaveBeenCalledWith('Please fill in all fields');
-  });
-
-
-  it('Floor Created fail if code not inserted', async () => {
-
-    const alertSpy = jest.spyOn(window, 'alert');
-
-    const codeInput = fixture.debugElement.query(By.css('input')).nativeElement;
-    const nameInput = fixture.debugElement.queryAll(By.css('input'))[1].nativeElement;
-    const descriptionTextarea = fixture.debugElement.query(By.css('textarea')).nativeElement;
-    const lengthInput = fixture.debugElement.queryAll(By.css('input'))[2].nativeElement;
-    const widthInput = fixture.debugElement.queryAll(By.css('input'))[3].nativeElement;
-
-    codeInput.value = '';
-    nameInput.value = 'name';
-    descriptionTextarea.value = 'descripiton';
-    lengthInput.value = '10';
-    widthInput.value = '10';
-
-    mockFloorService.createFloor.mockReturnValue(Promise.resolve(null));
-
-    component.createFloor();
-
-    expect(alertSpy).toHaveBeenCalledWith('Please fill in all fields');
-
   });
 
 
