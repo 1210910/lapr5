@@ -14,9 +14,9 @@ import { IUserDTO } from '../dto/IUserDTO';
 import IUserRepo from './IRepos/IUserRepo';
 import IRoleRepo from './IRepos/IRoleRepo';
 
-import { User } from '../domain/user';
-import { UserPassword } from '../domain/userPassword';
-import { UserEmail } from '../domain/userEmail';
+import { User } from '../domain/user/user';
+import { UserPassword } from '../domain/user/userPassword';
+import { UserEmail } from '../domain/user/userEmail';
 
 import { Role } from '../domain/role';
 
@@ -63,8 +63,8 @@ export default class UserService implements IUserService{
       const hashedPassword = await argon2.hash(userDTO.password, { salt });
       this.logger.silly('Creating user db record');
 
-      const password = await UserPassword.create({ value: hashedPassword, hashed: true}).getValue();
-      const email = await UserEmail.create( userDTO.email ).getValue();
+      const password = await UserPassword.create({ value: hashedPassword, hashed: true});
+      const email = await UserEmail.create( userDTO.email );
       let role: Role;
 
       const roleOrError = await this.getRole(userDTO.role);

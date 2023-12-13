@@ -1,6 +1,6 @@
-import { ValueObject } from "../core/domain/ValueObject";
-import { Result } from "../core/logic/Result";
-import { Guard } from "../core/logic/Guard";
+import { ValueObject } from "../../core/domain/ValueObject";
+import { Result } from "../../core/logic/Result";
+import { Guard } from "../../core/logic/Guard";
 import * as bcrypt from 'bcrypt-nodejs';
 
 interface UserPasswordProps {
@@ -66,27 +66,37 @@ export class UserPassword extends ValueObject<UserPasswordProps> {
   }
 
   public static isAppropriateLength (value: string): boolean {
-    return value.length >= 8;
+    return value.length >= 10;
   }
 
-  public static create (props: UserPasswordProps): Result<UserPassword> {
+  public static meetCriteria (value: string): boolean {
+    const regExp = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?|\-=\\\/]).{10,}$/gm);
+    return regExp.test(value);
+  }
+
+  public static create (props: UserPasswordProps): UserPassword {
     const propsResult = Guard.againstNullOrUndefined(props.value, 'password');
 
     if (!propsResult.succeeded) {
-      return Result.fail<UserPassword>(propsResult.message);
+      throw new Error(propsResult.message);
     } else {
 
       if (!props.hashed) {
-        if (!this.isAppropriateLength(props.value)
+        if (!this.isAppropriateLength(props.value) || !this.meetCriteria(props.value)
         ) {
-          return Result.fail<UserPassword>('Password doesnt meet criteria [1 uppercase, 1 lowercase, one digit or symbol and 8 chars min].');
+          throw new Error('Password doesnt meet criteria [1 uppercase, 1 lowercase, 1 digit , 1 symbol and 10 chars min.].');
         }
       }
 
-      return Result.ok<UserPassword>(new UserPassword({
-        value: props.value,
-        hashed: !!props.hashed === true
-      }));
+      try {
+        return (new UserPassword({
+          value: props.value,
+          hashed: !!props.hashed === true
+        }));
+      } catch (err) {
+        throw new Error(err.message);
+      }
+
     }
   }
 }

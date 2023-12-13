@@ -4,11 +4,11 @@ import { Mapper } from "../core/infra/Mapper";
 
 import {IUserDTO} from "../dto/IUserDTO";
 
-import { User } from "../domain/user";
+import { User } from "../domain/user/user";
 import { UniqueEntityID } from "../core/domain/UniqueEntityID";
 
-import { UserEmail } from "../domain/userEmail";
-import { UserPassword } from "../domain/userPassword";
+import { UserEmail } from "../domain/user/userEmail";
+import { UserPassword } from "../domain/user/userPassword";
 
 import RoleRepo from "../repos/roleRepo";
 
@@ -34,8 +34,8 @@ export class UserMap extends Mapper<User> {
     const userOrError = User.create({
       firstName: raw.firstName,
       lastName: raw.lastName,
-      email: userEmailOrError.getValue(),
-      password: userPasswordOrError.getValue(),
+      email: userEmailOrError,
+      password: userPasswordOrError,
       role: role,
     }, new UniqueEntityID(raw.domainId))
 

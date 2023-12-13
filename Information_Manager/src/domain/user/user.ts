@@ -1,11 +1,11 @@
-import { AggregateRoot } from "../core/domain/AggregateRoot";
-import { UniqueEntityID } from "../core/domain/UniqueEntityID";
-import { Result } from "../core/logic/Result";
+import { AggregateRoot } from "../../core/domain/AggregateRoot";
+import { UniqueEntityID } from "../../core/domain/UniqueEntityID";
+import { Result } from "../../core/logic/Result";
 import { UserId } from "./userId";
 import { UserEmail } from "./userEmail";
-import { Role } from "../domain/role";
+import { Role } from "../role";
 import { UserPassword } from "./userPassword";
-import { Guard } from "../core/logic/Guard";
+import { Guard } from "../../core/logic/Guard";
 
 
 interface UserProps {
@@ -66,13 +66,18 @@ export class User extends AggregateRoot<UserProps> {
 
     if (!guardResult.succeeded) {
       return Result.fail<User>(guardResult.message)
-    }     
+    }
     else {
-      const user = new User({
-        ...props
-      }, id);
+      try {
+        const user = new User({
+          ...props
+        }, id);
 
-      return Result.ok<User>(user);
+        return Result.ok<User>(user);
+      }
+      catch (err) {
+        return Result.fail<User>(err.message);
+      }
     }
   }
 }
