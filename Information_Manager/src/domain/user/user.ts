@@ -98,7 +98,7 @@ export class User extends AggregateRoot<UserProps> {
           email: UserEmail.create(props.email),
           phone: UserPhoneNumber.create(props.phone),
           nif: props.nif ? UserNIF.create(props.nif) : UserNIF.create(''),
-          password: UserPassword.create(props.password),
+          password: await UserPassword.create(props.password),
           role: props.role as UserRoles
         }, id);
         console.log(user.password.value);

@@ -22,14 +22,14 @@ export class UserMap extends Mapper<User> {
       lastName: user.lastName,
       email: user.email.value,
       phone: user.phone.value,
-      nif: user.nif.value,
+      nif: user.nif?.value,
       password: "",
       role: user.role
     } as IUserDTO;
   }
 
   public static async toDomain (raw: any): Promise<User> {
-    const userOrError = User.create({
+    const userOrError = await User.create({
       firstName: raw.firstName,
       lastName: raw.lastName,
       email: raw.email,
@@ -51,7 +51,7 @@ export class UserMap extends Mapper<User> {
       lastName: user.lastName,
       email: user.email.value,
       phone: user.phone.value,
-      nif: user.nif? user.nif.value : null,
+      nif: user.nif?.value,
       password: user.password.value,
       role: user.role,
     }

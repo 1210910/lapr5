@@ -74,7 +74,7 @@ export class UserPassword extends ValueObject<UserPasswordProps> {
     return regExp.test(value);
   }
 
-  public static create(value: string): UserPassword {
+  public static async create(value: string): Promise<UserPassword> {
     const propsResult = Guard.againstNullOrUndefined(value, "password");
 
     if (!propsResult.succeeded) {
@@ -84,7 +84,7 @@ export class UserPassword extends ValueObject<UserPasswordProps> {
         throw new Error("Password doesnt meet criteria [1 uppercase, 1 lowercase, 1 digit , 1 symbol and 10 chars min.].");
       }
 
-      const hashedPassword = argon2.hash(value);
+      const hashedPassword = await argon2.hash(value);
 
       return (new UserPassword({ value: hashedPassword }));
     }
