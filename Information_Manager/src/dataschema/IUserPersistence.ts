@@ -3,8 +3,8 @@ export interface IUserPersistence {
 	firstName: string;
 	lastName: string;
 	email: string;
-	phone: string;
-	nif: string;
+	phone: number;
+	nif: number;
 	password: string;
 	role: string
 }

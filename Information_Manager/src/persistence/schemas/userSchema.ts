@@ -28,13 +28,13 @@ const User = new mongoose.Schema(
     },
 
     phone: {
-      type: String,
+      type: Number,
       required: true,
       index: true,
     },
 
     nif: {
-      type: String,
+      type: Number,
       index: true,
     },
 

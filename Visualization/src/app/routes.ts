@@ -39,6 +39,7 @@ import {RobotListComponent} from "./Robot/robotList/robotList.component";
 import {RobotDetailsComponent} from "./Robot/details/details.component"
 import {FleetComponent} from "./Fleet/fleet.component";
 import {GetPathComponent} from "./Fleet/getPath.component";
+import {SignUpComponent}  from "./signUp/signUp.component";
 
 
 const routeConfig: Routes = [
@@ -46,6 +47,11 @@ const routeConfig: Routes = [
     path:'',
     component: LoginComponent,
     title: 'Login page'
+  },
+  {
+    path:'signup',
+    component: SignUpComponent,
+    title: 'Sign Up page'
   },
   {
     path: 'fleet',

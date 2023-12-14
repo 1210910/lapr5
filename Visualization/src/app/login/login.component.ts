@@ -17,6 +17,7 @@ import {RouterLink} from "@angular/router";
         <input type="email" placeholder="username"/>
         <input type="password" placeholder="password"/>
         <button class="btn" (click)="onclick()" >Sign In</button>
+        <button class="btn" routerLink="/signup">Sign Up</button>
         <h2>&nbsp;</h2>
       </div>
     </div>
