@@ -1,7 +1,7 @@
 import { ValueObject } from "../../core/domain/ValueObject";
 
 export class UserPhoneNumber extends ValueObject<any> {
-  get value (): string {
+  get value (): number {
     return this.props.value;
   }
 
@@ -9,12 +9,12 @@ export class UserPhoneNumber extends ValueObject<any> {
     super(props);
   }
 
-  public static create (phoneNumber: string): UserPhoneNumber {
-    phoneNumber = phoneNumber?.trim();
-    if (!phoneNumber) {
+  public static create (phoneNumber: number): UserPhoneNumber {
+    const phoneNumber1 = phoneNumber?.toString().trim();
+    if (!phoneNumber1) {
       return null;
     }
-    if (!this.isValid(phoneNumber)) {
+    if (!this.isValid(phoneNumber1)) {
       throw new Error("Phone number property has to be in the portuguese format (9 digits)");
     }
     return new UserPhoneNumber({ value: phoneNumber });

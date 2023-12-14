@@ -46,6 +46,7 @@ export default (app: Router) => {
         return res.status(201).json({ userDTO, token });
       } catch (e) {
         //logger.error('🔥 error: %o', e);
+        console.log(e);
         return next(e);
       }
     },

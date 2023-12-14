@@ -77,7 +77,7 @@ export default class UserService implements IUserService{
       this.logger.silly('Generating JWT');
       const token = this.generateToken(userResult);
 
-      this.logger.silly('Sending welcome email');
+      //this.logger.silly('Sending welcome email');
       //await this.mailer.SendWelcomeEmail(userResult);
 
       //this.eventDispatcher.dispatch(events.user.signUp, { user: userResult });

@@ -1,7 +1,7 @@
 import { ValueObject } from "../../core/domain/ValueObject";
 
 export class UserNIF extends ValueObject<any> {
-  get value (): string {
+  get value (): number {
     return this.props.value;
   }
 
@@ -9,12 +9,12 @@ export class UserNIF extends ValueObject<any> {
     super(props);
   }
 
-  public static create (nif: string): UserNIF {
-    nif = nif?.trim();
-    if (!nif) {
+  public static create (nif: number): UserNIF {
+    const nif1 = nif?.toString().trim();
+    if (!nif1) {
       return null;
     }
-    if (nif.length > 9 && this.isValid(nif)) {
+    if (nif1.length > 9 && this.isValid(nif1)) {
       throw new Error("NIF property has to be in the portuguese format (9 digits)");
     }
     return new UserNIF({ value: nif });
