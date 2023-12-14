@@ -1,0 +1,34 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title Create a user account (utente)
+
+actor "New User" as NU
+participant "Routing" as routing <<component>>
+participant "Component" as comp <<component>>
+participant "Service" as service <<component>>
+
+activate NU
+NU->> routing : Navigate to sign up page
+activate routing
+routing ->> comp : create user
+
+activate comp
+comp ->> service : create user
+
+activate service
+service ->> : Http Request
+service <<-- : Http Response
+
+service -->> comp : success
+deactivate service
+
+comp -->> routing : success
+deactivate comp
+
+NU<<-- routing : Successfully reponse
+deactivate routing
+
+@enduml
