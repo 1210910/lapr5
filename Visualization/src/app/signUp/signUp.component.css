@@ -102,4 +102,11 @@ alert{
     color:#5016f4 ;
     font-weight: bold;
 }
+.consentimento {
+    display: inline-block;
+    align-items: center;
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
 

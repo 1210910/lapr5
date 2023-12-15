@@ -40,6 +40,8 @@ import {RobotDetailsComponent} from "./Robot/details/details.component"
 import {FleetComponent} from "./Fleet/fleet.component";
 import {GetPathComponent} from "./Fleet/getPath.component";
 import {SignUpComponent}  from "./signUp/signUp.component";
+import {TermsAndConditionsComponent} from "./signUp/termsAndConditions.component";
+import {PrivacyPolicyComponent} from "./signUp/privacyPolicy.component";
 
 
 const routeConfig: Routes = [
@@ -58,7 +60,16 @@ const routeConfig: Routes = [
     component: FleetComponent,
     title: 'Fleet page'
   },
-
+  {
+    path: 'termsandConditions',
+    component: TermsAndConditionsComponent,
+    title: 'Terms and Conditions page'
+  },
+    {
+        path: 'privacyPolicy',
+        component: PrivacyPolicyComponent,
+        title: 'Privacy Policy page'
+    },
   {
   path:"getPath",
     component: GetPathComponent,

@@ -18,7 +18,7 @@ export class SignUpService {
                     lastName: lastName,
                     email: email,
                     phone: phoneNumber,
-                    NIF: NIF,
+                    nif: NIF,
                     password: password,
                     role: role
                 });

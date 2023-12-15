@@ -8,37 +8,8 @@ import {SignUpService} from "../services/signUp.service"
     selector: 'app-building',
     standalone: true,
     imports: [CommonModule, RouterLink],
-    template: `
-        <div class="container" onclick="onclick">
-            <div class="top"></div>
-            <div class="bottom"></div>
-            <div class="center">
-                <img class="brand-logo" src="/assets/login.svg" alt="logo" aria-hidden="true">
-                <input type="firstName" placeholder="First Name"/>
-                <input type="lastName" placeholder="Last Name"/>
-                <input type="email" placeholder="Email"/>
-                <input type="phoneNumber" placeholder="Phone Number"/>
-                <input type="NIF" placeholder="NIF"/>
-                <input type="password" placeholder="Password"/>
-                <!--<div>
-                <input type="checkbox" id="consent" (change)="onConsentChange($event)"/>
-                    <label for="consent">I agree to the <a href="./TermsandConditions.html">Terms and Conditions</a></label>
-            </div>-->
-                <a [routerLink]="['']">
-                    <button type="submit" value="submit" (click)="signUp()" data-cy="signUpButton" >
-                        Sign Up
-                    </button>
-                </a>
-                <a [routerLink]="['']">
-                    <button type="reset" value="cancel" data-cy="cancelButton">
-                        Cancel
-                    </button>
-                </a>
-            </div>
-        </div>
-  `,
+    templateUrl: './signUp.component.html',
     styleUrls: ["./signUp.component.css"]
-
 })
 
 export class SignUpComponent {
@@ -58,13 +29,12 @@ export class SignUpComponent {
         const phoneNumber = Number(document.getElementsByTagName("input")[3].value);
         const NIF = Number(document.getElementsByTagName("input")[4].value);
         const password = document.getElementsByTagName("input")[5].value;
-        /*let consent: boolean;
-        consent = Boolean(document.getElementById("consent"));
+        const consent = Boolean(document.getElementById("consent"));
 
 
-        if (consent == false) {
+        if (!consent) {
             alert("Please accept the terms and conditions");
-        }*/
+        }
 
         if (firstName == "" || lastName == "" || email == "" || phoneNumber == null || NIF == null || password == "" ) {
             alert("Please fill in all fields");
