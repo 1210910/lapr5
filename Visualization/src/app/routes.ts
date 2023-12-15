@@ -39,9 +39,9 @@ import {RobotListComponent} from "./Robot/robotList/robotList.component";
 import {RobotDetailsComponent} from "./Robot/details/details.component"
 import {FleetComponent} from "./Fleet/fleet.component";
 import {GetPathComponent} from "./Fleet/getPath.component";
-import {SignUpComponent}  from "./signUp/signUp.component";
-import {TermsAndConditionsComponent} from "./signUp/termsAndConditions.component";
-import {PrivacyPolicyComponent} from "./signUp/privacyPolicy.component";
+import {SignUpComponent}  from "./signUp/signUp/signUp.component";
+import {TermsAndConditionsComponent} from "./signUp/termsAndConditions/termsAndConditions.component";
+import {PrivacyPolicyComponent} from "./signUp/privacyPolicy/privacyPolicy.component";
 
 
 const routeConfig: Routes = [

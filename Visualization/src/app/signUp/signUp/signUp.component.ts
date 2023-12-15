@@ -1,7 +1,7 @@
 import {Component, EventEmitter, inject, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterLink} from "@angular/router";
-import {SignUpService} from "../services/signUp.service"
+import {SignUpService} from "../../services/signUp.service"
 
 
 @Component({
