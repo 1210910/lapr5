@@ -6,15 +6,10 @@ import {RouterLink} from "@angular/router";
     selector: 'app-building',
     standalone: true,
     imports: [CommonModule, RouterLink],
-    templateUrl: './privacyPolicy.html',
+    templateUrl: './termsAndConditions.html',
     styleUrls: ["./termsAndConditions.css"]
 })
 
-export class PrivacyPolicyComponent {
+export class TermsAndConditionsComponent {
 
-    @Output() consentAccepted= new EventEmitter<boolean>();
-
-    constructor() {
-
-    }
 }
