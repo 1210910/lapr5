@@ -227,12 +227,15 @@ export default class Maze extends THREE.Group {
 
             if (this.thumbRaiser != null) {
                 if (this.thumbRaiser.usedPassageway != null) {
+                  console.log("estou aqui")
 
                     forEach(this.passageways, (passageway) => {
 
                         if (passageway.passagewayCode == this.thumbRaiser.usedPassageway) {
 
                           const positions = [];
+
+                          console.log(passageway.position[0]);
 
                           positions.push(Number(passageway.position[0]));
                           positions.push(Number(passageway.position[1]));

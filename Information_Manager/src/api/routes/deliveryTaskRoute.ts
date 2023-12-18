@@ -1,0 +1,39 @@
+import { Router } from 'express';
+import { celebrate, Joi } from 'celebrate';
+
+import { Container } from 'typedi';
+
+import config from "../../../config";
+
+
+import IDeliveryTaskController from '../../controllers/IControllers/IDeliveryTaskController';
+
+const route = Router();
+
+export default (app: Router) => {
+    app.use('/deliveryTasks', route);
+
+    const deliveryTaskController = Container.get(config.controllers.deliveryTask.name) as IDeliveryTaskController;
+
+    route.post('',
+        celebrate({
+            body: Joi.object({
+                description: Joi.string().max(255).required(),
+                user: Joi.string().max(255).required(),
+                roomDest: Joi.string().max(255).required(),
+                roomOrig: Joi.string().max(255).required(),
+                destName : Joi.string().max(255).required(),
+                origName : Joi.string().max(255).required(),
+                destPhoneNumber : Joi.string().max(255).required(),
+                origPhoneNumber : Joi.string().max(255).required(),
+                code : Joi.number().min(4).max(6).required(),
+            }),
+        }),
+        (req, res, next) => deliveryTaskController.createDeliveryTask(req, res, next));
+
+    route.get('',
+        (req, res, next) => deliveryTaskController.getAllDeliveryTasks(req, res, next));
+
+
+
+}

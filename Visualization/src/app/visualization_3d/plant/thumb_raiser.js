@@ -1542,7 +1542,6 @@ export default class ThumbRaiser {
 
         this.maze.thumbRaiser = this;
 
-
         this.scene.add(this.maze);
 
 
