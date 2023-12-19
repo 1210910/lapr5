@@ -43,8 +43,9 @@ export class LoginComponent {
     }if (document.getElementsByTagName("input")[0].value == "fleet" && document.getElementsByTagName("input")[1].value == "admin"){
       alert("Login Successful");
       window.location.href = "/homeFleet";
-    }
-
+    }if (document.getElementsByTagName("input")[0].value == "user" && document.getElementsByTagName("input")[1].value == "admin"){
+      alert("Login Successful");
+      window.location.href = "/homeUser";
    }
 
 
@@ -52,4 +53,5 @@ export class LoginComponent {
 
 
 
+}
 }
