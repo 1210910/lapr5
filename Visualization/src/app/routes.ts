@@ -47,6 +47,8 @@ import {UserComponent} from "./User/user.component";
 import {DataCopyComponent} from "./User/dataCopy/dataCopy.component";
 import{DeleteAccountComponent} from "./User/deleteAccount/deleteAccount.component";
 import {EditDataComponent} from "./User/editData/editData.component";
+import { AdminComponent } from "./home/admin.component";
+import { CreateUserComponent } from "./signUp/createUser/createUser.component";
 
 const routeConfig: Routes = [
   {
@@ -54,10 +56,21 @@ const routeConfig: Routes = [
     component: LoginComponent,
     title: 'Login page'
   },
+
   {
     path:'signup',
     component: SignUpComponent,
     title: 'Sign Up page'
+  },
+  {
+    path:'admin',
+    component: AdminComponent,
+    title: 'Admin home page'
+  },
+  {
+    path:'createUser',
+    component: CreateUserComponent,
+    title: 'Create User page'
   },
   {
     path: 'fleet',
