@@ -1,6 +1,4 @@
-
-export interface IDeliveryTaskDTO {
-
+export interface ITaskDTO {
     id:string;
     description: string;
     user: string;
@@ -8,10 +6,5 @@ export interface IDeliveryTaskDTO {
     roomOrig: string;
     destName : string;
     origName : string;
-    destPhoneNumber : string;
-    origPhoneNumber : string;
-    code : number;
     state : string;
-
-
 }

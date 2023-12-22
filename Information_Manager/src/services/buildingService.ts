@@ -16,6 +16,8 @@ export default class BuildingService implements IBuildingService{
 
     ) {}
 
+
+
     public async createBuilding(buildingDTO: IBuildingDTO): Promise<Result<IBuildingDTO>> {
         try {
           const buildingDocument = await this.buildingRepo.findByCode(buildingDTO.code)

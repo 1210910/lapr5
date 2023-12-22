@@ -2,24 +2,24 @@ import { Request, Response, NextFunction } from 'express';
 import { Inject, Service } from 'typedi';
 import config from "../../config";
 
-import IDeliveryTaskController from './IControllers/IDeliveryTaskController';
-import IDeliveryTaskService from '../services/IServices/IDeliveryTaskService';
-import { IDeliveryTaskDTO } from '../dto/IDeliveryTaskDTO';
+
+import IVigilanceTaskController from "./IControllers/IVigilanceTaskController";
+import IVigilanceTaskService from "../services/IServices/IVigilanceTaskService";
+import {IVigilanceTaskDTO} from "../dto/IVigilanceTaskDTO";
 
 
-import { Result } from "../core/logic/Result";
 
 @Service()
 
-export default class DeliveryTaskController implements IDeliveryTaskController {
+export default class VigilanceTaskController implements IVigilanceTaskController {
 
     constructor(
-        @Inject(config.services.deliveryTask.name) private deliveryTaskServiceInstance: IDeliveryTaskService
+        @Inject(config.services.deliveryTask.name) private deliveryTaskServiceInstance: IVigilanceTaskService
     ) { }
 
-    public async createDeliveryTask(req: Request, res: Response, next: NextFunction) {
+    public async createVigilanceTask(req: Request, res: Response, next: NextFunction) {
         try {
-            const deliveryTaskOrError = await this.deliveryTaskServiceInstance.createDeliveryTask(req.body as IDeliveryTaskDTO);
+            const deliveryTaskOrError = await this.deliveryTaskServiceInstance.createVigilanceTask(req.body as IVigilanceTaskDTO);
 
             if (deliveryTaskOrError.isFailure) {
                 return res.status(400).json({ error: deliveryTaskOrError.errorValue() });
@@ -33,9 +33,9 @@ export default class DeliveryTaskController implements IDeliveryTaskController {
         }
     };
 
-    public async getAllDeliveryTasks(req: Request, res: Response, next: NextFunction) {
+    public async getAllVigilanceTaskRequests(req: Request, res: Response, next: NextFunction) {
         try {
-            const deliveryTasksOrError = await this.deliveryTaskServiceInstance.getAllDeliveryTasks();
+            const deliveryTasksOrError = await this.deliveryTaskServiceInstance.getAllVigilanceTaskRequests();
 
             if (deliveryTasksOrError.isFailure) {
                 return res.status(404).send();
@@ -49,9 +49,9 @@ export default class DeliveryTaskController implements IDeliveryTaskController {
         }
     };
 
-    public async getAllDeliveryTaskRequests(req: Request, res: Response, next: NextFunction) {
+    public async getAllVigilanceTasks(req: Request, res: Response, next: NextFunction) {
         try {
-            const deliveryTasksOrError = await this.deliveryTaskServiceInstance.getAllDeliveryTaskRequests();
+            const deliveryTasksOrError = await this.deliveryTaskServiceInstance.getAllVigilanceTasks();
 
             if (deliveryTasksOrError.isFailure) {
                 return res.status(404).send();
@@ -60,15 +60,14 @@ export default class DeliveryTaskController implements IDeliveryTaskController {
             const deliveryTaskDto = deliveryTasksOrError.getValue();
             return res.status(200).json(deliveryTaskDto);
 
-        }
-        catch (e) {
+        } catch (e) {
             return next(e);
         }
-    }
+    };
 
-    public async approveDeliveryTask(req: Request, res: Response, next: NextFunction) {
+    public async approveVigilanceTask(req: Request, res: Response, next: NextFunction) {
         try {
-            const deliveryTaskOrError = await this.deliveryTaskServiceInstance.approveDeliveryTask(req.body.id);
+            const deliveryTaskOrError = await this.deliveryTaskServiceInstance.approveVigilanceTask(req.body.id);
 
             if (deliveryTaskOrError.isFailure) {
                 return res.status(400).json({ error: deliveryTaskOrError.errorValue() });
@@ -82,9 +81,9 @@ export default class DeliveryTaskController implements IDeliveryTaskController {
         }
     }
 
-    public async rejectDeliveryTask(req: Request, res: Response, next: NextFunction) {
+    public async rejectVigilanceTask(req: Request, res: Response, next: NextFunction) {
         try {
-            const deliveryTaskOrError = await this.deliveryTaskServiceInstance.rejectDeliveryTask(req.body.id);
+            const deliveryTaskOrError = await this.deliveryTaskServiceInstance.rejectVigilanceTask(req.body.id);
 
             if (deliveryTaskOrError.isFailure) {
                 return res.status(400).json({ error: deliveryTaskOrError.errorValue() });
@@ -113,8 +112,6 @@ export default class DeliveryTaskController implements IDeliveryTaskController {
             return next(e);
         }
     }
-
-
 
     public async getAllPendingTasks(req: Request, res: Response, next: NextFunction) {
         try {

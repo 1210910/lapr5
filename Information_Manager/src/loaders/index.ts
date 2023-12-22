@@ -107,6 +107,14 @@ export default async ({ expressApp }) => {
     name: config.controllers.floorMap.name,
     path: config.controllers.floorMap.path
   }
+  const deliveryTaskController = {
+    name: config.controllers.deliveryTask.name,
+    path: config.controllers.deliveryTask.path
+  }
+    const vigilanceTaskController = {
+        name: config.controllers.vigilanceTask.name,
+        path: config.controllers.vigilanceTask.path
+    }
   // Repos
 
   const roleRepo = {
@@ -203,6 +211,14 @@ export default async ({ expressApp }) => {
     name: config.services.floorMap.name,
     path: config.services.floorMap.path
   }
+  const deliveryTaskService = {
+        name: config.services.deliveryTask.name,
+        path: config.services.deliveryTask.path
+    }
+    const vigilanceTaskService = {
+        name: config.services.vigilanceTask.name,
+        path: config.services.vigilanceTask.path
+    }
 
 
 
@@ -229,7 +245,10 @@ export default async ({ expressApp }) => {
       robotController,
       robotTypeController,
       liftController,
-      floorMapController
+      floorMapController,
+      deliveryTaskController,
+        vigilanceTaskController
+
     ],
     repos: [
       roleRepo,
@@ -253,7 +272,9 @@ export default async ({ expressApp }) => {
       robotService,
       robotTypeService,
       liftService,
-      floorMapService
+      floorMapService,
+        deliveryTaskService,
+        vigilanceTaskService
     ]
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');

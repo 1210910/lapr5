@@ -10,6 +10,8 @@ import robot from './routes/robotRoute';
 import robotTypeRoute from './routes/robotTypeRoute';
 import floorMapRoute from './routes/floorMapRoute';
 import lift from './routes/liftRoute';
+import vigilanceTaskRoute from "./routes/vigilanceTaskRoute";
+import deliveryTaskRoute from "./routes/deliveryTaskRoute";
 
 export default () => {
 	const app = Router();
@@ -24,6 +26,9 @@ export default () => {
 	passageway(app);
 	room(app);
 	floorMapRoute(app);
+	vigilanceTaskRoute(app);
+	deliveryTaskRoute(app);
+
 	
 	lift(app);
 

@@ -32,7 +32,32 @@ export default (app: Router) => {
         (req, res, next) => deliveryTaskController.createDeliveryTask(req, res, next));
 
     route.get('',
+        (req, res, next) => deliveryTaskController.getAllDeliveryTaskRequests(req, res, next));
+
+    route.get('/tasks',
         (req, res, next) => deliveryTaskController.getAllDeliveryTasks(req, res, next));
+
+    route.get('/requestpending',
+        (req, res, next) => deliveryTaskController.getAllPendingTaskRequests(req, res, next));
+
+    route.get('/pending',
+        (req, res, next) => deliveryTaskController.getAllPendingTasks(req, res, next));
+
+    route.post('/approve',celebrate({
+        body: Joi.object({
+            id: Joi.string().max(255).required(),
+        }),
+    }),
+    (req, res, next) => deliveryTaskController.approveDeliveryTask(req, res, next));
+
+
+    route.post('reject',celebrate ({
+        body: Joi.object({
+        id: Joi.string().max(255).required(),
+    }),
+    }),
+    (req,res,next) => deliveryTaskController.rejectDeliveryTask(req, res, next) );
+
 
 
 

@@ -12,6 +12,7 @@ import { code } from "three/examples/jsm/nodes/shadernode/ShaderNodeBaseElements
 import { Building } from "../domain/building/Building";
 import { BuildingMap } from "../mappers/BuildingMap";
 
+
 @Service()
 export default class RobotRepo implements IRobotRepo {
     private models: any;
@@ -81,9 +82,20 @@ export default class RobotRepo implements IRobotRepo {
         return null;
     }
 
+    async  findByType(robotType: Robot | string): Promise<Array<Robot>> {
+        const query = { type: robotType };
+
+        const robotDocuments = await this.robotSchema.find(query);
+
+        if (robotDocuments != null) {
+            const robot =  Promise.all(robotDocuments.map(async (robotDocument) => await RobotMap.toDomain(robotDocument)));
+
+        }
+        return null;
+    }
 
 
-  public async findAll(): Promise<Array<Robot>> {
+    public async findAll(): Promise<Array<Robot>> {
     const robotRecords = await this.robotSchema.find();
     const robots = await Promise.all(robotRecords.map(async (robotRecord) =>
       await RobotMap.toDomain(robotRecord)

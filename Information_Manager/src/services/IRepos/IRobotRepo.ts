@@ -9,4 +9,5 @@ export default interface IRobotRepo extends Repo<Robot> {
   exists(robotId: RobotId | string): Promise<boolean>;
   existsByCode(robotCode: Robot | string): Promise<boolean>;
   findByCode(robotCode: Robot | string): Promise<Robot>;
+    findByType(robotType: Robot | string): Promise<Array<Robot>>;
 }

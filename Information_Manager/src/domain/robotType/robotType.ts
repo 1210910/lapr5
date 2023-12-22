@@ -13,7 +13,7 @@ interface RobotTypeProps {
     brand: Brand;
     model: Model;
     description: Description;
-    taskTypeCode: string;
+    taskType: string;
 }
 
 export class RobotType extends AggregateRoot<RobotTypeProps> {
@@ -40,7 +40,7 @@ export class RobotType extends AggregateRoot<RobotTypeProps> {
     }
 
     get taskTypeCode (): string {
-        return this.props.taskTypeCode;
+        return this.props.taskType;
     }
 
     private constructor (props: RobotTypeProps, id?: UniqueEntityID) {
@@ -76,7 +76,7 @@ export class RobotType extends AggregateRoot<RobotTypeProps> {
                       brand: Brand.valueOf(props.brand),
                       model: Model.valueOf(props.model),
                       description: Description.valueOf(props.description),
-                      taskTypeCode: props.taskTypeCode
+                      taskType: props.taskTypeCode
                   }
                   , id);
 

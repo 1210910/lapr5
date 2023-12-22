@@ -1,0 +1,31 @@
+<section>
+  <header class="brand-name">
+    <nav>
+      <ul class="menuItems">
+        <li>
+          <a [routerLink]="['/taskManager']">
+            <img class="brand-logo" src="/assets/logoRobot.svg" alt="logo" aria-hidden="true">
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+</section>
+<section class="list-container">
+  <div class="body">
+    <section>
+      <div class="card-container">
+        <div *ngFor="let robot of vigilanceList" class="card">
+          <div class="card-content">
+          </div>
+        </div>
+        <div *ngFor="let robot of deliveryList" class="card">
+          <div class="card-content">
+          </div>
+        </div>
+      </div>
+    </section>
+    <app-vigilance-info *ngFor="let VigilanceInfo of vigilanceList" [robotInfo]="VigilanceInfo"></app-vigilance-info>
+    <app-delivery-info *ngFor="let DeliveryInfo of deliveryList" [robotInfo]="DeliveryInfo"></app-delivery-info>
+  </div>
+</section>

@@ -77,6 +77,14 @@ export default {
       name:"FloorMapController",
       path:"../controllers/floorMapController"
     },
+    deliveryTask:{
+      name:"DeliveryTaskController",
+      path:"../controllers/deliveryTaskController"
+    },
+    vigilanceTask:{
+      name:"VigilanceTaskController",
+      path:"../controllers/vigilanceTaskController"
+    },
   },
 
   repos: {
@@ -158,6 +166,14 @@ export default {
     floorMap: {
       name: "FloorMapService",
       path: "../services/floorMapService"
+    },
+    deliveryTask:{
+      name: "DeliveryTaskService",
+      path: "../services/deliveryTaskService"
+    },
+    vigilanceTask:{
+      name: "VigilanceTaskService",
+      path: "../services/vigilanceTaskService"
     },
   },
 };
