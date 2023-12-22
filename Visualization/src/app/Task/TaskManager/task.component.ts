@@ -6,7 +6,7 @@ import {HousingLocation} from "../../houselocation";
 import {HousingService} from "../../housing.service";
 
 @Component({
-  selector: 'app-building',
+  selector: 'app-task',
    standalone: true,
     imports: [CommonModule, RouterLink],
   template: `
@@ -15,7 +15,7 @@ import {HousingService} from "../../housing.service";
 
               <nav>
                   <ul class="menuItems">
-                      <li><a [routerLink]="['/']">
+                      <li><a [routerLink]="['/taskManager']">
                           <img class="brand-logo" src="/assets/logoFleet.svg" alt="logo" aria-hidden="true">
                       </a></li>
                       <li><a [routerLink]="['/actionTask']" data-item='Task Request Actions'>Task Request Actions</a></li>
@@ -34,7 +34,7 @@ import {HousingService} from "../../housing.service";
         </div>
       </section>
   `,
-  styleUrls: ["./building.component.css"]
+  styleUrls: ["./task.component.css"]
 
 })
 

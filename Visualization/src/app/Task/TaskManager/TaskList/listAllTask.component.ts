@@ -12,15 +12,15 @@ import {TaskService} from "../../../services/task.service";
 
 
 @Component({
-  selector: 'app-robot-list',
+  selector: 'app-task-list',
   standalone: true,
   imports: [CommonModule, RouterLink, VigilanceInfoComponent, DeliveryInfoComponent],
   templateUrl: './taskList.component.html',
-  styleUrls: ["../../TaskManager/buildingCreate.component.css"]
+  styleUrls: ["../listTasks.component.css"]
 
 })
 
-export class RobotListComponent {
+export class ListAllTaskComponent {
   vigilanceList: VigilanceTaskInfo[] = [];
   deliveryList: DeliveryTaskInfo[] = [];
   taskService: TaskService = inject(TaskService);

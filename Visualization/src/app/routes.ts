@@ -49,6 +49,11 @@ import{DeleteAccountComponent} from "./User/deleteAccount/deleteAccount.componen
 import {EditDataComponent} from "./User/editData/editData.component";
 import { AdminComponent } from "./home/admin.component";
 import { CreateUserComponent } from "./signUp/createUser/createUser.component";
+import { TaskComponent } from "./Task/TaskManager/task.component";
+import { ListAllTaskRequestComponent } from "./Task/TaskManager/TaskList/listAllTaskRequest.component";
+import { ListAllTaskComponent } from "./Task/TaskManager/TaskList/listAllTask.component";
+import { TaskApproveRejectComponent } from "./Task/TaskManager/TaskApproveReject/taskApproveReject.component";
+import { TaskManagerComponent } from "./home/homeTask.component";
 
 const routeConfig: Routes = [
   {
@@ -66,6 +71,11 @@ const routeConfig: Routes = [
     path:'admin',
     component: AdminComponent,
     title: 'Admin home page'
+  },
+  {
+    path:'taskManager',
+    component: TaskManagerComponent,
+    title: 'Task manager home page'
   },
   {
     path:'createUser',
@@ -314,7 +324,28 @@ const routeConfig: Routes = [
     path:'robotdetails',
     component: RobotDetailsComponent,
     title: 'Robot details page'
-  }
+  },
+  {
+    path:'taskManagement',
+    component: TaskComponent,
+    title: 'Task management page'
+  },
+  {
+    path:'getAllTask',
+    component: ListAllTaskRequestComponent,
+    title: 'List task request page'
+  },
+  {
+    path:'listAllTask',
+    component: ListAllTaskComponent,
+    title: 'List task page'
+  },
+  {
+    path:'actionTask',
+    component: TaskApproveRejectComponent,
+    title: 'Task management page'
+  },
+
 ];
 
 export default routeConfig;

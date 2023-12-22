@@ -15,7 +15,7 @@ import { RouterLink } from '@angular/router';
       <a [routerLink]="['/vigilancedetails', {'code': robotInfo.id}]" ><div class="descr">Learn More</div></a>
     </li>
   `,
-  styleUrls: ['./vigilance-info.component.css']
+  styleUrls: ['./info.component.css']
 })
 export class DeliveryInfoComponent {
 

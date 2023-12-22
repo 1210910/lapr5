@@ -40,6 +40,10 @@ export class LoginComponent {
       alert("Login Successful");
       window.location.href = "/home";
     }
+    if (document.getElementsByTagName("input")[0].value == "task" && document.getElementsByTagName("input")[1].value == "admin") {
+      alert("Login Successful");
+      window.location.href = "/taskManager";
+    }
     if (document.getElementsByTagName("input")[0].value == "fleet" && document.getElementsByTagName("input")[1].value == "admin") {
       alert("Login Successful");
       window.location.href = "/homeFleet";

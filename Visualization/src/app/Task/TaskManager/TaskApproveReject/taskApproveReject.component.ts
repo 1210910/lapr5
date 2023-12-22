@@ -19,7 +19,7 @@ import {TaskService} from "../../../services/task.service";
 
               <nav>
                   <ul class="menuItems">
-                      <li><a [routerLink]="['/taskManager']">
+                      <li><a [routerLink]="['/taskManagement']">
                           <img class="brand-logo" src="/assets/logoRooms.svg" alt="logo" aria-hidden="true">
                       </a></li>
                   </ul>
@@ -60,7 +60,7 @@ import {TaskService} from "../../../services/task.service";
           </div>
           </section>
   `,
-    styleUrls: ["./taskApproveReject.component.ts"]
+    styleUrls: ["./taskApproveReject.component.css"]
 
 })
 

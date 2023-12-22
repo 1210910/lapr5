@@ -12,11 +12,11 @@ import {TaskService} from "../../../services/task.service";
 
 
 @Component({
-  selector: 'app-robot-list',
+  selector: 'app-taskrequest-list',
   standalone: true,
   imports: [CommonModule, RouterLink, VigilanceInfoComponent, DeliveryInfoComponent],
   templateUrl: './taskRequestList.component.html',
-  styleUrls: ["../TaskManager/buildingCreate.component.css"]
+  styleUrls: ["../listTasks.component.css"]
 
 })
 

@@ -26,7 +26,6 @@ import { Result } from "../core/logic/Result";
 export default class UserService implements IUserService{
   constructor(
       @Inject(config.repos.user.name) private userRepo : IUserRepo,
-      @Inject(config.repos.role.name) private roleRepo : IRoleRepo,
       @Inject('logger') private logger,
   ) {}
 
