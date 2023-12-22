@@ -42,7 +42,13 @@ import {GetPathComponent} from "./Fleet/getPath.component";
 import {SignUpComponent}  from "./signUp/signUp/signUp.component";
 import {TermsAndConditionsComponent} from "./signUp/termsAndConditions/termsAndConditions.component";
 import {PrivacyPolicyComponent} from "./signUp/privacyPolicy/privacyPolicy.component";
-
+import {HomeUserComponent} from "./home/homeUser.component";
+import {UserComponent} from "./User/user.component";
+import {DataCopyComponent} from "./User/dataCopy/dataCopy.component";
+import{DeleteAccountComponent} from "./User/deleteAccount/deleteAccount.component";
+import {EditDataComponent} from "./User/editData/editData.component";
+import { AdminComponent } from "./home/admin.component";
+import { CreateUserComponent } from "./signUp/createUser/createUser.component";
 
 const routeConfig: Routes = [
   {
@@ -50,21 +56,52 @@ const routeConfig: Routes = [
     component: LoginComponent,
     title: 'Login page'
   },
+
   {
     path:'signup',
     component: SignUpComponent,
     title: 'Sign Up page'
   },
   {
+    path:'admin',
+    component: AdminComponent,
+    title: 'Admin home page'
+  },
+  {
+    path:'createUser',
+    component: CreateUserComponent,
+    title: 'Create User page'
+  },
+  {
     path: 'fleet',
     component: FleetComponent,
     title: 'Fleet page'
   },
+    {
+        path: 'userData',
+        component: UserComponent,
+        title: 'User page'
+    },
+    {
+        path: 'dataCopy',
+        component: DataCopyComponent,
+        title: 'Data Copy page'
+    },
+    {
+        path: 'editData',
+        component: EditDataComponent,
+        title: 'Edit Data page'
+    },
   {
     path: 'termsandConditions',
     component: TermsAndConditionsComponent,
     title: 'Terms and Conditions page'
   },
+    {
+        path: 'deleteAccount',
+        component: DeleteAccountComponent,
+        title: 'Delete Account page'
+    },
     {
         path: 'privacyPolicy',
         component: PrivacyPolicyComponent,
@@ -103,11 +140,15 @@ const routeConfig: Routes = [
     component: HomeFleetComponent,
     title: 'Home fleet page'
   },
+    {
+        path:'homeUser',
+        component: HomeUserComponent,
+        title: 'User page'
+    },
   {
     path:'robotTypeCreate',
     component: RobotTypeCreateComponent,
     title: 'Robot type create page'
-
   },
   {
     path:'robotType',
