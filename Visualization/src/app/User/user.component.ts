@@ -13,7 +13,7 @@ import {RouterLink} from "@angular/router";
               <nav>
                   <ul class="menuItems">
                       <li><a [routerLink]="['/homeUser']">
-                          <img class="brand-logo" src="/assets/logo.svg" alt="logo" aria-hidden="true">
+                          <img class="brand-logo" src="/assets/logoUser.svg" alt="logo" aria-hidden="true">
                       </a></li>
                       <li><a [routerLink]="['/dataCopy']" data-item='Data Copy'>Data Copy</a></li>
                       <li><a [routerLink]="['/editData']" data-item='Edit your Data'>Edit Your Data</a></li>

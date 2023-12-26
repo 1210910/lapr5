@@ -4,7 +4,7 @@
         <ul class="menuItems">
           <li>
             <a [routerLink]="['/taskManagement']">
-              <img class="brand-logo" src="/assets/logoRobot.svg" alt="logo" aria-hidden="true">
+              <img class="brand-logo" src="/assets/logoTask.svg" alt="logo" aria-hidden="true">
             </a>
           </li>
         </ul>
@@ -25,7 +25,7 @@
       </div>
     </div>
   </section>
-      <app-vigilance-info *ngFor="let VigilanceInfo of vigilanceList" [robotInfo]="VigilanceInfo"></app-vigilance-info>
-      <app-delivery-info *ngFor="let DeliveryInfo of deliveryList" [robotInfo]="DeliveryInfo"></app-delivery-info>
+      <app-vigilance-info *ngFor="let VigilanceInfo of vigilanceList" [vigilanceTask]="VigilanceInfo"></app-vigilance-info>
+      <app-delivery-info *ngFor="let DeliveryInfo of deliveryList" [deliveryTask]="DeliveryInfo"></app-delivery-info>
     </div>
   </section>

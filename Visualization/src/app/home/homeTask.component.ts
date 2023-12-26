@@ -13,7 +13,7 @@ import {RouterLink} from "@angular/router";
               <nav>
                   <ul class="menuItems">
                       <li><a [routerLink]="['/']">
-                          <img class="brand-logo" src="/assets/logo.svg" alt="logo" aria-hidden="true">
+                          <img class="brand-logo" src="/assets/logoTask.svg" alt="logo" aria-hidden="true">
                       </a></li>
                       <li><a [routerLink]="['/taskManagement']" data-item='Tasks'>Tasks</a></li>
                   </ul>

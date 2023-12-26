@@ -16,7 +16,7 @@ import {HousingService} from "../../housing.service";
               <nav>
                   <ul class="menuItems">
                       <li><a [routerLink]="['/taskManager']">
-                          <img class="brand-logo" src="/assets/logoFleet.svg" alt="logo" aria-hidden="true">
+                          <img class="brand-logo" src="/assets/logoTask.svg" alt="logo" aria-hidden="true">
                       </a></li>
                       <li><a [routerLink]="['/actionTask']" data-item='Task Request Actions'>Task Request Actions</a></li>
 
