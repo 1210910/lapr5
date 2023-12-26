@@ -22,9 +22,9 @@ export class Description extends ValueObject<{ description: string }> {
     if (value.length > 250) {
       throw new Error("Description must be 250 characters or less");
     }
-    if (!(/^[\w\s]+$/.test(value))) {
+    /*if (!(/^[\w\s]+$/.test(value))) {
       throw new Error("Description with the wrong format");
-    }
+    }*/
     return true;
   }
 

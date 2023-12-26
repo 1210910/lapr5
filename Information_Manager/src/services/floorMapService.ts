@@ -46,7 +46,7 @@ export default class FloorMapService implements IFloorMapService {
           const mockDto={
             floorCode:floorMaps.getValue()[i].floorCode,
             maze: maze,
-            exits:exits,
+            passageways:exits,
             elevator:elevator,
             rooms:rooms
           }

@@ -64,6 +64,8 @@ export default class RoomRepo implements IRoomRepo {
 
     public async findAll(): Promise<Result<Array<Room>>> {
         const roomRecord = await this.roomSchema.find();
+        console.log(roomRecord);
+        console.log("aqui");
         if (!roomRecord) {
             return Result.fail<Array<Room>>("No rooms found")
         }else{

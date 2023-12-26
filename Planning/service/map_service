@@ -1,6 +1,7 @@
 :- module(map_service, [converte_mapa/1]).
 
 :- use_module('../persistence/DB').
+:- use_module(library(http/json)).
 
 clear_map_facts :-
     retractall(m(_, _, _)),
@@ -25,7 +26,7 @@ cria_linha(Colunas, Linha) :-
     cria_linha(Colunas, NovaLinha).
 
 converte_mapa(X):-
-    db:map(X, Y,_,_),
+    db:map(X, Y,_,_,_),
     convert_mapa(Y).
 
 convert_mapa(Mapa) :-
@@ -39,10 +40,10 @@ converte_mapa_linhas([Linha | Resto], Lin) :-
 
 converte_linha([], _, _).
 converte_linha([Celula | Resto], Col, Lin) :-
-    (Celula =:= 0 ->
-        asserta(m(Col, Lin, 0))
-    ;
+    (   member(Celula, [1,2,3]) ->
         asserta(m(Col, Lin, Celula))
+    ;   % Outros valores são tratados como 0
+        asserta(m(Col, Lin, 0))
     ),
     NextCol is Col + 1,
     converte_linha(Resto, NextCol, Lin).
@@ -59,7 +60,7 @@ numero_maximo_colunas(Matriz, NumeroColunas) :-
         ).
 
 cria_grafo(X):-
-    db:map(X, Y,_,_),
+    db:map(X, Y,_,_,_),
     numero_maximo_linhas(Y, Linhas),
     numero_maximo_colunas(Y, Colunas),
     cria_grafo(Colunas,Linhas).
@@ -240,9 +241,9 @@ create_corridor_facts([Floor1-Floor2 | Rest]) :-
 
 extract_building_floor(RoomCode, BuildingCode, FloorCode) :-
     atom_chars(RoomCode, [BuildingChar1, BuildingChar2 | Rest]),
-    (   Rest = [DigitChar | FloorChars], char_type(DigitChar, digit)
+    (   Rest = [DigitChar | _], char_type(DigitChar, digit)
     ->  BuildingCode = BuildingChar1,
-        atom_chars(FloorCode, [BuildingChar1, DigitChar | FloorChars])
+        atom_chars(FloorCode, [BuildingChar1, BuildingChar2])
     ;   BuildingCode = BuildingChar1,
         atom_chars(FloorCode, [BuildingChar2 | Rest])
     ).
@@ -271,112 +272,176 @@ remove_duplicates([H | T], [H | T1]) :-
     \+ member(H, T),
     remove_duplicates(T, T1).
 
-create_passageways_from_map() :-
-    findall(Passageway,db:map(_, _, Passageway, _),Passageways),
-    create_passageways(Passageways).
+create_passageways_from_map :-
+    findall(Passageway, db:map(_, _, Passageway, _, _), Passageways),
+    maplist(process_passageways_from_json, Passageways).
 
-create_passageways([]).
-create_passageways([Passageway | Rest]) :-
-    Passageway=(Code, Position),
+% Predicado para processar as passagens a partir de um JSON
+process_passageways_from_json(JSON) :-
+
+    extract_passageways(JSON).
+
+% Predicado para extrair e criar os fatos passageway_info/4
+extract_passageways([]).
+extract_passageways([Passageway | Rest]) :-
+
+    Passageway = json([passagewayCode=Code, position=Position]),
+
     extract_letters(Code, F1, F2),
-     (
-            (passageway_info(F1, F2, CurrentPosition, _),retract(passageway_info(F1, F2, CurrentPosition,_ )), assert(passageway_info(F1, F2, CurrentPosition, Position)));
-            assert(passageway_info(F1, F2, Position,_))
-        ),
-    create_passageways(Rest).
+    create_passageway_info(F1, F2, Position),
+    extract_passageways(Rest).
 
 
-% Predicate to extract letters from a passageway code
 extract_letters(Code, FirstLetters, SecondLetters) :-
-    sub_atom(Code, 1, 2, _, FirstLetters), % Extract the first two characters
-    sub_atom(Code, 3, 2, _, SecondLetters). % Extract the following two characters
+    sub_atom(Code, 1, 2, _, FirstLetters),
+    sub_atom(Code, 3, 2, _, SecondLetters).
 
-% Example usage:
-passageway_code('PA1B1'), % Example passageway code
-extract_letters('PA1B1', FirstLetters, SecondLetters). % Extract the letters from the passageway code
-
-
-
-
-get_entry_exit_positions([], []).
-get_entry_exit_positions([Floor1], [EntryExitPosition]) :-
-    room_location(X, Y),
-    X1 is X+1,
-    Y1 is Y+1,
-    ExitRoom = cel(Y1, X1),
-    map(Floor1, _, ExitEntry, _),
-    [EntryLast, _] = ExitEntry,
-    list_to_cel(EntryLast, EntryCel),
-    EntryExitFirst = cam(Floor1, EntryCel, ExitRoom),
-    EntryExitPosition = EntryExitFirst.
-
-get_entry_exit_positions([Floor1 | Rest], [EntryExitPosition | RestEntryExitPositions]) :-
-    Rest = [Floor2 | _],
+create_passageway_info(F1, F2, Position) :-
     (
-        is_same_building_transition(Floor1, Floor2) ->
-        (
-            db:map(Floor1, _, _, Exit,_),
-            db:map(Floor1, _, Entry, _),
-            [FirstEntry | _] = Entry,
-            [LastExit | _] = Exit,
-            list_to_cel(FirstEntry, EntryCel),
-            list_to_cel(LastExit, ExitCel),
-            EntryExitPosition = cam(Floor1, EntryCel, ExitCel)
-        )
+        % Verifica se o fato já existe com os argumentos F1 e F2
+        clause(passageway_info(F1, F2, CPosition, Position), true) ->
+        % Se existir, retract do fato atual e adiciona a nova posição
+        retract(passageway_info(F1, F2, CPosition, Position)),
+        assertz(passageway_info(F1, F2, CPosition, Position))
         ;
-        (
-            db:map(Floor1, _, ExitEntry, _),
-            [Entry, Exit] = ExitEntry,
-            list_to_cel(Entry, EntryCel),
-            list_to_cel(Exit, ExitCel),
-            EntryExitPosition = cam(Floor1, EntryCel, ExitCel)
-        )
+        % Se não existir, cria um novo fato com a nova posição
+        assertz(passageway_info(F1, F2, Position, _))
+    ).
+
+
+
+
+
+get_entry_exit_positions([], [EntryExitPosition ]) :-
+    room_dest(_, Position),
+    room_origin(_, PositionE),
+    Position = [X, Y],
+    X1 is X + 1,
+    Y1 is Y + 1,
+    ExitRoom = cel(Y1, X1),
+    PositionE = [XE, YE],
+    XE1 is XE + 1,
+    YE1 is YE + 1,
+    EntryRoom = cel(YE1, XE1),
+    (
+        catch((next_entry(EntryCel), retractall(next_entry(_))), _, fail) ->
+        true
+        ;
+        EntryCel = EntryRoom
     ),
-    get_entry_exit_positions(Rest, RestEntryExitPositions).
+    EntryExitPosition = cam(EntryCel, ExitRoom).
+
+get_entry_exit_positions([_], [EntryExitPosition]):-
+    get_entry_exit_positions([], [EntryExitPosition]).
+
+get_entry_exit_positions([Floor1, Floor2 | Rest], [EntryExitPosition | RestEntryExitPositions]) :-
+    room_origin(_, Position),
+    Position = [X, Y],
+    X1 is X + 1,
+    Y1 is Y + 1,
+    EntryRoom = cel(Y1, X1),
+    (
+        (passageway_info(Floor1, Floor2, NextExit, LastEntry);
+        passageway_info(Floor2, Floor1, LastEntry, NextExit)) ->
+            (
+            (
+                        catch((next_entry(EntryCel), retract(next_entry(_))), _, fail) ->
+                          true
+                            ;
+                          EntryCel = EntryRoom
+              ),
+            list_to_cel(LastEntry, LastEntryCel),
+            assertz(next_entry(LastEntryCel)),
+            list_to_cel(NextExit, NextExitCel),
+            EntryExitPosition = cam( EntryCel, NextExitCel)
+            );
+            (
+            is_same_building_transition(Floor1, Floor2),
+            db:map(Floor1, _,  _, Exit, _),
+            db:map(Floor2, _,  _, Entry, _),
+            (
+            catch((next_entry(EntryCel)), _, fail) ->
+            true
+              ;
+            EntryCel = EntryRoom
+                  ),
+            (
+            catch((retract(next_entry(_))), _, fail) ->
+            true
+              ;
+            true
+                  ),
+            [EntryX] = Entry,
+            list_to_cel(EntryX, NextCel),
+            assertz(next_entry(NextCel)),
+            [ExitX] = Exit,
+            list_to_cel(ExitX, ExitCel),
+            EntryExitPosition = cam(EntryCel, ExitCel)
+            )
+    ),
+    get_entry_exit_positions([Floor2| Rest], RestEntryExitPositions).
+
+
+
 
 list_to_cel([X, Y], Z):- X1 is X+1, Y1 is Y+1, Z = cel(Y1, X1).
 
 % Lógica para identificar se é uma transição no mesmo edifício (considerada elevador)
 is_same_building_transition(Floor1, Floor2) :-
-    atom_chars(Floor1, [Building1Code | _]),
-    atom_chars(Floor2, [Building2Code | _]),
-    Building1Code == Building2Code.
+    sub_atom(Floor1, 0, _, _, BuildingCode),
+    sub_atom(Floor2, 0, _, _, BuildingCode).
 
 
-process_path([], ResultPath, ResultPath).
-process_path([cam(Floor, Entry, Exit) | Rest], CurrentPath, ResultPath) :-
+process_path([], [], ResultPath, ResultPath, TotalCost, TotalCost).
 
+process_path([cam(Entry, Exit) | Rest], [], CurrentPath, ResultPath, CurrentCost, TotalCost):-
+    room_dest(Code, _),
+    extract_building_floor(Code, _, FloorCode),
+    converte_mapa(FloorCode),
+    cria_grafo(FloorCode),
+    transform_node,
+    aStar(Entry, Exit, Cam, CostCam),
+    clear_map_facts,
+    clear_graph_facts,
+    Caminho = cam(FloorCode, Cam),
+    NewCost is CurrentCost + CostCam,
+    append(CurrentPath, [Caminho], NewPath),
+    process_path(Rest, [], NewPath, ResultPath, NewCost, TotalCost).
+
+process_path([cam(Entry, Exit) | Rest], [Floor|RestFloor], CurrentPath, ResultPath, CurrentCost, TotalCost) :-
     converte_mapa(Floor),
     cria_grafo(Floor),
     transform_node,
-    aStar(Entry, Exit, Cam, _),
-    write('Path: '), writeln(Cam),
+    aStar(Entry, Exit, Cam, CostCam),
     clear_map_facts,
     clear_graph_facts,
     Caminho = cam(Floor, Cam),
+    NewCost is CurrentCost + CostCam,
     append(CurrentPath, [Caminho], NewPath),
-    process_path(Rest, NewPath, ResultPath).
+    process_path(Rest, RestFloor, NewPath, ResultPath, NewCost, TotalCost).
 
 
 load_floor_rooms():-
-    findall(Floor,db:map(Floor, _, _, _),Floors),
-    load_floor_rooms(Floors).
+    findall(Floor, db:map(Floor, _, _, _, _), Floors),
 
-load_floor_rooms([]).
-load_floor_rooms([Floor|Rest]) :-
-    db:map(Floor, _, _, Rooms),
-    create_rooms_facts(Rooms),
-    load_floor_rooms(Rest).
+    maplist(process_floor_rooms, Floors).
 
+process_floor_rooms(Floor) :-
+    db:map(Floor, _, _, _, Rooms),
 
-create_rooms_facts([]).
-create_rooms_facts([Room|Rest]):-
-    Room = (Code, Position),
-    extract_building_floor(Code, BuildingCode, FloorCode),
-    assertz(room_location(Code, Position)),
-    create_rooms_facts(Rest).
+    maplist(process_room, Rooms).
 
+process_room(Room) :-
 
+    Room = json([roomCode=Code, position=Position]),
+
+    assertz(room_location(Code, Position)).
+
+set_room_origin_dest(Origin, Dest):-
+   room_location(Origin,PositionOrigin),
+   room_location(Dest,PositionDest),
+   assertz(room_origin(Origin,PositionOrigin)),
+   assertz(room_dest(Dest,PositionDest)).
 
 
 path_floors(FloorOr,FloorDest,LBdPath,LCon):-
@@ -402,5 +467,50 @@ less_elevators([LLCon],LLCon,NElev,NCor):-count(LLCon,NElev,NCor). less_elevator
         NElevR is NElev1, NCorR is NCor1,LConR=LCon);
         (NElevR is NElev,NCorR is NCor,LConR=LConM)).
 count([],0,0). count([elev(_,_)|L],NElev,NCor):-count(L,NElevL,NCor),NElev is NElevL+1. count([cor(_,_)|L],NElev,NCor):-count(L,NElev,NCorL),NCor is NCorL+1.
+
+
+encontrar_plano(Plano, Duracao) :-
+    gerar_plano([], Plano),  % Começa com uma lista vazia
+    calcular_duracao(Plano, Duracao).
+
+% Geração de planos
+gerar_plano(PlanoParcial, Plano) :-
+    findall(Tarefa, (tarefa(Anterior, Tarefa, _), \+ member(Tarefa, PlanoParcial), \+ member(Tarefa, PlanoParcial)), Tarefas),
+    member(Tarefa, Tarefas),
+    gerar_plano([Tarefa|PlanoParcial], Plano).
+gerar_plano(Plano, Plano).
+
+% Cálculo da duração de um plano
+calcular_duracao([], 0).
+calcular_duracao([Tarefa], Duracao) :-
+    tarefa(_, Tarefa, Duracao).
+calcular_duracao([Tarefa1, Tarefa2|Resto], Duracao) :-
+    tarefa(Tarefa1, Tarefa2, Custo),
+    calcular_duracao([Tarefa2|Resto], DuracaoRestante),
+    Duracao is Custo + DuracaoRestante.
+
+
+
+find_task_start_end(Task, Start, End) :-
+    db:task(Task, Start, End).
+
+create_t_facts(Task1, Task2, Cost1) :-
+    assertz(tarefa(Task1, Task2, Cost1)).
+
+
+add_task_to_db() :-
+    assertz(db:task('Task1', 'D102', 'D103')),
+    assertz(db:task('Task2', 'D103', 'D104')),
+    assertz(db:task('Task3', 'D104', 'D205')),
+    assertz(db:task('Task4', 'D205', 'C204')),
+    assertz(db:task('Task5', 'C204', 'C303')).
+
+
+
+
+
+
+
+
 
 

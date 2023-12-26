@@ -88,6 +88,8 @@ export default class RoomService implements IRoomService {
         try {
             const listOrError = await this.roomRepo.findAll();
 
+            console.log(listOrError)
+
            if (listOrError.isFailure) {
                   return Result.fail<Array<IRoomDTO>>(listOrError.errorValue());
               }

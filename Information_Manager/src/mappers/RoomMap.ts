@@ -26,6 +26,8 @@ export class RoomMap extends Mapper<Room> {
             new UniqueEntityID(room.domainId)
         );
 
+
+
         roomOrError.isFailure ? console.log(roomOrError.error) : '';
 
         return roomOrError.isSuccess ? roomOrError.getValue() : null;

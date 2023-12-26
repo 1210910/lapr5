@@ -74,7 +74,7 @@ save_maps([Map|Rest]):-
 
     Map = json([floorCode=FloorCode,maze=Maze,passageways=Passageways,elevator=Elevator,rooms=Rooms| _]),
 
-    \+ db:map(FloorCode,_,_,_), !,
+    \+ db:map(FloorCode,_,_,_,_), !,
         write('Saving Map: '), writeln(Map),
         assertz(db:map(FloorCode,Maze,Passageways,Elevator,Rooms)),
         save_maps(Rest).

@@ -1,1 +1,361 @@
-{"maze":{"size":{"width":20,"depth":9},"map":[[3,2,2,2,2,2,2,2,2,3,2,2,3,2,2,3,2,3,5,5,1],[1,0,0,0,0,0,0,0,0,1,0,0,1,0,0,1,0,1,0,0,1],[1,0,0,0,0,0,0,0,0,3,2,2,2,2,2,2,2,0,0,0,1],[1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,0,0,3,2,2,1,0,0,3,2,2,2,2,1],[1,0,0,0,0,0,0,0,0,1,0,0,1,0,0,1,0,0,0,0,1],[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0]],"passageways":[],"elevators":[[0,20]],"rooms":[{"roomCode":"Auditorio_Prof_Nunes","position":[5,9]}]},"ground":{"size":{"width":20,"height":0.0625,"depth":9},"segments":{"width":1,"height":1,"depth":1},"primaryColor":"0xffffff","maps":{"color":{"url":"./../../assets/textures/WoodPlanks/wood_planks_diff_4k.jpg"},"ao":{"url":"./../../assets/textures/WoodPlanks/wood_planks_disp_4k.png","intensity":0},"displacement":{"url":"","scale":1,"bias":0},"normal":{"url":"./../../assets/textures/WoodPlanks/wood_planks_diff_4k.jpg","type":0,"scale":{"x":2,"y":2}},"bump":{"url":"","scale":1},"roughness":{"url":"./../../assets/textures/WoodPlanks/wood_planks_disp_4k.png","rough":0}},"wrapS":1,"wrapT":1,"repeat":{"u":4,"v":4},"magFilter":1,"minFilter":5,"secondaryColor":"0x6b554b"},"wall":{"segments":{"width":1,"height":1},"primaryColor":"0xffffff","maps":{"color":{"url":"./../../assets/textures/PlasteredWall/plastered_wall_diff_4k.jpg"},"ao":{"url":"./../../assets/textures/PlasteredWall/plastered_wall_disp_4k.png","intensity":0},"displacement":{"url":"","scale":1,"bias":0},"normal":{"url":"./../../assets/textures/PlasteredWall/plastered_wall_diff_4k.jpg","type":0,"scale":{"x":2,"y":2}},"bump":{"url":"","scale":1},"roughness":{"url":"./../../assets/textures/PlasteredWall/plastered_wall_disp_4k.png","rough":0}},"wrapS":1,"wrapT":0,"repeat":{"u":2,"v":1},"magFilter":1,"minFilter":5,"secondaryColor":"0x6b554b"},"player":{"initialPosition":[3,0],"initialDirection":90}}
+{
+  "maze": {
+    "size": {
+      "width": 20,
+      "depth": 9
+    },
+    "map": [
+      [
+        3,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
+        3,
+        2,
+        2,
+        3,
+        2,
+        3,
+        5,
+        5,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        2,
+        2,
+        1,
+        0,
+        0,
+        3,
+        2,
+        2,
+        2,
+        2,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        0
+      ]
+    ],
+    "passageways": [],
+    "elevators": [
+      [
+        0,
+        20
+      ]
+    ],
+    "rooms": [
+      {
+        "roomCode": "Auditorio_Prof_Nunes",
+        "position": [
+          5,
+          9
+        ]
+      }
+    ]
+  },
+  "ground": {
+    "size": {
+      "width": 20,
+      "height": 0.0625,
+      "depth": 9
+    },
+    "segments": {
+      "width": 1,
+      "height": 1,
+      "depth": 1
+    },
+    "primaryColor": "0xffffff",
+    "maps": {
+      "color": {
+        "url": "./../../assets/textures/WoodPlanks/wood_planks_diff_4k.jpg"
+      },
+      "ao": {
+        "url": "./../../assets/textures/WoodPlanks/wood_planks_disp_4k.png",
+        "intensity": 0
+      },
+      "displacement": {
+        "url": "",
+        "scale": 1,
+        "bias": 0
+      },
+      "normal": {
+        "url": "./../../assets/textures/WoodPlanks/wood_planks_diff_4k.jpg",
+        "type": 0,
+        "scale": {
+          "x": 2,
+          "y": 2
+        }
+      },
+      "bump": {
+        "url": "",
+        "scale": 1
+      },
+      "roughness": {
+        "url": "./../../assets/textures/WoodPlanks/wood_planks_disp_4k.png",
+        "rough": 0
+      }
+    },
+    "wrapS": 1,
+    "wrapT": 1,
+    "repeat": {
+      "u": 4,
+      "v": 4
+    },
+    "magFilter": 1,
+    "minFilter": 5,
+    "secondaryColor": "0x6b554b"
+  },
+  "wall": {
+    "segments": {
+      "width": 1,
+      "height": 1
+    },
+    "primaryColor": "0xffffff",
+    "maps": {
+      "color": {
+        "url": "./../../assets/textures/PlasteredWall/plastered_wall_diff_4k.jpg"
+      },
+      "ao": {
+        "url": "./../../assets/textures/PlasteredWall/plastered_wall_disp_4k.png",
+        "intensity": 0
+      },
+      "displacement": {
+        "url": "",
+        "scale": 1,
+        "bias": 0
+      },
+      "normal": {
+        "url": "./../../assets/textures/PlasteredWall/plastered_wall_diff_4k.jpg",
+        "type": 0,
+        "scale": {
+          "x": 2,
+          "y": 2
+        }
+      },
+      "bump": {
+        "url": "",
+        "scale": 1
+      },
+      "roughness": {
+        "url": "./../../assets/textures/PlasteredWall/plastered_wall_disp_4k.png",
+        "rough": 0
+      }
+    },
+    "wrapS": 1,
+    "wrapT": 0,
+    "repeat": {
+      "u": 2,
+      "v": 1
+    },
+    "magFilter": 1,
+    "minFilter": 5,
+    "secondaryColor": "0x6b554b"
+  },
+  "player": {
+    "initialPosition": [
+      3,
+      0
+    ],
+    "initialDirection": 90
+  }
+}
