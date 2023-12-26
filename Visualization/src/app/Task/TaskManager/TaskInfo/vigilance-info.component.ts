@@ -9,17 +9,19 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `
-    <li style="--accent-color:#6F42C1">
-      <div class="icon"><i class="fa fa-robot"></i></div>
-      <div class="title">{{ robotInfo.description }}</div>
-      <a [routerLink]="['/vigilancedetails', {'code': robotInfo.id}]" ><div class="descr">Learn More</div></a>
-    </li>
+      <li style="--accent-color:#6F42C1">
+          <div class="icon"><i class="fa fa-robot"></i></div>
+          <div class="title">{{ vigilanceTask.description }}</div>
+          <a [routerLink]="['/vigilancedetails', {'code': vigilanceTask.id}]">
+              <div class="descr">Learn More</div>
+          </a>
+      </li>
   `,
   styleUrls: ['./info.component.css']
 })
 export class VigilanceInfoComponent {
 
-  @Input() robotInfo!: VigilanceTaskInfo;
+  @Input() vigilanceTask!: VigilanceTaskInfo;
 
 
 }
