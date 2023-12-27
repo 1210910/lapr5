@@ -1,0 +1,75 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title Create a user account (utente)
+
+participant "Routing" as routing <<component>>
+participant "Controller" as controller <<component>>
+participant "Service" as service <<component>>
+participant "User Repository" as userrepo <<component>>
+participant "User" as user <<component>>
+participant "Map" as map <<component>>
+participant "DTO" as dto <<component>>
+database "Database" as db <<component>>
+
+?o->> routing : POST
+activate routing
+routing ->> controller : create a user account
+
+activate controller
+controller ->> service : create a user account
+
+activate service
+service ->> userrepo : verifies if user email already exists
+
+activate userrepo
+userrepo ->> db : select email
+activate db
+db -->> userrepo : email
+deactivate db
+
+userrepo -->> service : email not found
+deactivate userrepo
+
+
+service ->> user** : create
+activate user
+
+user -->> user: verifies
+
+user -->> service : created
+deactivate user
+
+service ->> userrepo : save
+userrepo ->> db : insert user
+activate db
+db -->> userrepo : success
+deactivate db
+
+userrepo -->> service : success
+deactivate userrepo
+
+service ->> map : convert to DTO
+activate map
+
+map -->> dto** : convert
+activate dto
+
+dto -->> map : dto
+deactivate dto
+
+map -->> service : dto
+deactivate map
+
+service -->> controller : success
+deactivate service
+
+controller -->> routing : success
+deactivate controller
+
+?o<<-- routing : 201 Created
+deactivate routing
+
+@enduml
