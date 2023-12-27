@@ -1,5 +1,5 @@
 import { Routes } from "@angular/router";
-import { HomeComponent } from "./home/home.component";
+import { HomeCampusComponent } from "./home/homeCampus.component";
 import { FloorDetailsComponent } from "./Floor/details/details.component";
 import { LoginComponent } from "./login/login.component";
 import { BuildingComponent } from "./Building/building.component";
@@ -54,10 +54,16 @@ import { ListAllTaskRequestComponent } from "./Task/TaskManager/TaskList/listAll
 import { ListAllTaskComponent } from "./Task/TaskManager/TaskList/listAllTask.component";
 import { TaskApproveRejectComponent } from "./Task/TaskManager/TaskApproveReject/taskApproveReject.component";
 import { TaskManagerComponent } from "./home/homeTask.component";
+import { HomeComponent } from "./home/home.component";
 
 const routeConfig: Routes = [
 
   // LOGIN
+  {
+    path: "home",
+    component: HomeComponent,
+    title: "Redirecting..."
+  },
   {
     path: "",
     component: LoginComponent,
@@ -100,9 +106,9 @@ const routeConfig: Routes = [
 
   // CAMPUS
   {
-    path: "home",
-    component: HomeComponent,
-    title: "Home page"
+    path: "campusManager",
+    component: HomeCampusComponent,
+    title: "Campus manager home page"
   },
   {
     path: "campus",

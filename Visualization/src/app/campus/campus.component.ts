@@ -15,7 +15,7 @@ import {HousingService} from "../housing.service";
 
               <nav>
                   <ul class="menuItems">
-                      <li><a [routerLink]="['/home']">
+                      <li><a [routerLink]="['/campusManager']">
                           <img class="brand-logo" src="/assets/logoBuilding(1).svg" alt="logo" aria-hidden="true">
                       </a></li>
                       <li><a [routerLink]="['/loadMap']" data-item='Load Floor Map'>Load Floor Map</a></li>

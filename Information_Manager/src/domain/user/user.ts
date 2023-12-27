@@ -100,7 +100,6 @@ export class User extends AggregateRoot<UserProps> {
           password: await UserPassword.create(props.password),
           role: props.role as UserRoles
         }, id);
-        console.log(user.password.value);
 
         return Result.ok<User>(user);
       } catch (err) {
