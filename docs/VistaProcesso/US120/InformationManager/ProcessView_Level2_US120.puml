@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title Request the deletion of all my data (utente)
+
+participant "Information Manager" as MD <<Component>>
+
+?o->> MD : GET
+
+activate MD
+?o<<--MD : 200 OK
+
+deactivate MD
+
+
+@enduml
