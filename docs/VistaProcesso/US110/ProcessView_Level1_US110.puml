@@ -1,0 +1,21 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title Request a copy of all my data (utente)
+
+actor "User" as NU
+participant "RobDroneGO" as Sys <<System>>
+
+activate NU
+NU->> Sys : GET
+
+activate Sys
+NU <<-- Sys : 200 OK
+deactivate Sys
+
+
+
+@enduml
