@@ -40,7 +40,7 @@ converte_mapa_linhas([Linha | Resto], Lin) :-
 
 converte_linha([], _, _).
 converte_linha([Celula | Resto], Col, Lin) :-
-    (   member(Celula, [1,2,3]) ->
+    (   member(Celula, [1,2,3,9]) ->
         asserta(m(Col, Lin, Celula))
     ;   % Outros valores são tratados como 0
         asserta(m(Col, Lin, 0))
@@ -397,9 +397,14 @@ process_path([], [], ResultPath, ResultPath, TotalCost, TotalCost).
 process_path([cam(Entry, Exit) | Rest], [], CurrentPath, ResultPath, CurrentCost, TotalCost):-
     room_dest(Code, _),
     extract_building_floor(Code, _, FloorCode),
+
+
     converte_mapa(FloorCode),
+
     cria_grafo(FloorCode),
+
     transform_node,
+
     aStar(Entry, Exit, Cam, CostCam),
     clear_map_facts,
     clear_graph_facts,
@@ -409,16 +414,24 @@ process_path([cam(Entry, Exit) | Rest], [], CurrentPath, ResultPath, CurrentCost
     process_path(Rest, [], NewPath, ResultPath, NewCost, TotalCost).
 
 process_path([cam(Entry, Exit) | Rest], [Floor|RestFloor], CurrentPath, ResultPath, CurrentCost, TotalCost) :-
+
     converte_mapa(Floor),
+
     cria_grafo(Floor),
+
     transform_node,
+
     aStar(Entry, Exit, Cam, CostCam),
     clear_map_facts,
     clear_graph_facts,
+    clear_node_facts,
     Caminho = cam(Floor, Cam),
     NewCost is CurrentCost + CostCam,
     append(CurrentPath, [Caminho], NewPath),
     process_path(Rest, RestFloor, NewPath, ResultPath, NewCost, TotalCost).
+
+clear_node_facts :-
+    retractall(node(_, _, _)).
 
 
 load_floor_rooms():-
@@ -469,26 +482,38 @@ less_elevators([LLCon],LLCon,NElev,NCor):-count(LLCon,NElev,NCor). less_elevator
 count([],0,0). count([elev(_,_)|L],NElev,NCor):-count(L,NElevL,NCor),NElev is NElevL+1. count([cor(_,_)|L],NElev,NCor):-count(L,NElev,NCorL),NCor is NCorL+1.
 
 
-encontrar_plano(Plano, Duracao) :-
-    gerar_plano([], Plano),  % Começa com uma lista vazia
-    calcular_duracao(Plano, Duracao).
+encontrar_melhor_plano(Tarefas,Plano, Duracao) :-
+    melhor_duracao(Tarefas, Plano, Duracao).
 
-% Geração de planos
-gerar_plano(PlanoParcial, Plano) :-
-    findall(Tarefa, (tarefa(Anterior, Tarefa, _), \+ member(Tarefa, PlanoParcial), \+ member(Tarefa, PlanoParcial)), Tarefas),
-    member(Tarefa, Tarefas),
-    gerar_plano([Tarefa|PlanoParcial], Plano).
-gerar_plano(Plano, Plano).
+melhor_duracao(Tarefas, MelhorPlano, MelhorDuracao) :-
+    permutacao(Tarefas, Plano),
+    calcular_duracao(Plano, Duracao),
+    (
+        var(MelhorDuracao) ->
+        MelhorDuracao = Duracao,
+        MelhorPlano = Plano
+    ;
+        Duracao < MelhorDuracao ->
+        MelhorDuracao = Duracao,
+        MelhorPlano = Plano
+    ;
+        true
+    ),
+    melhor_duracao(Tarefas, MelhorPlano, MelhorDuracao).
 
-% Cálculo da duração de um plano
+permutacao(Lista, Permutacao) :-
+    permutation(Lista, Permutacao).
+
 calcular_duracao([], 0).
-calcular_duracao([Tarefa], Duracao) :-
-    tarefa(_, Tarefa, Duracao).
+calcular_duracao(_, 0). % Remova o caso base com uma única tarefa, pois já é tratado na regra acima
 calcular_duracao([Tarefa1, Tarefa2|Resto], Duracao) :-
     tarefa(Tarefa1, Tarefa2, Custo),
     calcular_duracao([Tarefa2|Resto], DuracaoRestante),
     Duracao is Custo + DuracaoRestante.
 
+% Adiciona a última tarefa ao final da lista
+adicionar_ultima_tarefa(Plano, UltimaTarefa, PlanoFinal) :-
+    append(Plano, [UltimaTarefa], PlanoFinal).
 
 
 find_task_start_end(Task, Start, End) :-
@@ -499,11 +524,16 @@ create_t_facts(Task1, Task2, Cost1) :-
 
 
 add_task_to_db() :-
-    assertz(db:task('Task1', 'D102', 'D103')),
-    assertz(db:task('Task2', 'D103', 'D104')),
-    assertz(db:task('Task3', 'D104', 'D205')),
-    assertz(db:task('Task4', 'D205', 'C204')),
+    assertz(db:task('Task1', 'D103', 'C303')),
+    assertz(db:task('Task2', 'D103', 'D102')),
+    assertz(db:task('Task3', 'D102', 'D203')),
+    assertz(db:task('Task4', 'D205', 'D103')),
     assertz(db:task('Task5', 'C204', 'C303')).
+
+
+clear_facts() :-
+    retract(room_origin(_,_)),
+    retract(room_dest(_,_)).
 
 
 

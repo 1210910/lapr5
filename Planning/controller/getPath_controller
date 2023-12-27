@@ -21,47 +21,66 @@ get_path(Start, End, Response) :-
     map_service:extract_building_floor(EndStr, _, EndFloor),
     map_service:path_floors(StartFloor, EndFloor, PathBuilding, PathFloors),
     map_service:get_all_floors(PathFloors,AllFloors),
+    writeln(AllFloors),
     map_service:get_entry_exit_positions(AllFloors,EntryExitPositions),
+    writeln(EntryExitPositions),
     map_service:process_path(EntryExitPositions,AllFloors,_,ResultPath,0,_),!,
+    map_service:clear_facts,
     % criar a resposta
     format_response(ResultPath, PathBuilding, PathFloors, Response).
 
 get_path_cost(Start, End, Response) :-
-    db_controller:load_db,
     atom_string(StartStr, Start), % Convertendo Start para string, se não for
     atom_string(EndStr, End), % Convertendo End para string, se não for
-    map_service:load_floor_rooms(),
     map_service:set_room_origin_dest(StartStr, EndStr),
-    map_service:carrega_conexoes,
-    map_service:create_floors,
-    map_service:create_elevators,
-    map_service:create_corridors,
-    map_service:create_passageways_from_map,
     map_service:extract_building_floor(StartStr, _, StartFloor),
     map_service:extract_building_floor(EndStr, _, EndFloor),
     map_service:path_floors(StartFloor, EndFloor, _, PathFloors),
     map_service:get_all_floors(PathFloors,AllFloors),
     map_service:get_entry_exit_positions(AllFloors,EntryExitPositions),
     map_service:process_path(EntryExitPositions,AllFloors,_,_,0,Cost),!,
+    map_service:clear_facts,
     % criar a resposta
     Response = Cost.
 
+order_path_init(Tasks, Response) :-
+    db_controller:load_db,
+    map_service:load_floor_rooms(),
+    map_service:carrega_conexoes,
+    map_service:create_floors,
+    map_service:create_elevators,
+    map_service:create_corridors,
+    map_service:create_passageways_from_map,
+    order_path(Tasks, Response).
 
-order_path([Task1,Task2|Tasks], Response) :-
-    map_service:find_task_start_end(Task1, _, End1),
-    map_service:find_task_start_end(Task2, Start2, _),
-    get_path_cost(End1, Start2, Cost1),
-    map_service:create_t_facts(Task1, Task2, Cost1),
-    order_path([Task2|Tasks], Response).
-
-order_path([_], Response) :-
-    map_service:encontrar_plano(Plano,Duracao),
+order_path(Tasks, Response) :-
+    calculate_all_costs(Tasks),
+    writeln('Calculou todos os custos'),
+    map_service:encontrar_melhor_plano(Tasks,Plano,Duracao),
     Response = json{
-        path:Plano,
-        duration:Duracao
+        path: Plano,
+        duration: Duracao
     }.
 
-order_path([], _).
+
+% Predicado para calcular custos entre todas as tarefas
+calculate_all_costs([]).
+calculate_all_costs([Task|Tasks]) :-
+    calculate_costs_for_task_with_others(Task, Tasks),
+    calculate_all_costs(Tasks).
+
+% Predicado para calcular custos entre uma tarefa e todas as outras tarefas
+calculate_costs_for_task_with_others(_, []).
+calculate_costs_for_task_with_others(Task1, [Task2|Rest]) :-
+    calculate_costs_between_tasks(Task1, Task2),
+    calculate_costs_for_task_with_others(Task1, Rest).
+
+% Predicado para calcular custos entre duas tarefas específicas
+calculate_costs_between_tasks(Task1, Task2) :-
+    map_service:find_task_start_end(Task1, _, End1),
+    map_service:find_task_start_end(Task2, Start2, _),
+    get_path_cost(End1, Start2, Cost),
+    map_service:create_t_facts(Task1, Task2, Cost).
 
 
 
