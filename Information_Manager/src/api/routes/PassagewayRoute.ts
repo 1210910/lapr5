@@ -40,4 +40,5 @@ export default (app: Router) => {
 
     // List all passageway
     route.get('', (req,res,next) => passagewayController.listPassageway(req,res,next) );
+    route.get('/algav', (req,res,next) => passagewayController.listPassageway(req,res,next) );
 };

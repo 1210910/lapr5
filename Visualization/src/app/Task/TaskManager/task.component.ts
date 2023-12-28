@@ -22,6 +22,7 @@ import {HousingService} from "../../housing.service";
 
                       <li><a [routerLink]="['/getAllTask']" data-item='List Task Request'>List Task Request</a></li>
                       <li><a [routerLink]="['/listAllTask']" data-item='List Task'>List Task</a></li>
+                      <li><a [routerLink]="['/orderPath']" data-item='Order Path'>Order Path</a></li>
                   </ul>
               </nav>
           </header>

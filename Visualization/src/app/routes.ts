@@ -54,6 +54,7 @@ import { ListAllTaskRequestComponent } from "./Task/TaskManager/TaskList/listAll
 import { ListAllTaskComponent } from "./Task/TaskManager/TaskList/listAllTask.component";
 import { TaskApproveRejectComponent } from "./Task/TaskManager/TaskApproveReject/taskApproveReject.component";
 import { TaskManagerComponent } from "./home/homeTask.component";
+import {OrderPathComponent} from "./Task/TaskManager/Order_Path/orderPath.component";
 
 const routeConfig: Routes = [
 
@@ -62,6 +63,11 @@ const routeConfig: Routes = [
     path: "",
     component: LoginComponent,
     title: "Login page"
+  },
+  {
+    path:"orderPath",
+    component: OrderPathComponent,
+    title: "Order Path page"
   },
   {
     path: "signup",

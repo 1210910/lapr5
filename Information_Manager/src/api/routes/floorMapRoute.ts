@@ -32,5 +32,7 @@ export default (app: Router) => {
     );
   route.get('',(req,res,next) => floorMapController.getFloorMaps(req,res,next));
 
+  route.get('/algav', (req,res,next) => floorMapController.getFloorMaps(req,res,next) );
+
   route.get('/:floorCode', (req,res,next) => floorMapController.getFloorMap(req,res,next) );
     }

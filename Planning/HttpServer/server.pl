@@ -36,6 +36,40 @@ handle_rooms(Request) :-
             format('Content-type: application/json\r\n\r\n'),
             reply_json(Response).
 
+:- http_handler('/orderPathGenetic', handle_order_path_init_genetic, []).
+handle_order_path_init_genetic(Request) :-
+    http_parameters(Request,
+        [
+            param1(Param1, [string]) % Especificando que param1 é uma string
+        ]),
+            atomic_list_concat(SubList, ',', Param1),
+            process_strings(SubList, AtomTaskList),
+            getPath_controller:order_path_init_genetic(AtomTaskList, Response),
+    cors_enable(Request, [methods([get]), headers([content_type])]),
+                format('Access-Control-Allow-Origin: *\r\n'),
+                format('Content-type: application/json\r\n\r\n'),
+                reply_json(Response).
+
+
+:- http_handler('/orderPath', handle_order_path_init, []).
+handle_order_path_init(Request) :-
+    http_parameters(Request,
+        [
+            param1(Param1, [string]) % Especificando que param1 é uma string
+        ]),
+            atomic_list_concat(SubList, ',', Param1),
+            process_strings(SubList, AtomTaskList),
+            getPath_controller:order_path_init(AtomTaskList, Response),
+    cors_enable(Request, [methods([get]), headers([content_type])]),
+                format('Access-Control-Allow-Origin: *\r\n'),
+                format('Content-type: application/json\r\n\r\n'),
+                reply_json(Response).
+
+process_strings([], []).
+process_strings([String|Strings], [Atom|Atoms]) :-
+    atom_string(Atom, String),
+    process_strings(Strings, Atoms).
+
 
 
 start(Port) :- % Starts server with 'Port' - http://localhost:Port

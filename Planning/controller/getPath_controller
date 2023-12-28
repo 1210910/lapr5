@@ -43,6 +43,16 @@ get_path_cost(Start, End, Response) :-
     % criar a resposta
     Response = Cost.
 
+order_path_init_genetic(Tasks, Response) :-
+    db_controller:load_db,
+    map_service:load_floor_rooms(),
+    map_service:carrega_conexoes,
+    map_service:create_floors,
+    map_service:create_elevators,
+    map_service:create_corridors,
+    map_service:create_passageways_from_map,
+    order_path_genetic(Tasks, Response).
+
 order_path_init(Tasks, Response) :-
     db_controller:load_db,
     map_service:load_floor_rooms(),
@@ -53,13 +63,21 @@ order_path_init(Tasks, Response) :-
     map_service:create_passageways_from_map,
     order_path(Tasks, Response).
 
+order_path_genetic(Tasks, Response) :-
+    calculate_all_costs(Tasks),
+    map_service:gera(Plano),
+    map_service:clear_t_facts,
+    term_to_string(Plano, PlanoString),
+    Response = json{
+        path: PlanoString
+    }.
+
 order_path(Tasks, Response) :-
     calculate_all_costs(Tasks),
-    writeln('Calculou todos os custos'),
-    map_service:encontrar_melhor_plano(Tasks,Plano,Duracao),
+    map_service:encontrar_melhor_plano(Tasks,Plano,_),
+    map_service:clear_t_facts,
     Response = json{
-        path: Plano,
-        duration: Duracao
+        path: Plano
     }.
 
 

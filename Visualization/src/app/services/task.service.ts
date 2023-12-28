@@ -20,6 +20,24 @@ export class TaskService {
 
   }
 
+  public getPath(tasks: string) {
+    return new Promise((resolve, reject) => {
+
+      const url = 'http://localhost:8000/orderPath?param1='+tasks ;
+      const httprequest = new XMLHttpRequest();
+      httprequest.open('GET', url, true);
+
+      //let response;
+      httprequest.onload = function () {
+
+        resolve(httprequest.responseText);
+
+      }
+      httprequest.send();
+
+    });
+  }
+
   public createtask(roomCode: string, floor: string, description: string, width: number, length: number, roomType: string) {
 
     return new Promise((resolve, reject) => {

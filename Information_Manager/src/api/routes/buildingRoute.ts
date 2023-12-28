@@ -28,6 +28,10 @@ export default (app: Router) => {
     route.get('',
     (req, res, next) => buildingController.getAllBuildings(req, res, next) );
 
+    route.get('/algav',
+        (req, res, next) => buildingController.getAllBuildings(req, res, next) );
+
+
   route.patch('/:code',
     celebrate({
       body: Joi.object({

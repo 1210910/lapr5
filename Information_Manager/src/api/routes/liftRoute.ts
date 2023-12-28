@@ -41,6 +41,7 @@ export default (app: Router) => {
 
     route.get('',(req,res,next) => liftController.listAllLift(req,res,next) );
     route.get('/:buildingCode', (req,res,next) => liftController.listLift(req,res,next) );
+    route.get('/algav',(req,res,next) => liftController.listAllLift(req,res,next) );
 
 
     route.use((err, req, res, next) => {

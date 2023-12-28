@@ -26,5 +26,5 @@ export default (app: Router) => {
 
 
   route.get('', (req,res,next) => RoomController.listAllRooms(req,res,next) );
-
+    route.get('/algav', (req,res,next) => RoomController.listAllRooms(req,res,next) );
 };
