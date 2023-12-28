@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SignUpComponent } from './signUp.component';
-import { SignUpService } from '../../services/signUp.service';
+import { UserService } from '../../services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import any = jasmine.any;
@@ -9,7 +9,7 @@ import any = jasmine.any;
 describe('SignUpComponent', () => {
     let component: SignUpComponent;
     let fixture: ComponentFixture<SignUpComponent>;
-    let mockSignUpService: jest.Mocked<SignUpService>;
+    let mockSignUpService: jest.Mocked<UserService>;
     let mockActivatedRoute: Partial<ActivatedRoute>;
 
     beforeEach(() => {
@@ -25,7 +25,7 @@ describe('SignUpComponent', () => {
         fixture = TestBed.createComponent(SignUpComponent);
         component = fixture.componentInstance;
 
-        component.signUpService = mockSignUpService;
+        component.userService = mockSignUpService;
 
     });
 

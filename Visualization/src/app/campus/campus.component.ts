@@ -1,9 +1,6 @@
-import {Component, inject} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {RouterLink} from "@angular/router";
-import {FloorInfoComponent} from "../Floor/floor-info/floor-info.component";
-import {HousingLocation} from "../houselocation";
-import {HousingService} from "../housing.service";
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-building',
@@ -38,15 +35,6 @@ import {HousingService} from "../housing.service";
 
 export class CampusComponent{
 
-    constructor() {
-
-    }
-
-
-
-
-
-
-
+    constructor() {}
 
 }

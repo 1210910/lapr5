@@ -1,7 +1,8 @@
-import { Component,inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {RouterLink} from "@angular/router";
-//import { UserService } from "../services/user.service";
+import { Component, inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterLink } from "@angular/router";
+import { UserService } from "../services/user.service";
+import { AuthService } from "@auth0/auth0-angular";
 
 @Component({
   selector: 'app-home',
@@ -19,26 +20,24 @@ import {RouterLink} from "@angular/router";
 })
 export class HomeComponent {
 
-  //userService: UserService = inject(UserService);
+  userService: UserService = inject(UserService);
   user: any = {};
 
-  /*ngOnInit() {
-    this.authService.idTokenClaims$.subscribe((claims) => {
+  ngOnInit() {
+    /*this.authService.idTokenClaims$.subscribe((claims) => {
       if (claims) localStorage.setItem("token", claims.__raw);
-      this.userService.profile().then((profile) => {
-        console.log(profile);
-        this.user = { ...this.user, ...profile };
+      this.userService.user().then((user) => {
+        console.log(user);
+        this.user = { ...this.user, ...user };
       }).catch((err) => {
         console.log(err);
       });
     });
     this.authService.user$.subscribe((user) => {
       this.user = user;
-    });
-  }*/
-
-  constructor() {
-
+    });*/
   }
+
+  constructor(private authService: AuthService) { }
 
 }

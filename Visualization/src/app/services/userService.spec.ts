@@ -1,7 +1,7 @@
-import {SignUpService} from "./signUp.service";
+import {UserService} from "./user.service";
 
 describe('SignUpService', () => {
-    let service: SignUpService;
+    let service: UserService;
     const prepareMockWithStatus = (status: number, response: any) => {
         const mockXMLHttpRequest: jest.Mocked<XMLHttpRequest> = {
             open: jest.fn(),
@@ -19,7 +19,7 @@ describe('SignUpService', () => {
     };
 
     beforeEach(() => {
-        service = new SignUpService();
+        service = new UserService();
     });
 
     afterEach(() => {

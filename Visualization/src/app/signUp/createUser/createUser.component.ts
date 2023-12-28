@@ -1,7 +1,7 @@
 import {Component, EventEmitter, inject, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterLink} from "@angular/router";
-import {SignUpService} from "../../services/signUp.service"
+import {UserService} from "../../services/user.service"
 import { FormsModule } from "@angular/forms";
 import { BuildingInfo } from "../../Building/building-info/buildingInfo";
 
@@ -16,7 +16,7 @@ import { BuildingInfo } from "../../Building/building-info/buildingInfo";
 
 export class CreateUserComponent {
 
-    signUpService: SignUpService = inject(SignUpService);
+    userService: UserService = inject(UserService);
 
     constructor() {
 
@@ -36,7 +36,7 @@ export class CreateUserComponent {
             return;
         }
 
-        this.signUpService.createUser(firstName, lastName, email, phoneNumber, NIF, password, role).then((result)=>{
+        this.userService.createUser(firstName, lastName, email, phoneNumber, NIF, password, role).then((result)=>{
             alert ("User account created");
         }).catch((error) => {
             alert("Fail Error: " + error);

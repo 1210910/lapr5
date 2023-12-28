@@ -1,14 +1,10 @@
-import {Component, inject} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {RouterLink} from "@angular/router";
-import {FloorInfoComponent} from "../floor-info/floor-info.component";
-import {HousingLocation} from "../../houselocation";
-import {FloorService} from "../../services/floor.service";
-import routes from "../../routes";
-import {BuildingInfo} from "../../Building/building-info/buildingInfo";
-import {BuildingService} from "../../services/building.service";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-
+import { Component, inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterLink } from "@angular/router";
+import { FloorService } from "../../services/floor.service";
+import { BuildingInfo } from "../../Building/building-info/buildingInfo";
+import { BuildingService } from "../../services/building.service";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 
 @Component({

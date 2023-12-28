@@ -1,7 +1,7 @@
 import {Component, EventEmitter, inject, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterLink} from "@angular/router";
-import {SignUpService} from "../../services/signUp.service"
+import {UserService} from "../../services/user.service"
 
 
 @Component({
@@ -16,7 +16,7 @@ export class SignUpComponent {
 
     @Output() consentAccepted= new EventEmitter<boolean>();
 
-    signUpService: SignUpService = inject(SignUpService);
+    userService: UserService = inject(UserService);
 
     constructor() {
 
@@ -41,7 +41,8 @@ export class SignUpComponent {
             return;
         }
 
-        this.signUpService.createUser(firstName, lastName, email, phoneNumber, NIF, password, "Utente").then((result)=>{
+        this.userService.createUser(firstName, lastName, email, phoneNumber, NIF, password, "User").then((result)=>{
+            console.log(result);
             alert ("User account created");
         }).catch((error) => {
             alert("Fail Error");

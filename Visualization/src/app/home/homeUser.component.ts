@@ -1,8 +1,7 @@
-import { Component,inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HousingLocation } from '../houselocation';
-import { HousingService } from '../housing.service';
-import {RouterLink} from "@angular/router";
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterLink } from "@angular/router";
+
 @Component({
     selector: 'app-home',
     standalone: true,
@@ -18,12 +17,6 @@ import {RouterLink} from "@angular/router";
             </a></li>
             <li><a [routerLink]="['/userData']" data-item='User Data'>User Data</a></li>
               <li><a [routerLink]="['/deleteAccount']" data-item='Delete Account'> Delete Account</a> </li>
-            <li >
-              <div class="search-box">
-                <button class="btn-search" type="button" (click)="filterResults(filter.value)"><i class="fa fa-search" aria-hidden="true"></i></button>
-                <input type="text" class="input-search" placeholder="Filter by city" #filter   >
-              </div>
-            </li>
           </ul>
         </nav>
       </header>
@@ -44,30 +37,6 @@ import {RouterLink} from "@angular/router";
 })
 export class HomeUserComponent {
 
-    //<app-housing-location *ngFor="let housingLocation of filteredLocationList" [housingLocation]="housingLocation"></app-housing-location>
-
-    housingLocationList: HousingLocation[] = [];
-    housingService: HousingService = inject(HousingService);
-    filteredLocationList: HousingLocation[] = [];
-
-    constructor() {
-        this.housingLocationList = this.housingService.housingLocationList;
-        this.filteredLocationList = this.housingLocationList;
-    }
-
-
-
-
-
-
-    filterResults(text: string) {
-        if (!text) {
-            this.filteredLocationList = this.housingLocationList;
-        }
-
-        this.filteredLocationList = this.housingLocationList.filter(
-            housingLocation => housingLocation?.name.toLowerCase().includes(text.toLowerCase())
-        );
-    }
+    constructor() { }
 
 }
