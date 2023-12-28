@@ -1,6 +1,6 @@
 // remove by JRT : import jwt from 'express-jwt';
-var { expressjwt: jwt } = require("express-jwt");
-import config from '../../../config';
+import jwksRsa from "jwks-rsa";
+const {expressjwt: jwt} = require("express-jwt");
 
 /**
  * We are assuming that the JWT will come in a header with the form
@@ -19,8 +19,6 @@ const getTokenFromHeader = req => {
 
   return authHeader.substring(6);
 };
-
-let jwksRsa = require('jwks-rsa');
 
 const isAuth = jwt({
   secret: jwksRsa.expressJwtSecret({

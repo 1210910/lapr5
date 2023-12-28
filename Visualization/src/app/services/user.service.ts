@@ -34,7 +34,7 @@ export class UserService {
           };
 
           const httpRequestAuth0 = new XMLHttpRequest();
-          httpRequestAuth0.open("POST", "https://dev-3hnosuh6oycbgons.us.auth0.com/api/v2/users", true);
+          httpRequestAuth0.open("POST", "https://dev-3hnosuh6oycbgons.us.auth0.com/dbconnections/signup", true);
           httpRequestAuth0.setRequestHeader("Content-Type", "application/json");
 
           httpRequestAuth0.onload = () => {
@@ -48,10 +48,12 @@ export class UserService {
             }
           };
 
-          httpRequestAuth0.onerror = () => {
-            console.log("Error creating user in Auth0");
-            reject("Error creating user in Auth0");
-            return;
+          httpRequestAuth0.onload = () => {
+            if (((httpRequestAuth0.status / 100) | 0) === 2) {
+              resolve(JSON.parse(httpRequestAuth0.response));
+            } else {
+              reject(httpRequestAuth0.response);
+            }
           };
 
           console.log(JSON.stringify(auth0Body));
@@ -72,11 +74,13 @@ export class UserService {
     });
   }
 
-  public user() {
+  public profile() {
     return new Promise((resolve, reject) => {
       const httprequest = new XMLHttpRequest();
-      httprequest.open("GET", "http://localhost:4000/api/users/me", true);
+      httprequest.open("GET", "http://localhost:4000/api/auth/profile/", true);
       httprequest.setRequestHeader("Content-Type", "application/json");
+      const token = localStorage.getItem("token");
+      if (token) httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
       httprequest.onload = function() {
         if (httprequest.status === 200) {
           const response = JSON.parse(httprequest.responseText);

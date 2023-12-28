@@ -15,6 +15,7 @@ import { AppComponent } from "./app.component";
       clientId: "Sk0nEcUzFPLnFEdOx9QxkwEMNZ4yZP3N",
       authorizationParams: {
         redirect_uri: 'http://localhost:4200/',
+        clientSecret: "zKcE9W1WNxv4qFgHTiMwKyA57mNTb5CmVBe3rAd_vMA0jAwQwiS9Bw5VfhY2tKv9",
       }
     }),
   ],

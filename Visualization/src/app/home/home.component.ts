@@ -2,7 +2,7 @@ import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { UserService } from "../services/user.service";
-import { AuthService } from "@auth0/auth0-angular";
+import { AuthService, User } from "@auth0/auth0-angular";
 
 @Component({
   selector: 'app-home',
@@ -21,13 +21,14 @@ import { AuthService } from "@auth0/auth0-angular";
 export class HomeComponent {
 
   userService: UserService = inject(UserService);
-  user: any = {};
+  user: User | null | undefined;
 
   ngOnInit() {
-    /*this.authService.idTokenClaims$.subscribe((claims) => {
+    this.authService.idTokenClaims$.subscribe((claims) => {
       if (claims) localStorage.setItem("token", claims.__raw);
-      this.userService.user().then((user) => {
+      this.userService.profile().then((user) => {
         console.log(user);
+        // @ts-ignore
         this.user = { ...this.user, ...user };
       }).catch((err) => {
         console.log(err);
@@ -35,7 +36,7 @@ export class HomeComponent {
     });
     this.authService.user$.subscribe((user) => {
       this.user = user;
-    });*/
+    });
   }
 
   constructor(private authService: AuthService) { }

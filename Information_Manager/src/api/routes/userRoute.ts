@@ -81,6 +81,30 @@ export default (app: Router) => {
     },
   );
 
+  route.get("/profile/", middlewares.isAuth,
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const authServiceInstance = Container.get(AuthService);
+        //@ts-ignore
+        console.log(req.auth.email);
+        //@ts-ignore
+        const userOrError = await authServiceInstance.profile(req.auth.email);
+
+        if (userOrError.isFailure) {
+          return res.status(401).send(userOrError.errorValue());
+        }
+
+        const userDTO = userOrError.getValue();
+
+        return res.status(200).json(userDTO);
+      } catch (e) {
+        //logger.error('🔥 error: %o', e);
+        console.log(e);
+        return next(e);
+      }
+    },
+    );
+
   /**
    * @TODO Let's leave this as a place holder for now
    * The reason for a logout route could be deleting a 'push notification token'

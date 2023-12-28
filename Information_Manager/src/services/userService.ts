@@ -152,6 +152,18 @@ export default class UserService implements IUserService{
     );
   }
 
+  public async profile (email: string): Promise<Result<IUserDTO>> {
+    const user = await this.userRepo.findByEmail( email );
+    const found = !!user;
+
+    if (found) {
+      const userDTO = UserMap.toDTO( user ) as IUserDTO;
+      return Result.ok<IUserDTO>(userDTO);
+    } else {
+      return Result.fail<IUserDTO>("Couldn't find user by email=" + email);
+    }
+  }
+
 
   /*private async getRole (roleId: string): Promise<Result<Role>> {
 
