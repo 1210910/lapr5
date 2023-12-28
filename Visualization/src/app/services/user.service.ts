@@ -87,7 +87,7 @@ export class UserService {
           resolve(response);
         } else {
           const errorResponse = JSON.parse(httprequest.responseText);
-          reject(errorResponse.error);
+          reject(errorResponse);
         }
       };
       httprequest.send();

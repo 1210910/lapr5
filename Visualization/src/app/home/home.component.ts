@@ -21,7 +21,8 @@ import { AuthService, User } from "@auth0/auth0-angular";
 export class HomeComponent {
 
   userService: UserService = inject(UserService);
-  user: User | null | undefined;
+  user: any
+  role: string = "";
 
   ngOnInit() {
     this.authService.idTokenClaims$.subscribe((claims) => {
@@ -29,7 +30,10 @@ export class HomeComponent {
       this.userService.profile().then((user) => {
         console.log(user);
         // @ts-ignore
+        this.role = user.role;
+        // @ts-ignore
         this.user = { ...this.user, ...user };
+        this.redirect();
       }).catch((err) => {
         console.log(err);
       });
@@ -40,5 +44,28 @@ export class HomeComponent {
   }
 
   constructor(private authService: AuthService) { }
+
+  redirect() {
+    switch (this.role) {
+      case "Campus manager":
+        window.location.href = "/campusManager";
+        break;
+      case "Admin":
+        window.location.href = "/admin";
+        break;
+      case "User":
+        window.location.href = "/homeUser";
+        break;
+      case "Fleet manager":
+        window.location.href = "/homeFleet";
+        break;
+      case "Task manager":
+        window.location.href = "/taskManager";
+        break;
+      default:
+        break;
+    }
+
+  }
 
 }

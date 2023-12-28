@@ -17,7 +17,7 @@ const getTokenFromHeader = req => {
 
   if (!authHeader.startsWith("Bearer")) throw new Error("Token schema not supported");
 
-  return authHeader.substring(6);
+  return authHeader.substring(7);
 };
 
 const isAuth = jwt({
@@ -25,10 +25,10 @@ const isAuth = jwt({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: 'dev-3hnosuh6oycbgons.us.auth0.com/.well-known/jwks.json',
+    jwksUri: 'https://dev-3hnosuh6oycbgons.us.auth0.com/.well-known/jwks.json',
   }),
   audience: 'Sk0nEcUzFPLnFEdOx9QxkwEMNZ4yZP3N',
-  issuer: 'dev-3hnosuh6oycbgons.us.auth0.com',
+  issuer: 'https://dev-3hnosuh6oycbgons.us.auth0.com/',
   algorithms: ['RS256'],
   userProperty: 'token',
   getToken: getTokenFromHeader
