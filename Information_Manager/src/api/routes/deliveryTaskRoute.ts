@@ -7,6 +7,8 @@ import config from "../../../config";
 
 
 import IDeliveryTaskController from '../../controllers/IControllers/IDeliveryTaskController';
+import middlewares from "../middlewares";
+import { UserRoles } from "../../domain/user/UserRoles";
 
 const route = Router();
 
@@ -16,6 +18,8 @@ export default (app: Router) => {
     const deliveryTaskController = Container.get(config.controllers.deliveryTask.name) as IDeliveryTaskController;
 
     route.post('',
+      middlewares.isAuth,
+      middlewares.userRole(UserRoles.USER),
         celebrate({
             body: Joi.object({
                 description: Joi.string().max(255).required(),
@@ -32,18 +36,29 @@ export default (app: Router) => {
         (req, res, next) => deliveryTaskController.createDeliveryTask(req, res, next));
 
     route.get('',
+      middlewares.isAuth,
+      middlewares.userRole(UserRoles.TASK),
         (req, res, next) => deliveryTaskController.getAllDeliveryTaskRequests(req, res, next));
 
     route.get('/tasks',
+      middlewares.isAuth,
+      middlewares.userRole(UserRoles.TASK),
         (req, res, next) => deliveryTaskController.getAllDeliveryTasks(req, res, next));
 
     route.get('/requestpending',
+      middlewares.isAuth,
+      middlewares.userRole(UserRoles.TASK),
         (req, res, next) => deliveryTaskController.getAllPendingTaskRequests(req, res, next));
 
     route.get('/pending',
+      middlewares.isAuth,
+      middlewares.userRole(UserRoles.TASK),
         (req, res, next) => deliveryTaskController.getAllPendingTasks(req, res, next));
 
-    route.post('/approve',celebrate({
+    route.post('/approve',
+      middlewares.isAuth,
+      middlewares.userRole(UserRoles.TASK),
+      celebrate({
         body: Joi.object({
             id: Joi.string().max(255).required(),
         }),
@@ -51,7 +66,10 @@ export default (app: Router) => {
     (req, res, next) => deliveryTaskController.approveDeliveryTask(req, res, next));
 
 
-    route.post('reject',celebrate ({
+    route.post('reject',
+      middlewares.isAuth,
+      middlewares.userRole(UserRoles.TASK),
+      celebrate ({
         body: Joi.object({
         id: Joi.string().max(255).required(),
     }),

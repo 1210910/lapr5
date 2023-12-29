@@ -1,6 +1,6 @@
 // remove by JRT : import jwt from 'express-jwt';
-var { expressjwt: jwt } = require("express-jwt");
-import config from '../../../config';
+import jwksRsa from "jwks-rsa";
+const {expressjwt: jwt} = require("express-jwt");
 
 /**
  * We are assuming that the JWT will come in a header with the form
@@ -12,24 +12,26 @@ import config from '../../../config';
  * Luckily this API follow _common sense_ ergo a _good design_ and don't allow that ugly stuff
  */
 const getTokenFromHeader = req => {
-  /**
-   * @TODO Edge and Internet Explorer do some weird things with the headers
-   * So I believe that this should handle more 'edge' cases ;)
-   */
-  if (
-    (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Token') ||
-    (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer')
-  ) {
-    return req.headers.authorization.split(' ')[1];
-  }
-  return null;
+  let authHeader = req.headers.authorization;
+  if (!authHeader) throw new Error("You must be logged in to access this route");
+
+  if (!authHeader.startsWith("Bearer")) throw new Error("Token schema not supported");
+
+  return authHeader.substring(7);
 };
 
 const isAuth = jwt({
-  secret: config.jwtSecret, // The _secret_ to sign the JWTs
-  userProperty: 'token', // Use req.token to store the JWT
-  getToken: getTokenFromHeader, // How to extract the JWT from the request
-  algorithms: ["HS256"],  // Added by JRT
+  secret: jwksRsa.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: 'https://dev-3hnosuh6oycbgons.us.auth0.com/.well-known/jwks.json',
+  }),
+  audience: 'Sk0nEcUzFPLnFEdOx9QxkwEMNZ4yZP3N',
+  issuer: 'https://dev-3hnosuh6oycbgons.us.auth0.com/',
+  algorithms: ['RS256'],
+  userProperty: 'token',
+  getToken: getTokenFromHeader
 });
 
 export default isAuth;

@@ -152,17 +152,41 @@ export default class UserService implements IUserService{
     );
   }
 
-
-  /*private async getRole (roleId: string): Promise<Result<Role>> {
-
-    const role = await this.roleRepo.findByDomainId( roleId );
-    const found = !!role;
+  public async profile (email: string): Promise<Result<IUserDTO>> {
+    const user = await this.userRepo.findByEmail( email );
+    const found = !!user;
 
     if (found) {
-      return Result.ok<Role>(role);
+      const userDTO = UserMap.toDTO( user ) as IUserDTO;
+      return Result.ok<IUserDTO>(userDTO);
     } else {
-      return Result.fail<Role>("Couldn't find role by id=" + roleId);
+      return Result.fail<IUserDTO>("Couldn't find user by email=" + email);
     }
-  }*/
+  }
+
+  public async deleteAccount (email: string): Promise<Result<boolean>> {
+    const user = await this.userRepo.findByEmail( email );
+    const found = !!user;
+
+    if (found) {
+      await this.userRepo.deleteAccount( email );
+      return Result.ok<boolean>(true);
+    } else {
+      return Result.fail<boolean>("Couldn't find user by email=" + email);
+    }
+  }
+
+  private async getRole (email: string): Promise<Result<string>> {
+
+    const user = await this.userRepo.findByEmail( email );
+    const found = !!user;
+
+    if (found) {
+      const role = user.role.toString();
+      return Result.ok<string>(role);
+    } else {
+      return Result.fail<string>("Couldn't find user by email=" + email);
+    }
+  }
 
 }

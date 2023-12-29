@@ -13,7 +13,7 @@ import {RouterLink} from "@angular/router";
 
               <nav>
                   <ul class="menuItems">
-                      <li><a [routerLink]="['/home']">
+                      <li><a [routerLink]="['/campusManager']">
                           <img class="brand-logo" src="/assets/logoFloor(2).svg" alt="logo" aria-hidden="true">
                       </a></li>
                       <li><a [routerLink]="['/floorCreate']" data-item='Create'>Create</a></li>

@@ -1,73 +1,77 @@
-import { Injectable } from '@angular/core';
-import {LiftInfo} from "../Lift/lift-info/liftinfo";
+import { Injectable } from "@angular/core";
+import { LiftInfo } from "../Lift/lift-info/liftinfo";
 
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
-export class LiftService{
-  LiftList: LiftInfo[] ;
+export class LiftService {
+  LiftList: LiftInfo[];
 
   constructor() {
     this.LiftList = [];
   }
 
-      public createLift(floors:string[], brand:string,  model:string, buildingCode:string, serialNumber:string, description:string) {
-
-        return new Promise((resolve, reject) => {
-
-            const jsonMessage = JSON.stringify(
-              {
-                floors: floors,
-                brand: brand,
-                model: model,
-                buildingCode: buildingCode,
-                serialNumber: serialNumber,
-                description: description
-              });
-            const httprequest = new XMLHttpRequest();
-            httprequest.open('POST', 'http://localhost:4000/api/lift', true);
-            httprequest.setRequestHeader('Content-Type', 'application/json',);
-            //let response;
-            httprequest.onload = function () {
-
-              if (httprequest.status === 201) {
-                console.log("Lift created");
-                console.log(httprequest.responseText)
-                resolve(true);
-              } else {
-                console.log(httprequest.responseText);
-                const errorResponse = JSON.parse(httprequest.responseText);
-                //response = httprequest.status;
-                console.log(httprequest.responseText);
-                console.log("Lift not created");
-                reject(errorResponse.error);
-              }
-            }
-            httprequest.send(jsonMessage);
-
-          });
-
-      }
-
-  editLift(code: string , floorsArray: string[] , brand: string , model: string, serialNumber: string, description: string) {
+  public createLift(floors: string[], brand: string, model: string, buildingCode: string, serialNumber: string, description: string) {
 
     return new Promise((resolve, reject) => {
 
       const jsonMessage = JSON.stringify(
-          {
-            floors: floorsArray,
-            brand: brand,
-            model: model,
-            serialNumber: serialNumber,
-            description: description
-          });
-      const url = 'http://localhost:4000/api/lift/' + code;
+        {
+          floors: floors,
+          brand: brand,
+          model: model,
+          buildingCode: buildingCode,
+          serialNumber: serialNumber,
+          description: description
+        });
       const httprequest = new XMLHttpRequest();
-      httprequest.open('PATCH', url , true);
-      httprequest.setRequestHeader('Content-Type', 'application/json',);
+      httprequest.open("POST", "http://localhost:4000/api/lift", true);
+      httprequest.setRequestHeader("Content-Type", "application/json");
+      const token = localStorage.getItem("token");
+      if (token) httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
+      //let response;
+      httprequest.onload = function() {
+
+        if (httprequest.status === 201) {
+          console.log("Lift created");
+          console.log(httprequest.responseText);
+          resolve(true);
+        } else {
+          console.log(httprequest.responseText);
+          const errorResponse = JSON.parse(httprequest.responseText);
+          //response = httprequest.status;
+          console.log(httprequest.responseText);
+          console.log("Lift not created");
+          reject(errorResponse.error);
+        }
+      };
+      httprequest.send(jsonMessage);
+
+    });
+
+  }
+
+  editLift(code: string, floorsArray: string[], brand: string, model: string, serialNumber: string, description: string) {
+
+    return new Promise((resolve, reject) => {
+
+      const jsonMessage = JSON.stringify(
+        {
+          floors: floorsArray,
+          brand: brand,
+          model: model,
+          serialNumber: serialNumber,
+          description: description
+        });
+      const url = "http://localhost:4000/api/lift/" + code;
+      const httprequest = new XMLHttpRequest();
+      httprequest.open("PATCH", url, true);
+      httprequest.setRequestHeader("Content-Type", "application/json");
+      const token = localStorage.getItem("token");
+      if (token) httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
       let response;
-      httprequest.onload = function () {
+      httprequest.onload = function() {
 
         if (httprequest.status === 200) {
           console.log("Lift edited");
@@ -78,7 +82,7 @@ export class LiftService{
           console.log("Lift not edited");
           reject(false);
         }
-      }
+      };
       httprequest.send(jsonMessage);
 
     });
@@ -87,10 +91,12 @@ export class LiftService{
   listLifts() {
     return new Promise((resolve, reject) => {
       const httprequest = new XMLHttpRequest();
-      httprequest.open('GET', 'http://localhost:4000/api/lift/', true);
-      httprequest.setRequestHeader('Content-Type', 'application/json',);
+      httprequest.open("GET", "http://localhost:4000/api/lift/", true);
+      httprequest.setRequestHeader("Content-Type", "application/json");
+      const token = localStorage.getItem("token");
+      if (token) httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
       let response;
-      httprequest.onload = function () {
+      httprequest.onload = function() {
 
         if (httprequest.status === 200) {
           console.log("Lift listed");
@@ -101,7 +107,7 @@ export class LiftService{
           console.log("Lift not listed");
           reject(false);
         }
-      }
+      };
       httprequest.send();
 
     });
@@ -123,7 +129,7 @@ export class LiftService{
     }
   }
 
-  liftListFromABuilding(response: any,buildingID: string) {
+  liftListFromABuilding(response: any, buildingID: string) {
     const liftList = JSON.parse(response);
     this.LiftList = [];
     for (const lift of liftList) {
@@ -140,7 +146,8 @@ export class LiftService{
       }
     }
   }
-  getLiftByCode(position: string): LiftInfo | undefined{
+
+  getLiftByCode(position: string): LiftInfo | undefined {
     return this.LiftList.find((lift) => lift.code === position);
   }
-  }
+}

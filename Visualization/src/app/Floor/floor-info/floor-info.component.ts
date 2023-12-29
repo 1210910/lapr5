@@ -1,9 +1,7 @@
-import { Component,Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HousingLocation } from '../../houselocation';
-import { RouterLink, RouterOutlet } from '@angular/router';
-import {FloorInfo} from "./floorinfo";
-
+import { Component, Input } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterLink } from "@angular/router";
+import { FloorInfo } from "./floorinfo";
 
 
 @Component({

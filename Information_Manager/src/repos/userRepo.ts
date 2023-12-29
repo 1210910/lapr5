@@ -35,14 +35,11 @@ export default class UserRepo implements IUserRepo {
   }
 
   public async save (user: User): Promise<User> {
-    const query = { domainId: user.id.toString() }; 
-    console.log("UserRepo::save::query", query);
+    const query = { domainId: user.id.toString() };
     const userDocument = await this.userSchema.findOne( query );
-    console.log("UserRepo::save::userDocument", userDocument);
     try {
       if (userDocument === null ) {
         const rawUser: any = UserMap.toPersistence(user);
-        console.log("UserRepo::save::insert::rawUser", rawUser)
 
         const userCreated = await this.userSchema.create(rawUser);
 
@@ -83,4 +80,13 @@ export default class UserRepo implements IUserRepo {
     else
       return null;
   }
+
+  public async deleteAccount (email: string): Promise<void> {
+    const query = { email: email.toString() };
+    const userRecord = await this.userSchema.findOne( query );
+    if( userRecord != null) {
+      await this.userSchema.deleteOne( query );
+    }
+  }
+
 }

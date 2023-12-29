@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { RobotInfo } from "../Robot/robot-info/robotinfo";
-import {PassagewayInfo} from "../PassageWay/passageway-info/passagewayinfo";
+import { PassagewayInfo } from "../PassageWay/passageway-info/passagewayinfo";
 
 @Injectable({
   providedIn: "root"
@@ -25,6 +25,8 @@ export class RobotService {
       const httprequest = new XMLHttpRequest();
       httprequest.open("POST", "http://localhost:4000/api/robot", true);
       httprequest.setRequestHeader("Content-Type", "application/json");
+      const token = localStorage.getItem("token");
+      if (token) httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
       let response;
       httprequest.onload = function() {
         if (httprequest.status === 201) {
@@ -44,11 +46,13 @@ export class RobotService {
   listAllRobots() {
     return new Promise<RobotInfo[]>((resolve, reject) => {
       const httprequest = new XMLHttpRequest();
-      httprequest.open('GET', 'http://localhost:4000/api/robot', true);
-      httprequest.setRequestHeader('Content-Type', 'application/json');
+      httprequest.open("GET", "http://localhost:4000/api/robot", true);
+      httprequest.setRequestHeader("Content-Type", "application/json");
+      const token = localStorage.getItem("token");
+      if (token) httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
       let response;
 
-      httprequest.onload = function () {
+      httprequest.onload = function() {
         if (httprequest.status === 200) {
           console.log("Robot listed");
           resolve(httprequest.response);
@@ -62,21 +66,23 @@ export class RobotService {
     });
   }
 
-  toggleRobotStatus(code:string , enabled:boolean) {
+  toggleRobotStatus(code: string, enabled: boolean) {
 
     return new Promise((resolve, reject) => {
-      const change = !enabled
+      const change = !enabled;
       console.log(change);
       const jsonPatch = [
-        { op: 'replace', path: '/enabled', value: change }
+        { op: "replace", path: "/enabled", value: change }
       ];
 
-      const url = 'http://localhost:4000/api/robot/' + code;
+      const url = "http://localhost:4000/api/robot/" + code;
       const httprequest = new XMLHttpRequest();
-      httprequest.open('PATCH', url , true);
-      httprequest.setRequestHeader('Content-Type', 'application/json',);
+      httprequest.open("PATCH", url, true);
+      httprequest.setRequestHeader("Content-Type", "application/json");
+      const token = localStorage.getItem("token");
+      if (token) httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
       let response;
-      httprequest.onload = function () {
+      httprequest.onload = function() {
 
         if (httprequest.status === 204) {
           //console.log("Robot status edited");
@@ -87,7 +93,7 @@ export class RobotService {
           const errorResponse = JSON.parse(httprequest.responseText);
           reject(errorResponse);
         }
-      }
+      };
       httprequest.send(JSON.stringify(jsonPatch));
 
     });
