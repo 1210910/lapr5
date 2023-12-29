@@ -10,7 +10,7 @@ export interface IDeliveryTaskDTO {
     origName : string;
     destPhoneNumber : string;
     origPhoneNumber : string;
-    code : number;
+    code : string;
     state : string;
 
 

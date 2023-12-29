@@ -89,7 +89,7 @@ export default class RobotRepo implements IRobotRepo {
 
         if (robotDocuments != null) {
             const robot =  Promise.all(robotDocuments.map(async (robotDocument) => await RobotMap.toDomain(robotDocument)));
-
+            return robot;
         }
         return null;
     }

@@ -40,7 +40,7 @@ export default class VigilanceTaskService implements IVigilanceTaskService{
                 RoomOrig : deliveryTaskDTO.roomOrig,
                 State: "",
                 RequestName: deliveryTaskDTO.requestName,
-                RequestNumber: deliveryTaskDTO.requestNumber,
+                RequestPhoneNumber: deliveryTaskDTO.requestPhoneNumber,
             }, { httpsAgent: agent });
             return Result.ok<IVigilanceTaskDTO>(response.data);
 
@@ -124,7 +124,7 @@ export default class VigilanceTaskService implements IVigilanceTaskService{
 
             const deliveryRobot =await  this.RobotRepo.findByType(robotType.find(robotType => robotType.taskTypeCode === 'VIGILANCE').code.value);
             const robot =  deliveryRobot.find(robot => robot.enabled === true)
-            const response = await axios.post('http://localhost:5000/api/VigilanceTasksRequest/Approve', {
+            const response = await axios.post('http://localhost:5000/api/VigilanceTasksRequest/approve', {
                 Id: id,
                 RobotId: robot.code.value
             }, { httpsAgent: agent });
@@ -169,6 +169,22 @@ export default class VigilanceTaskService implements IVigilanceTaskService{
             return Result.ok<IVigilanceTaskDTO>(response.data);
         }
         catch (e) {
+            throw e;
+        }
+    }
+
+    public async getFilteredVigilanceTask(state: string, user: string): Promise<Result<IVigilanceTaskDTO[]>> {
+        try{
+            const agent = new https.Agent({
+                  rejectUnauthorized: false
+              });
+  
+              const response = await axios.get(`http://localhost:5000/api/VigilanceTasksRequest/filtered?state=${state}&user=${user}`, { httpsAgent: agent });
+  
+              return Result.ok<IVigilanceTaskDTO[]>(response.data);
+  
+        }
+        catch(e){
             throw e;
         }
     }

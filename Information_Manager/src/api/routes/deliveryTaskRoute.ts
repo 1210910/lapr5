@@ -26,7 +26,7 @@ export default (app: Router) => {
                 origName : Joi.string().max(255).required(),
                 destPhoneNumber : Joi.string().max(255).required(),
                 origPhoneNumber : Joi.string().max(255).required(),
-                code : Joi.number().min(4).max(6).required(),
+                code : Joi.string().min(4).max(6).required(),
             }),
         }),
         (req, res, next) => deliveryTaskController.createDeliveryTask(req, res, next));
@@ -58,7 +58,8 @@ export default (app: Router) => {
     }),
     (req,res,next) => deliveryTaskController.rejectDeliveryTask(req, res, next) );
 
-
+    route.get('/filtered',
+    (req, res, next) => deliveryTaskController.getFilteredDeliveryTasks(req, res, next));
 
 
 }

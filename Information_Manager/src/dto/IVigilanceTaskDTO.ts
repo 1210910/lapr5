@@ -7,7 +7,7 @@ export interface IVigilanceTaskDTO {
     roomDest: string;
     roomOrig: string;
     requestName : string;
-    requestNumber : string;
+    requestPhoneNumber : string;
     state : string;
 
 }
