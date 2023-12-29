@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { AuthService } from "@auth0/auth0-angular";
 
 @Injectable({
   providedIn: "root"
@@ -94,5 +95,40 @@ export class UserService {
     });
   }
 
+
+  /*
+  public async profile1() {
+    const authServiceInstance = AuthService;
+    //@ts-ignore
+    const user = await authServiceInstance.profile(req.auth.email);
+    return user;
+  }
+
+
+  public async deleteAccount() {
+    this.profile1().then(userProfile => {
+      const httprequest = new XMLHttpRequest();
+      httprequest.open('POST', 'http://localhost:4000/api/user/delete/', true);
+      httprequest.setRequestHeader('Content-Type', 'application/json',);
+
+      httprequest.onload = function () {
+
+        if (httprequest.status === 200) {
+          console.log("Account deleted");
+          console.log(httprequest.responseText)
+          resolve(httprequest.responseText);
+        } else {
+          console.log(httprequest.responseText);
+          const errorResponse = JSON.parse(httprequest.responseText);
+          //response = httprequest.status;
+          console.log(httprequest.responseText);
+          console.log("Account not deleted");
+          reject(errorResponse.error);
+        }
+      }
+      httprequest.send();
+    });
+  }
+  */
 
 }

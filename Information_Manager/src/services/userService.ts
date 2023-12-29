@@ -164,6 +164,17 @@ export default class UserService implements IUserService{
     }
   }
 
+  public async deleteAccount (email: string): Promise<Result<boolean>> {
+    const user = await this.userRepo.findByEmail( email );
+    const found = !!user;
+
+    if (found) {
+      await this.userRepo.deleteAccount( email );
+      return Result.ok<boolean>(true);
+    } else {
+      return Result.fail<boolean>("Couldn't find user by email=" + email);
+    }
+  }
 
   private async getRole (email: string): Promise<Result<string>> {
 

@@ -80,4 +80,13 @@ export default class UserRepo implements IUserRepo {
     else
       return null;
   }
+
+  public async deleteAccount (email: string): Promise<void> {
+    const query = { email: email.toString() };
+    const userRecord = await this.userSchema.findOne( query );
+    if( userRecord != null) {
+      await this.userSchema.deleteOne( query );
+    }
+  }
+
 }
