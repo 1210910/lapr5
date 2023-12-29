@@ -165,16 +165,17 @@ export default class UserService implements IUserService{
   }
 
 
-  /*private async getRole (roleId: string): Promise<Result<Role>> {
+  private async getRole (email: string): Promise<Result<string>> {
 
-    const role = await this.roleRepo.findByDomainId( roleId );
-    const found = !!role;
+    const user = await this.userRepo.findByEmail( email );
+    const found = !!user;
 
     if (found) {
-      return Result.ok<Role>(role);
+      const role = user.role.toString();
+      return Result.ok<string>(role);
     } else {
-      return Result.fail<Role>("Couldn't find role by id=" + roleId);
+      return Result.fail<string>("Couldn't find user by email=" + email);
     }
-  }*/
+  }
 
 }

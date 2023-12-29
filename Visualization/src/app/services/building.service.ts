@@ -27,6 +27,8 @@ export class BuildingService{
       const httprequest = new XMLHttpRequest();
       httprequest.open('POST', 'http://localhost:4000/api/buildings', true);
       httprequest.setRequestHeader('Content-Type', 'application/json',);
+      const token = localStorage.getItem("token");
+      if (token) httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
       //let response;
       httprequest.onload = function () {
 
@@ -52,6 +54,8 @@ export class BuildingService{
       const httprequest = new XMLHttpRequest();
       httprequest.open('GET', 'http://localhost:4000/api/buildings', true);
       httprequest.setRequestHeader('Content-Type', 'application/json',);
+      const token = localStorage.getItem("token");
+      if (token) httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
       let response;
       httprequest.onload = function () {
 
@@ -75,6 +79,8 @@ export class BuildingService{
       const url = 'http://localhost:4000/api/buildings/'+value;
       httprequest.open('GET',url , true);
       httprequest.setRequestHeader('Content-Type', 'application/json',);
+      const token = localStorage.getItem("token");
+      if (token) httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
       let response;
       httprequest.onload = function () {
 
@@ -127,6 +133,8 @@ export class BuildingService{
       const httprequest = new XMLHttpRequest();
       httprequest.open('PATCH', 'http://localhost:4000/api/buildings/' + editedData.code, true);
       httprequest.setRequestHeader('Content-Type', 'application/json',);
+      const token = localStorage.getItem("token");
+      if (token) httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
       httprequest.onload = function () {
 
         if (httprequest.status === 200) {

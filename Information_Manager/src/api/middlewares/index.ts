@@ -1,7 +1,7 @@
-import attachCurrentUser from './attachCurrentUser';
+import userRole from './userRole';
 import isAuth from './isAuth';
 
 export default {
-  attachCurrentUser,
+  userRole,
   isAuth,
 };

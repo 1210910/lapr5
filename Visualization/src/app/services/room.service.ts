@@ -27,6 +27,8 @@ export class RoomService {
             const httprequest = new XMLHttpRequest();
             httprequest.open('POST', 'http://localhost:4000/api/room/' + floor , true);
             httprequest.setRequestHeader('Content-Type', 'application/json',);
+            const token = localStorage.getItem("token");
+            if (token) httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
             //let response;
             httprequest.onload = function () {
 
