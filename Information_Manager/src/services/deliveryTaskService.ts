@@ -41,7 +41,7 @@ export default class DeliveryTaskService implements IDeliveryTaskService{
             OrigName:deliveryTaskDTO.origName,
             DestPhoneNumber:deliveryTaskDTO.destPhoneNumber,
             OrigPhoneNumber:deliveryTaskDTO.origPhoneNumber,
-            Code:deliveryTaskDTO.code
+            confirmationCode:deliveryTaskDTO.confirmationCode
         }, { httpsAgent: agent });
         return Result.ok<IDeliveryTaskDTO>(response.data);
 

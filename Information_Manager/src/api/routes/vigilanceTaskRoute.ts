@@ -19,8 +19,6 @@ export default (app: Router) => {
     const vigilanceTaskController = Container.get(config.controllers.vigilanceTask.name) as IVigilanceTaskController;
 
     route.post('',
-      middlewares.isAuth,
-      middlewares.userRole(UserRoles.USER),
         celebrate({
             body: Joi.object({
                 description: Joi.string().max(255).required(),
@@ -34,28 +32,18 @@ export default (app: Router) => {
         (req, res, next) => vigilanceTaskController.createVigilanceTask(req, res, next));
 
     route.get('',
-      middlewares.isAuth,
-      middlewares.userRole(UserRoles.TASK),
         (req, res, next) => vigilanceTaskController.getAllVigilanceTaskRequests(req, res, next));
 
     route.get('/tasks',
-      middlewares.isAuth,
-      middlewares.userRole(UserRoles.TASK),
         (req, res, next) => vigilanceTaskController.getAllVigilanceTasks(req, res, next));
 
     route.get('/requestpending',
-      middlewares.isAuth,
-      middlewares.userRole(UserRoles.TASK),
         (req, res, next) => vigilanceTaskController.getAllPendingTaskRequests(req, res, next));
 
     route.get('/pending',
-      middlewares.isAuth,
-      middlewares.userRole(UserRoles.TASK),
         (req, res, next) => vigilanceTaskController.getAllPendingTasks(req, res, next));
 
     route.post('/approve',
-      middlewares.isAuth,
-      middlewares.userRole(UserRoles.TASK),
       celebrate({
             body: Joi.object({
                 id: Joi.string().max(255).required(),
@@ -64,9 +52,7 @@ export default (app: Router) => {
         (req, res, next) => vigilanceTaskController.approveVigilanceTask(req, res, next));
 
 
-    route.post('reject',
-      middlewares.isAuth,
-      middlewares.userRole(UserRoles.TASK),
+    route.post('/reject',
       celebrate ({
             body: Joi.object({
                 id: Joi.string().max(255).required(),
@@ -75,8 +61,6 @@ export default (app: Router) => {
         (req,res,next) => vigilanceTaskController.rejectVigilanceTask(req, res, next) );
 
         route.get('/filtered',
-            middlewares.isAuth,
-            middlewares.userRole(UserRoles.TASK),
         (req, res, next) => vigilanceTaskController.getFilteredVigilanceTasks(req, res, next));
 
 

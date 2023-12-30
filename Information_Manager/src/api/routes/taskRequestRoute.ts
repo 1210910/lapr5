@@ -21,8 +21,6 @@ export default (app: Router) => {
         (req, res, next) => taskRequestController.getAllPendingTaskRequests(req, res, next));
 
     route.get('/accepted',
-      middlewares.isAuth,
-      middlewares.userRole(UserRoles.TASK),
         (req, res, next) => taskRequestController.getAllAcceptedTaskRequests(req, res, next));
 
 

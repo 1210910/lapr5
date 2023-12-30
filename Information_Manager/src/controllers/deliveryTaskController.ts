@@ -134,7 +134,7 @@ export default class DeliveryTaskController implements IDeliveryTaskController {
 
     public async getFilteredDeliveryTasks(req: Request, res: Response, next: NextFunction) {
         try {
-             
+
             const state = req.query.state;
             const user = req.query.user;   
     
