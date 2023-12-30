@@ -12,7 +12,7 @@ export class RobotTypeService {
 
   }
 
-  createRobotType(code: string, brand: string, model: string, taskType:string, description: string) {
+  createRobotType(code: string, brand: string, model: string, taskType: string, description: string) {
     return new Promise((resolve, reject) => {
       const jsonMessage = JSON.stringify({
         code: code,
@@ -24,6 +24,8 @@ export class RobotTypeService {
       const httprequest = new XMLHttpRequest();
       httprequest.open("POST", "http://localhost:4000/api/robotType", true);
       httprequest.setRequestHeader("Content-Type", "application/json");
+      const token = localStorage.getItem("token");
+      if (token) httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
       let response;
       httprequest.onload = function() {
         if (httprequest.status === 201) {
@@ -40,21 +42,23 @@ export class RobotTypeService {
     });
   }
 
-    listRobotTypes() {
-        return new Promise((resolve, reject) => {
-        const httprequest = new XMLHttpRequest();
-        httprequest.open("GET", "http://localhost:4000/api/robotType", true);
-        httprequest.setRequestHeader("Content-Type", "application/json");
-        httprequest.onload = function() {
-            if (httprequest.status === 200) {
-            console.log("Robot types listed");
-            resolve(httprequest.response);
-            } else {
-            console.log("Robot types not listed");
-            reject(false);
-            }
-        };
-        httprequest.send();
-        });
-    }
+  listRobotTypes() {
+    return new Promise((resolve, reject) => {
+      const httprequest = new XMLHttpRequest();
+      httprequest.open("GET", "http://localhost:4000/api/robotType", true);
+      httprequest.setRequestHeader("Content-Type", "application/json");
+      const token = localStorage.getItem("token");
+      if (token) httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
+      httprequest.onload = function() {
+        if (httprequest.status === 200) {
+          console.log("Robot types listed");
+          resolve(httprequest.response);
+        } else {
+          console.log("Robot types not listed");
+          reject(false);
+        }
+      };
+      httprequest.send();
+    });
+  }
 }

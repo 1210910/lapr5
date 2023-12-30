@@ -1,31 +1,63 @@
 <section>
-    <header class="brand-name">
-      <nav>
-        <ul class="menuItems">
-          <li>
-            <a [routerLink]="['/taskManagement']">
-              <img class="brand-logo" src="/assets/logoTask.svg" alt="logo" aria-hidden="true">
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </header>
-  </section>
-  <section class="list-container">
-    <div class="body">
-  <section>
-    <div class="card-container">
-      <div *ngFor="let robot of vigilanceList" class="card">
-        <div class="card-content">
+  <header class="brand-name">
+    <nav>
+      <ul class="menuItems">
+        <li>
+          <a [routerLink]="['/taskManagement']">
+            <img class="brand-logo" src="/assets/logoTask.svg" alt="logo" aria-hidden="true">
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+</section>
+<section class="filter-container">
+  <div class="filter-bar-container">
+    <div class="filter-bar">
+      <!-- Filter labels with select elements -->
+      <div class="form-row">
+        <label for="estado">State:</label>
+        <select id="estado" [(ngModel)]="filter.state">
+          <option value="Pending">Pending</option>
+          <option value="Rejected">Rejected</option>
+          <option value="Accepted">Accepted</option>
+          <option value="All">All</option>
+          <!-- Add more options as needed -->
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="tipoDispositivo">Type:</label>
+        <select id="tipoDispositivo" [(ngModel)]="filter.deviceType">
+          <option value="Delivery">Delivery</option>
+          <option value="Vigilance">Vigilance</option>
+          <option value="All">All</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="usuario">User:</label>
+        <input type="text" id="usuario" [(ngModel)]="filter.user" placeholder="Enter username">
+      </div>
+      <button (click)="applyFilters()">Filter</button>
+    </div>
+  </div>
+
+  <div class="body">
+    <section>
+      <div class="card-container">
+        <div *ngFor="let robot of vigilanceList" class="card">
+          <div class="card-content">
+            <!-- Content for vigilance cards -->
+          </div>
+        </div>
+        <div *ngFor="let robot of deliveryList" class="card">
+          <div class="card-content">
+            <!-- Content for delivery cards -->
+          </div>
         </div>
       </div>
-      <div *ngFor="let robot of deliveryList" class="card">
-        <div class="card-content">
-        </div>
-      </div>
-    </div>
-  </section>
-      <app-vigilance-info *ngFor="let VigilanceInfo of vigilanceList" [vigilanceTask]="VigilanceInfo"></app-vigilance-info>
-      <app-delivery-info *ngFor="let DeliveryInfo of deliveryList" [deliveryTask]="DeliveryInfo"></app-delivery-info>
-    </div>
-  </section>
+    </section>
+    <app-vigilance-info *ngFor="let VigilanceInfo of vigilanceList" [vigilanceTask]="VigilanceInfo"></app-vigilance-info>
+    <app-delivery-info *ngFor="let DeliveryInfo of deliveryList" [deliveryTask]="DeliveryInfo"></app-delivery-info>
+  </div>
+</section>

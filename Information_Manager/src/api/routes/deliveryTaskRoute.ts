@@ -7,6 +7,8 @@ import config from "../../../config";
 
 
 import IDeliveryTaskController from '../../controllers/IControllers/IDeliveryTaskController';
+import middlewares from "../middlewares";
+import { UserRoles } from "../../domain/user/UserRoles";
 
 const route = Router();
 
@@ -26,7 +28,7 @@ export default (app: Router) => {
                 origName : Joi.string().max(255).required(),
                 destPhoneNumber : Joi.string().max(255).required(),
                 origPhoneNumber : Joi.string().max(255).required(),
-                code : Joi.number().min(4).max(6).required(),
+                confirmationCode : Joi.string().min(4).max(6).required(),
             }),
         }),
         (req, res, next) => deliveryTaskController.createDeliveryTask(req, res, next));
@@ -43,7 +45,8 @@ export default (app: Router) => {
     route.get('/pending',
         (req, res, next) => deliveryTaskController.getAllPendingTasks(req, res, next));
 
-    route.post('/approve',celebrate({
+    route.post('/approve',
+      celebrate({
         body: Joi.object({
             id: Joi.string().max(255).required(),
         }),
@@ -51,14 +54,16 @@ export default (app: Router) => {
     (req, res, next) => deliveryTaskController.approveDeliveryTask(req, res, next));
 
 
-    route.post('reject',celebrate ({
+    route.post('/reject',
+      celebrate ({
         body: Joi.object({
         id: Joi.string().max(255).required(),
     }),
     }),
     (req,res,next) => deliveryTaskController.rejectDeliveryTask(req, res, next) );
 
-
+    route.get('/filtered',
+    (req, res, next) => deliveryTaskController.getFilteredDeliveryTasks(req, res, next));
 
 
 }

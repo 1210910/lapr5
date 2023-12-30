@@ -4,6 +4,7 @@ import {ActivatedRoute, RouterLink} from "@angular/router";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {LiftService} from "../../services/lift.service";
 import {LiftInfo} from "../../Lift/lift-info/liftinfo";
+import { UserService } from "../../services/user.service";
 
 @Component({
     selector: 'app-building',
@@ -34,13 +35,22 @@ import {LiftInfo} from "../../Lift/lift-info/liftinfo";
 
 export class DeleteAccountComponent {
 
+    userService: UserService = inject(UserService);
     route: ActivatedRoute = inject(ActivatedRoute);
 
     constructor() {
 
     }
 
-
+  /*
+  public async deleteAccount(): Promise<void> {
+    this.userService.deleteAccount().then((result)=>{
+      alert ("User account deleted");
+    }).catch((error) => {
+      alert("Fail Error: " + error);
+    });
+  }
+  */
 
 
 

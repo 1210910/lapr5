@@ -14,4 +14,7 @@ export default interface IDeliveryTaskController {
     getAllPendingTaskRequests(req: Request, res: Response, next: NextFunction);
 
     getAllPendingTasks(req: Request, res: Response, next: NextFunction);
+
+    getFilteredDeliveryTasks(req: Request, res: Response, next: NextFunction);
+
 }

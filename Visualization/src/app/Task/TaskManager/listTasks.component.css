@@ -260,3 +260,41 @@ a {
     align-items: center;
 
 }
+
+.filter-bar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    background-color: #f4f1f1;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .filter-bar-container {
+    position: absolute;
+    top: 50px;
+    right: 100px;
+    z-index: 999; /* Ensure it's above other content */
+  }
+  
+  .filter-bar {
+    padding: 10px;
+    background-color: #b9a3f7; /* Update to a shade of purple or your preferred color */
+    border: 1px solid #cfbaba;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+}
+
+.form-row {
+    margin-right: 10px; /* Adjust the margin as needed */
+}
+
+.filter-label {
+    margin-bottom: 10px;
+}
+
+.filter-label:last-child {
+    margin-right: 0; /* Remove margin-right for the last label to avoid extra space */
+}

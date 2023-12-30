@@ -14,18 +14,19 @@ import {IVigilanceTaskDTO} from "../dto/IVigilanceTaskDTO";
 export default class VigilanceTaskController implements IVigilanceTaskController {
 
     constructor(
-        @Inject(config.services.deliveryTask.name) private deliveryTaskServiceInstance: IVigilanceTaskService
+        @Inject(config.services.vigilanceTask.name) private vigilanceTaskServiceInstance: IVigilanceTaskService
     ) { }
 
     public async createVigilanceTask(req: Request, res: Response, next: NextFunction) {
         try {
-            const deliveryTaskOrError = await this.deliveryTaskServiceInstance.createVigilanceTask(req.body as IVigilanceTaskDTO);
+            const vigilanceTaskOrError = await this.vigilanceTaskServiceInstance.createVigilanceTask(req.body as IVigilanceTaskDTO);
 
-            if (deliveryTaskOrError.isFailure) {
-                return res.status(400).json({ error: deliveryTaskOrError.errorValue() });
+
+            if (vigilanceTaskOrError.isFailure) {
+                return res.status(400).json({ error: vigilanceTaskOrError.errorValue() });
             }
 
-            const deliveryTaskDto = deliveryTaskOrError.getValue();
+            const deliveryTaskDto = vigilanceTaskOrError.getValue();
             return res.status(201).json(deliveryTaskDto);
 
         } catch (e) {
@@ -35,13 +36,14 @@ export default class VigilanceTaskController implements IVigilanceTaskController
 
     public async getAllVigilanceTaskRequests(req: Request, res: Response, next: NextFunction) {
         try {
-            const deliveryTasksOrError = await this.deliveryTaskServiceInstance.getAllVigilanceTaskRequests();
+            const vigilanceTasksOrError = await this.vigilanceTaskServiceInstance.getAllVigilanceTaskRequests();
 
-            if (deliveryTasksOrError.isFailure) {
+
+            if (vigilanceTasksOrError.isFailure) {
                 return res.status(404).send();
             }
 
-            const deliveryTaskDto = deliveryTasksOrError.getValue();
+            const deliveryTaskDto = vigilanceTasksOrError.getValue();
             return res.status(200).json(deliveryTaskDto);
 
         } catch (e) {
@@ -51,13 +53,14 @@ export default class VigilanceTaskController implements IVigilanceTaskController
 
     public async getAllVigilanceTasks(req: Request, res: Response, next: NextFunction) {
         try {
-            const deliveryTasksOrError = await this.deliveryTaskServiceInstance.getAllVigilanceTasks();
+            const vigilanceTasksOrError = await this.vigilanceTaskServiceInstance.getAllVigilanceTasks();
 
-            if (deliveryTasksOrError.isFailure) {
+
+            if (vigilanceTasksOrError.isFailure) {
                 return res.status(404).send();
             }
 
-            const deliveryTaskDto = deliveryTasksOrError.getValue();
+            const deliveryTaskDto = vigilanceTasksOrError.getValue();
             return res.status(200).json(deliveryTaskDto);
 
         } catch (e) {
@@ -67,13 +70,14 @@ export default class VigilanceTaskController implements IVigilanceTaskController
 
     public async approveVigilanceTask(req: Request, res: Response, next: NextFunction) {
         try {
-            const deliveryTaskOrError = await this.deliveryTaskServiceInstance.approveVigilanceTask(req.body.id);
+            const vigilanceTaskOrError = await this.vigilanceTaskServiceInstance.approveVigilanceTask(req.body.id);
 
-            if (deliveryTaskOrError.isFailure) {
-                return res.status(400).json({ error: deliveryTaskOrError.errorValue() });
+
+            if (vigilanceTaskOrError.isFailure) {
+                return res.status(400).json({ error: vigilanceTaskOrError.errorValue() });
             }
 
-            const deliveryTaskDto = deliveryTaskOrError.getValue();
+            const deliveryTaskDto = vigilanceTaskOrError.getValue();
             return res.status(201).json(deliveryTaskDto);
 
         } catch (e) {
@@ -83,13 +87,14 @@ export default class VigilanceTaskController implements IVigilanceTaskController
 
     public async rejectVigilanceTask(req: Request, res: Response, next: NextFunction) {
         try {
-            const deliveryTaskOrError = await this.deliveryTaskServiceInstance.rejectVigilanceTask(req.body.id);
+            const vigilanceTaskOrError = await this.vigilanceTaskServiceInstance.rejectVigilanceTask(req.body.id);
 
-            if (deliveryTaskOrError.isFailure) {
-                return res.status(400).json({ error: deliveryTaskOrError.errorValue() });
+
+            if (vigilanceTaskOrError.isFailure) {
+                return res.status(400).json({ error: vigilanceTaskOrError.errorValue() });
             }
 
-            const deliveryTaskDto = deliveryTaskOrError.getValue();
+            const deliveryTaskDto = vigilanceTaskOrError.getValue();
             return res.status(201).json(deliveryTaskDto);
 
         } catch (e) {
@@ -99,13 +104,14 @@ export default class VigilanceTaskController implements IVigilanceTaskController
 
     public async getAllPendingTaskRequests(req: Request, res: Response, next: NextFunction) {
         try {
-            const deliveryTasksOrError = await this.deliveryTaskServiceInstance.getAllPendingTaskRequests();
+            const vigilanceTasksOrError = await this.vigilanceTaskServiceInstance.getAllPendingTaskRequests();
 
-            if (deliveryTasksOrError.isFailure) {
+
+            if (vigilanceTasksOrError.isFailure) {
                 return res.status(404).send();
             }
 
-            const deliveryTaskDto = deliveryTasksOrError.getValue();
+            const deliveryTaskDto = vigilanceTasksOrError.getValue();
             return res.status(200).json(deliveryTaskDto);
 
         } catch (e) {
@@ -115,13 +121,35 @@ export default class VigilanceTaskController implements IVigilanceTaskController
 
     public async getAllPendingTasks(req: Request, res: Response, next: NextFunction) {
         try {
-            const deliveryTasksOrError = await this.deliveryTaskServiceInstance.getAllPendingTasks();
+            const vigilanceTasksOrError = await this.vigilanceTaskServiceInstance.getAllPendingTasks();
 
-            if (deliveryTasksOrError.isFailure) {
+
+            if (vigilanceTasksOrError.isFailure) {
                 return res.status(404).send();
             }
 
-            const deliveryTaskDto = deliveryTasksOrError.getValue();
+            const deliveryTaskDto = vigilanceTasksOrError.getValue();
+            return res.status(200).json(deliveryTaskDto);
+
+        } catch (e) {
+            return next(e);
+        }
+    }
+
+    public async getFilteredVigilanceTasks(req: Request, res: Response, next: NextFunction) {
+        try {
+             
+            const state = req.query.state;
+            const user = req.query.user;   
+    
+            const vigilanceTasksOrError = await this.vigilanceTaskServiceInstance.getFilteredVigilanceTask(state as string,user as string);
+
+
+            if (vigilanceTasksOrError.isFailure) {
+                return res.status(404).send();
+            }
+
+            const deliveryTaskDto = vigilanceTasksOrError.getValue();
             return res.status(200).json(deliveryTaskDto);
 
         } catch (e) {

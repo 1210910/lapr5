@@ -22,11 +22,15 @@ export default class DeliveryTaskService implements IDeliveryTaskService{
         @Inject(config.repos.robotType.name) private RobotTypeRepo: IRobotTypeRepo
 
   ) {}
+   
 
   public async createDeliveryTask(deliveryTaskDTO: IDeliveryTaskDTO): Promise<Result<IDeliveryTaskDTO>> {
     try {
 
-        const response = await axios.post('http://localhost:5000/api/DeliveryTaskRequest', {
+        const agent = new https.Agent({
+            rejectUnauthorized: false, // This line makes Axios accept self-signed certificates
+        });
+        const response = await axios.post('http://localhost:5000/api/DeliveryTasksRequest', {
             Id : "",
             Description : deliveryTaskDTO.description ,
             User : deliveryTaskDTO.user,
@@ -37,8 +41,8 @@ export default class DeliveryTaskService implements IDeliveryTaskService{
             OrigName:deliveryTaskDTO.origName,
             DestPhoneNumber:deliveryTaskDTO.destPhoneNumber,
             OrigPhoneNumber:deliveryTaskDTO.origPhoneNumber,
-            Code:deliveryTaskDTO.code
-        });
+            confirmationCode:deliveryTaskDTO.confirmationCode
+        }, { httpsAgent: agent });
         return Result.ok<IDeliveryTaskDTO>(response.data);
 
 
@@ -111,6 +115,7 @@ export default class DeliveryTaskService implements IDeliveryTaskService{
         }
     }
 
+
     public async approveDeliveryTask(id: string): Promise<Result<IDeliveryTaskDTO>> {
         try {
             const agent = new https.Agent({
@@ -179,6 +184,22 @@ export default class DeliveryTaskService implements IDeliveryTaskService{
             return Result.ok<IDeliveryTaskDTO>(response.data);
         }
         catch (e) {
+            throw e;
+        }
+    }
+
+    public async getFilteredDeliveryTask(state: string, user: string): Promise<Result<IDeliveryTaskDTO[]>> {
+        try{
+            const agent = new https.Agent({
+                  rejectUnauthorized: false
+              });
+  
+              const response = await axios.get(`http://localhost:5000/api/DeliveryTasksRequest/filtered?state=${state}&user=${user}`, { httpsAgent: agent });
+  
+              return Result.ok<IDeliveryTaskDTO[]>(response.data);
+  
+        }
+        catch(e){
             throw e;
         }
     }

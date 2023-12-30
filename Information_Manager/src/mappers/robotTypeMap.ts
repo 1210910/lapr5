@@ -33,11 +33,11 @@ export class RobotTypeMap extends Mapper<RobotType> {
     public static toPersistence (robotType: RobotType): any {
         return {
             domainId: robotType.id.toString(),
-            code: robotType.code,
-            brand: robotType.brand,
-            model: robotType.model,
-            description: robotType.description,
-            taskTypeCode: robotType.taskTypeCode
+            code: robotType.code.value,
+            brand: robotType.brand.value,
+            model: robotType.model.value,
+            description: robotType.description.value,
+            taskTypeCode: robotType.taskTypeCode.valueOf()
         }
     }
 

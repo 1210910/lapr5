@@ -1,0 +1,10 @@
+<div class="container" (click)="signIn()"> <!-- Utilizando (click) para lidar com eventos -->
+  <div class="top"></div>
+  <div class="bottom"></div>
+  <div class="center">
+    <img class="brand-logo" src="/assets/login.svg" alt="logo" aria-hidden="true">
+    <button class="btn" (click)="signIn()">Sign In</button> <!-- Invocando o método onClick() -->
+    <a [routerLink]="['/signup']"><button class="btn">Sign Up</button></a> <!-- Utilizando <a> para o routerLink -->
+    <h2>&nbsp;</h2>
+  </div>
+</div>

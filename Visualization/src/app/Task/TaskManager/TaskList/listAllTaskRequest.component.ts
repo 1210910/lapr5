@@ -5,16 +5,16 @@ import { VigilanceInfoComponent } from "../TaskInfo/vigilance-info.component";
 import { VigilanceTaskInfo } from "../TaskInfo/VigilanceTaskInfo";
 import {DeliveryInfoComponent} from "../TaskInfo/delivery-info.component";
 import {DeliveryTaskInfo} from "../TaskInfo/DeliveryTaskInfo";
-
+import {FilterInfo} from "../TaskInfo/FilterInfo";
 
 import {TaskService} from "../../../services/task.service";
-
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-taskrequest-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, VigilanceInfoComponent, DeliveryInfoComponent],
+  imports: [CommonModule, RouterLink, VigilanceInfoComponent, DeliveryInfoComponent, FormsModule],
   templateUrl: './taskRequestList.component.html',
   styleUrls: ["../listTasks.component.css"]
 
@@ -24,49 +24,40 @@ export class ListAllTaskRequestComponent {
   vigilanceList: VigilanceTaskInfo[] = [];
   deliveryList: DeliveryTaskInfo[] = [];
   taskService: TaskService = inject(TaskService);
+  filter: FilterInfo = { state: '', deviceType: '', user: '' };
 
   constructor() {
   }
 
-  ngOnInit() {
-    this.taskService.getVigilanceTaskRequests().then((result:any) => {
-      const responseJson = JSON.parse(result);
-      const vigilanceTaskList : VigilanceTaskInfo[] = responseJson.map((vigilanceTask: any) => {
-        return {
-          id: vigilanceTask.id,
-          description: vigilanceTask.description,
-          user: vigilanceTask.user,
-          roomDest: vigilanceTask.roomDest,
-          roomOrig: vigilanceTask.roomOrig,
-          requestName : vigilanceTask.requestName,
-          requestNumber : vigilanceTask.requestNumber,
-          state : vigilanceTask.state
+  async ngOnInit() {
+    this.vigilanceList =  await this.taskService.getVigilanceTaskRequests() as VigilanceTaskInfo[];
+    this.deliveryList =  await this.taskService.getDeliveryTaskRequests() as DeliveryTaskInfo[];
+  }
 
-        }
-      });
-      this.vigilanceList = vigilanceTaskList;
+  
+  public async applyFilters() {
+    const { state, deviceType, user } = this.filter;
+    console.log(this.filter)
+    try {
+      if (deviceType === "Vigilance") {
 
-    });
-    this.taskService.getDeliveryTaskRequests().then((result:any) => {
-      const responseJson = JSON.parse(result);
-      const deliveryTaskList : DeliveryTaskInfo[] = responseJson.map((deliveryTask: any) => {
-        return {
-          id: deliveryTask.id,
-          description: deliveryTask.description,
-          user: deliveryTask.user,
-          roomDest: deliveryTask.roomDest,
-          roomOrig: deliveryTask.roomOrig,
-          destName : deliveryTask.destName,
-          origName : deliveryTask.origName,
-          destPhoneNumber : deliveryTask.destPhoneNumber,
-          origPhoneNumber : deliveryTask.origPhoneNumber,
-          code : deliveryTask.code,
-          state : deliveryTask.state
+        this.vigilanceList = await this.taskService.getVigilanceFilteredTasks(state, user) as VigilanceTaskInfo[];
+        this.deliveryList = [];
 
-        }
-      });
-      this.deliveryList = deliveryTaskList;
-    });
+      } else if (deviceType === "Delivery") {
+
+        this.deliveryList = await this.taskService.getDeliveryFilteredTasks(state, user) as DeliveryTaskInfo[];
+        this.vigilanceList = [];
+      } else {
+
+        [this.vigilanceList, this.deliveryList] = await Promise.all([
+          this.taskService.getVigilanceFilteredTasks(state, user) as Promise<VigilanceTaskInfo[]>,
+          this.taskService.getDeliveryFilteredTasks(state, user) as Promise<DeliveryTaskInfo[]>
+        ]);
+      }
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
   }
 
 

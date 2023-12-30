@@ -1,26 +1,21 @@
-import { Injectable } from '@angular/core';
-import {FloorInfo} from "../Floor/floor-info/floorinfo";
+import { Injectable } from "@angular/core";
+import { FloorInfo } from "../Floor/floor-info/floorinfo";
 import { PassagewayInfo } from "../PassageWay/passageway-info/passagewayinfo";
-import {response} from "express";
-
-
+import { response } from "express";
 
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
-export class FloorService{
-  FloorList: FloorInfo[] ;
+export class FloorService {
+  FloorList: FloorInfo[];
 
   constructor() {
     this.FloorList = [];
   }
 
 
-
-
-
-  createFloor(number:number, length:number, width:number, description:string, buildingID:string) {
+  createFloor(number: number, length: number, width: number, description: string, buildingID: string) {
 
     return new Promise((resolve, reject) => {
 
@@ -33,10 +28,12 @@ export class FloorService{
           buildingID: buildingID
         });
       const httprequest = new XMLHttpRequest();
-      httprequest.open('POST', 'http://localhost:4000/api/floor', true);
-      httprequest.setRequestHeader('Content-Type', 'application/json',);
+      httprequest.open("POST", "http://localhost:4000/api/floor", true);
+      httprequest.setRequestHeader("Content-Type", "application/json");
+      const token = localStorage.getItem("token");
+      if (token) httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
       let response;
-      httprequest.onload = function () {
+      httprequest.onload = function() {
 
         if (httprequest.status === 201) {
           console.log("Floor created");
@@ -47,13 +44,14 @@ export class FloorService{
           console.log("Floor not created");
           reject(httprequest.responseText);
         }
-      }
+      };
       httprequest.send(jsonMessage);
 
 
     });
   }
-  editFloor(code:string , number:number, length:number, width:number, description:string) {
+
+  editFloor(code: string, number: number, length: number, width: number, description: string) {
 
     return new Promise((resolve, reject) => {
 
@@ -62,14 +60,16 @@ export class FloorService{
           floorNumber: number,
           length: length,
           width: width,
-          description: description,
+          description: description
         });
-      const url = 'http://localhost:4000/api/floor/' + code;
+      const url = "http://localhost:4000/api/floor/" + code;
       const httprequest = new XMLHttpRequest();
-      httprequest.open('PATCH', url , true);
-      httprequest.setRequestHeader('Content-Type', 'application/json',);
+      httprequest.open("PATCH", url, true);
+      httprequest.setRequestHeader("Content-Type", "application/json");
+      const token = localStorage.getItem("token");
+      if (token) httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
       let response;
-      httprequest.onload = function () {
+      httprequest.onload = function() {
 
         if (httprequest.status === 200) {
           console.log("Floor edited");
@@ -80,7 +80,7 @@ export class FloorService{
           console.log("Floor not edited");
           reject(httprequest.responseText);
         }
-      }
+      };
       httprequest.send(jsonMessage);
 
     });
@@ -89,10 +89,12 @@ export class FloorService{
   listFloors() {
     return new Promise((resolve, reject) => {
       const httprequest = new XMLHttpRequest();
-      httprequest.open('GET', 'http://localhost:4000/api/floor', true);
-      httprequest.setRequestHeader('Content-Type', 'application/json',);
+      httprequest.open("GET", "http://localhost:4000/api/floor", true);
+      httprequest.setRequestHeader("Content-Type", "application/json");
+      const token = localStorage.getItem("token");
+      if (token) httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
       let response;
-      httprequest.onload = function () {
+      httprequest.onload = function() {
 
         if (httprequest.status === 200) {
           console.log("Floor listed");
@@ -103,7 +105,7 @@ export class FloorService{
           console.log("Floor not listed");
           reject(false);
         }
-      }
+      };
       httprequest.send();
 
     });
@@ -125,7 +127,7 @@ export class FloorService{
     }
   }
 
-  floorListFromABuilding(response: any,buildingID: string) {
+  floorListFromABuilding(response: any, buildingID: string) {
     const floorList = JSON.parse(response);
     this.FloorList = [];
     for (const floor of floorList) {
@@ -157,8 +159,7 @@ export class FloorService{
           description: floor.description,
           buildingID: floor.buildingID
         });
-      }
-      else {
+      } else {
         const floor = this.getFloorByCode(passageway.floor2);
         if (floor?.buildingID === buildingID) {
           floorList.push
@@ -176,7 +177,7 @@ export class FloorService{
     this.FloorList = floorList;
   }
 
-  getFloorByCode(position: string): FloorInfo | undefined{
+  getFloorByCode(position: string): FloorInfo | undefined {
     return this.FloorList.find((floor) => floor.floorCode === position);
   }
 

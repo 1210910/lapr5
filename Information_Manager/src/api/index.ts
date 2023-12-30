@@ -12,6 +12,7 @@ import floorMapRoute from './routes/floorMapRoute';
 import lift from './routes/liftRoute';
 import vigilanceTaskRoute from "./routes/vigilanceTaskRoute";
 import deliveryTaskRoute from "./routes/deliveryTaskRoute";
+import taskRequestRoute from './routes/taskRequestRoute';
 
 export default () => {
 	const app = Router();
@@ -28,6 +29,7 @@ export default () => {
 	floorMapRoute(app);
 	vigilanceTaskRoute(app);
 	deliveryTaskRoute(app);
+	taskRequestRoute(app);
 
 	
 	lift(app);

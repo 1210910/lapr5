@@ -23,6 +23,8 @@ export class PassagewayService {
       const httprequest = new XMLHttpRequest();
       httprequest.open("POST", "http://localhost:4000/api/passageway", true);
       httprequest.setRequestHeader("Content-Type", "application/json");
+      const token = localStorage.getItem("token");
+      if (token) httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
       let response;
       httprequest.onload = function() {
         if (httprequest.status === 201) {
@@ -49,6 +51,8 @@ export class PassagewayService {
       const httprequest = new XMLHttpRequest();
       httprequest.open("PATCH", ("http://localhost:4000/api/passageway" + "/" + passageCode), true);
       httprequest.setRequestHeader("Content-Type", "application/json");
+      const token = localStorage.getItem("token");
+      if (token) httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
       let response;
       httprequest.onload = function() {
         if (httprequest.status === 200) {
@@ -70,6 +74,8 @@ export class PassagewayService {
       const httprequest = new XMLHttpRequest();
       httprequest.open("GET", "http://localhost:4000/api/passageway", true);
       httprequest.setRequestHeader("Content-Type", "application/json");
+      const token = localStorage.getItem("token");
+      if (token) httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
       let response;
       httprequest.onload = function() {
         if (httprequest.status === 200) {

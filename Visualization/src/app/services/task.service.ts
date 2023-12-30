@@ -38,7 +38,7 @@ export class TaskService {
     });
   }
 
-  public createtask(roomCode: string, floor: string, description: string, width: number, length: number, roomType: string) {
+  public createTask(roomCode: string, floor: string, description: string, width: number, length: number, roomType: string) {
 
     return new Promise((resolve, reject) => {
 
@@ -121,13 +121,14 @@ export class TaskService {
   public getVigilanceTaskRequests() {
     return new Promise((resolve, reject) => {
       const httprequest = new XMLHttpRequest();
-      httprequest.open('GET', 'http://localhost:4000/api/vigilanceTasks/tasks', true);
+      httprequest.open('GET', 'http://localhost:4000/api/vigilanceTasks', true);
       httprequest.setRequestHeader('Content-Type', 'application/json',);
       httprequest.onload = function () {
         if (httprequest.status === 200) {
           console.log("Vigilance Tasks retrieved");
           console.log(httprequest.responseText)
-          resolve(httprequest.response);
+          const responseJson = JSON.parse(httprequest.response);
+          resolve(responseJson);
         } else {
           console.log(httprequest.responseText);
           const errorResponse = JSON.parse(httprequest.responseText);
@@ -148,12 +149,10 @@ export class TaskService {
       httprequest.onload = function () {
         if (httprequest.status === 200) {
           console.log("Delivery Tasks retrieved");
-          console.log(httprequest.responseText)
-          resolve(httprequest.response);
-        } else {
-          console.log(httprequest.responseText);
-          const errorResponse = JSON.parse(httprequest.responseText);
-          console.log(httprequest.responseText);
+          const responseJson = JSON.parse(httprequest.response);
+          resolve(responseJson);
+        } else {  
+         const errorResponse = JSON.parse(httprequest.responseText);
           console.log("Delivery Tasks not retrieved");
           reject(errorResponse.error);
         }
@@ -398,6 +397,61 @@ export class TaskService {
     });
   }
 
+  public getDeliveryFilteredTasks(state: string, user:string) {
+    return new Promise((resolve, reject) => {
+      const httprequest = new XMLHttpRequest()
+      const url = `http://localhost:4000/api/deliveryTasks/filtered?state=${encodeURIComponent(state)}&user=${encodeURIComponent(user)}`;
+      httprequest.open('GET', url, true);
+      httprequest.setRequestHeader('Content-Type', 'application/json',);
+      //let response;
+      httprequest.onload = function () {
+
+        if (httprequest.status === 200) {
+          console.log("Tasks Received");
+         
+          const responseJson = JSON.parse(httprequest.response);
+          console.log(responseJson);
+          resolve(responseJson);
+        } else {
+          console.log(httprequest.response);
+          const errorResponse = JSON.parse(httprequest.responseText);
+          console.log(httprequest.responseText);
+          console.log("Task not received");
+          reject(errorResponse.error);
+        }
+      }
+      httprequest.send();
+
+    });
+  }
+
+  public getVigilanceFilteredTasks(state: string, user:string) {
+    return new Promise((resolve, reject) => {
+      const httprequest = new XMLHttpRequest();
+      const url = `http://localhost:4000/api/vigilanceTasks/filtered?state=${encodeURIComponent(state)}&user=${encodeURIComponent(user)}`;
+
+      httprequest.open('GET', url, true);
+      httprequest.setRequestHeader('Content-Type', 'application/json',);
+      //let response;
+      httprequest.onload = function () {
+
+        if (httprequest.status === 200) {
+          console.log("Tasks Received");
+          console.log(httprequest.response)
+          const responseJson = JSON.parse(httprequest.response);
+          resolve(responseJson);
+        } else {
+          console.log(httprequest.response);
+          const errorResponse = JSON.parse(httprequest.responseText);
+          console.log(httprequest.responseText);
+          console.log("Error");
+          reject(errorResponse.error);
+        }
+      }
+      httprequest.send();
+
+    });
+  }
 
 
 }

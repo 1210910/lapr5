@@ -4,6 +4,8 @@ import { celebrate, Joi } from 'celebrate';
 import { Container } from 'typedi';
 import config from "../../../config";
 import IRoomController from '../../controllers/IControllers/IRoomController';
+import middlewares from "../middlewares";
+import { UserRoles } from "../../domain/user/UserRoles";
 
 const route = Router();
 
@@ -13,6 +15,8 @@ export default (app: Router) => {
     const RoomController = Container.get(config.controllers.room.name) as IRoomController;
 
     route.post('/:floor',
+      middlewares.isAuth,
+      middlewares.userRole(UserRoles.CAMPUS),
     celebrate({
         body: Joi.object({
             roomCode: Joi.string().max(50).required(),
@@ -25,6 +29,11 @@ export default (app: Router) => {
     (req,res,next) => RoomController.createRoom(req,res,next) );
 
 
-  route.get('', (req,res,next) => RoomController.listAllRooms(req,res,next) );
-    route.get('/algav', (req,res,next) => RoomController.listAllRooms(req,res,next) );
+  route.get('',
+    middlewares.isAuth,
+    middlewares.userRole(UserRoles.CAMPUS),
+    (req,res,next) => RoomController.listAllRooms(req,res,next) );
+
+  route.get('/algav', (req,res,next) => RoomController.listAllRooms(req,res,next) );
+
 };

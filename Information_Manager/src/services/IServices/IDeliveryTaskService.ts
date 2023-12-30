@@ -1,6 +1,7 @@
 import { Result } from "../../core/logic/Result";
 import { IDeliveryTaskDTO} from "../../dto/IDeliveryTaskDTO";
 import {ITaskDTO} from "../../dto/ITaskDTO";
+import IFilteredParameters from "../../dto/IFilteredParameters";
 
 export default interface IDeliveryTaskService  {
 
@@ -11,5 +12,6 @@ export default interface IDeliveryTaskService  {
   getAllPendingTaskRequests(): Promise<Result<ITaskDTO[]>>;
   getAllPendingTasks(): Promise<Result<ITaskDTO[]>>;
   getAllDeliveryTaskRequests(): Promise<Result<IDeliveryTaskDTO[]>>;
+  getFilteredDeliveryTask(state: string, user:string): Promise<Result<IDeliveryTaskDTO[]>>;
 
 }
