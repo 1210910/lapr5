@@ -49,6 +49,39 @@ export class RoomService {
 
     }
 
+    public getRooms() {
+        return new Promise((resolve, reject) => {
+            const httprequest = new XMLHttpRequest();
+            httprequest.open('GET', 'http://localhost:4000/api/room', true);
+            httprequest.setRequestHeader('Content-Type', 'application/json');
+            httprequest.onload = function () {
+                if (httprequest.status === 200) {
+                    const roomList = JSON.parse(httprequest.response);
+                    resolve(httprequest.response);
+                } else {
+                    const errorResponse = JSON.parse(httprequest.responseText);
+                    reject(errorResponse.error);
+                }
+            }
+            httprequest.send();
+        });
+    }
+
+    roomList(response: any) {
+        const floorList = JSON.parse(response);
+        this.RoomList = [];
+        for (const room of floorList) {
+            this.RoomList.push({
+                roomCode: room.roomCode,
+                floor: room.floor,
+                description: room.description,
+                width: room.width,
+                length: room.length,
+                roomType: room.roomType
+            });
+        }
+    }
+
     getRoomByCode(position: string): RoomInfo | undefined{
         return this.RoomList.find((room) => room.roomCode === position);
     }

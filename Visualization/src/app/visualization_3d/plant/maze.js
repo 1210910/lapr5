@@ -4,8 +4,10 @@ import { merge } from "./merge.js";
 import Ground from "./ground.js";
 import Wall from "./wall.js";
 import Elevator from "./elevator";
+import Door from "./door";
 import Exit from "./exits";
 import {forEach} from "lodash";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 /*
  * parameters = {
@@ -152,10 +154,38 @@ export default class Maze extends THREE.Group {
                 secondaryColor: new THREE.Color(parseInt(description.wall.secondaryColor, 16))
             });
 
+            const door = new Door({
+              groundHeight: description.ground.size.height,
+              segments: new THREE.Vector2(description.wall.segments.width, description.wall.segments.height),
+              materialParameters: {
+                color: new THREE.Color(parseInt(description.wall.primaryColor, 16)),
+                mapUrl: "./../../assets/textures/Door/ClassRoom.png",
+                aoMapUrl: "./../../assets/textures/Door/ClassRoom.png",
+                aoMapIntensity: description.wall.maps.ao.intensity,
+                displacementMapUrl: "./../../assets/textures/Door/ClassRoom.png",
+                displacementScale: description.wall.maps.displacement.scale,
+                displacementBias: description.wall.maps.displacement.bias,
+                normalMapUrl: "./../../assets/textures/Door/ClassRoom.png",
+                normalMapType: normalMapTypes[description.wall.maps.normal.type],
+                normalScale: new THREE.Vector2(description.wall.maps.normal.scale.x, description.wall.maps.normal.scale.y),
+                bumpMapUrl: "./../../assets/textures/Door/ClassRoom.png",
+                bumpScale: description.wall.maps.bump.scale,
+                roughnessMapUrl: description.wall.maps.roughness.url,
+                roughness: description.wall.maps.roughness.rough,
+                wrapS: wrappingModes[description.wall.wrapS],
+                wrapT: wrappingModes[description.wall.wrapT],
+                repeat: new THREE.Vector2(description.wall.repeat.u, description.wall.repeat.v),
+                magFilter: magnificationFilters[description.wall.magFilter],
+                minFilter: minificationFilters[description.wall.minFilter]
+              },
+              secondaryColor: new THREE.Color(parseInt(description.wall.secondaryColor, 16))
+            });
+
             // Build the maze
             let clonedWall;
             let clonedElevator;
             let clonedExit;
+            let clonedDoor;
             this.aabb = [];
             for (let i = 0; i <= this.size.depth; i++) { // In order to represent the southmost walls, the map depth is one row greater than the actual maze depth
                 this.aabb[i] = [];
@@ -220,6 +250,37 @@ export default class Maze extends THREE.Group {
                         this.helper.add(new THREE.Box3Helper(this.aabb[i][j][1], this.helpersColor));
                     }
 
+                  if (this.map[i][j] == 10) {
+                    clonedDoor = door.clone();
+                    clonedDoor.position.set(j - this.halfSize.width + 0.5, 0.25, i - this.halfSize.depth);
+                    this.add(clonedDoor);
+                    this.aabb[i][j][0] = new THREE.Box3().setFromObject(clonedDoor).applyMatrix4(new THREE.Matrix4().makeScale(this.scale.x, this.scale.y, this.scale.z));
+                    this.helper.add(new THREE.Box3Helper(this.aabb[i][j][0], this.helpersColor));
+                  }
+
+                  if (this.map[i][j] == 11) {
+                    clonedDoor = door.clone();
+                    clonedDoor.rotateY(Math.PI / 2.0);
+                    clonedDoor.position.set(j - this.halfSize.width, 0.25, i - this.halfSize.depth + 0.5);
+                    this.add(clonedDoor);
+                    this.aabb[i][j][1] = new THREE.Box3().setFromObject(clonedDoor).applyMatrix4(new THREE.Matrix4().makeScale(this.scale.x, this.scale.y, this.scale.z));
+                    this.helper.add(new THREE.Box3Helper(this.aabb[i][j][1], this.helpersColor));
+                  }
+
+                  if (this.map[i][j] == 9) {
+                    const loader = new GLTFLoader();
+                    loader.load('./assets/models/gltf/school_desk/scene.gltf', (gltf) => {
+                      const model = gltf.scene;
+                      model.scale.set(0.003, 0.003, 0.003);
+
+                      // Set the position based on the cell location
+                      model.position.set(j - this.halfSize.width  , 0, i - this.halfSize.depth + 0.5);
+                      model.rotation.y = Math.PI / 0.303;
+
+                      this.add(model);
+                    });
+                  }
+
 
 
                 }
@@ -241,6 +302,7 @@ export default class Maze extends THREE.Group {
                           positions.push(Number(passageway.position[1]));
 
 
+                          console.log(positions);
 
                             this.thumbRaiser.setPlayerPosition(this.cellToCartesian(positions));
                         }
@@ -297,6 +359,19 @@ export default class Maze extends THREE.Group {
     // Convert cell [row, column] coordinates to cartesian (x, y, z) coordinates
     cellToCartesian(position) {
         return new THREE.Vector3((position[1] - this.halfSize.width + 0.5) * this.scale.x, 0.0, (position[0] - this.halfSize.depth + 0.5) * this.scale.z)
+    }
+
+    cellToCartesianAlgav(x1,z1) {
+        console.log("On cellToCartesian1")
+        console.log(x1)
+        console.log(z1)
+        var x = (x1 - this.halfSize.width + 0.5) * this.scale.x;
+        console.log("X: " + x);
+        var y = 0.0;
+        console.log("Y: " + y)
+        var z = (z1- this.halfSize.depth + 0.5) * this.scale.z;
+        console.log("Z: " + z)
+        return new THREE.Vector3(x, y, z);
     }
 
     // Convert cartesian (x, y, z) coordinates to cell [row, column] coordinates
@@ -491,7 +566,7 @@ export default class Maze extends THREE.Group {
       const indices = this.cartesianToCell(position);
       if (method != "obb-aabb") {
         if(
-          this.elevatorCollision(indices, [0, 0], 0, position, {x: 0.0, z: -0.475}, halfSize, "north wall",0.2)
+          this.elevatorCollision(indices, [0, 0], 0, position, {x: 0.0, z: -0.475}, halfSize, "north wall",0.5)
 
         ){
 
@@ -505,9 +580,9 @@ export default class Maze extends THREE.Group {
       const indices = this.cartesianToCell(position);
       if (method != "obb-aabb") {
         if(
-          this.passagewayCollision(indices, [0, 0], 0, position, {x: 0.0, z: -0.475}, halfSize, "north wall",0.2) ||
-          this.passagewayCollision(indices, [0, 0], 1, position, {x: -0.475, z: 0.0}, halfSize, "west wall",0.2) ||
-          this.passagewayCollision(indices, [1, 0], 0, position, {x: 0.0, z: -0.525}, halfSize, "south wall",0.2)
+          this.passagewayCollision(indices, [0, 0], 0, position, {x: 0.0, z: -0.475}, halfSize, "north wall",0.3) ||
+          this.passagewayCollision(indices, [0, 0], 1, position, {x: -0.475, z: 0.0}, halfSize, "west wall",0.3) ||
+          this.passagewayCollision(indices, [1, 0], 0, position, {x: 0.0, z: -0.525}, halfSize, "south wall",0.3)
 
 
         ){
@@ -515,6 +590,22 @@ export default class Maze extends THREE.Group {
           return true;
         }
       }
+
+    }
+    passagewayEntranceAuto(method, position, halfSize) {
+        const indices = this.cartesianToCell(position);
+        if (method != "obb-aabb") {
+            if(
+                this.passagewayCollision(indices, [0, 0], 0, position, {x: 0.0, z: -0.475}, halfSize, "north wall",1) ||
+                this.passagewayCollision(indices, [0, 0], 1, position, {x: -0.475, z: 0.0}, halfSize, "west wall",1) ||
+                this.passagewayCollision(indices, [1, 0], 0, position, {x: 0.0, z: -0.525}, halfSize, "south wall",1)
+
+
+            ){
+
+                return true;
+            }
+        }
 
     }
 

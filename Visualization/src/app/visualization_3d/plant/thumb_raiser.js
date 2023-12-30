@@ -405,6 +405,11 @@ export default class ThumbRaiser {
         // Create the maze
         this.maze = new Maze(this.mazeParameters);
 
+        this.isMoving = false;
+        this.pathToUse = [];
+        this.nextFloor= "";
+
+
         // Create the player
         this.player = new Player(this.playerParameters);
 
@@ -1196,6 +1201,8 @@ export default class ThumbRaiser {
                     });
                 });
 
+
+
                 // Add the maze, the player and the lights to the scene
                 this.scene.add(this.maze);
                 this.scene.add(this.player);
@@ -1321,6 +1328,137 @@ export default class ThumbRaiser {
                     else if (this.player.keyStates.forward) {
                         playerMoved = true;
                         position.add(new THREE.Vector3(coveredDistance * Math.sin(directionRad), 0.0, coveredDistance * Math.cos(directionRad)));
+                    }else if(this.userInterface.submitedPath) {
+
+
+                      if (!this.isMoving) {
+
+                        this.isMoving = true;
+
+                        this.player.path = [{x: 7, y: 0}, {x: 6, y: 0}, {x: 5, y: 0}]; // Your path
+                        this.player.currentStep = 0; // Start at the first step
+
+                        let path = this.userInterface.submitPath;
+
+
+                        console.log(path);
+
+
+                        let regex = /cam\('([^']+)',\[/g;
+                        const matches = [];
+                        let match;
+
+                        while ((match = regex.exec(path.toString())) !== null) {
+                          matches.push(match[1]);
+                        }
+
+                        console.log(matches);
+
+                        if (matches.length > 1) {
+
+                          this.nextFloor = matches[1];
+
+
+                          const building1 = matches[0].split("")[0];
+
+                          const building2 = matches[1].split("")[0];
+
+                          this.isSameBuilding = building1 === building2;
+
+                          console.log(this.isSameBuilding);
+
+                        }
+
+
+                        console.log(this.nextFloor);
+
+                        console.log(matches.length)
+
+                        console.log(path)
+
+                        console.log(path.length)
+
+                        const arrayParte = path[0];
+
+
+                        console.log(arrayParte);
+
+
+                        regex = /cel\((\d+),(\d+)\)/g;
+
+                        let output = [];
+                        while ((match = regex.exec(arrayParte)) !== null) {
+                          console.log(match)
+                          let x = parseInt(match[2]);
+                          console.log("X ON UI: " + x);
+                          let y = parseInt(match[1]);
+                          console.log("Y ON UI: " + y);
+                          output.push({x: x - 1, y: y - 1});
+                          console.log(output)
+                        }
+                        var tem = []
+                        console.log("OUTPUT: " + output)
+                        for (let index = 0; index < output.length; index++) {
+                          console.log(output[index])
+                          var temp = this.maze.cellToCartesianAlgav(output[index].y, output[index].x);
+                          console.log(temp)
+                          tem.push({x: temp.x, y: temp.y, z: temp.z});
+
+                        }
+                        console.log(tem)
+
+                        path.shift();
+                        console.log(path)
+
+
+                        this.userInterface.submitPath = path;
+                        console.log(this.userInterface.submitPath)
+
+                        this.pathToUse = tem
+
+                        this.player.path = this.pathToUse;
+
+                        console.log(this.player.path)
+
+                      }
+
+
+                      this.moveAlongPath(this.player.path, this.player.currentStep);
+                      if (this.maze.elevatorEntrance(this.collisionDetectionParameters.method, position, this.collisionDetectionParameters.method != "obb-aabb" ? this.player.radius : this.player.halfSize)) {
+
+                        if (elevator) {
+                          if (this.isSameBuilding) {
+                            if (this.isMoving && this.nextFloor !== undefined) {
+                              elevator = false;
+
+
+                              this.userInterface.showSelectionFloorsAutomatic(this.nextFloor);
+
+
+                            }
+                          }
+                        }
+
+                      }
+                      else  if(this.maze.passagewayEntranceAuto(this.collisionDetectionParameters.method,position,this.collisionDetectionParameters.method != "obb-aabb" ? this.player.radius : this.player.halfSize)) {
+                        if (elevator) {
+                          if (this.isMoving && this.nextFloor !== undefined) {
+                            elevator = false;
+
+                            const passageway = this.maze.checkIfIsPassageWay(this.player.position);
+
+                            console.log(passageway)
+
+                            this.usedPassageway = passageway.passagewayCode;
+
+                            this.userInterface.showConfirmAutomatic(this.nextFloor, passageway.passagewayCode);
+
+
+                          }
+
+                        }
+
+                      }
                     }
                     if (this.maze.collision(this.collisionDetectionParameters.method, position, this.collisionDetectionParameters.method != "obb-aabb" ? this.player.radius : this.player.halfSize, directionRad - this.player.defaultDirection)) {
                         this.audio.play(this.audio.deathClips, false);
@@ -1344,14 +1482,20 @@ export default class ThumbRaiser {
                     }
                     else if (this.player.keyStates.thumbsUp) {
                         this.animations.fadeToAction("ThumbsUp", 0.2);
-                    }
-                    else if (this.maze.elevatorEntrance(this.collisionDetectionParameters.method,position,this.collisionDetectionParameters.method != "obb-aabb" ? this.player.radius : this.player.halfSize)) {
+                         }
+
+
+                     else if (this.maze.elevatorEntrance(this.collisionDetectionParameters.method,position,this.collisionDetectionParameters.method != "obb-aabb" ? this.player.radius : this.player.halfSize)) {
 
                       if (elevator) {
+
+
                         elevator = false;
                         const fileName = this.mazeParameters.url.split("/")[5];
                         const floor = fileName.split(".")[0];
                         this.userInterface.showSelectionFloors(this.build, floor);
+
+                        console.log(this.player.position)
 
                         // Assuming a function to check if the player is still in the elevator area
                         function isPlayerInPosition(maze,player,method, halfSize) {
@@ -1374,8 +1518,8 @@ export default class ThumbRaiser {
                           }
                         }, 1000); // Check every second (you can adjust the interval)
 
+                          }
 
-                      }
 
                     }else if(this.maze.passagewayEntrance(this.collisionDetectionParameters.method,position,this.collisionDetectionParameters.method != "obb-aabb" ? this.player.radius : this.player.halfSize)) {
                       if (elevator) {
@@ -1518,6 +1662,44 @@ export default class ThumbRaiser {
         }
     }
 
+    moveAlongPath(path, currentStep) {
+
+
+        //console.log(this.player.position.x);
+        //console.log(this.player.position.y);
+        if (currentStep >= path.length) {
+            //console.log("End of path reached");
+            this.userInterface.submitedPath= false;
+            this.isMoving = false;
+
+            return;
+        }
+        const deltaT = this.clock.getDelta();
+
+        let targetPosition = path[currentStep];
+        let currentPosition;
+        if (currentStep == 0) {
+            currentPosition = this.player.position;
+        } else {
+            currentPosition = path[currentStep - 1];
+        }
+
+        // Calculate the direction to the target position
+        let directionToTarget = Math.atan2(targetPosition.z - currentPosition.z, targetPosition.x - currentPosition.x);
+        this.player.direction = THREE.MathUtils.radToDeg(directionToTarget);
+        let coveredDistance = this.player.walkingSpeed * deltaT + 0.02;
+        const direction = THREE.MathUtils.degToRad(this.player.direction);
+        console.log(direction)
+        const newPosition = new THREE.Vector3(coveredDistance * Math.cos(direction), 0.0, coveredDistance * Math.sin(direction)).add(this.player.position);
+        this.animations.fadeToAction( "Idle", 2 );
+        this.player.position.set(newPosition.x, newPosition.y, newPosition.z);
+        console.log(newPosition)
+        if (this.player.position.distanceTo(targetPosition) < 0.5) {
+            this.player.currentStep++;
+            console.log(`Player moved to (${this.player.position.x}, ${this.player.position.z})`);
+        }
+    };
+
     loadMap(floor, passageway) {
         const mazeURL = "./../../assets/mazes/" + floor + ".json";
 
@@ -1536,6 +1718,8 @@ export default class ThumbRaiser {
 
 
 
+
+
         this.mazeParameters = merge({},mazeData,mazeParams);
 
         this.maze = new Maze(this.mazeParameters);
@@ -1543,6 +1727,8 @@ export default class ThumbRaiser {
         this.maze.thumbRaiser = this;
 
         this.scene.add(this.maze);
+
+
 
 
     }

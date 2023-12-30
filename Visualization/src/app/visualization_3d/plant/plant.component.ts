@@ -6,6 +6,7 @@ import {ActivatedRoute} from "@angular/router";
 import {FloorService} from "../../services/floor.service";
 import {BuildingService} from "../../services/building.service";
 import {combineLatest, map} from "rxjs";
+import {RoomService} from "../../services/room.service";
 
 declare var _: any;
 
@@ -22,43 +23,62 @@ export class PlantComponent implements AfterViewInit {
   private data : any;
   buildingService: BuildingService;
   floorService: FloorService;
-  constructor(private route : ActivatedRoute, buildingService: BuildingService, floorService: FloorService) {
+  roomService: RoomService;
+  constructor(private route : ActivatedRoute, buildingService: BuildingService, floorService: FloorService, roomService: RoomService) {
     this.route.queryParams.subscribe(params => {
         this.url = params['url'];
         console.log(this.url);
     } );
     this.buildingService = buildingService;
     this.floorService = floorService;
+    this.roomService  = roomService;
   }
 
   getData(){
     // @ts-ignore
    const buildings1 =  this.buildingService.listAllBuildings().then((data) => {
-      console.log(data);
+
       this.buildingService.buildingList(data);
        return this.buildingService.buildingListInfo;
     });
+
+   const rooms = this.roomService;
 
 
     const floors = this.floorService;
     // @ts-ignore
     let floors1= this.floorService.listFloors().then((data) => {
-      console.log(data);
+
       this.floorService.floorList(data);
-      console.log(this.floorService.FloorList);
+
       return this.floorService.FloorList;
     }
     );
 
+    const rooms1 = this.roomService.getRooms().then((data) => {
 
-    return combineLatest([buildings1, floors1]).pipe(map
+        this.roomService.roomList(data);
 
-    (([buildings, floors]) => {
+        return this.roomService.RoomList;
+    }
+    );
+
+
+    return combineLatest([buildings1, floors1,rooms1]).pipe(map
+
+    (([buildings, floors, rooms]) => {
 
       return buildings.map((building: any) => {
+        const BuildingFloors = floors.filter((floor: any) => floor.buildingID === building.code)
         return {
            ...building,
-          floors: floors.filter((floor: any) => floor.buildingID === building.code)
+          floors: BuildingFloors.map((floor: any) => {
+            const FloorRooms = rooms.filter((room: any) => room.floor === floor.floorCode)
+            return {
+              ...floor,
+              rooms: FloorRooms
+            }
+          })
         }
       }
       )

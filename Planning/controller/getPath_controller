@@ -21,9 +21,9 @@ get_path(Start, End, Response) :-
     map_service:extract_building_floor(EndStr, _, EndFloor),
     map_service:path_floors(StartFloor, EndFloor, PathBuilding, PathFloors),
     map_service:get_all_floors(PathFloors,AllFloors),
-    writeln(AllFloors),
+
     map_service:get_entry_exit_positions(AllFloors,EntryExitPositions),
-    writeln(EntryExitPositions),
+
     map_service:process_path(EntryExitPositions,AllFloors,_,ResultPath,0,_),!,
     map_service:clear_facts,
     % criar a resposta
