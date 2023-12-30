@@ -1,17 +1,11 @@
+import { ITaskRequestDTO } from "./ITaskRequestDTO";
 
-export interface IDeliveryTaskDTO {
+export interface IDeliveryTaskDTO extends ITaskRequestDTO {
 
-    id:string;
-    description: string;
-    user: string;
-    roomDest: string;
-    roomOrig: string;
     destName : string;
     origName : string;
     destPhoneNumber : string;
     origPhoneNumber : string;
-    code : string;
-    state : string;
-
+    confirmationCode : string;
 
 }

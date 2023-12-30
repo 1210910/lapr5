@@ -1,13 +1,8 @@
+import { ITaskRequestDTO } from "./ITaskRequestDTO";
 
-export interface IVigilanceTaskDTO {
+export interface IVigilanceTaskDTO extends ITaskRequestDTO{
 
-    id:string;
-    description: string;
-    user: string;
-    roomDest: string;
-    roomOrig: string;
     requestName : string;
-    requestPhoneNumber : string;
-    state : string;
+    requestNumber : string;    
 
 }

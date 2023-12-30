@@ -30,7 +30,7 @@ export default (app: Router) => {
                 origName : Joi.string().max(255).required(),
                 destPhoneNumber : Joi.string().max(255).required(),
                 origPhoneNumber : Joi.string().max(255).required(),
-                code : Joi.string().min(4).max(6).required(),
+                confirmationCode : Joi.string().min(4).max(6).required(),
             }),
         }),
         (req, res, next) => deliveryTaskController.createDeliveryTask(req, res, next));

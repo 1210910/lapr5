@@ -85,6 +85,10 @@ export default {
       name:"VigilanceTaskController",
       path:"../controllers/vigilanceTaskController"
     },
+    taskRequest:{
+      name:"TaskRequestController",
+      path:"../controllers/taskRequestController"
+    },
   },
 
   repos: {
@@ -174,6 +178,10 @@ export default {
     vigilanceTask:{
       name: "VigilanceTaskService",
       path: "../services/vigilanceTaskService"
+    },
+    taskRequest:{
+      name: "TaskRequestService",
+      path: "../services/taskRequestService"
     },
   },
 };

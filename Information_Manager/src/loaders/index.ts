@@ -115,6 +115,10 @@ export default async ({ expressApp }) => {
         name: config.controllers.vigilanceTask.name,
         path: config.controllers.vigilanceTask.path
     }
+    const taskRequestController = {
+      name: config.controllers.taskRequest.name,
+      path: config.controllers.taskRequest.path
+    }
   // Repos
 
   const roleRepo = {
@@ -219,7 +223,10 @@ export default async ({ expressApp }) => {
         name: config.services.vigilanceTask.name,
         path: config.services.vigilanceTask.path
     }
-
+    const taskRequestService = {
+      name: config.services.taskRequest.name,
+      path: config.services.taskRequest.path
+  }
 
 
   await dependencyInjectorLoader({
@@ -247,7 +254,8 @@ export default async ({ expressApp }) => {
       liftController,
       floorMapController,
       deliveryTaskController,
-        vigilanceTaskController
+      vigilanceTaskController,
+      taskRequestController
 
     ],
     repos: [
@@ -273,8 +281,9 @@ export default async ({ expressApp }) => {
       robotTypeService,
       liftService,
       floorMapService,
-        deliveryTaskService,
-        vigilanceTaskService
+      deliveryTaskService,
+      vigilanceTaskService,
+      taskRequestService
     ]
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');

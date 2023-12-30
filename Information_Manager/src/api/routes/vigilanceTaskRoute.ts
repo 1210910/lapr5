@@ -28,7 +28,7 @@ export default (app: Router) => {
                 roomDest: Joi.string().max(255).required(),
                 roomOrig: Joi.string().max(255).required(),
                 requestName : Joi.string().max(255).required(),
-                requestPhoneNumber : Joi.string().max(255).required(),
+                requestNumber : Joi.string().max(255).required(),
             }),
         }),
         (req, res, next) => vigilanceTaskController.createVigilanceTask(req, res, next));
@@ -75,6 +75,8 @@ export default (app: Router) => {
         (req,res,next) => vigilanceTaskController.rejectVigilanceTask(req, res, next) );
 
         route.get('/filtered',
+            middlewares.isAuth,
+            middlewares.userRole(UserRoles.TASK),
         (req, res, next) => vigilanceTaskController.getFilteredVigilanceTasks(req, res, next));
 
 
