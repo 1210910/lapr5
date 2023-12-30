@@ -515,8 +515,65 @@ export default class UserInterface extends GUI {
             }
         }
 
-    showConfirm(floor, passageway){
-        if (!this.popUpCreated) {
+        showConfirmAutomatic(floor, passageway)
+        {
+            if (!this.popUpCreated) {
+
+
+                const popUp = document.createElement('div');
+                popUp.id = 'popUp';
+                popUp.style.position = 'absolute';
+                popUp.style.top = '50%';
+                popUp.style.left = '50%';
+                popUp.style.transform = 'translate(-50%, -50%)';
+                popUp.style.backgroundColor = 'white';
+                popUp.style.padding = '20px';
+                popUp.style.zIndex = '100';
+                popUp.style.borderRadius = '10px';
+                popUp.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.25)';
+                popUp.style.display = 'flex';
+                popUp.style.flexDirection = 'column';
+                popUp.style.alignItems = 'center';
+                popUp.style.justifyContent = 'center';
+                popUp.style.fontFamily = 'sans-serif';
+
+                // create a title
+                const title = document.createElement('h1');
+                title.style.fontSize = '32px';
+                title.style.margin = '0';
+                title.style.marginBottom = '20px';
+                title.style.textAlign = 'center';
+                title.style.color = '#333';
+                title.textContent = 'A ir para o piso ' + floor;
+                popUp.appendChild(title);
+
+
+
+
+                // add the popup to the document
+
+                document.body.appendChild(popUp);
+
+                // add an event listener to the button
+
+                setTimeout(() => {
+                    this.thumbRaiser.isMoving = false;
+                    this.thumbRaiser.nextFloor = undefined;
+                    this.thumbRaiser.player.currentStep = 0;
+                    document.body.removeChild(popUp);
+                    this.popUpCreated = false;
+                    this.thumbRaiser.loadMap(floor,passageway);  // Carregue o mapa após 3 segundos
+                }, 3000);
+
+
+                this.popUpCreated = true;
+            }
+
+        }
+
+        showConfirm(floor, passageway)
+        {
+            if (!this.popUpCreated) {
 
 
                 const popUp = document.createElement('div');
