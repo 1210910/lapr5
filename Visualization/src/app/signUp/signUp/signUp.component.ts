@@ -41,7 +41,7 @@ export class SignUpComponent {
             return;
         }
 
-        this.userService.createUser(firstName, lastName, email, phoneNumber, NIF, password, "User").then((result)=>{
+        this.userService.createUser(firstName, lastName, email, phoneNumber, NIF, password, "USER").then((result)=>{
             console.log(result);
             alert ("User account created");
         }).catch((error) => {

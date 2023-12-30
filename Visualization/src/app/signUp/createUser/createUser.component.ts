@@ -30,6 +30,7 @@ export class CreateUserComponent {
         const NIF = Number(document.getElementsByTagName("input")[4].value);
         const password = document.getElementsByTagName("input")[5].value;
         const role = document.getElementsByTagName("select")[0].value;
+        console.log(role);
 
         if (firstName == "" || lastName == "" || email == "" || phoneNumber == null || NIF == null || password == "" || role == "") {
             alert("Please fill in all fields");
