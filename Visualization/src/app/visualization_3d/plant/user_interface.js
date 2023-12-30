@@ -3,9 +3,14 @@ import Orientation from "./orientation.js";
 import CubeTexture from "./cubetexture.js";
 import { GUI } from "three/addons/libs/lil-gui.module.min.js";
 
+import {inject} from "@angular/core";
+
+
 export default class UserInterface extends GUI {
     popUpCreated = false;
     thumbRaiser ;
+    submitedPath = false;
+    submitPath = null;
     constructor(thumbRaiser,build) {
         super();
         this.thumbRaiser = thumbRaiser;
@@ -130,6 +135,63 @@ export default class UserInterface extends GUI {
         spotLightFolder.add(thumbRaiser.spotLight.position, "z", thumbRaiser.spotLight.positionMin.z, thumbRaiser.spotLight.positionMax.z, thumbRaiser.spotLight.positionStep.z);
         spotLightFolder.close();
 
+        const pathFolder = this.addFolder("Path");
+        pathFolder.close();
+
+        let rooms = [];
+        for (let i = 0; i < build.build.length; i++) {
+            for (let j = 0; j < build.build[i].floors.length; j++) {
+                for (let k = 0; k < build.build[i].floors[j].rooms.length; k++) {
+                    rooms.push(build.build[i].floors[j].rooms[k]);
+                }
+            }
+        }
+        console.log(rooms);
+
+        let roomsOfFloor = [];
+        const fileName = this.thumbRaiser.mazeParameters.url.split("/")[5];
+        const floor = fileName.split(".")[0];
+        console.log(floor);
+        for (let i = 0; i < build.build.length; i++) {
+            for (let j = 0; j < build.build[i].floors.length; j++) {
+                console.log(build.build[i].floors[j].floorCode);
+                if (build.build[i].floors[j].floorCode == floor) {
+                    console.log("ENTREI");
+                    roomsOfFloor = build.build[i].floors[j].rooms;
+                    console.log(build.build[i].floors[j].rooms);
+                    break;
+                }
+            }
+        }
+
+        console.log("ROOMS OF FLOOR")
+        console.log(roomsOfFloor);
+
+
+        let roomsControlOr = null;
+        let roomsControlDest = null;
+
+        let or = rooms[0].roomCode;
+        let dest = rooms[0].roomCode;
+
+        // Create the path folder
+        // Add dropdowns for room of origin and room of destiny
+        const roomsOr = roomsOfFloor.map(room => room.roomCode);
+        roomsControlOr = pathFolder.add({room: roomsOr[0]}, 'roomOfOrigin', roomsOr);
+        roomsControlOr.onChange(function (room) {
+            or = room
+        });
+        let romtDestTemp = rooms[0].roomCode
+        const roomsDest = rooms.map(room => room.roomCode);
+
+        roomsControlDest = pathFolder.add({room: roomsDest[0]}, 'roomOfDestiny', roomsDest);
+        roomsControlDest.onChange(function (room) {
+            dest = room
+        });
+        this.roomOfDestiny = romtDestTemp;
+        // Add a submit button
+        pathFolder.add({submit: () => this.getpath(or,dest) }, 'submit');
+
         // Create the flashlight folder
         const flashLightFolder = lightsFolder.addFolder("Flashlight");
         flashLightFolder.domElement.style.fontSize = fontSize;
@@ -226,115 +288,171 @@ export default class UserInterface extends GUI {
         this.close();
     }
 
+    getPathHttp(room1, room2) {
+        return new Promise((resolve, reject) => {
 
+            const url = 'http://localhost:8000/rooms?param1='+room1+'&param2='+room2 ;
+            const httprequest = new XMLHttpRequest();
+            httprequest.open('GET', url, true);
 
+            //let response;
+            httprequest.onload = function () {
 
-    showSelectionFloors(building, currentFloor){
-      if (!this.popUpCreated) {
-        const buildings = building.build;
+                resolve(httprequest.responseText);
 
-        console.log(buildings);
-        const popUp = document.createElement('div');
-        popUp.id = 'popUp';
-        popUp.style.position = 'absolute';
-        popUp.style.top = '50%';
-        popUp.style.left = '50%';
-        popUp.style.transform = 'translate(-50%, -50%)';
-        popUp.style.backgroundColor = 'white';
-        popUp.style.padding = '20px';
-        popUp.style.zIndex = '100';
-        popUp.style.borderRadius = '10px';
-        popUp.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.25)';
-        popUp.style.display = 'flex';
-        popUp.style.flexDirection = 'column';
-        popUp.style.alignItems = 'center';
-        popUp.style.justifyContent = 'center';
-        popUp.style.fontFamily = 'sans-serif';
-
-        // create a title
-        const title = document.createElement('h1');
-        title.style.fontSize = '32px';
-        title.style.margin = '0';
-        title.style.marginBottom = '20px';
-        title.style.textAlign = 'center';
-        title.style.color = '#333';
-        title.textContent = 'Selecione o piso';
-        popUp.appendChild(title);
-
-        // create a select
-        const select = document.createElement('select');
-        select.style.fontSize = '16px';
-        select.style.padding = '10px';
-        select.style.marginBottom = '20px';
-        select.style.borderRadius = '5px';
-        select.style.border = '1px solid #ccc';
-        select.style.backgroundColor = '#fff';
-        select.style.outline = 'none';
-        select.style.color = '#333';
-        select.style.fontFamily = 'sans-serif';
-
-        // create options
-
-        console.log(currentFloor.charAt(0));
-        let i = 0;
-
-        for (let index = 0; index < buildings.length; index++) {
-          if (buildings[index].code == currentFloor.charAt(0)) {
-            i = index;
-          }
-        }
-        const floors = buildings[i].floors.map(f => f.floorCode);
-
-
-        for (let i = 0; i < floors.length; i++) {
-          const option = document.createElement('option');
-          option.textContent = floors[i];
-          option.value = floors[i];
-          select.appendChild(option);
-        }
-        popUp.appendChild(select);
-
-
-        // create a button
-        const button = document.createElement('button');
-        button.style.fontSize = '16px';
-        button.style.padding = '10px';
-        button.style.borderRadius = '5px';
-        button.style.border = '1px solid #ccc';
-        button.style.backgroundColor = '#fff';
-        button.style.outline = 'none';
-        button.style.color = '#333';
-        button.style.fontFamily = 'sans-serif';
-        button.textContent = 'Selecionar';
-        popUp.appendChild(button);
-
-        // add the popup to the document
-
-        document.body.appendChild(popUp);
-
-        // add an event listener to the button
-
-        button.addEventListener('click', () => {
-          const floor = select.value;
-          this.thumbRaiser.loadMap(floor);  // Carregue o mapa quando o piso for alterado
-          document.body.removeChild(popUp);
-          this.popUpCreated = false;
-
+            }
+            httprequest.send();
 
         });
-        this.popUpCreated = true;
-      }
     }
 
-    hideSelectionFloors(){
-      const popUp = document.getElementById('popUp');
-      if (popUp){
-        document.body.removeChild(popUp);
-        this.popUpCreated = false;
-      }
+    async getpath(room1,room2) {
+
+
+
+        const result = await this.getPathHttp(room1, room2);
+
+        if (result != "") {
+            alert(JSON.stringify(result));
+
+            // tirar as duas primeiras linhas do result antes de fazer o parse  (result = result.substring(2);)
+
+            // @ts-ignore
+            const resultString = result;
+            const index = resultString.indexOf('{');
+            resultString.substring(index);
+
+            console.log(index);
+            console.log(resultString.substring(index));
+
+            // @ts-ignore
+            const obj = JSON.parse(resultString.substring(index));
+
+
+            const path = obj.path;
+            const building = obj.building;
+            const floor = obj.floor;
+
+            console.log (path);
+
+            this.submitedPath = true;
+
+            const array = path.split("cam('").filter(Boolean).map(cam => "cam('" + cam);
+
+            array.shift();
+
+            this.submitPath= array;
+
+
+
+        }
+
+
+
     }
 
-    showConfirm(floor, passageway){
+
+
+        showSelectionFloors(building, currentFloor)
+        {
+            if (!this.popUpCreated) {
+                const buildings = building.build;
+
+                console.log(buildings);
+                const popUp = document.createElement('div');
+                popUp.id = 'popUp';
+                popUp.style.position = 'absolute';
+                popUp.style.top = '50%';
+                popUp.style.left = '50%';
+                popUp.style.transform = 'translate(-50%, -50%)';
+                popUp.style.backgroundColor = 'white';
+                popUp.style.padding = '20px';
+                popUp.style.zIndex = '100';
+                popUp.style.borderRadius = '10px';
+                popUp.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.25)';
+                popUp.style.display = 'flex';
+                popUp.style.flexDirection = 'column';
+                popUp.style.alignItems = 'center';
+                popUp.style.justifyContent = 'center';
+                popUp.style.fontFamily = 'sans-serif';
+
+                // create a title
+                const title = document.createElement('h1');
+                title.style.fontSize = '32px';
+                title.style.margin = '0';
+                title.style.marginBottom = '20px';
+                title.style.textAlign = 'center';
+                title.style.color = '#333';
+                title.textContent = 'Selecione o piso';
+                popUp.appendChild(title);
+
+                // create a select
+                const select = document.createElement('select');
+                select.style.fontSize = '16px';
+                select.style.padding = '10px';
+                select.style.marginBottom = '20px';
+                select.style.borderRadius = '5px';
+                select.style.border = '1px solid #ccc';
+                select.style.backgroundColor = '#fff';
+                select.style.outline = 'none';
+                select.style.color = '#333';
+                select.style.fontFamily = 'sans-serif';
+
+                // create options
+
+                console.log(currentFloor.charAt(0));
+                let i = 0;
+
+                for (let index = 0; index < buildings.length; index++) {
+                    if (buildings[index].code == currentFloor.charAt(0)) {
+                        i = index;
+                    }
+                }
+                const floors = buildings[i].floors.map(f => f.floorCode);
+
+
+                for (let i = 0; i < floors.length; i++) {
+                    const option = document.createElement('option');
+                    option.textContent = floors[i];
+                    option.value = floors[i];
+                    select.appendChild(option);
+                }
+                popUp.appendChild(select);
+
+
+                // create a button
+                const button = document.createElement('button');
+                button.style.fontSize = '16px';
+                button.style.padding = '10px';
+                button.style.borderRadius = '5px';
+                button.style.border = '1px solid #ccc';
+                button.style.backgroundColor = '#fff';
+                button.style.outline = 'none';
+                button.style.color = '#333';
+                button.style.fontFamily = 'sans-serif';
+                button.textContent = 'Selecionar';
+                popUp.appendChild(button);
+
+                // add the popup to the document
+
+                document.body.appendChild(popUp);
+
+                // add an event listener to the button
+
+                button.addEventListener('click', () => {
+                    const floor = select.value;
+                    this.thumbRaiser.loadMap(floor);  // Carregue o mapa quando o piso for alterado
+                    document.body.removeChild(popUp);
+                    this.popUpCreated = false;
+
+
+
+                });
+                this.popUpCreated = true;
+            }
+        }
+    showSelectionFloorsAutomatic(floor)
+    {
         if (!this.popUpCreated) {
 
 
@@ -362,24 +480,11 @@ export default class UserInterface extends GUI {
             title.style.marginBottom = '20px';
             title.style.textAlign = 'center';
             title.style.color = '#333';
-            title.textContent = 'Confirme se deseja ir para o piso '+floor;
+            title.textContent = 'A ir para o piso ' + floor;
             popUp.appendChild(title);
 
 
 
-
-            // create a button
-            const button = document.createElement('button');
-            button.style.fontSize = '16px';
-            button.style.padding = '10px';
-            button.style.borderRadius = '5px';
-            button.style.border = '1px solid #ccc';
-            button.style.backgroundColor = '#fff';
-            button.style.outline = 'none';
-            button.style.color = '#333';
-            button.style.fontFamily = 'sans-serif';
-            button.textContent = 'Confirmar';
-            popUp.appendChild(button);
 
             // add the popup to the document
 
@@ -387,35 +492,107 @@ export default class UserInterface extends GUI {
 
             // add an event listener to the button
 
-            button.addEventListener('click', () => {
-
-                this.thumbRaiser.loadMap(floor,passageway);  // Carregue o mapa quando o piso for alterado
+            setTimeout(() => {
+                this.thumbRaiser.isMoving = false;
+                this.thumbRaiser.nextFloor = undefined;
+                this.thumbRaiser.player.currentStep = 0;
                 document.body.removeChild(popUp);
                 this.popUpCreated = false;
+                this.thumbRaiser.loadMap(floor);  // Carregue o mapa após 3 segundos
+            }, 3000);
 
-
-            });
             this.popUpCreated = true;
         }
 
     }
-    setVisibility(visible) {
-        if ("show" in this && "hide" in this) {
-            if (visible) {
-                this.show();
-            }
-            else {
-                this.hide();
+
+        hideSelectionFloors()
+        {
+            const popUp = document.getElementById('popUp');
+            if (popUp) {
+                document.body.removeChild(popUp);
+                this.popUpCreated = false;
             }
         }
-        else { // Some lil-gui versions do not implement show() / hide() methods
-            if (visible) {
-                this.domElement.style.display = "block";
+
+    showConfirm(floor, passageway){
+        if (!this.popUpCreated) {
+
+
+                const popUp = document.createElement('div');
+                popUp.id = 'popUp';
+                popUp.style.position = 'absolute';
+                popUp.style.top = '50%';
+                popUp.style.left = '50%';
+                popUp.style.transform = 'translate(-50%, -50%)';
+                popUp.style.backgroundColor = 'white';
+                popUp.style.padding = '20px';
+                popUp.style.zIndex = '100';
+                popUp.style.borderRadius = '10px';
+                popUp.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.25)';
+                popUp.style.display = 'flex';
+                popUp.style.flexDirection = 'column';
+                popUp.style.alignItems = 'center';
+                popUp.style.justifyContent = 'center';
+                popUp.style.fontFamily = 'sans-serif';
+
+                // create a title
+                const title = document.createElement('h1');
+                title.style.fontSize = '32px';
+                title.style.margin = '0';
+                title.style.marginBottom = '20px';
+                title.style.textAlign = 'center';
+                title.style.color = '#333';
+                title.textContent = 'Confirme se deseja ir para o piso ' + floor;
+                popUp.appendChild(title);
+
+
+                // create a button
+                const button = document.createElement('button');
+                button.style.fontSize = '16px';
+                button.style.padding = '10px';
+                button.style.borderRadius = '5px';
+                button.style.border = '1px solid #ccc';
+                button.style.backgroundColor = '#fff';
+                button.style.outline = 'none';
+                button.style.color = '#333';
+                button.style.fontFamily = 'sans-serif';
+                button.textContent = 'Confirmar';
+                popUp.appendChild(button);
+
+                // add the popup to the document
+
+                document.body.appendChild(popUp);
+
+                // add an event listener to the button
+
+                button.addEventListener('click', () => {
+
+                    this.thumbRaiser.loadMap(floor, passageway);  // Carregue o mapa quando o piso for alterado
+                    document.body.removeChild(popUp);
+                    this.popUpCreated = false;
+
+
+                });
+                this.popUpCreated = true;
             }
-            else {
-                this.domElement.style.display = "none";
+
+        }
+        setVisibility(visible)
+        {
+            if ("show" in this && "hide" in this) {
+                if (visible) {
+                    this.show();
+                } else {
+                    this.hide();
+                }
+            } else { // Some lil-gui versions do not implement show() / hide() methods
+                if (visible) {
+                    this.domElement.style.display = "block";
+                } else {
+                    this.domElement.style.display = "none";
+                }
             }
         }
     }
-}
 
