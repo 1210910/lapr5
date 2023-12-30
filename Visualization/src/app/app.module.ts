@@ -5,6 +5,8 @@ import routes from "./routes";
 import { AuthModule } from "@auth0/auth0-angular";
 import { AppComponent } from "./app.component";
 
+const redirectUri = window.location.origin;
+console.log(redirectUri);
 @NgModule({
   declarations: [],
   imports: [
@@ -14,7 +16,7 @@ import { AppComponent } from "./app.component";
       domain: 'dev-3hnosuh6oycbgons.us.auth0.com',
       clientId: "Sk0nEcUzFPLnFEdOx9QxkwEMNZ4yZP3N",
       authorizationParams: {
-        redirect_uri: 'http://localhost:4200/',
+        redirect_uri: redirectUri,
         clientSecret: "zKcE9W1WNxv4qFgHTiMwKyA57mNTb5CmVBe3rAd_vMA0jAwQwiS9Bw5VfhY2tKv9",
       }
     }),
