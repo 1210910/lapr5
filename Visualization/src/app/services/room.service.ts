@@ -56,6 +56,8 @@ export class RoomService {
             const httprequest = new XMLHttpRequest();
             httprequest.open('GET', 'http://localhost:4000/api/room', true);
             httprequest.setRequestHeader('Content-Type', 'application/json');
+            const token = localStorage.getItem("token");
+            if (token) httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
             httprequest.onload = function () {
                 if (httprequest.status === 200) {
                     const roomList = JSON.parse(httprequest.response);
@@ -69,7 +71,7 @@ export class RoomService {
         });
     }
 
-    roomList(response: any) {
+    public roomList(response: any) {
         const floorList = JSON.parse(response);
         this.RoomList = [];
         for (const room of floorList) {
@@ -84,7 +86,9 @@ export class RoomService {
         }
     }
 
-    getRoomByCode(position: string): RoomInfo | undefined{
+    public getRoomByCode(position: string): RoomInfo | undefined{
         return this.RoomList.find((room) => room.roomCode === position);
     }
 }
+
+// Path: Visualization/src/app/services/room.service.ts
