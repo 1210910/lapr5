@@ -40,7 +40,7 @@ export default class VigilanceTaskService implements IVigilanceTaskService{
                 RoomOrig : deliveryTaskDTO.roomOrig,
                 State: "",
                 RequestName: deliveryTaskDTO.requestName,
-                RequestPhoneNumber: deliveryTaskDTO.requestPhoneNumber,
+                RequestNumber: deliveryTaskDTO.requestNumber,
             }, { httpsAgent: agent });
             return Result.ok<IVigilanceTaskDTO>(response.data);
 
