@@ -327,7 +327,7 @@ export class TaskService {
     });
   }
 
-  public  allPendingTaskRequests() {
+  public  allPendingTaskRequests2() {
      this.getAllPendingDeliveryTaskRequests().then( (response: any) => {
         const responseJson = JSON.parse(response);
         const tasksArray: TaskInfo[] = responseJson.map((task: any) => {
