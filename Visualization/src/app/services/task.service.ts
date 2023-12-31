@@ -183,43 +183,7 @@ export class TaskService {
     });
   }
 
-  public  allPendingTaskRequests() {
-     this.getAllPendingDeliveryTaskRequests().then( (response: any) => {
-        const responseJson = JSON.parse(response);
-        const tasksArray: TaskInfo[] = responseJson.map((task: any) => {
-            return {
-            id: task.id,
-            description: task.description,
-            user: task.user,
-            roomDest: task.roomDest,
-            roomOrig: task.roomOrig,
-            state: task.state
-            };
-        });
-        this.TaskList.push(...tasksArray);
-     }
-        ).catch((error) => {
-            console.error("Error listing tasks", error);
-        });
-     this.getAllPendingVigilanceTaskRequests().then( (response: any) => {
-            const responseJson = JSON.parse(response);
-            const tasksArray: TaskInfo[] = responseJson.map((task: any) => {
-                return {
-                  id: task.id,
-                  description: task.description,
-                  user: task.user,
-                  roomDest: task.roomDest,
-                  roomOrig: task.roomOrig,
-                  state: task.state
-                };
-            });
-            this.TaskList.push(...tasksArray);
-        }
-    ).catch((error) => {
-            console.error("Error listing tasks", error);
-        }
-    );
-  }
+  
 
   public getAllPendingVigilanceTaskRequests() {
     return new Promise((resolve, reject) => {
@@ -243,27 +207,6 @@ export class TaskService {
     });
   }
 
-  public getAllPendingDeliveryTaskRequests() {
-    return new Promise((resolve, reject) => {
-      const httprequest = new XMLHttpRequest();
-      httprequest.open('GET', 'http://localhost:4000/api/deliveryTasks/requestpending', true);
-      httprequest.setRequestHeader('Content-Type', 'application/json',);
-      httprequest.onload = function () {
-        if (httprequest.status === 200) {
-          console.log("Tasks retrieved");
-          console.log(httprequest.responseText)
-          resolve(httprequest.response);
-        } else {
-          console.log(httprequest.responseText);
-          const errorResponse = JSON.parse(httprequest.responseText);
-          console.log(httprequest.responseText);
-          console.log("Tasks not retrieved");
-          reject(errorResponse.error);
-        }
-      }
-      httprequest.send();
-    });
-  }
 
   public approveDeliveryTask(id: string) {
     return new Promise((resolve, reject) => {
@@ -277,7 +220,7 @@ export class TaskService {
       //let response;
       httprequest.onload = function () {
 
-        if (httprequest.status === 200) {
+        if (httprequest.status === 201) {
           console.log("Task approved");
           console.log(httprequest.response)
           resolve(true);
@@ -307,7 +250,7 @@ export class TaskService {
       //let response;
       httprequest.onload = function () {
 
-        if (httprequest.status === 200) {
+        if (httprequest.status === 201) {
           console.log("Task rejected");
           console.log(httprequest.response)
           resolve(true);
@@ -349,7 +292,7 @@ export class TaskService {
       //let response;
       httprequest.onload = function () {
 
-        if (httprequest.status === 200) {
+        if (httprequest.status === 201) {
           console.log("Task approved");
           console.log(httprequest.response)
           resolve(true);
@@ -379,7 +322,7 @@ export class TaskService {
       //let response;
       httprequest.onload = function () {
 
-        if (httprequest.status === 200) {
+        if (httprequest.status === 201) {
           console.log("Task rejected");
           console.log(httprequest.response)
           resolve(true);
@@ -425,6 +368,35 @@ export class TaskService {
     });
   }
 
+  public allPendingTaskRequests() {
+    return new Promise((resolve, reject) => {
+      const httprequest = new XMLHttpRequest();
+      const url = `http://localhost:4000/api/taskRequest/pending`;
+
+      httprequest.open('GET', url, true);
+      httprequest.setRequestHeader('Content-Type', 'application/json',);
+      //let response;
+      httprequest.onload = function () {
+
+        if (httprequest.status === 200) {
+          console.log("Tasks Received");
+          console.log(httprequest.response)
+          const responseJson = JSON.parse(httprequest.response);
+          resolve(responseJson);
+        } else {
+          console.log(httprequest.response);
+          const errorResponse = JSON.parse(httprequest.responseText);
+          console.log(httprequest.responseText);
+          console.log("Error");
+          reject(errorResponse.error);
+        }
+      }
+      httprequest.send();
+
+    });
+  }
+
+
   public getVigilanceFilteredTasks(state: string, user:string) {
     return new Promise((resolve, reject) => {
       const httprequest = new XMLHttpRequest();
@@ -452,6 +424,16 @@ export class TaskService {
 
     });
   }
-
+  
+  getDeliveryById(position: string): DeliveryTaskInfo | undefined{
+    console.log("Task delivery Service: "+ this.DeliveryList);
+    const task = this.TaskList.find((task) => task.id === position);
+    return this.DeliveryList.find((task) => task.id === position);
+  }
+  getVigilanceById(position: string): VigilanceTaskInfo | undefined{
+    console.log("Task vigilance Service: "+ this.VigilanceList);
+    const task = this.TaskList.find((task) => task.id === position);
+    return this.VigilanceList.find((task) => task.id === position);
+  }
 
 }

@@ -56,6 +56,8 @@ import { TaskApproveRejectComponent } from "./Task/TaskManager/TaskApproveReject
 import { TaskManagerComponent } from "./home/homeTask.component";
 import { HomeComponent } from "./home/home.component";
 import {OrderPathComponent} from "./Task/TaskManager/Order_Path/orderPath.component";
+import { DeliveryDetailsComponent } from "./Task/TaskManager/details/delivery-details.component";
+import { VigilanceDetailsComponent } from "./Task/TaskManager/details/vigilance-details.component";
 
 const routeConfig: Routes = [
 
@@ -361,8 +363,17 @@ const routeConfig: Routes = [
     path: "actionTask",
     component: TaskApproveRejectComponent,
     title: "Task action page"
-  }
-
+  },
+  {
+    path: "deliverydetails/:id",
+    component: DeliveryDetailsComponent,
+    title: "delivery details page"
+  },
+  {
+    path: "vigilancedetails/:id",
+    component: VigilanceDetailsComponent,
+    title: "vigilance details page"
+  },
 ];
 
 export default routeConfig;

@@ -1,16 +1,11 @@
-export interface DeliveryTaskInfo {
+import { TaskInfo } from "./TaskInfo";
 
-  id:string;
-  description: string;
-  user: string;
-  roomDest: string;
-  roomOrig: string;
+export interface DeliveryTaskInfo extends TaskInfo {
+
   destName : string;
   origName : string;
   destPhoneNumber : string;
   origPhoneNumber : string;
-  code : number;
-  state : string;
-
+  confirmationCode : string;
 
 }

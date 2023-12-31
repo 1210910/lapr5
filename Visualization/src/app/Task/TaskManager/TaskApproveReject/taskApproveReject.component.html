@@ -1,0 +1,86 @@
+<section>
+  <header class="brand-name">
+    <nav>
+      <ul class="menuItems">
+        <li>
+          <a [routerLink]="['/taskManagement']">
+            <img class="brand-logo" src="/assets/logoTask.svg" alt="logo" aria-hidden="true">
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+</section>
+<section>
+  <div class="card-container">
+    <ng-container *ngIf="tasks.length > 0; else noTasksMessage">
+    <div *ngFor="let task of tasks" class="card">
+      <div class="card-content">
+        <img class="robot-image" src="/assets/task2.png" alt="robot-image" aria-hidden="true">
+        <div class="task-details">
+          <span class="highlight-text">Id:</span> {{ task.userFriendlyId }}
+        </div>
+        <div class="task-details">
+          <span class="highlight-text">Task Type:</span> {{ task.taskType }}
+        </div>
+        <div class="task-details">
+          <span class="highlight-text">Email:</span> {{ task.user }}
+        </div>
+        <div class="task-details">
+          <span class="highlight-text">Start Room:</span> {{ task.roomOrig }}
+        </div>
+        <div class="task-details">
+          <span class="highlight-text">End Room:</span> {{ task.roomDest }}
+        </div>
+        <div class="task-details">
+          <ng-container *ngIf="task.taskType === 'Delivery'">
+            <!-- Content specific to Delivery Task Type -->
+            <!-- For example: -->
+            <div class="task-details">
+              <span class="highlight-text">Destination Name:</span> {{ task.destName }}
+            </div>
+            <div class="task-details">
+              <span class="highlight-text">Destination Number:</span> {{ task.destPhoneNumber }}
+            </div>
+            <div class="task-details">
+              <span class="highlight-text">Origin Name:</span> {{ task.origName }}
+            </div>
+            <div class="task-details">
+              <span class="highlight-text">Orig Phone Number:</span> {{ task.origPhoneNumber }}
+            </div>
+            <div class="task-details">
+              <span class="highlight-text">Confirmation Code:</span> {{ task.confirmationCode }}
+            </div>
+          </ng-container>
+          <ng-container *ngIf="task.taskType === 'Vigilance'">
+            <!-- Content specific to Vigilance Task Type -->
+            <!-- For example: -->
+            <div class="task-details">
+              <span class="highlight-text">Request Name:</span> {{ task.requestName }}
+            </div>
+            <div class="task-details">
+              <span class="highlight-text">Request Number :</span> {{ task.requestNumber }}
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="card-buttons">
+        <button class="cd-btn accept-btn" (click)="accept(task)">
+          Accept
+        </button>
+        <button class="cd-btn deny-btn" (click)="deny(task)">
+          Deny
+        </button>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #noTasksMessage>
+    <section class="cd-intro">
+      <div class="cd-intro-content bouncy">
+        <h1>No requests available. Please check back later.</h1>
+      </div>
+    </section>
+  </ng-template>
+  </div>
+</section>

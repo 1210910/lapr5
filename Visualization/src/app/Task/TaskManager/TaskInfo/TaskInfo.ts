@@ -5,4 +5,6 @@ export interface TaskInfo {
   roomDest: string;
   roomOrig: string;
   state : string;
+  userFriendlyId: string;
+  taskType: string
 }
