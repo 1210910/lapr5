@@ -182,7 +182,7 @@ The following diagram shows the process level 3 views for the RobDroneGo project
 ![US200](./images/vp-2-us1110-Edit%20a%20floor.svg)
 
 ### US1100 ###
-![US210](./images/vp-2-us1110-Edit%20a%20floor.svg)
+![US210](./images/vp-2-us1100-List%20all%20floors%20of%20a%20building.svg)
 
 ### US1200 ###
 ![US220](./images/vp-2-us1200-List%20all%20floors%20with%20passageways%20of%20a%20building.svg)
@@ -212,7 +212,7 @@ The following diagram shows the process level 3 views for the RobDroneGo project
 ![US300](./images/vp-2-us1210-Create%20a%20room%20in%20a%20floor.svg)
 
 ### US1000 ###
-![US350](./images/vp-2-us1000-Create%20a%20floor%20in%20a%20building.svg)
+![US350](./images/vp-2-us1000-Create%20a%20robot%20type.svg)
 
 ### US1010 ###
 ![US360](./images/vp-2-us1010-Create%20a%20robot.svg)
@@ -326,6 +326,9 @@ The following diagram shows the process level 3 views for the RobDroneGo project
 
 ### US1110 ###
 ![US200](./images/vp-3-us1110-Edit%20a%20floor.svg)
+
+### US1100 ###
+![US200](./images/vp-3-us1100-List%20all%20floors%20of%20a%20building.svg)
 
 ### US1100 ###
 ![US210](./images/vp-3-us1110-Edit%20a%20floor.svg)

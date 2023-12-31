@@ -4,13 +4,13 @@
 autonumber
 skinparam packageStyle rect
 
-title Create a floor in a building
+title Create a robot type
 
 actor "Fleet Manager" as FM <<Human>>
 participant "Visualization" as MD <<Component>>
 
 activate FM
-FM->> MD : Navigate to createFloor page
+FM->> MD : Navigate to robotTypeCreate page
 
 activate MD
 FM<<--MD : Successfully response
