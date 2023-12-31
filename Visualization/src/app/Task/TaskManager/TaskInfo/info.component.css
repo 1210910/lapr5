@@ -181,3 +181,7 @@ a{
   text-decoration: none;
   color: var(--accent-color);
 }
+
+li .second-title {
+  /* Add your styles for the second title here */
+}

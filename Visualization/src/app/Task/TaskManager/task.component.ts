@@ -15,9 +15,9 @@ import { RouterLink } from "@angular/router";
                       <li><a [routerLink]="['/taskManager']">
                           <img class="brand-logo" src="/assets/logoTask.svg" alt="logo" aria-hidden="true">
                       </a></li>
-                      <li><a [routerLink]="['/actionTask']" data-item='Task Request Actions'>Task Request Actions</a></li>
+                      <li><a [routerLink]="['/actionTask']" data-item='Request Actions'>Request Actions</a></li>
 
-                      <li><a [routerLink]="['/getAllTask']" data-item='List Task Request'>List Task Request</a></li>
+                      <li><a [routerLink]="['/getAllTask']" data-item='List Request'>List Request</a></li>
                       <li><a [routerLink]="['/listAllTask']" data-item='List Task'>List Task</a></li>
                       <li><a [routerLink]="['/orderPath']" data-item='Order Path'>Order Path</a></li>
                   </ul>

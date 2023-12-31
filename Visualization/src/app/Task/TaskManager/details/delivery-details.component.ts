@@ -15,8 +15,8 @@ import { DeliveryTaskInfo } from "../TaskInfo/DeliveryTaskInfo";
 
         <nav>
           <ul class="menuItems">
-            <li><a [routerLink]="['/robotList']">
-              <img class="brand-logo" src="/assets/logoRobot.svg" alt="logo" aria-hidden="true">
+            <li><a [routerLink]="['/getAllTask']">
+              <img class="brand-logo" src="/assets/logoTask.svg" alt="logo" aria-hidden="true">
             </a></li>
           </ul>
         </nav>
@@ -25,15 +25,23 @@ import { DeliveryTaskInfo } from "../TaskInfo/DeliveryTaskInfo";
         <article>
 
           <section class="listing-description">
-            <h2 class="listing-heading">{{robotInfo?.name}}</h2>
+            <h2 class="listing-heading">{{deliveryTaskInfo?.userFriendlyId}}</h2>
           </section>
           <section class="listing-features">
-            <h2 class="section-heading">About this Robot</h2>
+            <h2 class="section-heading">About this task request</h2>
             <ul>
-              <li>Code: {{robotInfo?.code}}</li>
-              <li>Type: {{robotInfo?.type}}</li>
-              <li>Enabled: {{robotInfo?.enabled}}</li>
-              <li>Description: {{robotInfo?.description}}</li>
+            <li> <strong>User : </strong>{{deliveryTaskInfo?.user}}</li>
+            <li> <strong>Room origin : </strong>{{deliveryTaskInfo?.roomOrig}}</li>
+            <li> <strong>Room destination: </strong>{{deliveryTaskInfo?.roomDest}}</li>
+            <li> <strong>State : </strong>{{deliveryTaskInfo?.state}}</li>
+            <li> <strong>Type : </strong>{{deliveryTaskInfo?.taskType}}</li>
+            <li> <strong>Destination name :</strong> {{deliveryTaskInfo?.destName}}</li>
+            <li> <strong>Destination phone number :</strong> {{deliveryTaskInfo?.destPhoneNumber}}</li>
+            <li> <strong>Origin name : </strong>{{deliveryTaskInfo?.origName}}</li>
+            <li> <strong>Destination name : </strong>{{deliveryTaskInfo?.destName}}</li>
+            <li> <strong>Description : </strong>{{deliveryTaskInfo?.description}}</li>
+            <li> <strong>Confirmation code : </strong> {{deliveryTaskInfo?.confirmationCode}}</li>
+
             </ul>
           </section>
         </article>
@@ -41,15 +49,15 @@ import { DeliveryTaskInfo } from "../TaskInfo/DeliveryTaskInfo";
   `,
   styleUrls: ['./details.component.css']
 })
-export class RobotDetailsComponent {
+export class DeliveryDetailsComponent {
 
   route: ActivatedRoute = inject(ActivatedRoute);
   taskService = inject(TaskService);
   deliveryTaskInfo:  DeliveryTaskInfo| undefined;
 
   constructor() {
-    const deliveryTaskCode = this.route.snapshot.params['code'];
-    // this.deliveryTaskInfo = this.taskService.getDeliveryTaskInfo(robotCode);
+    const taskCode = this.route.snapshot.params['id'];
+    this.deliveryTaskInfo = this.taskService.getDeliveryById(taskCode);
   }
 
 

@@ -32,8 +32,10 @@ export class ListAllTaskRequestComponent {
   async ngOnInit() {
     this.vigilanceList =  await this.taskService.getVigilanceTaskRequests() as VigilanceTaskInfo[];
     this.deliveryList =  await this.taskService.getDeliveryTaskRequests() as DeliveryTaskInfo[];
+    this.taskService.DeliveryList = this.deliveryList;
+    this.taskService.VigilanceList = this.vigilanceList
   }
-
+  
   
   public async applyFilters() {
     const { state, deviceType, user } = this.filter;

@@ -43,20 +43,7 @@
   </div>
 
   <div class="body">
-    <section>
-      <div class="card-container">
-        <div *ngFor="let robot of vigilanceList" class="card">
-          <div class="card-content">
-            <!-- Content for vigilance cards -->
-          </div>
-        </div>
-        <div *ngFor="let robot of deliveryList" class="card">
-          <div class="card-content">
-            <!-- Content for delivery cards -->
-          </div>
-        </div>
-      </div>
-    </section>
+    
     <app-vigilance-info *ngFor="let VigilanceInfo of vigilanceList" [vigilanceTask]="VigilanceInfo"></app-vigilance-info>
     <app-delivery-info *ngFor="let DeliveryInfo of deliveryList" [deliveryTask]="DeliveryInfo"></app-delivery-info>
   </div>
