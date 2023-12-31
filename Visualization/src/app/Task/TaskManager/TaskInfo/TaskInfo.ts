@@ -6,4 +6,6 @@ export interface TaskInfo {
   roomOrig: string;
   robotId: string;
   state : string;
+  userFriendlyId: string;
+  taskType: string
 }

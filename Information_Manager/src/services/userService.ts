@@ -92,31 +92,6 @@ export default class UserService implements IUserService{
     }
   }
 
-  public async SignIn(email: string, password: string): Promise<Result<{ userDTO: IUserDTO, token: string }>> {
-
-    const user = await this.userRepo.findByEmail( email );
-
-    if (!user) {
-      throw new Error('User not registered');
-    }
-
-    /**
-     * We use verify from argon2 to prevent 'timing based' attacks
-     */
-    this.logger.silly('Checking password');
-    const validPassword = await argon2.verify(user.password.value, password);
-    if (validPassword) {
-      this.logger.silly('Password is valid!');
-      this.logger.silly('Generating JWT');
-      const token = this.generateToken(user) as string;
-
-      const userDTO = UserMap.toDTO( user ) as IUserDTO;
-      return Result.ok<{userDTO: IUserDTO, token: string}>( {userDTO: userDTO, token: token} );
-    } else {
-      throw new Error('Invalid Password');
-    }
-  }
-
   private generateToken(user) {
     const today = new Date();
     const exp = new Date(today);

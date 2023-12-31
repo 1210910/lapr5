@@ -1,132 +1,90 @@
-import {Component, inject} from '@angular/core';
+import {Component, OnInit, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
 
-
 import {result} from "lodash";
 import {FormsModule} from "@angular/forms";
-
-import {TaskInfo} from "../TaskInfo/TaskInfo";
+import {TaskInfoTotal} from "../details/TaskInfoTotal";
 import {TaskService} from "../../../services/task.service";
 
 @Component({
     selector: 'app-task-action',
     standalone: true,
     imports: [CommonModule, RouterLink, FormsModule],
-    template: `
-      <section>
-          <header class="brand-name">
-
-              <nav>
-                  <ul class="menuItems">
-                      <li><a [routerLink]="['/taskManagement']">
-                          <img class="brand-logo" src="/assets/logoTask.svg" alt="logo" aria-hidden="true">
-                      </a></li>
-                  </ul>
-              </nav>
-          </header>
-
-      </section>
-      <section class="container-body">
-          <div class="container">
-              <div class="text">
-                  Insert Data
-              </div>
-              <form action="#">
-                  <div class="form-row">
-                      <div class="input-data select-container">
-                          <label for="selectedFloor">Select a task</label>
-                          <select [(ngModel)]="selectedTask" name="selectedTask" id="selectedTask">
-                              <option value="" disabled>Select a passageway</option>
-                              <option *ngFor="let task of this.tasks" [ngValue]="task">{{ task.id }}</option>
-                          </select>
-                      </div>
-                  </div>
-                      <div class="form-row">
-                      <label for="action">Select action:</label>
-                          <select id="actiontype">
-                              <option value= "reject">Reject</option>
-                              <option value="approve">Approve</option>
-
-                          </select>
-                      </div>
-                <div class="form-row submit-btn">
-                  <div class="input-data">
-                    <div class="inner"></div>
-                    <a [routerLink]="['/task']"><input type="submit" value="submit" (click)="action()" data-cy="roomCreateButton" > </a>
-                  </div>
-                </div>
-              </form>
-          </div>
-          </section>
-  `,
+    templateUrl: './taskApproveReject.component.html',
     styleUrls: ["./taskApproveReject.component.css"]
 
 })
 
-export class TaskApproveRejectComponent {
-    taskService: TaskService = inject(TaskService);
-    selectedTask: any;
-    tasks: TaskInfo[];
+export class TaskApproveRejectComponent implements OnInit {
+  taskService: TaskService = inject(TaskService);
+  tasks: TaskInfoTotal[];
 
-    constructor() {
-        this.tasks = [];
+  constructor() {
+    this.tasks = [];
+  }
+
+   ngOnInit() {    
+    this.listTasks();
+  }
+
+  public async accept(task: TaskInfoTotal) {
+    if (task.taskType === "Delivery") {
+      this.taskService
+        .approveDeliveryTask(task.id)
+        .then(() => {
+          // Update list
+          location.reload();
+          alert('Delivery Task Request Accepted Successfully');
+        })
+        .catch(() => {
+          console.error('Failed to Accept Delivery Task Request');
+        });
+    } else {
+      this.taskService
+        .approveVigilanceTask(task.id)
+        .then(() => {
+          // Update list
+          location.reload();
+          alert('Vigilance Task Request Accepted Successfully');
+        })
+        .catch(() => {
+          console.error('Failed to Accept Vigilance Task Request');
+        });
     }
-    ngOnInit() {
-        this.listTasks();
+  }
+
+  public async deny(task: TaskInfoTotal) {
+    if (task.taskType === "Delivery") {
+      this.taskService
+        .rejectDeliveryTask(task.id)
+        .then(() => {
+          location.reload();
+          alert('Delivery Task Request Rejected Successfully');
+        })
+        .catch(() => {
+          console.error('Failed to Reject Delivery Task Request');
+        });
+    } else {
+      this.taskService
+        .rejectVigilanceTask(task.id)
+        .then(() => {
+          location.reload();
+          alert('Vigilance Task Request Reject Successfully');
+        })
+        .catch(() => {
+          console.error('Failed to Reject Vigilance Task Request');
+        });
     }
+  }
 
-    action(){
-
-        const task = this.selectedTask.id;
-        const actionType = document.getElementsByTagName("select")[1].value;
-
-
-        if (task == null || actionType == null) {
-            alert("Please fill in all fields");
-            return;
-        }
-
-
-        const taskType = this.taskService.taskType(task);
-
-        if (taskType == "VIGILANCE") {
-            if (actionType == "reject") {
-                this.taskService.rejectVigilanceTask(task).then(result => {
-                    alert("Task rejected");
-                }).catch(error => {
-                    alert("Task not rejected: " + error);
-                });
-            }else if (actionType == "approve") {
-                this.taskService.approveVigilanceTask(task).then(result => {
-                    alert("Task approved");
-                }).catch(error => {
-                    alert("Task not approved: " + error);
-                });
-            }
-        }else if (taskType == "DELIVERY") {
-            if (actionType == "reject") {
-                this.taskService.rejectDeliveryTask(task).then(result => {
-                    alert("Task rejected");
-                }).catch(error => {
-                    alert("Task not rejected: " + error);
-                });
-            }else if (actionType == "approve") {
-                this.taskService.approveDeliveryTask(task).then(result => {
-                    alert("Task approved");
-                }).catch(error => {
-                    alert("Task not approved: " + error);
-                });
-            }
-
-        }
-
-
-   }
-
-    public listTasks() {
-        this.taskService.allPendingTaskRequests();
-        this.tasks = this.taskService.TaskList;
-    };
-
+  public async listTasks() {
+    try {
+      console.log("olaa")
+      this.tasks = (await this.taskService.allPendingTaskRequests()) as TaskInfoTotal[];
+      console.log('Tasks length:', this.tasks.length); // Log the length of the tasks array
+    } catch (error) {
+      console.error('Error fetching tasks:', error);
+    }
+  }
 }

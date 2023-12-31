@@ -1,10 +1,8 @@
-export interface VigilanceTaskInfo {
-  id:string;
-  description: string;
-  user: string;
-  roomDest: string;
-  roomOrig: string;
+import { TaskInfo } from "./TaskInfo";
+
+export interface VigilanceTaskInfo extends TaskInfo{
+  
   requestName : string;
   requestNumber : string;
-  state : string;
+  
 }
