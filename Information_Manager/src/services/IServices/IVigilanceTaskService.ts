@@ -13,6 +13,7 @@ export default interface IVigilanceTaskService  {
     getAllPendingTaskRequests(): Promise<Result<ITaskDTO[]>>;
     getAllVigilanceTaskRequests(): Promise<Result<IVigilanceTaskDTO[]>>;
     getFilteredVigilanceTask(state: string, user:string): Promise<Result<IVigilanceTaskDTO[]>>;
+    startVigilanceTask(id: string): Promise<Result<IVigilanceTaskDTO>>
 
 
 }

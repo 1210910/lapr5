@@ -50,10 +50,17 @@ get_maps():-
     json_to_prolog(Response, PrologData),
     repo:save_maps(PrologData).
 
+get_tasks() :-
+    routes:tasks_url(URL),
+    http_get(URL, Response, []),
+    json_to_prolog(Response, PrologData),
+    repo:save_tasks(PrologData).
+
 load_db() :-
     get_floors,
     get_maps,
     get_rooms,
     get_passageways,
     get_lifts,
-    get_buildings.
+    get_buildings,
+    get_tasks.

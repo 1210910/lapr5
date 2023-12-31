@@ -35,7 +35,7 @@ export default class TaskRequestService implements ITaskRequestService{
 }
  
 
-    public async getAllAcceptedTaskRequest(): Promise<Result<ITaskRequestDTO[]>> {
+    public async getAllAcceptedTaskRequest(): Promise<Result<any[]>> {
         try {
 
             const agent = new https.Agent({
@@ -43,7 +43,16 @@ export default class TaskRequestService implements ITaskRequestService{
             });
 
             const response = await axios.get('http://localhost:5000/api/TasksRequest/Accepted', { httpsAgent: agent });
-            return Result.ok<ITaskRequestDTO[]>(response.data);
+
+            const algavTaskRequest = response.data.map((taskRequest: any) => {
+                return {
+                    id: taskRequest.id,
+                    roomDest: taskRequest.roomDest,
+                    roomOrig: taskRequest.roomOrig,
+                }
+            });
+
+            return Result.ok<any>(algavTaskRequest);
         }
         catch (e) {
             throw e;

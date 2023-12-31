@@ -34,6 +34,27 @@ export default class VigilanceTaskController implements IVigilanceTaskController
         }
     };
 
+    public async startVigilanceTask(req: Request, res: Response, next: NextFunction) {
+        try {
+            const vigilanceTaskOrError = await this.vigilanceTaskServiceInstance.startVigilanceTask(req.body.id);
+
+            if (vigilanceTaskOrError.isFailure) {
+                return res.status(400).json({ error: vigilanceTaskOrError.errorValue() });
+            }
+
+            const deliveryTaskDto = vigilanceTaskOrError.getValue();
+
+            return res.status(201).json(deliveryTaskDto);
+
+        } catch (e) {
+            return next(e);
+
+        }
+    }
+
+
+
+
     public async getAllVigilanceTaskRequests(req: Request, res: Response, next: NextFunction) {
         try {
             const vigilanceTasksOrError = await this.vigilanceTaskServiceInstance.getAllVigilanceTaskRequests();

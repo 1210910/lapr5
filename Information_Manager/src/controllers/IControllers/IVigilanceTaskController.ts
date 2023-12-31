@@ -16,4 +16,6 @@ export default interface IVigilanceTaskController {
     getAllPendingTaskRequests(req: Request, res: Response, next: NextFunction);
     
     getFilteredVigilanceTasks(req: Request, res: Response, next: NextFunction);
+
+    startVigilanceTask(req: Request, res: Response, next: NextFunction);
 }

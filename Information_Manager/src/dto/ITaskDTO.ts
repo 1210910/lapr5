@@ -4,6 +4,7 @@ export interface ITaskDTO {
     user: string;
     roomDest: string;
     roomOrig: string;
+    roomDestId: string;
     destName : string;
     origName : string;
     state : string;
