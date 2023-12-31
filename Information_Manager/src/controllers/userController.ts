@@ -1,28 +1,65 @@
-import { Response, Request } from 'express';
-
-import { Container} from 'typedi';
-
-import config from '../../config';
-
-import IUserRepo from '../services/IRepos/IUserRepo';
-
-import { UserMap } from "../mappers/UserMap";
+import { Response, Request, NextFunction } from 'express';
+import { Container } from 'typedi';
+import AuthService from '../services/userService';
 import { IUserDTO } from '../dto/IUserDTO';
+import logger from "../loaders/logger";
 
 
-exports.getMe = async function(req, res: Response) {
-  
-    // NB: a arquitetura ONION não está a ser seguida aqui
 
-    const userRepo = Container.get(config.repos.user.name) as IUserRepo
+export async function signUp(req: Request, res: Response, next: NextFunction) {
+    logger.debug('Calling Sign-Up endpoint with body: %o', req.body);
 
-    if( !req.token || req.token == undefined )
-        return res.json( new Error("Token inexistente ou inválido")).status(401);
+    try {
+        const authServiceInstance = Container.get(AuthService);
+        const userOrError = await authServiceInstance.SignUp(req.body as IUserDTO);
 
-    const user = await userRepo.findById( req.token.id );
-    if (!user)
-        return res.json( new Error("Utilizador não registado")).status(401);
+        if (userOrError.isFailure) {
+            logger.debug(userOrError.errorValue());
+            return res.status(401).send(userOrError.errorValue());
+        }
 
-    const userDTO = UserMap.toDTO( user ) as IUserDTO;
-    return res.json( userDTO ).status(200);
+        const { userDTO, token } = userOrError.getValue();
+        return res.status(201).json({ userDTO, token });
+    } catch (e) {
+        console.log(e);
+        return next(e);
+    }
+}
+
+export async function getProfile(req: Request, res: Response, next: NextFunction) {
+    try {
+        const authServiceInstance = Container.get(AuthService);
+        //@ts-ignore
+        const userOrError = await authServiceInstance.profile(req.auth.email);
+
+        if (userOrError.isFailure) {
+            return res.status(401).send(userOrError.errorValue());
+        }
+
+        const userDTO = userOrError.getValue();
+        return res.status(200).json(userDTO);
+    } catch (e) {
+        console.log(e);
+        return next(e);
+    }
+}
+
+export async function deleteAccount(req: Request, res: Response, next: NextFunction) {
+    logger.debug('Calling Delete-Account endpoint with body: %o', req.body);
+
+    try {
+        //@ts-ignore
+        const { email } = req.auth.email;
+        const authServiceInstance = Container.get(AuthService);
+        const result = await authServiceInstance.deleteAccount(email);
+
+        if (result.isFailure)
+            return res.json().status(403);
+
+        return res.json().status(200);
+
+    } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return next(e);
+    }
 }
