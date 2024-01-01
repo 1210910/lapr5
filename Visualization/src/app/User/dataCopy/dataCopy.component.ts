@@ -2,8 +2,10 @@ import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {LiftService} from "../../services/lift.service";
-import {LiftInfo} from "../../Lift/lift-info/liftinfo";
+import { User } from '@auth0/auth0-angular';
+import { UserService } from 'src/app/services/user.service';
+import { UserInfo } from 'src/app/signUp/User-info/userinfo';
+
 
 @Component({
     selector: 'app-building',
@@ -25,23 +27,30 @@ import {LiftInfo} from "../../Lift/lift-info/liftinfo";
         </section>
         <section>
             <article>
-
-                <!--<section class="listing-description">
-                    <h2 class="listing-heading">{{liftInfo?.code}}</h2>
+                <section class="listing-description">
+                    <h2 class="listing-heading">{{userInfo?.firstName +  " " +  userInfo?.lastName}}</h2>
                 </section>
                 <section class="listing-features">
-                    <h2 class="section-heading">About this Lift</h2>
-                    <ul>
-                        <li>Building Code: {{liftInfo?.buildingCode}}</li>
-                        <li>Floors: {{liftInfo?.floors}}</li>
-                        <li>Brand: {{liftInfo?.brand}}</li>
-                        <li>Model: {{liftInfo?.model}}</li>
-                        <li>Serial Number: {{liftInfo?.serialNumber}}</li>
-                        <li>Description: {{liftInfo?.description}}</li>
-                    </ul>
-                </section>-->
-            </article>
+            <h2 class="section-heading">About this User</h2>
+            <ul>
+            <li *ngIf="userInfo?.email">Email: {{ userInfo?.email }}</li>
+            <li *ngIf="userInfo?.phoneNumber">Phone Number: {{ userInfo?.phoneNumber }}</li>
+            <li *ngIf="userInfo?.nif">NIF: {{ userInfo?.nif }}</li>
+            <li *ngIf="userInfo?.role">Role: {{ userInfo?.role }}</li>
+            </ul>
         </section>
+        <div class="form-row">
+            <div class="submit-btn">
+                <div class="input-data">
+                    <div class="inner"></div>
+                    <a [routerLink]="['/userData']">
+                        <input type="button" value="Download my Data" (click)="downloadData()">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>
   `,
     styleUrls: ["./dataCopy.component.css"]
 
@@ -50,19 +59,32 @@ import {LiftInfo} from "../../Lift/lift-info/liftinfo";
 export class DataCopyComponent {
 
     route: ActivatedRoute = inject(ActivatedRoute);
-    //liftService = inject(LiftService);
-    //liftInfo: LiftInfo | undefined;
+    userService = inject(UserService);
+    userInfo: UserInfo | undefined;
 
-    /*constructor() {
-        const liftCode = this.route.snapshot.params['id'];
-        this.liftInfo = this.liftService.getLiftByCode(liftCode);
-    }*/
+    constructor() {
+    }
 
-
-
-
-
-
-
+    ngOnInit(): void {
+        this.userService.profile().then((user) => {
+            this.userInfo = {
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                phoneNumber: user.phoneNumber,
+                nif: user.nif,
+                password: user.password,
+                role: user.role
+            };
+            console.log(this.userInfo);
+            }
+        ).catch((error) => {
+            alert("Fail Error: " + error);
+        });
+    }
+    
+    downloadData(){
+        this.userService.downloadData();
+    }
 
 }
