@@ -12,7 +12,11 @@ import { RouterLink } from "@angular/router";
 
 export class LoginComponent {
 
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService) {const redirectUri = window.location.origin;
+    console.log(redirectUri);
+  }
+
+
 
   signIn() {
     this.auth.loginWithRedirect({

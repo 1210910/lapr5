@@ -13,5 +13,6 @@ export default interface IDeliveryTaskService  {
   getAllPendingTasks(): Promise<Result<ITaskDTO[]>>;
   getAllDeliveryTaskRequests(): Promise<Result<IDeliveryTaskDTO[]>>;
   getFilteredDeliveryTask(state: string, user:string): Promise<Result<IDeliveryTaskDTO[]>>;
+  startDeliveryTask(id: string): Promise<Result<IDeliveryTaskDTO>>
 
 }

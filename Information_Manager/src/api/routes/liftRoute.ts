@@ -44,7 +44,7 @@ export default (app: Router) => {
       })
     }),
     (req, res, next) => liftController.updateLift(req, res, next));
-
+  route.get('/algav',(req,res,next) => liftController.listAllLift(req,res,next) );
   route.get("",
     middlewares.isAuth,
     middlewares.userRole(UserRoles.CAMPUS),
@@ -55,7 +55,7 @@ export default (app: Router) => {
     middlewares.userRole(UserRoles.CAMPUS),
     (req, res, next) => liftController.listLift(req, res, next));
 
-  route.get('/algav',(req,res,next) => liftController.listAllLift(req,res,next) );
+
 
   route.use((err, req, res, next) => {
     if (err.isJoi) {

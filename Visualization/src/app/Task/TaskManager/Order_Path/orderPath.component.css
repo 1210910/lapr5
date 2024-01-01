@@ -7,9 +7,9 @@ nav {
         display: flex;
 
         & li {
-          margin-top: 20px;
-          margin-bottom:20px ;
-          margin-left: 50px;
+            margin-top: 20px;
+            margin-bottom:20px ;
+            margin-left: 50px;
 
             & a {
                 text-decoration: none;
@@ -50,19 +50,21 @@ nav {
     gap: 10px; /* Optional: for some space between the items */
     width: calc(100% - 400px); /* Subtracting 200px from each side */
     margin: 0 auto; /* This will center the .body element */
+    align-content: center;
 }
 .container-body{
-  display:flex;
-  justify-content: center;
+    display:flex;
+    justify-content: center;
 }
 .container{
 
-  background: rgba(255, 255, 255, 0.5);
-  border:solid rgba(130, 84, 255,0.5);
-  border-radius: 5px;
-  width: 700px;
-  padding: 25px 40px 10px 40px;
-  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    background: rgba(255, 255, 255, 0.5);
+    border:solid rgba(130, 84, 255,0.5);
+    border-radius: 5px;
+    width: 700px;
+    padding: 25px 40px 10px 40px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    margin-left : 400px;
 }
 .container .text{
     text-align: center;
@@ -97,7 +99,7 @@ form .form-row .textarea{
     border: none;
     font-size: 17px;
     border-bottom: 2px solid rgba(0,0,0, 0.12);
-  background: transparent;
+    background: transparent;
 }
 .input-data input:focus ~ label, .textarea textarea:focus ~ label{
     transform: translateY(-20px);
@@ -284,10 +286,10 @@ a {
 .select-container {
     position: relative;
     margin-bottom: 20px;
-  }
+}
 
- /* Hide the default dropdown arrow */
- .select-container select {
+/* Hide the default dropdown arrow */
+.select-container select {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -296,27 +298,27 @@ a {
     background-position: right 8px top 50%;
     padding-right: 30px;
     text-align: center; /* Center the selected text */
-  }
+}
 
 
-  /* Add styles for the label */
-  .select-container label {
+/* Add styles for the label */
+.select-container label {
     position: absolute;
     top: -22px; /* Adjust the top position as needed */
     font-size: 16px;
     color: #1a0555;
     transition: all 0.3s ease;
-  }
+}
 
-  /* Adjust styles for the underline */
-  .select-container .underline {
+/* Adjust styles for the underline */
+.select-container .underline {
     position: absolute;
     bottom: 0;
     height: 2px;
     width: 100%;
-  }
+}
 
-  .select-container .underline:before {
+.select-container .underline:before {
     position: absolute;
     content: "";
     height: 2px;
@@ -325,12 +327,12 @@ a {
     transform: scaleX(0);
     transform-origin: center;
     transition: transform 0.3s ease;
-  }
+}
 
-  .select-container select:focus ~ .underline:before {
+.select-container select:focus ~ .underline:before {
     transform: scale(1);
-  }
-  /* Adjust styles for the pseudo-element */
+}
+/* Adjust styles for the pseudo-element */
 .select-container select::-ms-expand {
     display: none;
-  }
+}

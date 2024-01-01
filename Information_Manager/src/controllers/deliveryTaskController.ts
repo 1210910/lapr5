@@ -33,6 +33,22 @@ export default class DeliveryTaskController implements IDeliveryTaskController {
         }
     };
 
+    public async startDeliveryTask(req: Request, res: Response, next: NextFunction) {
+        try {
+            const deliveryTaskOrError = await this.deliveryTaskServiceInstance.startDeliveryTask(req.body.id);
+
+            if (deliveryTaskOrError.isFailure) {
+                return res.status(400).json({ error: deliveryTaskOrError.errorValue() });
+            }
+
+            const deliveryTaskDto = deliveryTaskOrError.getValue();
+            return res.status(201).json(deliveryTaskDto);
+
+        } catch (e) {
+            return next(e);
+        }
+    }
+
     public async getAllDeliveryTasks(req: Request, res: Response, next: NextFunction) {
         try {
             const deliveryTasksOrError = await this.deliveryTaskServiceInstance.getAllDeliveryTasks();

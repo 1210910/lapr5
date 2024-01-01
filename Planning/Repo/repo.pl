@@ -83,3 +83,18 @@ save_maps([_|Rest]) :-
         save_maps(Rest).
 
 
+% save tasks
+save_tasks([]).
+save_tasks([Task|Rest]):-
+
+    Task = json([id=TaskCode,roomDest=RoomDest,roomOrig=RoomOrig| _]),
+
+    \+ db:task(TaskCode,_,_), !,
+        write('Saving Task: '), writeln(Task),
+        assertz(db:task(TaskCode,RoomOrig,RoomDest)),
+        save_tasks(Rest).
+
+save_tasks([_|Rest]) :-
+        save_tasks(Rest).
+
+

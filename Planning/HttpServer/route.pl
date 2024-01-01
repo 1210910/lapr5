@@ -33,4 +33,10 @@ maps_url(URL):-
     atom_concat(MAIN,'/floorMap/algav',URL).
 
 
+% task url
+tasks_url(URL):-
+    api_domain_url(MAIN),
+    atom_concat(MAIN,'/taskRequest/accepted',URL).
+
+
 

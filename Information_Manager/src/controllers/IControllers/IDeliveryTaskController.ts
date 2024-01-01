@@ -17,4 +17,6 @@ export default interface IDeliveryTaskController {
 
     getFilteredDeliveryTasks(req: Request, res: Response, next: NextFunction);
 
+    startDeliveryTask(req: Request, res: Response, next: NextFunction);
+
 }

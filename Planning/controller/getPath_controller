@@ -96,7 +96,9 @@ calculate_costs_for_task_with_others(Task1, [Task2|Rest]) :-
 % Predicado para calcular custos entre duas tarefas específicas
 calculate_costs_between_tasks(Task1, Task2) :-
     map_service:find_task_start_end(Task1, _, End1),
+
     map_service:find_task_start_end(Task2, Start2, _),
+
     get_path_cost(End1, Start2, Cost),
     map_service:create_t_facts(Task1, Task2, Cost).
 

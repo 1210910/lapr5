@@ -62,6 +62,14 @@ export default (app: Router) => {
     }),
     (req,res,next) => deliveryTaskController.rejectDeliveryTask(req, res, next) );
 
+    route.post('/start',
+      celebrate ({
+        body: Joi.object({
+        id: Joi.string().max(255).required(),
+    }),
+    }),
+    (req,res,next) => deliveryTaskController.startDeliveryTask(req, res, next) );
+
     route.get('/filtered',
     (req, res, next) => deliveryTaskController.getFilteredDeliveryTasks(req, res, next));
 
