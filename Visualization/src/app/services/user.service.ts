@@ -105,8 +105,10 @@ export class UserService {
   public async deleteAccount() {
     return new Promise((resolve, reject) => {
       const httprequest = new XMLHttpRequest();
-      httprequest.open('POST', 'http://localhost:4000/api/user/delete/', true);
+      httprequest.open('POST', 'http://localhost:4000/api/auth/delete/', true);
       httprequest.setRequestHeader('Content-Type', 'application/json',);
+      const token = localStorage.getItem("token");
+      if (token) httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
       httprequest.onload = function () {
 
         if (httprequest.status === 200) {

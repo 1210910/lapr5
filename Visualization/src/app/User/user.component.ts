@@ -15,7 +15,7 @@ import {RouterLink} from "@angular/router";
                       <li><a [routerLink]="['/homeUser']">
                           <img class="brand-logo" src="/assets/logoUser.svg" alt="logo" aria-hidden="true">
                       </a></li>
-                      <li><a [routerLink]="['/taskRequest']" data-item='Data Copy'>Task Request</a></li>
+                      <li><a [routerLink]="['/taskRequest']" data-item='Task Request'>Task Request</a></li>
                       <li><a [routerLink]="['/dataCopy']" data-item='Data Copy'>Data Copy</a></li>
                       <li><a [routerLink]="['/editData']" data-item='Edit your Data'>Edit Your Data</a></li>
                   </ul>

@@ -27,7 +27,7 @@ export default (app: Router) => {
 
   route.get("/profile/", middlewares.isAuth, (req, res, next) => userController.getProfile(req, res, next));
 
-  route.post('/delete', middlewares.isAuth, (req, res, next) => userController.deleteAccount(req, res, next));
+  route.post('/delete/', middlewares.isAuth, (req, res, next) => userController.deleteAccount(req, res, next));
 
   app.use('/users', route);
 };

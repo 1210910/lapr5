@@ -48,10 +48,12 @@ export async function deleteAccount(req: Request, res: Response, next: NextFunct
     logger.debug('Calling Delete-Account endpoint with body: %o', req.body);
 
     try {
-        //@ts-ignore
-        const { email } = req.auth.email;
         const authServiceInstance = Container.get(AuthService);
-        const result = await authServiceInstance.deleteAccount(email);
+        //@ts-ignore
+        const id = req.auth.id;
+        //@ts-ignore
+        const result = await authServiceInstance.deleteAccount(req.auth.email);
+        authServiceInstance.deleteAuth0Account(id);
 
         if (result.isFailure)
             return res.json().status(403);
