@@ -1,12 +1,19 @@
 import { Injectable } from "@angular/core";
 import { AuthService } from "@auth0/auth0-angular";
+import { UserInfo } from "../signUp/User-info/userinfo";
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Injectable({
   providedIn: "root"
 })
 export class UserService {
+  UserList: UserInfo[];
+  sanitizer: DomSanitizer;
 
-  constructor() {
+
+  constructor(sanitizer: DomSanitizer) {
+    this.UserList = []
+    this.sanitizer = sanitizer;
   }
 
   public createUser(firstName: string, lastName: string, email: string, phoneNumber: number, NIF: number, password: string, role: string) {
@@ -75,7 +82,7 @@ export class UserService {
     });
   }
 
-  public profile() {
+  public profile(): Promise<UserInfo> {
     return new Promise((resolve, reject) => {
       const httprequest = new XMLHttpRequest();
       httprequest.open("GET", "http://localhost:4000/api/auth/profile/", true);
@@ -95,33 +102,19 @@ export class UserService {
     });
   }
 
-
-  /*
-  public async profile1() {
-    const authServiceInstance = AuthService;
-    //@ts-ignore
-    const user = await authServiceInstance.profile(req.auth.email);
-    return user;
-  }
-
-
   public async deleteAccount() {
-    this.profile1().then(userProfile => {
+    return new Promise((resolve, reject) => {
       const httprequest = new XMLHttpRequest();
       httprequest.open('POST', 'http://localhost:4000/api/user/delete/', true);
       httprequest.setRequestHeader('Content-Type', 'application/json',);
-
       httprequest.onload = function () {
 
         if (httprequest.status === 200) {
           console.log("Account deleted");
-          console.log(httprequest.responseText)
           resolve(httprequest.responseText);
         } else {
           console.log(httprequest.responseText);
           const errorResponse = JSON.parse(httprequest.responseText);
-          //response = httprequest.status;
-          console.log(httprequest.responseText);
           console.log("Account not deleted");
           reject(errorResponse.error);
         }
@@ -129,6 +122,36 @@ export class UserService {
       httprequest.send();
     });
   }
-  */
 
+  public downloadData() {
+   this.profile().then((user: UserInfo) => {
+    this.generateDownloadJsonUrl(user);
+  }).catch((error) => {
+    alert("Fail Error: " + error);
+  });
+}
+
+generateDownloadJsonUrl(user : UserInfo) {
+  const cleanedUserData = this.cleanUserData(user);
+  const blob = new Blob([JSON.stringify(user)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  return this.sanitizer.bypassSecurityTrustUrl(url);
+}
+
+cleanUserData(user: UserInfo): UserInfo {
+  const cleanedUser: UserInfo = {
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    phoneNumber: user.phoneNumber,
+    nif: user.nif,
+    password: user.password,
+    role: user.role,
+  };
+  if (cleanedUser.phoneNumber === undefined) delete (cleanedUser as any).phoneNumber;
+  if (cleanedUser.nif === undefined) delete (cleanedUser as any).nif;
+  if (cleanedUser.password === undefined) delete (cleanedUser as any).password;
+  console.log(cleanedUser);
+  return cleanedUser;
+}
 }
