@@ -34,7 +34,7 @@ import { UserInfo } from 'src/app/signUp/User-info/userinfo';
             <h2 class="section-heading">About this User</h2>
             <ul>
             <li *ngIf="userInfo?.email">Email: {{ userInfo?.email }}</li>
-            <li *ngIf="userInfo?.phoneNumber">Phone Number: {{ userInfo?.phoneNumber }}</li>
+            <li *ngIf="userInfo?.phone">Phone Number: {{ userInfo?.phone }}</li>
             <li *ngIf="userInfo?.nif">NIF: {{ userInfo?.nif }}</li>
             <li *ngIf="userInfo?.role">Role: {{ userInfo?.role }}</li>
             </ul>
@@ -71,7 +71,7 @@ export class DataCopyComponent {
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: user.email,
-                phoneNumber: user.phoneNumber,
+                phone: user.phone,
                 nif: user.nif,
                 password: user.password,
                 role: user.role

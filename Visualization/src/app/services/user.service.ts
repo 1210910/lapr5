@@ -145,12 +145,12 @@ cleanUserData(user: UserInfo): UserInfo {
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
-    phoneNumber: user.phoneNumber,
+    phone: user.phone,
     nif: user.nif,
     password: user.password,
     role: user.role,
   };
-  if (cleanedUser.phoneNumber === undefined) delete (cleanedUser as any).phoneNumber;
+  if (cleanedUser.phone === undefined) delete (cleanedUser as any).phoneNumber;
   if (cleanedUser.nif === undefined) delete (cleanedUser as any).nif;
   if (cleanedUser.password === undefined) delete (cleanedUser as any).password;
   console.log(cleanedUser);

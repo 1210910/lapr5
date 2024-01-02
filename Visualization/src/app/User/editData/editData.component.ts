@@ -2,26 +2,14 @@ import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-
+import { UserService } from 'src/app/services/user.service';
+import { UserInfo } from 'src/app/signUp/User-info/userinfo';
 
 @Component({
     selector: 'app-building',
     standalone: true,
     imports: [CommonModule, RouterLink, FormsModule, ReactiveFormsModule],
-    template: `
-        <section>
-            <header class="brand-name">
-
-                <nav>
-                    <ul class="menuItems">
-                        <li><a [routerLink]="['/userData']">
-                            <img class="brand-logo" src="/assets/logoUser.svg" alt="logo" aria-hidden="true">
-                        </a></li>
-                    </ul>
-                </nav>
-            </header>
-        </section>
-  `,
+    templateUrl: './editData.component.html',
     styleUrls: ["./editData.component.css"]
 
 })
@@ -29,16 +17,38 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 export class EditDataComponent {
 
     route: ActivatedRoute = inject(ActivatedRoute);
-
+    userService = inject(UserService);
+    userInfo: UserInfo | undefined;
 
     constructor() {
     }
 
 
+    ngOnInit(): void {
+        this.userService.profile().then((user) => {
+            console.log(user.phone)
+            this.userInfo = {
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                phone: user.phone,
+                nif: user.nif,
+                password: user.password,
+                role: user.role
+            };
+            console.log(this.userInfo);
+            }
+        ).catch((error) => {
+            alert("Fail Error: " + error);
+        });
+    }
 
 
 
+public async editData(){
+    console.log("Info: "+ this.userInfo);
 
+}
 
 
 }
