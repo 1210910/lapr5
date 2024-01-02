@@ -65,5 +65,13 @@ export default (app: Router) => {
         (req, res, next) => vigilanceTaskController.getFilteredVigilanceTasks(req, res, next));
 
 
+    route.post('/start',
+        celebrate ({
+            body: Joi.object({
+                id: Joi.string().max(255).required(),
+            }),
+        }),
+        (req,res,next) => vigilanceTaskController.startVigilanceTask(req, res, next) );
+
 
 }

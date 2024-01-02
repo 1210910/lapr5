@@ -70,7 +70,7 @@ export class TaskService {
       //let response;
       httprequest.onload = function () {
 
-        if (httprequest.status === 200) {
+        if (httprequest.status === 201) {
           console.log("Task started");
           console.log(httprequest.response)
           resolve(true);
@@ -100,7 +100,7 @@ export class TaskService {
       //let response;
       httprequest.onload = function () {
 
-        if (httprequest.status === 200) {
+        if (httprequest.status === 201) {
           console.log("Task started");
           console.log(httprequest.response)
           resolve(true);

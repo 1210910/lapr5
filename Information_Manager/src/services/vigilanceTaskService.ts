@@ -160,11 +160,16 @@ export default class VigilanceTaskService implements IVigilanceTaskService{
 
 
     public async startVigilanceTask(id: string): Promise<Result<IVigilanceTaskDTO>> {
+
+
         try {
-            const response = await axios.post('http://localhost:5000/api/VigilanceTasks/Start', {
+            const agent = new https.Agent({
+                rejectUnauthorized: false
+            });
+            const response = await axios.post('http://localhost:5000/api/VigilanceTasks/start', {
                 Id: id,
                 RobotId: ""
-            });
+            }, { httpsAgent: agent });
 
             return Result.ok<IVigilanceTaskDTO>(response.data);
         }
