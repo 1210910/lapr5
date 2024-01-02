@@ -44,6 +44,12 @@ export class DeleteAccountComponent {
     userService: UserService = inject(UserService);
     route: ActivatedRoute = inject(ActivatedRoute);
 
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "User") {
+      window.location.href = "/";
+    }
+  }
+
     constructor() {
 
     }

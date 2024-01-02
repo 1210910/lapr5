@@ -55,6 +55,12 @@ export class DeliveryDetailsComponent {
   taskService = inject(TaskService);
   deliveryTaskInfo:  DeliveryTaskInfo| undefined;
 
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Task manager") {
+      window.location.href = "/";
+    }
+  }
+
   constructor() {
     const taskCode = this.route.snapshot.params['id'];
     this.deliveryTaskInfo = this.taskService.getDeliveryById(taskCode);

@@ -18,7 +18,6 @@ const userRole = (requiredRole: string) => {
         return res.status(401).send("You don't have permission to access this resource");
       }
 
-      // Se o usuário tiver a função necessária, permita o acesso à rota
       next();
     } catch (e) {
       console.error(e);

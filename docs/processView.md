@@ -1,9 +1,9 @@
 # Process Views #
 
 ## Introduction ##
-
 This document contains the process views for the RobDroneGo project.
 
+## [Authentication - US1310/1320](./VistaProcesso/US1310-1320/US1310-1320.md) ##
 
 ## Level 1 ##
 The following diagram shows the process level 1 views for the RobDroneGo project.
@@ -301,13 +301,13 @@ The following diagram shows the process level 3 views for the RobDroneGo project
 The following diagram shows the process level 3 views for the RobDroneGo project.
 
 ### US20 ###
-![US20](./images/vp-v3-us20-Create%20a%20user%20account%20(utente).svg)
+![US20](./images/vp-v3-us20-Create%20a%20user%20account%20(user).svg)
 
 ### US110 ###
-![US110](./images/vp-v3-us110-Request%20a%20copy%20of%20all%20my%20data%20(utente).svg)
+![US110](./images/vp-v3-us110-Request%20the%20copy%20of%20all%20my%20data%20(user).svg)
 
 ### US120 ###
-![US120](./images/vp-v3-us120-Request%20the%20deletion%20of%20all%20my%20data%20(utente).svg)
+![US120](./images/vp-v3-us120-Request%20the%20deletion%20of%20all%20my%20data%20(user).svg)
 
 ### US1050 ###
 ![US150](./images/vp-3-us1050-Create%20a%20building.svg)

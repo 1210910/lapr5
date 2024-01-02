@@ -34,5 +34,12 @@ import {RouterLink} from "@angular/router";
 })
 
 export class RobotTypeComponent {
+
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Fleet manager") {
+      window.location.href = "/";
+    }
+  }
+
   constructor() {}
 }

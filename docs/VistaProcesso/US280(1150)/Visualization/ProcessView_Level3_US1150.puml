@@ -1,0 +1,43 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title Edit a lift
+
+actor "Campus Manager" as CM <<Human>>
+participant "View" as view <<component>>
+participant "ViewModel" as viewModel <<component>>
+participant "Service" as service <<component>>
+participant "HttpAdapter" as httpAdapter <<component>>
+
+activate CM
+CM -> view : Navigate to editLift page
+activate view
+view --> CM : Display form for lift details
+CM -> view : Enters lift information
+
+view -> viewModel : Trigger edit lift with provided information
+
+activate viewModel
+viewModel -> service : Request to edit lift
+
+activate service
+service -> httpAdapter : Make HTTP Request
+activate httpAdapter
+httpAdapter ->> : HTTP Request (PATCH)
+httpAdapter <<-- : HTTP Response (200)
+httpAdapter --> service : Receive HTTP Response
+deactivate httpAdapter
+
+service -->> viewModel : Receive success response
+deactivate service
+
+viewModel -->> view : Receive success response
+deactivate viewModel
+
+view --> CM : Successfully response
+deactivate view
+
+deactivate CM
+@enduml

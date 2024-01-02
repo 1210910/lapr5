@@ -26,4 +26,10 @@ export class BuildingInfoComponent {
 
   @Input() building!: BuildingInfo;
 
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Campus manager") {
+      window.location.href = "/";
+    }
+  }
+
 }

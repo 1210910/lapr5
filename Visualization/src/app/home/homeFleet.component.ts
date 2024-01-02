@@ -46,6 +46,11 @@ export class HomeFleetComponent {
 
   //<app-housing-location *ngFor="let housingLocation of filteredLocationList" [housingLocation]="housingLocation"></app-housing-location>
 
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Fleet manager") {
+      window.location.href = "/";
+    }
+  }
 
   constructor() {
 

@@ -1,0 +1,40 @@
+@startuml Process View - Level 3 - Inhibit a robot
+
+autonumber
+skinparam packageStyle rect
+
+title Inhibit a robot
+
+actor "Campus Manager" as CM <<Human>>
+participant "View" as view <<component>>
+participant "ViewModel" as viewModel <<component>>
+participant "Service" as service <<component>>
+participant "HttpAdapter" as httpAdapter <<component>>
+
+CM -> view : Navigate to InhibitARobot page
+activate CM
+activate view
+view -> viewModel : Trigger inhibit a robot
+
+activate viewModel
+viewModel -> service : Request to inhibit a robot
+
+activate service
+service -> httpAdapter : Make HTTP Request
+activate httpAdapter
+httpAdapter ->> : HTTP Request (PATCH)
+httpAdapter <<-- : HTTP Response (200)
+httpAdapter --> service : Receive HTTP Response
+deactivate httpAdapter
+
+service -->> viewModel : Receive success response
+deactivate service
+
+viewModel -->> view : Receive success response
+deactivate viewModel
+
+view --> CM : Successfully response
+deactivate view
+
+deactivate CM
+@enduml

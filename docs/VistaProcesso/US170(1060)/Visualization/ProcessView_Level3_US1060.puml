@@ -1,36 +1,40 @@
 @startuml Process View - Level 3 - List all buildings
-'https://plantuml.com/sequence-diagram
 
 autonumber
 skinparam packageStyle rect
 
 title List all buildings
 
-actor "Campus Manager" as CM
-participant "Routing" as routing <<component>>
-participant "Component" as comp <<component>>
+actor "Campus Manager" as CM <<Human>>
+participant "View" as view <<component>>
+participant "ViewModel" as viewModel <<component>>
 participant "Service" as service <<component>>
+participant "HttpAdapter" as httpAdapter <<component>>
 
-
-CM->> routing : Navigate to listAllbuildings page
+CM -> view : Navigate to listAllbuildings page
 activate CM
-activate routing
-routing ->> comp : list all buildings
+activate view
+view -> viewModel : Trigger list all buildings
 
-activate comp
-comp ->> service : list all buildings
+activate viewModel
+viewModel -> service : Request to list all buildings
 
 activate service
-service --> : HttpRequest
-service<<--  : HttpResponse
-comp <<-- service : List of all buildings
+service -> httpAdapter : Make HTTP Request
+activate httpAdapter
+httpAdapter ->> : HTTP Request (GET)
+httpAdapter <<-- : HTTP Response (200)
+httpAdapter --> service : Receive HTTP Response
+deactivate httpAdapter
+
+service --> viewModel : Receive list of all buildings
 deactivate service
 
-comp -->> routing : success
-deactivate comp
+viewModel --> view : Receive list of all buildings
+deactivate viewModel
 
-CM<<-- routing : List successfully response
-deactivate routing
+view --> CM : List successfully response
+deactivate view
+
 deactivate CM
-
 @enduml

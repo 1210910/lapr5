@@ -34,6 +34,7 @@ export class HomeComponent {
         this.role = user.role;
         // @ts-ignore
         this.user = { ...this.user, ...user };
+        localStorage.setItem("role", user.role);
         this.redirect();
       }).catch((err) => {
         console.log(err);

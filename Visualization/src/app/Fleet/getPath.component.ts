@@ -82,6 +82,13 @@ import * as jsdom from "jsdom";
 export class GetPathComponent{
   planningService: PlanningService= inject(PlanningService);
     isLoading: boolean = false;
+
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Fleet manager") {
+      window.location.href = "/";
+    }
+  }
+
   constructor() {
 
   }

@@ -23,5 +23,11 @@ export class VigilanceInfoComponent {
 
   @Input() vigilanceTask!: VigilanceTaskInfo;
 
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Task manager") {
+      window.location.href = "/";
+    }
+  }
+
 
 }

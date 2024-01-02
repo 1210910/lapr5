@@ -25,6 +25,10 @@ export class FloorInfoComponent {
 
   @Input() floorInfo!: FloorInfo;
 
-
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Campus manager") {
+      window.location.href = "/";
+    }
+  }
 
 }

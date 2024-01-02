@@ -1,0 +1,39 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title List buildings with min and max floors
+
+actor "Campus Manager" as CM <<Human>>
+participant "View" as view <<component>>
+participant "ViewModel" as viewModel <<component>>
+participant "Service" as service <<component>>
+participant "HttpAdapter" as httpAdapter <<component>>
+
+activate CM
+CM -> view : Navigate to listBuildings page
+activate view
+view -> viewModel : Trigger list buildings with min and max floors
+
+activate viewModel
+viewModel -> service : Request to list buildings with min and max floors
+
+activate service
+service -> httpAdapter : Make HTTP Request
+httpAdapter ->> : HTTP Request (GET)
+httpAdapter <<-- : HTTP Response (200)
+activate httpAdapter
+httpAdapter --> service : Receive HTTP Response
+deactivate httpAdapter
+
+service --> viewModel : Receive HttpResponse
+deactivate service
+viewModel --> view : Receive List
+deactivate viewModel
+
+CM <-- view : Successfully response
+deactivate view
+deactivate service
+deactivate CM
+@enduml

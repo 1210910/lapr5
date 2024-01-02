@@ -5,31 +5,39 @@ skinparam packageStyle rect
 
 title Create a robot
 
-actor "Fleet Manager" as FM
-participant "Routing" as routing <<component>>
-participant "Component" as comp <<component>>
+actor "Fleet Manager" as FM <<Human>>
+participant "View" as view <<component>>
+participant "ViewModel" as viewModel <<component>>
 participant "Service" as service <<component>>
+participant "HttpAdapter" as httpAdapter <<component>>
 
-FM->> routing : wants to create a robot
+FM -> view : Wants to create a robot
 activate FM
-activate routing
-routing ->> comp : create robot
+activate view
+view --> FM : Display form for robot details
+FM -> view : Enters robot information
 
-activate comp
-comp ->> service : create robot
+view -> viewModel : Trigger create robot with provided information
+
+activate viewModel
+viewModel -> service : Request to create robot
 
 activate service
-service ->> : Http Request (POST)
-service <<-- : Http Response (201)
+service -> httpAdapter : Make HTTP Request
+activate httpAdapter
+httpAdapter ->> : HTTP Request (POST)
+httpAdapter <<-- : HTTP Response (201)
+httpAdapter --> service : Receive HTTP Response
+deactivate httpAdapter
 
-service -->> comp : success
+service -->> viewModel : Receive success response
 deactivate service
 
-comp -->> routing : success
-deactivate comp
+viewModel -->> view : Receive success response
+deactivate viewModel
 
-FM<<-- routing : success message
-deactivate routing
+view --> FM : Success message
+deactivate view
+
 deactivate FM
-
 @enduml

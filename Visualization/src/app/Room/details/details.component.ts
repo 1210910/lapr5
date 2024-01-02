@@ -48,6 +48,11 @@ export class RoomDetailsComponent {
   roomService = inject(RoomService);
   roomInfo: RoomInfo | undefined;
 
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Campus manager") {
+      window.location.href = "/";
+    }
+  }
 
   constructor() {
     const roomCode = this.route.snapshot.params['id'];

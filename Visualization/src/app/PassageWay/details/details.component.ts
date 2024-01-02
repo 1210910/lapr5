@@ -46,6 +46,12 @@ export class PassagewayDetailsComponent {
   passagewayService = inject(PassagewayService);
   passagewayInfo:  PassagewayInfo| undefined;
 
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Campus manager") {
+      window.location.href = "/";
+    }
+  }
+
   constructor() {
     const passagewayCode = this.route.snapshot.params['id'];
     this.passagewayInfo = this.passagewayService.getPassagewayByCode(passagewayCode);

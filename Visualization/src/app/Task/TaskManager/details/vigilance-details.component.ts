@@ -52,6 +52,12 @@ export class VigilanceDetailsComponent {
   taskService = inject(TaskService);
   VigilanceTaskInfo:  VigilanceTaskInfo| undefined;
 
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Task manager") {
+      window.location.href = "/";
+    }
+  }
+
   constructor() {
     const taskCode = this.route.snapshot.params['id'];
     this.VigilanceTaskInfo = this.taskService.getVigilanceById(taskCode);

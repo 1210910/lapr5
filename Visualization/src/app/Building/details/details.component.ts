@@ -47,6 +47,11 @@ export class BuildingDetailsComponent {
   buildingService = inject(BuildingService);
   building: BuildingInfo | undefined;
 
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Campus manager") {
+      window.location.href = "/";
+    }
+  }
 
   constructor() {
     const buildingCode = this.route.snapshot.params['id'];

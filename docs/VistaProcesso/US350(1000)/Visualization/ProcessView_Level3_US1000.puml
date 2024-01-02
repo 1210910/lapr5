@@ -1,0 +1,43 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title Create a robot type
+
+actor "Fleet Manager" as FM <<Human>>
+participant "View" as view <<component>>
+participant "ViewModel" as viewModel <<component>>
+participant "Service" as service <<component>>
+participant "HttpAdapter" as httpAdapter <<component>>
+
+activate FM
+FM -> view : Navigate to createFloor page
+activate view
+view --> FM : Display form for robot type details
+FM -> view : Enters robot type information
+
+view -> viewModel : Trigger create robot type with provided information
+
+activate viewModel
+viewModel -> service : Request to create a robot type
+
+activate service
+service -> httpAdapter : Make HTTP Request
+activate httpAdapter
+httpAdapter ->> : HTTP Request (POST)
+httpAdapter <<-- : HTTP Response (201)
+httpAdapter --> service : Receive HTTP Response
+deactivate httpAdapter
+
+service -->> viewModel : Receive success response
+deactivate service
+
+viewModel -->> view : Receive success response
+deactivate viewModel
+
+view --> FM : Successfully response
+deactivate view
+
+deactivate FM
+@enduml

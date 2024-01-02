@@ -5,32 +5,34 @@ skinparam packageStyle rect
 
 title List all floors with passageways of a building
 
-actor "Campus Manager" as CM
-participant "Routing" as routing <<component>>
-participant "Component" as comp <<component>>
+actor "Campus Manager" as CM <<Human>>
+participant "View" as view <<component>>
+participant "ViewModel" as viewModel <<component>>
 participant "Service" as service <<component>>
+participant "HttpAdapter" as httpAdapter <<component>>
 
-CM->> routing : wants to list all floors \nwith passageways of a building
+CM -> view : Wants to list all floors with passageways of a building
 activate CM
-activate routing
-routing ->> comp : list all floors with passageways of a building
+activate view
+view -> viewModel : Trigger list all floors with passageways
 
-activate comp
-comp ->> service : list all floors with passageways of a building
+activate viewModel
+viewModel -> service : Request to list all floors with passageways
 
 activate service
-service --> : HttpRequest
-service<<--  : HttpResponse
-comp <<-- service : HttpResponse
-comp ->> service: HttpResponse to list
-comp <<-- service : List
+service -> httpAdapter : Make HTTP Request
+activate httpAdapter
+httpAdapter ->> : HTTP Request (GET)
+httpAdapter <<-- : HTTP Response (200)
+httpAdapter --> service : Receive HTTP Response
+deactivate httpAdapter
+
+service --> viewModel : Receive HttpResponse
 deactivate service
+viewModel --> view : Receive List
+deactivate viewModel
 
-comp -->> routing : success
-deactivate comp
-
-CM<<-- routing : listed all floors \nwith passageways of a building
-deactivate routing
+CM <-- view : Listed all floors with passageways of a building
+deactivate view
 deactivate CM
-
 @enduml

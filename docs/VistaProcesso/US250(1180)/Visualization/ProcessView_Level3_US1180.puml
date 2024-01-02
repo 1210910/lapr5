@@ -5,31 +5,39 @@ skinparam packageStyle rect
 
 title Edit a passageway
 
-actor "Campus Manager" as CM
-participant "Routing" as routing <<component>>
-participant "Component" as comp <<component>>
+actor "Campus Manager" as CM <<Human>>
+participant "View" as view <<component>>
+participant "ViewModel" as viewModel <<component>>
 participant "Service" as service <<component>>
+participant "HttpAdapter" as httpAdapter <<component>>
 
-
-CM->> routing : wants to edit passageway
+CM -> view : Wants to edit passageway
 activate CM
-activate routing
-routing ->> comp : edit passageway
+activate view
+view --> CM : Display form for passageway details
+CM -> view : Enters passageway information
 
-activate comp
-comp ->> service : edit passageway
+view -> viewModel : Trigger edit passageway with provided information
 
-service ->> : Http request (PATCH)
-service <<-- : Http response (200)
+activate viewModel
+viewModel -> service : Request to edit passageway
 
-service -->> comp : success
+activate service
+service -> httpAdapter : Make HTTP Request
+activate httpAdapter
+httpAdapter ->> : HTTP Request (PATCH)
+httpAdapter <<-- : HTTP Response (200)
+httpAdapter --> service : Receive HTTP Response
+deactivate httpAdapter
+
+service -->> viewModel : Receive success response
 deactivate service
 
-comp -->> routing : success
-deactivate comp
+viewModel -->> view : Receive success response
+deactivate viewModel
 
-CM<<-- routing : success message
-deactivate routing
+view --> CM : Success message
+deactivate view
+
 deactivate CM
-
 @enduml

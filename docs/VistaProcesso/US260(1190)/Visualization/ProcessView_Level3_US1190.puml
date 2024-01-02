@@ -1,38 +1,39 @@
 @startuml Process View - Level 3 - List all passageways
-'https://plantuml.com/sequence-diagram
 
 autonumber
 skinparam packageStyle rect
 
 title List all passageways
 
-actor "Campus Manager" as CM
-participant "Routing" as routing <<component>>
-participant "Component" as comp <<component>>
+actor "Campus Manager" as CM <<Human>>
+participant "View" as view <<component>>
+participant "ViewModel" as viewModel <<component>>
 participant "Service" as service <<component>>
+participant "HttpAdapter" as httpAdapter <<component>>
 
-
-CM->> routing : wants to list all passageways
+CM -> view : Wants to list all passageways
 activate CM
-activate routing
-routing ->> comp : list all passageways
+activate view
+view -> viewModel : Trigger list all passageways
 
-activate comp
-comp ->> service : list all passageways
+activate viewModel
+viewModel -> service : Request to list all passageways
 
 activate service
-service --> : HttpRequest
-service<<--  : HttpResponse (GET)
-comp <<-- service : HttpResponse (200)
-comp ->> service: HttpResponse to list
-comp <<-- service : List
+service -> httpAdapter : Make HTTP Request
+activate httpAdapter
+httpAdapter ->> : HTTP Request (GET)
+httpAdapter <<-- : HTTP Response (200)
+httpAdapter --> service : Receive HTTP Response
+deactivate httpAdapter
+
+service --> viewModel : Receive HttpResponse
 deactivate service
+viewModel --> view : Receive List
+deactivate viewModel
 
-comp -->> routing : success
-deactivate comp
 
-CM<<-- routing : lists all passageways
-deactivate routing
+CM <-- view : Lists all passageways
+deactivate view
 deactivate CM
-
 @enduml

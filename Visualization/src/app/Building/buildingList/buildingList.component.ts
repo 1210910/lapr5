@@ -24,8 +24,9 @@ export class BuildingListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.buildingService.listAllBuildings().then((result) => {
-      
+    if (localStorage.getItem("role") !== "Campus manager") {
+      window.location.href = "/";
+    } else this.buildingService.listAllBuildings().then((result) => {
       this.buildingService.buildingList(result);
       this.buildingListInfo = this.buildingService.buildingListInfo;
     });

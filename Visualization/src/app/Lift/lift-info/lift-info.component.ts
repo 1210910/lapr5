@@ -25,6 +25,10 @@ export class LiftInfoComponent {
 
   @Input() liftInfo!: LiftInfo;
 
-
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Campus manager") {
+      window.location.href = "/";
+    }
+  }
 
 }

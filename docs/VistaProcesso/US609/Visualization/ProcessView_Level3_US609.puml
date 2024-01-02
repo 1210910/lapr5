@@ -1,0 +1,41 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title automatic path on visualisation page
+
+actor "Player" as FM
+participant "ThumbRaiser" as routing <<component>>
+participant "Maze" as comp <<component>>
+participant "User Interface" as UI <<component>>
+participant  "HTTP adapter" as http <<component>>
+
+
+
+activate FM
+FM->> UI : choose room to start and the room to go
+
+activate UI
+UI ->> http : get path
+activate http
+
+http ->> UI : path
+deactivate http
+
+UI ->> routing : show path
+deactivate UI
+activate routing
+routing ->> routing : checks if there is a existing path
+
+
+routing ->> routing : executes automatically the path
+
+
+
+
+
+FM<<-- routing : shows execution
+deactivate routing
+
+@enduml
