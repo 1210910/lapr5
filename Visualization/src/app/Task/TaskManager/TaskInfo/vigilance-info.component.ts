@@ -11,8 +11,8 @@ import { RouterLink } from '@angular/router';
   template: `
       <li style="--accent-color:#6F42C1">
           <div class="icon"><i class="fa fa-robot"></i></div>
-          <div class="title">{{ vigilanceTask.description }}</div>
-          <a [routerLink]="['/vigilancedetails', {'code': vigilanceTask.id}]">
+          <div class="title">{{ vigilanceTask.userFriendlyId }}</div>
+          <a [routerLink]="['/vigilancedetails', vigilanceTask.id]">
               <div class="descr">Learn More</div>
           </a>
       </li>

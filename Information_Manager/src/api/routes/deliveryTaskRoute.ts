@@ -18,10 +18,11 @@ export default (app: Router) => {
     const deliveryTaskController = Container.get(config.controllers.deliveryTask.name) as IDeliveryTaskController;
 
     route.post('',
+        middlewares.isAuth,
+        middlewares.userRole(UserRoles.USER),
         celebrate({
             body: Joi.object({
                 description: Joi.string().max(255).required(),
-                user: Joi.string().max(255).required(),
                 roomDest: Joi.string().max(255).required(),
                 roomOrig: Joi.string().max(255).required(),
                 destName : Joi.string().max(255).required(),

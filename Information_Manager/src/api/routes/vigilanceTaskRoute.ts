@@ -19,10 +19,11 @@ export default (app: Router) => {
     const vigilanceTaskController = Container.get(config.controllers.vigilanceTask.name) as IVigilanceTaskController;
 
     route.post('',
+        middlewares.isAuth,
+        middlewares.userRole(UserRoles.USER),
         celebrate({
             body: Joi.object({
                 description: Joi.string().max(255).required(),
-                user: Joi.string().max(255).required(),
                 roomDest: Joi.string().max(255).required(),
                 roomOrig: Joi.string().max(255).required(),
                 requestName : Joi.string().max(255).required(),

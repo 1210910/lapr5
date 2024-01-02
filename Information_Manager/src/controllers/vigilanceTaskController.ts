@@ -19,6 +19,9 @@ export default class VigilanceTaskController implements IVigilanceTaskController
 
     public async createVigilanceTask(req: Request, res: Response, next: NextFunction) {
         try {
+            //@ts-ignore
+            const email  = req.auth.email;
+            req.body.user= email;
             const vigilanceTaskOrError = await this.vigilanceTaskServiceInstance.createVigilanceTask(req.body as IVigilanceTaskDTO);
 
 

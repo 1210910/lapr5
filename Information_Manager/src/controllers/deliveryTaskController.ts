@@ -19,6 +19,9 @@ export default class DeliveryTaskController implements IDeliveryTaskController {
 
     public async createDeliveryTask(req: Request, res: Response, next: NextFunction) {
         try {
+            //@ts-ignore
+            const email  = req.auth.email;
+            req.body.user= email;
             const deliveryTaskOrError = await this.deliveryTaskServiceInstance.createDeliveryTask(req.body as IDeliveryTaskDTO);
 
             if (deliveryTaskOrError.isFailure) {

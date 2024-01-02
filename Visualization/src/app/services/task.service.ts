@@ -118,21 +118,89 @@ export class TaskService {
     });
   }
 
-  public createTask(roomCode: string, floor: string, description: string, width: number, length: number, roomType: string) {
+
+  public createVigilanceTask( origRoom: string, destRoom: string, requestName: string, requestNumber:string, description: string) {
 
     return new Promise((resolve, reject) => {
 
+      const token = localStorage.getItem("token");
+
+      // Verifique se o token existe
+      if (!token) {
+        console.error("Token not found. Cannot make the request.");
+        reject("Token not found");
+        return;
+      }else {
+        console.log("token: "+ token)
+      }
+
+
       const jsonMessage = JSON.stringify(
         {
-          roomCode: roomCode,
-          description: description,
-          width: width,
-          length: length,
-          roomType: roomType
+          roomOrig: origRoom,
+          roomDest: destRoom,
+          requestName: requestName,
+          requestNumber: requestNumber,
+          description:description
         });
       const httprequest = new XMLHttpRequest();
-      httprequest.open('POST', 'http://localhost:4000/api/room/' + floor , true);
+      httprequest.open('POST', 'http://localhost:4000/api/vigilanceTasks' , true);
       httprequest.setRequestHeader('Content-Type', 'application/json',);
+      httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
+      //let response;
+      httprequest.onload = function () {
+
+        if (httprequest.status === 201) {
+          console.log("Room created");
+          console.log(httprequest.response)
+          resolve(true);
+        } else {
+          console.log(httprequest.response);
+          const errorResponse = JSON.parse(httprequest.responseText);
+          //response = httprequest.status;
+          console.log(httprequest.responseText);
+          console.log("Room not created");
+          reject(errorResponse.error);
+        }
+      }
+      httprequest.send(jsonMessage);
+
+    });
+
+  }
+
+
+  public createDeliveryTask(origName: string, destName: string, origPhoneNumber: string, destPhoneNumber: string, origRoom: string, destRoom: string, description: string, confirmationCode: string) {
+
+    return new Promise((resolve, reject) => {
+
+      const token = localStorage.getItem("token");
+
+      // Verifique se o token existe
+      if (!token) {
+        console.error("Token not found. Cannot make the request.");
+        reject("Token not found");
+        return;
+      }else {
+        console.log("token: "+ token)
+      }
+
+
+      const jsonMessage = JSON.stringify(
+        {
+          origName: origName,
+          destName: destName,
+          origPhoneNumber: origPhoneNumber,
+          destPhoneNumber: destPhoneNumber,
+          roomOrig: origRoom,
+          roomDest: destRoom,
+          confirmationCode: confirmationCode,
+          description: description
+        });
+      const httprequest = new XMLHttpRequest();
+      httprequest.open('POST', 'http://localhost:4000/api/deliveryTasks' , true);
+      httprequest.setRequestHeader('Content-Type', 'application/json',);
+      httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
       //let response;
       httprequest.onload = function () {
 

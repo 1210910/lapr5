@@ -64,7 +64,7 @@ nav {
   padding: 25px 40px 10px 40px;
   box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
 }
-.container .text{
+.container .text {
     text-align: center;
     font-size: 41px;
     font-weight: 600;
@@ -72,22 +72,40 @@ nav {
     background: -webkit-linear-gradient(right, #8254ff, #9f01ea, #8254ff, #9f01ea);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    margin-bottom: 20px; /* Ajuste para dar espaço entre o texto e o formulário */
 }
-.container form{
+
+.container form {
     padding: 30px 0 0 0;
 }
-.container form .form-row{
-    display: flex;
+
+.container form .form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(48%, 1fr)); /* Alteração para exibir 2 colunas e ajuste do tamanho */
+    gap: 10px;
     margin: 32px 0;
 }
-form .form-row .input-data{
+
+
+.form-row .input-data {
     width: 100%;
-    height: 40px;
-    margin: 0 20px;
+    margin: 0 0 40px 0; /* Aumentando a margem inferior */
     position: relative;
 }
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
 form .form-row .textarea{
     height: 70px;
+}
+.input-data {
+    flex: 0 0 48%;
+    margin-bottom: 20px;
+    position: relative;
 }
 .input-data input,
 .textarea textarea{
@@ -108,7 +126,7 @@ form .form-row .textarea{
     resize: none;
     padding-top: 10px;
 }
-.input-data label{
+.input-data label {
     position: absolute;
     pointer-events: none;
     bottom: 10px;
@@ -139,7 +157,7 @@ form .form-row .textarea{
     height: 2px;
     width: 100%;
 }
-.input-data .underline:before{
+.input-data .underline:before {
     position: absolute;
     content: "";
     height: 2px;
@@ -288,33 +306,26 @@ a {
 
  /* Hide the default dropdown arrow */
  .select-container select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg fill="%238254ff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polygon points="12 18.35 7.07 13.41 8.5 12 12 15.5 15.5 12 16.93 13.41 12 18.35"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 8px top 50%;
-    padding-right: 30px;
-    text-align: center; /* Center the selected text */
-  }
+    width: 100%;
+    padding: 10px; /* Ajuste conforme necessário */
+    font-size: 16px;
+    height: 48px; /* Ajuste a altura conforme necessário */
+}
 
-
-  /* Add styles for the label */
   .select-container label {
     position: absolute;
-    top: -22px; /* Adjust the top position as needed */
+    top: -22px;
     font-size: 16px;
     color: #1a0555;
     transition: all 0.3s ease;
-  }
+}
 
-  /* Adjust styles for the underline */
-  .select-container .underline {
+.select-container .underline {
     position: absolute;
     bottom: 0;
     height: 2px;
     width: 100%;
-  }
+}
 
   .select-container .underline:before {
     position: absolute;
@@ -334,3 +345,52 @@ a {
 .select-container select::-ms-expand {
     display: none;
   }
+
+  form .form-row .textarea{
+    height: 70px;
+}
+.input-data input,
+.textarea textarea{
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: none;
+    font-size: 17px;
+    border-bottom: 2px solid rgba(0,0,0, 0.12);
+  background: transparent;
+}
+.input-data input:focus ~ label, .textarea textarea:focus ~ label{
+    transform: translateY(-20px);
+    font-size: 14px;
+    color: #8254ff;
+}
+.textarea textarea{
+    resize: none;
+    padding-top: 10px;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Para alinhar os itens ao topo */
+}
+
+.half-width {
+    width: 50%;
+}
+
+.form-row-left {
+    flex: 0 0 48%;
+}
+
+.form-row-right {
+    flex: 0 0 48%;
+}
+
+.input-data {
+    width: 100%;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+
