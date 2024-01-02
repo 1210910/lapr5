@@ -173,13 +173,15 @@ export class OrderPathComponent {
                   finalString += `${robotId}: [${response[robotId].join(', ')}]\n`;
               }
           }
+          document.getElementsByTagName("textarea")[0].value = finalString;
+
           let i = 0;
           for (const robotId in response) {
               for (const code of response[robotId]) {
                   for (const task of tasksToCheck) {
 
                       if (task.description == code) {
-                          console.log(task.id);
+                          console.log(task.description);
                           if (i == 0) {
                               await this.taskService.startVigilanceTask(task.id);
                           }else if (i == 1){
@@ -191,10 +193,6 @@ export class OrderPathComponent {
               }
             i++;
           }
-
-
-
-        document.getElementsByTagName("textarea")[0].value = finalString;
 
 
       } else {
