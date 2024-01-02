@@ -37,19 +37,19 @@ deactivate view
 deactivate FM
 
 
-activate FM
-FM -> view : Navigate to ListTasks page
+
+FM -> view : Select to ListTasks page
 activate view
-view -> viewModel : Trigger list tasks
+view -> viewModel : Trigger approve/reject task
 
 activate viewModel
-viewModel -> service : Request to list all tasks with pending state
+viewModel -> service :  Trigger approve/reject task
 
 activate service
 service -> httpAdapter : Make HTTP Request
 activate httpAdapter
-httpAdapter ->> : HTTP Request (GET)
-httpAdapter <<-- : HTTP Response (200)
+httpAdapter ->> : HTTP Request (POST)
+httpAdapter <<-- : HTTP Response (201)
 httpAdapter --> service : Receive HTTP Response
 deactivate httpAdapter
 

@@ -3,31 +3,33 @@
 autonumber
 skinparam packageStyle rect
 
-title Edit my data (utente)
+title Create a user account (user)
 
-actor "New User" as NU
+actor " User" as NU
 participant "View" as view <<component>>
 participant "ViewModel" as viewModel <<component>>
 participant "Service" as service <<component>>
 participant "HttpAdapter" as httpAdapter <<component>>
 
 activate NU
-NU-> view : Navigate to sign page
+NU-> view : Navigate to task request page
 activate view
-view -> viewModel : Trigger edit request
+
+NU -> view : Enters VigilanceRequest task information
+view -> viewModel : Trigger create VigilanceRequest task informatio
 activate viewModel
-viewModel -> service : Request to edit
+viewModel -> service : Request to create vigilanceTask
 activate service
 service -> httpAdapter : Make HTTP Request
 activate httpAdapter
-httpAdapter ->> : HTTP Request (PATCH)
-httpAdapter <<-- : HTTP Response (204)
+httpAdapter ->> : HTTP Request (POST)
+httpAdapter <<-- : HTTP Response (201)
 httpAdapter --> service : Receive HTTP Response
 deactivate httpAdapter
 service --> viewModel : Receive success response
 deactivate service
 viewModel --> view : Receive success response
 deactivate viewModel
-view --> NU : Successfully edited user
+view --> NU : Successfully created user
 deactivate view
 @enduml

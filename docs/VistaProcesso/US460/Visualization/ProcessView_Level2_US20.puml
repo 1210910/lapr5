@@ -4,13 +4,13 @@
 autonumber
 skinparam packageStyle rect
 
-title Edit my data (utente)
+title Create a task request
 
 actor "User" as NU
 participant "Visualization" as MD <<Component>>
 
 activate NU
-NU->> MD : Navigate to sign up page
+NU->> MD : Navigate to task request page
 
 activate MD
 NU<<--MD : Successfully response

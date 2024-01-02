@@ -3,7 +3,7 @@
 autonumber
 skinparam packageStyle rect
 
-title Filter tasks by state, user, type
+title List Pending tasks
 
 actor "Task Manager" as FM <<Human>>
 participant "View" as view <<component>>
@@ -12,12 +12,12 @@ participant "Service" as service <<component>>
 participant "HttpAdapter" as httpAdapter <<component>>
 
 activate FM
-FM -> view : Navigate to ListAllTasks page
+FM -> view : Navigate to ListTasks page
 activate view
-view -> viewModel : Trigger list all tasks
+view -> viewModel : Trigger list tasks
 
 activate viewModel
-viewModel -> service : Request to list all tasks with filtered data
+viewModel -> service : Request to list all tasks with pending state
 
 activate service
 service -> httpAdapter : Make HTTP Request

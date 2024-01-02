@@ -3,47 +3,35 @@
 autonumber
 skinparam packageStyle rect
 
-title Edit my data (utente)
+title Create request
 
 participant "Routing" as routing <<component>>
 participant "Controller" as controller <<component>>
 participant "Service" as service <<component>>
-participant "User Repository" as userrepo <<component>>
-participant "User" as user <<component>>
+participant "Vigilance Task Repository" as userrepo <<component>>
+participant "Vigilance TaskRequest" as user <<component>>
 participant "Map" as map <<component>>
 participant "DTO" as dto <<component>>
 database "Database" as db <<component>>
 
-?o->> routing : PATCH
+?o->> routing : POST
 activate routing
-routing ->> controller : edit a user data
+routing ->> controller : create a task request
 
 activate controller
-controller ->> service : edit a user data
+controller ->> service : create a task request
 
-activate service
-service ->> userrepo : getUserByEmail
-
-activate userrepo
-userrepo ->> db : select email
-activate db
-db -->> userrepo : email
-deactivate db
-
-userrepo -->> service : email found
-deactivate userrepo
-
-
-service ->> user** : edit
+service ->> user** : create
 activate user
 
 user -->> user: verifies
 
-user -->> service : edited
+user -->> service : created
+
 deactivate user
 
 service ->> userrepo : save
-userrepo ->> db : insert user
+userrepo ->> db : insert task
 activate db
 db -->> userrepo : success
 deactivate db
@@ -69,7 +57,7 @@ deactivate service
 controller -->> routing : success
 deactivate controller
 
-?o<<-- routing : 204 Edited
+?o<<-- routing : 201 Created
 deactivate routing
 
 @enduml

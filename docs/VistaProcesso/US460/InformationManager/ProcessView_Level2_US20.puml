@@ -4,13 +4,16 @@
 autonumber
 skinparam packageStyle rect
 
-title Filter tasks by state, user, type
+title Create request
 
 participant "Information Manager" as MD <<Component>>
 
-?o->> MD : GET
+?o->> MD : POST
 
 activate MD
-?o<<--- MD : 200 OK
+?o<<--MD : 201 Created
+
 deactivate MD
+
+
 @enduml

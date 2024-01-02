@@ -4,13 +4,13 @@
 autonumber
 skinparam packageStyle rect
 
-title List all robots of the fleet
+title Filter tasks by state, user, type
 
-actor "Fleet Manager" as FM
+actor "Task Manager" as FM
 participant "Visualization" as MD <<Component>>
 
 activate FM
-FM->> MD : Navigate to ListAllRobots page
+FM->> MD : Navigate to ActionRequest page
 
 activate MD
 FM<<--- MD : Successfully response

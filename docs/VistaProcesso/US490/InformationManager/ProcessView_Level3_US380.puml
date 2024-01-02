@@ -8,28 +8,28 @@ title list all robot of the fleet
 participant "Routing" as routing <<component>>
 participant "Controller" as controller <<component>>
 participant "Service" as service <<component>>
-participant "Robot Repository" as robotrepo <<component>>
+participant "Task Repository" as robotrepo <<component>>
 participant "Map" as map <<component>>
 participant "DTO" as dto <<component>>
 database "Database" as db <<component>>
 
 ?o->> routing : GET
 activate routing
-routing ->> controller : list robot
+routing ->> controller : list tasks with filter
 
 activate controller
-controller ->> service : list robot
+controller ->> service : list tasks with filter
 
 activate service
-service ->> robotrepo : get list of robots
+service ->> robotrepo : get list of tasks with filter
 
 activate robotrepo
-robotrepo ->> db : select robots
+robotrepo ->> db : select tasks with filter
 activate db
 db -->> robotrepo : list
 deactivate db
 
-robotrepo -->> service : list of robots
+robotrepo -->> service : list of tasks
 deactivate robotrepo
 
 service ->> map : convert to DTO List

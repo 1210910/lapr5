@@ -3,21 +3,21 @@
 autonumber
 skinparam packageStyle rect
 
-title list all robots of the fleet
+title Filter tasks by state, user, type
 
-actor "Fleet Manager" as FM <<Human>>
+actor "Task Manager" as FM <<Human>>
 participant "View" as view <<component>>
 participant "ViewModel" as viewModel <<component>>
 participant "Service" as service <<component>>
 participant "HttpAdapter" as httpAdapter <<component>>
 
 activate FM
-FM -> view : Navigate to ListAllRobots page
+FM -> view : Navigate to ListAllTasks page
 activate view
-view -> viewModel : Trigger list all robots of the fleet
+view -> viewModel : Trigger list all tasks
 
 activate viewModel
-viewModel -> service : Request to list all robots of the fleet
+viewModel -> service : Request to list all tasks with filtered data
 
 activate service
 service -> httpAdapter : Make HTTP Request

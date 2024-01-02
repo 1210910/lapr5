@@ -3,7 +3,7 @@
 autonumber
 skinparam packageStyle rect
 
-title List Pending tasks
+title Aprove/reject task
 
 participant "Routing" as routing <<component>>
 participant "Controller" as controller <<component>>
@@ -32,7 +32,7 @@ deactivate db
 robotrepo -->> service : list of tasks
 deactivate robotrepo
 
-service ->> map : convert to DTO List
+service ->> map : approve/reject
 activate map
 
 map -->> dto** : convert
@@ -51,6 +51,49 @@ controller -->> routing : success
 deactivate controller
 
 ?o<<-- routing : 200 OK
+deactivate routing
+
+?o->> routing : POST
+activate routing
+routing ->> controller : received task to aprove or reject
+
+activate controller
+controller ->> service :  received task to aprove or reject
+
+activate service
+service ->> robotrepo :  find task by id
+
+activate robotrepo
+robotrepo ->> db : select task
+activate db
+db -->> robotrepo : task
+deactivate db
+
+robotrepo -->> service : task
+deactivate robotrepo
+
+service ->> TaskRequest**: Change state
+
+service ->> Task**:create
+service ->> map : convert to DTO
+activate map
+
+map -->> dto** : convert
+activate dto
+
+dto -->> map : dto
+deactivate dto
+
+map -->> service : dto
+deactivate map
+
+service -->> controller : success
+deactivate service
+
+controller -->> routing : success
+deactivate controller
+
+?o<<-- routing : 201 Created
 deactivate routing
 
 @enduml
