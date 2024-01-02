@@ -5,7 +5,7 @@ skinparam packageStyle rect
 
 title Create a FloorMap
 
-actor "Campus Manager" as CM
+actor "Campus Manager" as CM <<Human>>
 participant "View" as view <<component>>
 participant "ViewModel" as viewModel <<component>>
 participant "Service" as service <<component>>
@@ -14,7 +14,10 @@ participant "HttpAdapter" as httpAdapter <<component>>
 activate CM
 CM -> view : Navigate to FloorMap page
 activate view
-view -> viewModel : Trigger create FloorMap
+view --> CM : Display form for floor map details
+CM -> view : Enters floor map information
+
+view -> viewModel : Trigger create floor map with provided information
 
 activate viewModel
 viewModel -> service : Request to create FloorMap
@@ -22,7 +25,9 @@ viewModel -> service : Request to create FloorMap
 activate service
 service -> httpAdapter : Make HTTP Request
 activate httpAdapter
-httpAdapter --> service : HTTP Response
+httpAdapter ->> : HTTP Request (POST)
+httpAdapter <<-- : HTTP Response (201)
+httpAdapter --> service : Receive HTTP Response
 deactivate httpAdapter
 
 service --> viewModel : Receive success response

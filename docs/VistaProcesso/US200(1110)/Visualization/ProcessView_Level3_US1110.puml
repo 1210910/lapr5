@@ -5,7 +5,7 @@ skinparam packageStyle rect
 
 title Edit a floor
 
-actor "Campus Manager" as CM
+actor "Campus Manager" as CM <<Human>>
 participant "View" as view <<component>>
 participant "ViewModel" as viewModel <<component>>
 participant "Service" as service <<component>>
@@ -14,7 +14,11 @@ participant "HttpAdapter" as httpAdapter <<component>>
 activate CM
 CM -> view : Navigate to editFloor page
 activate view
-view -> viewModel : Trigger edit floor
+view --> CM : Display form for floor details
+CM -> view : Enters floor information
+
+view -> viewModel : Trigger edit floor with provided information
+
 
 activate viewModel
 viewModel -> service : Request to edit floor
@@ -22,7 +26,9 @@ viewModel -> service : Request to edit floor
 activate service
 service -> httpAdapter : Make HTTP Request
 activate httpAdapter
-httpAdapter --> service : HTTP Response
+httpAdapter ->> : HTTP Request (PATCH)
+httpAdapter <<-- : HTTP Response (200)
+httpAdapter --> service : Receive HTTP Response
 deactivate httpAdapter
 
 service --> viewModel : Receive success response

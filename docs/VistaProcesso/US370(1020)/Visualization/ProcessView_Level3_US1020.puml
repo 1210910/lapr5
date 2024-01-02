@@ -5,7 +5,7 @@ skinparam packageStyle rect
 
 title Inhibit a robot
 
-actor "Campus Manager" as CM
+actor "Campus Manager" as CM <<Human>>
 participant "View" as view <<component>>
 participant "ViewModel" as viewModel <<component>>
 participant "Service" as service <<component>>
@@ -20,9 +20,11 @@ activate viewModel
 viewModel -> service : Request to inhibit a robot
 
 activate service
-service -> httpAdapter : HTTP Request
+service -> httpAdapter : Make HTTP Request
 activate httpAdapter
-httpAdapter --> service : HTTP Response
+httpAdapter ->> : HTTP Request (PATCH)
+httpAdapter <<-- : HTTP Response (200)
+httpAdapter --> service : Receive HTTP Response
 deactivate httpAdapter
 
 service -->> viewModel : Receive success response

@@ -14,15 +14,20 @@ participant "HttpAdapter" as httpAdapter <<component>>
 CM -> view : Wants to edit passageway
 activate CM
 activate view
-view -> viewModel : Trigger edit passageway
+view --> CM : Display form for passageway details
+CM -> view : Enters passageway information
+
+view -> viewModel : Trigger edit passageway with provided information
 
 activate viewModel
 viewModel -> service : Request to edit passageway
 
 activate service
-service -> httpAdapter : HTTP Request (PATCH)
+service -> httpAdapter : Make HTTP Request
 activate httpAdapter
-httpAdapter --> service : HTTP Response (200)
+httpAdapter ->> : HTTP Request (PATCH)
+httpAdapter <<-- : HTTP Response (200)
+httpAdapter --> service : Receive HTTP Response
 deactivate httpAdapter
 
 service -->> viewModel : Receive success response

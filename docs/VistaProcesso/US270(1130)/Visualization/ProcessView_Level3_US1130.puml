@@ -5,7 +5,7 @@ skinparam packageStyle rect
 
 title Create a lift
 
-actor "Campus Manager" as CM
+actor "Campus Manager" as CM <<Human>>
 participant "View" as view <<component>>
 participant "ViewModel" as viewModel <<component>>
 participant "Service" as service <<component>>
@@ -14,15 +14,20 @@ participant "HttpAdapter" as httpAdapter <<component>>
 CM -> view : Navigate to CreateLift
 activate CM
 activate view
-view -> viewModel : Trigger create lift
+view --> CM : Display form for lift details
+CM -> view : Enters lift information
+
+view -> viewModel : Trigger create lift with provided information
 
 activate viewModel
 viewModel -> service : Request to create lift
 
 activate service
-service -> httpAdapter : HTTP Request
+service -> httpAdapter : Make HTTP Request
 activate httpAdapter
-httpAdapter --> service : HTTP Response
+httpAdapter ->> : HTTP Request (POST)
+httpAdapter <<-- : HTTP Response (201)
+httpAdapter --> service : Receive HTTP Response
 deactivate httpAdapter
 
 service --> viewModel : Receive success response

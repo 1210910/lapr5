@@ -4,7 +4,7 @@ autonumber
 skinparam packageStyle rect
 
 title Create a building
-actor "Campus Manager" as CM
+actor "Campus Manager" as CM <<Human>>
 participant "View" as view <<component>>
 participant "ViewModel" as viewModel <<component>>
 participant "Service" as service <<component>>
@@ -13,7 +13,10 @@ participant "HttpAdapter" as httpAdapter <<component>>
 activate CM
 CM -> view : Navigate to CreateBuilding
 activate view
-view -> viewModel : Trigger create building
+view --> CM : Display form for building details
+CM -> view : Enters building information
+
+view -> viewModel : Trigger create building with provided information
 
 activate viewModel
 viewModel -> service : Request to create building
@@ -21,7 +24,9 @@ viewModel -> service : Request to create building
 activate service
 service -> httpAdapter : Make HTTP Request
 activate httpAdapter
-httpAdapter --> service : HTTP Response
+httpAdapter ->> : HTTP Request (POST)
+httpAdapter <<-- : HTTP Response (201)
+httpAdapter --> service : Receive HTTP Response
 deactivate httpAdapter
 
 service --> viewModel : Receive success response

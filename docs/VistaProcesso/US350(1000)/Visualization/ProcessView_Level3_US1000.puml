@@ -14,15 +14,20 @@ participant "HttpAdapter" as httpAdapter <<component>>
 activate FM
 FM -> view : Navigate to createFloor page
 activate view
-view -> viewModel : Trigger create a robot type
+view --> FM : Display form for robot type details
+FM -> view : Enters robot type information
+
+view -> viewModel : Trigger create robot type with provided information
 
 activate viewModel
 viewModel -> service : Request to create a robot type
 
 activate service
-service -> httpAdapter : HTTP Request
+service -> httpAdapter : Make HTTP Request
 activate httpAdapter
-httpAdapter --> service : HTTP Response
+httpAdapter ->> : HTTP Request (POST)
+httpAdapter <<-- : HTTP Response (201)
+httpAdapter --> service : Receive HTTP Response
 deactivate httpAdapter
 
 service -->> viewModel : Receive success response

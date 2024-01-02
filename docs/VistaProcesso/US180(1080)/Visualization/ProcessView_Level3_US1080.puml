@@ -5,7 +5,7 @@ skinparam packageStyle rect
 
 title List buildings with min and max floors
 
-actor "Campus Manager" as CM
+actor "Campus Manager" as CM <<Human>>
 participant "View" as view <<component>>
 participant "ViewModel" as viewModel <<component>>
 participant "Service" as service <<component>>
@@ -21,8 +21,10 @@ viewModel -> service : Request to list buildings with min and max floors
 
 activate service
 service -> httpAdapter : Make HTTP Request
+httpAdapter ->> : HTTP Request (GET)
+httpAdapter <<-- : HTTP Response (200)
 activate httpAdapter
-httpAdapter --> service : HTTP Response
+httpAdapter --> service : Receive HTTP Response
 deactivate httpAdapter
 
 service --> viewModel : Receive HttpResponse
