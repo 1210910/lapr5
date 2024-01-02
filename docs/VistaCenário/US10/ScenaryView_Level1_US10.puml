@@ -1,0 +1,9 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+left to right direction
+"Administrador" as nobody
+
+nobody --> (Como administrador pretendo criar um utilizador de sistema indicando as suas permissões	)
+
+@enduml

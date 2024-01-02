@@ -1,0 +1,9 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+left to right direction
+" Gestor de Tarefas" as nobody
+
+nobody --> (Como gestor de tarefas pretendo pesquisar as requisições de tarefas por estado, por tipo de dispositivo, ou utente	)
+
+@enduml

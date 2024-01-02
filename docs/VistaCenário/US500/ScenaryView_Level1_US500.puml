@@ -1,0 +1,9 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+left to right direction
+" Gestor de Tarefas" as nobody
+
+nobody --> (Como gestor de tarefas pretendo obter a sequencia de execução das tarefas aprovadas)
+
+@enduml
