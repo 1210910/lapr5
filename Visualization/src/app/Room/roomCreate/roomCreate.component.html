@@ -1,0 +1,73 @@
+<section>
+    <header class="brand-name">
+
+        <nav>
+            <ul class="menuItems">
+                <li><a [routerLink]="['/room']">
+                    <img class="brand-logo" src="/assets/logoRooms.svg" alt="logo" aria-hidden="true">
+                </a></li>
+            </ul>
+        </nav>
+    </header>
+
+</section>
+<section class="container-body">
+    <div class="container">
+        <div class="text">
+            Insert Data
+        </div>
+        <form action="#">
+            <div class="form-row">
+                <div class="input-data">
+                    <input type="text" required>
+                    <div class="underline"></div>
+                    <label for="">Room Code</label>
+                </div>
+                <div class="input-data select-container">
+                    <label for="selectedFloor">Floor Code for Room</label>
+                    <select [(ngModel)]="selectedFloor" name="selectedFloor" id="selectedFloor">
+                        <option value="" disabled>Select a passageway</option>
+                        <option *ngFor="let floor of this.floors" [ngValue]="floor">{{ floor.floorCode }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-data">
+                    <input type="text" required>
+                    <div class="underline"></div>
+                    <label for="">Length</label>
+                </div>
+                <div class="input-data">
+                    <input type="text" required>
+                    <div class="underline"></div>
+                    <label for="">Width</label>
+                </div>
+              </div>
+                <div class="form-row">
+                <label for="roomtype">Choose a room type:</label>
+                    <select id="roomtype">
+                        <option value= "office">Office</option>
+                        <option value="amphitheater">Amphitheater</option>
+                        <option value="laboratory">Laboratory</option>
+                        <option value="classroom">Classroom</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            <div class="form-row">
+                <div class="input-data textarea">
+                    <textarea rows="8" cols="80" required></textarea>
+                    <br />
+                    <div class="underline"></div>
+                    <label for="">Description</label>
+                    <br />
+                    <div class="form-row submit-btn">
+                        <div class="input-data">
+                            <div class="inner"></div>
+                            <a [routerLink]="['/room']"><input type="submit" value="submit" (click)="createRoom()" data-cy="roomCreateButton" > </a>
+                        </div>
+                    </div>
+                  </div>
+              </div>
+        </form>
+    </div>
+    </section>
