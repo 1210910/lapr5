@@ -1669,8 +1669,7 @@ export default class ThumbRaiser {
         //console.log(this.player.position.y);
         if (currentStep >= path.length) {
             //console.log("End of path reached");
-            this.userInterface.submitedPath= false;
-            this.isMoving = false;
+
 
             return;
         }
