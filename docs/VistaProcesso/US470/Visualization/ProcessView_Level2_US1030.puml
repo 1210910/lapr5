@@ -1,0 +1,22 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title approve/reject task
+
+actor "Task Manager" as FM
+participant "Visualization" as MD <<Component>>
+
+activate FM
+FM->> MD : Navigate to ListTask page
+activate MD
+FM<<--- MD : Successfully response
+FM->> MD : Select task to approve/reject
+FM<<--- MD : Successfully response
+
+
+
+deactivate MD
+@enduml

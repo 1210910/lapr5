@@ -1,4 +1,4 @@
-import { Service, Inject } from 'typedi';
+import {Service, Inject, Container} from 'typedi';
 import config from "../../config";
 
 import {IDeliveryTaskDTO} from "../dto/IDeliveryTaskDTO";
@@ -11,6 +11,7 @@ import IVigilanceTaskService from "./IServices/IVigilanceTaskService";
 import {IVigilanceTaskDTO} from "../dto/IVigilanceTaskDTO";
 import * as https from "https";
 import {ITaskDTO} from "../dto/ITaskDTO";
+import AuthService from "./userService";
 
 
 
@@ -27,6 +28,12 @@ export default class VigilanceTaskService implements IVigilanceTaskService{
 
     public async createVigilanceTask(deliveryTaskDTO: IVigilanceTaskDTO): Promise<Result<IVigilanceTaskDTO>> {
         try {
+            const authServiceInstance = Container.get(AuthService);
+
+            const userOrError = await authServiceInstance.profile(deliveryTaskDTO.user);
+            const user = userOrError.getValue();
+            const name = user.firstName + " " + user.lastName;
+
             const agent = new https.Agent({
                 rejectUnauthorized: false
             });
@@ -39,8 +46,8 @@ export default class VigilanceTaskService implements IVigilanceTaskService{
                 RoomDest : deliveryTaskDTO.roomDest,
                 RoomOrig : deliveryTaskDTO.roomOrig,
                 State: "",
-                RequestName: deliveryTaskDTO.requestName,
-                RequestNumber: deliveryTaskDTO.requestNumber,
+                RequestName: name,
+                RequestNumber: user.phone,
             }, { httpsAgent: agent });
             return Result.ok<IVigilanceTaskDTO>(response.data);
 

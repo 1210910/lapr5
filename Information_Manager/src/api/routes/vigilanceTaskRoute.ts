@@ -26,8 +26,6 @@ export default (app: Router) => {
                 description: Joi.string().max(255).required(),
                 roomDest: Joi.string().max(255).required(),
                 roomOrig: Joi.string().max(255).required(),
-                requestName : Joi.string().max(255).required(),
-                requestNumber : Joi.string().max(255).required(),
             }),
         }),
         (req, res, next) => vigilanceTaskController.createVigilanceTask(req, res, next));

@@ -119,7 +119,7 @@ export class TaskService {
   }
 
 
-  public createVigilanceTask( origRoom: string, destRoom: string, requestName: string, requestNumber:string, description: string) {
+  public createVigilanceTask( origRoom: string, destRoom: string, description: string) {
 
     return new Promise((resolve, reject) => {
 
@@ -139,8 +139,6 @@ export class TaskService {
         {
           roomOrig: origRoom,
           roomDest: destRoom,
-          requestName: requestName,
-          requestNumber: requestNumber,
           description:description
         });
       const httprequest = new XMLHttpRequest();

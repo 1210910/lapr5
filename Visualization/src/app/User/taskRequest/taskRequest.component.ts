@@ -40,16 +40,14 @@ export class TaskRequestComponent {
 
         const origRoom = document.getElementsByTagName("input")[0].value;
         const destRoom = document.getElementsByTagName("input")[1].value;
-        const requestName = document.getElementsByTagName("input")[2].value;
-        const requestNumber = document.getElementsByTagName("input")[3].value;
         const description = document.getElementsByTagName("textarea")[0].value;
 
-        if (origRoom == "" || destRoom == "" || description == "" || requestName == "" || requestNumber == "") {
+        if (origRoom == "" || destRoom == "" || description == "") {
             alert("Please fill in all fields");
             return;
         }
         try {
-            const result = await this.taskService.createVigilanceTask(origRoom, destRoom, requestName, requestNumber, description) as VigilanceTaskInfo;
+            const result = await this.taskService.createVigilanceTask(origRoom, destRoom, description) as VigilanceTaskInfo;
             console.log("Result:", result);
             if (result) {
                 alert("Task request created successfully with id: " + result.userFriendlyId);

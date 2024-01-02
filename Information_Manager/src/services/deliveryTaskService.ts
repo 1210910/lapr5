@@ -1,4 +1,4 @@
-import { Service, Inject } from 'typedi';
+import {Service, Inject, Container} from 'typedi';
 import config from "../../config";
 
 import {IDeliveryTaskDTO} from "../dto/IDeliveryTaskDTO";
@@ -9,6 +9,8 @@ import IRobotTypeRepo from "./IRepos/IRobotTypeRepo";
 import axios from 'axios';
 import * as https from "https";
 import {ITaskDTO} from "../dto/ITaskDTO";
+import AuthService from '../services/userService';
+import {IUserDTO} from "../dto/IUserDTO";
 
 
 
@@ -26,7 +28,12 @@ export default class DeliveryTaskService implements IDeliveryTaskService{
 
   public async createDeliveryTask(deliveryTaskDTO: IDeliveryTaskDTO): Promise<Result<IDeliveryTaskDTO>> {
     try {
-            
+        const authServiceInstance = Container.get(AuthService);
+
+        const userOrError = await authServiceInstance.profile(deliveryTaskDTO.user);
+        const user = userOrError.getValue();
+        const name = user.firstName + " " + user.lastName;
+
         const agent = new https.Agent({
             rejectUnauthorized: false, // This line makes Axios accept self-signed certificates
         });
@@ -38,9 +45,9 @@ export default class DeliveryTaskService implements IDeliveryTaskService{
             RoomOrig : deliveryTaskDTO.roomOrig,
             State: "",
             DestName: deliveryTaskDTO.destName,
-            OrigName:deliveryTaskDTO.origName,
+            OrigName:name,
             DestPhoneNumber:deliveryTaskDTO.destPhoneNumber,
-            OrigPhoneNumber:deliveryTaskDTO.origPhoneNumber,
+            OrigPhoneNumber:user.phone.toString(),
             confirmationCode:deliveryTaskDTO.confirmationCode
         }, { httpsAgent: agent });
         return Result.ok<IDeliveryTaskDTO>(response.data);

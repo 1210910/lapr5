@@ -1,0 +1,38 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title Filter tasks by state, user, type
+
+actor "Task Manager" as FM <<Human>>
+participant "View" as view <<component>>
+participant "ViewModel" as viewModel <<component>>
+participant "Service" as service <<component>>
+participant "HttpAdapter" as httpAdapter <<component>>
+
+activate FM
+FM -> view : Navigate to ListAllTasks page
+activate view
+view -> viewModel : Trigger list all tasks
+
+activate viewModel
+viewModel -> service : Request to list all tasks with filtered data
+
+activate service
+service -> httpAdapter : Make HTTP Request
+activate httpAdapter
+httpAdapter ->> : HTTP Request (GET)
+httpAdapter <<-- : HTTP Response (200)
+httpAdapter --> service : Receive HTTP Response
+deactivate httpAdapter
+
+service --> viewModel : Receive HttpResponse
+deactivate service
+viewModel --> view : Receive List
+deactivate viewModel
+
+FM <-- view : Successfully response
+deactivate view
+deactivate FM
+@enduml
