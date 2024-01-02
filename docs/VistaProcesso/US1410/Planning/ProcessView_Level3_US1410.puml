@@ -1,0 +1,73 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title order path
+
+participant "Routing" as routing <<component>>
+participant "Controller" as controller <<component>>
+participant "Service" as service <<component>>
+database "Database" as db <<component>>
+
+?o->> routing : GET
+activate routing
+routing ->> controller : order path
+
+activate controller
+
+controller ->> service : load rooms of map
+
+activate service
+service ->> db : get list of maps
+
+activate db
+db -->> service : list
+deactivate db
+
+service -->> controller : success
+deactivate service
+
+controller -->> service : set rooms of origin and destination
+activate service
+service -->> controller : success
+deactivate service
+
+controller -->> service : load facts
+
+activate service
+service -->> controller : success
+deactivate service
+
+controller ->> controller : get path cost
+
+controller -->> service : get all floors used
+activate service
+service -->> controller : all floors
+deactivate service
+
+controller -->> service : get entry exit points
+activate service
+service -->> controller : entry exit points
+deactivate service
+
+controller -->> service : process facts
+activate service
+service -->> controller : cost
+deactivate service
+
+controller -->> service : find best order
+activate service
+service -->> controller : order
+deactivate service
+
+
+
+
+controller -->> routing : order
+deactivate controller
+
+?o<<-- routing : 200 OK
+deactivate routing
+
+@enduml

@@ -1,0 +1,59 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title use passageway on visualisation page
+
+actor "Player" as FM
+participant "ThumbRaiser" as routing <<component>>
+participant "Maze" as comp <<component>>
+participant "User Interface" as UI <<component>>
+
+
+activate FM
+FM->> routing : moves robot close to passageway
+activate routing
+routing ->> comp : checks if its colliding with passageway
+
+
+activate comp
+comp ->> comp : checks if its colliding with passageway
+comp ->> routing : Successfully response
+deactivate comp
+routing ->> routing : extract next floor
+routing ->> UI : show confirmation menu
+activate UI
+UI ->> UI : show confirmation menu
+UI ->> routing : Successfully response
+deactivate
+
+routing ->>  FM : show confirmation menu
+deactivate routing
+
+FM ->> routing : confirms
+
+activate routing
+routing ->> UI : confirms
+
+activate UI
+UI ->> UI : confirms
+UI ->> routing : Successfully response
+deactivate UI
+
+
+
+routing ->> routing : remove scene
+
+routing ->> comp : create new maze
+activate comp
+comp ->> comp : create new maze
+comp ->> routing : Successfully response
+deactivate comp
+
+routing ->> routing : add new scene
+
+FM<<-- routing : go to next floor
+deactivate routing
+
+@enduml
