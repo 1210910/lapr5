@@ -162,19 +162,26 @@ export class UserService {
     });
   }
 
-  public downloadData() {
+  public async downloadData(): Promise<any> {
    this.profile().then((user: UserInfo) => {
-    this.generateDownloadJsonUrl(user);
+    const jsonUrl = this.generateDownloadJsonUrl(user).then((url) => {
+      this.triggerDownload(url);
+      return url;
+    }).catch((error) => {
+      alert("Fail Error: " + error);
+    });
   }).catch((error) => {
     alert("Fail Error: " + error);
   });
 }
 
-generateDownloadJsonUrl(user : UserInfo) {
+async generateDownloadJsonUrl(user : UserInfo): Promise<any> {
   const cleanedUserData = this.cleanUserData(user);
-  const blob = new Blob([JSON.stringify(user)], { type: 'application/json' });
+  const blob = new Blob([JSON.stringify(cleanedUserData)], { type: 'application/json' });
+  console.log(JSON.stringify(cleanedUserData));
+  console.log(blob);
   const url = URL.createObjectURL(blob);
-  return this.sanitizer.bypassSecurityTrustUrl(url);
+  return url;
 }
 
 cleanUserData(user: UserInfo): UserInfo {
@@ -187,10 +194,17 @@ cleanUserData(user: UserInfo): UserInfo {
     password: user.password,
     role: user.role,
   };
-  if (cleanedUser.phone === undefined) delete (cleanedUser as any).phoneNumber;
   if (cleanedUser.nif === undefined) delete (cleanedUser as any).nif;
-  if (cleanedUser.password === undefined) delete (cleanedUser as any).password;
-  console.log(cleanedUser);
+  if (cleanedUser.password === "") delete (cleanedUser as any).password;
   return cleanedUser;
+}
+
+triggerDownload(url: string): void {
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'userData.json';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 }
 }

@@ -39,16 +39,6 @@ import { UserInfo } from 'src/app/signUp/User-info/userinfo';
             <li *ngIf="userInfo?.role">Role: {{ userInfo?.role }}</li>
             </ul>
         </section>
-        <div class="form-row">
-            <div class="submit-btn">
-                <div class="input-data">
-                    <div class="inner"></div>
-                    <a [routerLink]="['/userData']">
-                        <input type="button" value="Download my Data" (click)="downloadData()">
-                    </a>
-                </div>
-            </div>
-        </div>
     </article>
 </section>
   `,
@@ -84,11 +74,16 @@ export class DataCopyComponent {
         ).catch((error) => {
             alert("Fail Error: " + error);
         });
+        this.createDownloadJsonUrl();
       }
     }
 
-    downloadData(){
-        this.userService.downloadData();
-    }
+
+    async createDownloadJsonUrl(){
+        const url = await this.userService.downloadData();
+        const link = document.getElementById("downUrl");
+        // @ts-ignore
+        link.href = url;
+        }
 
 }
