@@ -23,6 +23,11 @@ export class TaskRequestComponent {
 
     }
 
+    ngOnInit() {
+        if (localStorage.getItem("role") !== "User") {
+            window.location.href = "/";
+        }
+    }
     public async createTaskRequest(): Promise<void> {
 
 
