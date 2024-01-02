@@ -26,6 +26,25 @@ export async function signUp(req: Request, res: Response, next: NextFunction) {
     }
 }
 
+export async function editUser(req: Request, res: Response, next: NextFunction) {
+      try {
+
+        const authServiceInstance = Container.get(AuthService);
+
+          const userOrError = await authServiceInstance.editUser(req.body as IUserDTO);
+
+          if (userOrError.isFailure) {
+              return res.status(400).json({ error: userOrError.errorValue() });
+          }
+
+          const userDTO = userOrError.getValue();
+          return res.status(200).json(userDTO);
+
+      } catch (e) {
+          return next(e);
+      }
+  };
+
 export async function getProfile(req: Request, res: Response, next: NextFunction) {
     try {
         const authServiceInstance = Container.get(AuthService);

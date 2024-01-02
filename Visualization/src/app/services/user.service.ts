@@ -102,6 +102,43 @@ export class UserService {
     });
   }
 
+  public editData(email:string , firstName:string, lastName:string, phone:number, nif:number) {
+
+    return new Promise((resolve, reject) => {
+
+      const jsonMessage = JSON.stringify(
+        {
+          email: email,
+          firstName: firstName,
+          phone: phone,
+          nif: nif
+       });
+      const httprequest = new XMLHttpRequest();
+      httprequest.open('PATCH', 'http://localhost:4000/api/auth/editData', true);
+      const token = localStorage.getItem("token");
+      if (token) httprequest.setRequestHeader("Authorization", `Bearer ${token}`);
+      httprequest.setRequestHeader('Content-Type', 'application/json',);
+      
+      //let response;
+      httprequest.onload = function () {
+
+        if (httprequest.status === 200) {
+          console.log("Building created");
+          //response = httprequest.status;
+          resolve(true);
+        } else {
+          
+          const errorResponse = JSON.parse(httprequest.responseText);
+          //response = httprequest.status;
+          console.log("Building not created");
+          reject(errorResponse.error);
+        }
+      }
+      httprequest.send(jsonMessage);
+
+    });
+  }
+
   public async deleteAccount() {
     return new Promise((resolve, reject) => {
       const httprequest = new XMLHttpRequest();
