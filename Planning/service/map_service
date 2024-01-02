@@ -547,10 +547,8 @@ add_task_to_db() :-
     assertz(db:task('Task2', 'D103', 'D102')),
     assertz(db:task('Task3', 'D102', 'D203')),
     assertz(db:task('Task4', 'D205', 'D103')),
-    assertz(db:task('Task5', 'C204', 'C303')),
-    assertz(db:task('Task6', 'D103', 'D105')),
-    assertz(db:task('Task7', 'D105', 'D106')),
-    assertz(db:task('Task8', 'D106', 'C303')).
+    assertz(db:task('Task5', 'C204', 'C303')).
+
 
 
 clear_facts() :-
@@ -566,15 +564,16 @@ inicializa:-
 
 
 gera(Best):-
+    TempoLimite = 5000, % Limite de tempo em milissegundos (30 segundos como exemplo)
+    iniciar_tempo, % Inicializa o contador de tempo
 	inicializa,
 	gera_populacao(Pop),
 
 	avalia_populacao(Pop,PopAv),
 
 	ordena_populacao(PopAv,PopOrd),
-
 	geracoes(NG),
-	gera_geracao(0,NG,PopOrd),
+	gera_geracao(0,NG,PopOrd,TempoLimite),
 	retract(tarefas(_)),
 	[Best|_]=PopOrd.
 
@@ -642,18 +641,30 @@ btroca([X*VX,Y*VY|L1],[Y*VY|L2]):-
 
 btroca([X|L1],[X|L2]):-btroca(L1,L2).
 
+iniciar_tempo :-
+    statistics(walltime, _).
 
-gera_geracao(G,G,_):-!.
+ tempo_excedido(Limite) :-
+     statistics(walltime, [_, TempoAtual]),
+     TempoAtual > Limite.
 
+gera_geracao(G,G,_,_):-!.
 
-gera_geracao(N,G,Pop):-
+gera_geracao(_, _, _, TempoLimite) :-
+    tempo_excedido(TempoLimite), % Verifica se o tempo excedeu o limite
+    !.
 
+gera_geracao(N,G,Pop,TempoLimite):-
+    [Melhor1,Melhor2|_]=Pop,
 	cruzamento(Pop,NPop1),
 	mutacao(NPop1,NPop),
 	avalia_populacao(NPop,NPopAv),
 	ordena_populacao(NPopAv,NPopOrd),
 	N1 is N+1,
-	gera_geracao(N1,G,NPopOrd).
+	gera_geracao(N1,G,[Melhor1,Melhor2|NPopOrd],TempoLimite).
+
+
+
 
 gerar_pontos_cruzamento(P1,P2):-
 	gerar_pontos_cruzamento1(P1,P2).

@@ -1,0 +1,59 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title use elevator on visualisation page
+
+actor "Player" as FM
+participant "ThumbRaiser" as routing <<component>>
+participant "Maze" as comp <<component>>
+participant "User Interface" as UI <<component>>
+
+
+activate FM
+FM->> routing : moves robot close to elevator
+activate routing
+routing ->> comp : checks if its colliding with elevator
+
+
+activate comp
+comp ->> comp : checks if its colliding with elevator
+comp ->> routing : Successfully response
+deactivate comp
+
+routing ->> UI : show selection menu
+activate UI
+UI ->> UI : show selection menu
+UI ->> routing : Successfully response
+deactivate
+
+routing ->>  FM : show selection menu
+deactivate routing
+
+FM ->> routing : selects one
+
+activate routing
+routing ->> UI : selects one
+
+activate UI
+UI ->> UI : selects one
+UI ->> routing : Successfully response
+deactivate UI
+
+
+
+routing ->> routing : remove scene
+
+routing ->> comp : create new maze
+activate comp
+comp ->> comp : create new maze
+comp ->> routing : Successfully response
+deactivate comp
+
+routing ->> routing : add new scene
+
+FM<<-- routing : go to the selected floor
+deactivate routing
+
+@enduml

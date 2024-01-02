@@ -17,11 +17,13 @@ export default (app: Router) => {
 
     const taskRequestController = Container.get(config.controllers.taskRequest.name) as ITaskController;
 
+    route.get('/accepted',
+        (req, res, next) => taskRequestController.getAllAcceptedTaskRequests(req, res, next));
+
     route.get('/pending',
         (req, res, next) => taskRequestController.getAllPendingTaskRequests(req, res, next));
 
-    route.get('/accepted',
-        (req, res, next) => taskRequestController.getAllAcceptedTaskRequests(req, res, next));
+
 
 
 
