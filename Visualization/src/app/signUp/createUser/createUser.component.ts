@@ -19,7 +19,7 @@ export class CreateUserComponent {
     userService: UserService = inject(UserService);
 
     ngOnInit() {
-        if (localStorage.getItem("role") !== "User") {
+        if (localStorage.getItem("role") !== "Admin") {
             window.location.href = "/";
         }
     }
