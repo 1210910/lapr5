@@ -1,28 +1,28 @@
-@startuml Process View - Level 3 - List all passageways
+@startuml Process View - Level 3
 
 autonumber
 skinparam packageStyle rect
 
-title List all passageways
+title list all robots of the fleet
 
-actor "Campus Manager" as CM
+actor "Fleet Manager" as FM
 participant "View" as view <<component>>
 participant "ViewModel" as viewModel <<component>>
 participant "Service" as service <<component>>
 participant "HttpAdapter" as httpAdapter <<component>>
 
-CM -> view : Wants to list all passageways
-activate CM
+activate FM
+FM -> view : Navigate to ListAllRobots page
 activate view
-view -> viewModel : Trigger list all passageways
+view -> viewModel : Trigger list all robots of the fleet
 
 activate viewModel
-viewModel -> service : Request to list all passageways
+viewModel -> service : Request to list all robots of the fleet
 
 activate service
-service -> httpAdapter : HTTP Request (GET)
+service -> httpAdapter : HTTP Request
 activate httpAdapter
-httpAdapter --> service : HTTP Response (200)
+httpAdapter --> service : HTTP Response
 deactivate httpAdapter
 
 service --> viewModel : Receive HttpResponse
@@ -30,8 +30,7 @@ deactivate service
 viewModel --> view : Receive List
 deactivate viewModel
 
-
-CM <-- view : Lists all passageways
+FM <-- view : Successfully response
 deactivate view
-deactivate CM
+deactivate FM
 @enduml

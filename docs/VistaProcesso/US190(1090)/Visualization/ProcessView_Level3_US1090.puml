@@ -1,9 +1,9 @@
-@startuml Process View - Level 3 - List all floors with passageways of a building
+@startuml Process View - Level 3
 
 autonumber
 skinparam packageStyle rect
 
-title List all floors with passageways of a building
+title Create a floor in a building
 
 actor "Campus Manager" as CM
 participant "View" as view <<component>>
@@ -11,13 +11,13 @@ participant "ViewModel" as viewModel <<component>>
 participant "Service" as service <<component>>
 participant "HttpAdapter" as httpAdapter <<component>>
 
-CM -> view : Wants to list all floors with passageways of a building
 activate CM
+CM -> view : Navigate to createFloor page
 activate view
-view -> viewModel : Trigger list all floors with passageways
+view -> viewModel : Trigger create floor
 
 activate viewModel
-viewModel -> service : Request to list all floors with passageways
+viewModel -> service : Request to create floor
 
 activate service
 service -> httpAdapter : Make HTTP Request
@@ -25,12 +25,14 @@ activate httpAdapter
 httpAdapter --> service : HTTP Response
 deactivate httpAdapter
 
-service --> viewModel : Receive HttpResponse
+service --> viewModel : Receive success response
 deactivate service
-viewModel --> view : Receive List
+
+viewModel --> view : Receive success response
 deactivate viewModel
 
-CM <-- view : Listed all floors with passageways of a building
+view --> CM : Successfully response
 deactivate view
+
 deactivate CM
 @enduml

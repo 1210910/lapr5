@@ -1,28 +1,28 @@
-@startuml Process View - Level 3 - Create a robot
+@startuml Process View - Level 3
 
 autonumber
 skinparam packageStyle rect
 
-title Create a robot
+title Create a room in a floor
 
-actor "Fleet Manager" as FM
+actor "Campus Manager" as CM
 participant "View" as view <<component>>
 participant "ViewModel" as viewModel <<component>>
 participant "Service" as service <<component>>
 participant "HttpAdapter" as httpAdapter <<component>>
 
-FM -> view : Wants to create a robot
-activate FM
+CM -> view : Navigate to createRoom page
+activate CM
 activate view
-view -> viewModel : Trigger create robot
+view -> viewModel : Trigger create room
 
 activate viewModel
-viewModel -> service : Request to create robot
+viewModel -> service : Request to create room
 
 activate service
-service -> httpAdapter : HTTP Request (POST)
+service -> httpAdapter : HTTP Request
 activate httpAdapter
-httpAdapter --> service : HTTP Response (201)
+httpAdapter --> service : HTTP Response
 deactivate httpAdapter
 
 service -->> viewModel : Receive success response
@@ -31,8 +31,8 @@ deactivate service
 viewModel -->> view : Receive success response
 deactivate viewModel
 
-view --> FM : Success message
+view --> CM : Successfully response
 deactivate view
 
-deactivate FM
+deactivate CM
 @enduml
