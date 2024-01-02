@@ -23,5 +23,11 @@ export class DeliveryInfoComponent {
 
   @Input() deliveryTask!: DeliveryTaskInfo;
 
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Task manager") {
+      window.location.href = "/";
+    }
+  }
+
 
 }

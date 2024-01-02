@@ -66,6 +66,9 @@ export class DataCopyComponent {
     }
 
     ngOnInit(): void {
+      if (localStorage.getItem("role") !== "User") {
+        window.location.href = "/";
+      } else {
         this.userService.profile().then((user) => {
             this.userInfo = {
                 firstName: user.firstName,
@@ -81,8 +84,9 @@ export class DataCopyComponent {
         ).catch((error) => {
             alert("Fail Error: " + error);
         });
+      }
     }
-    
+
     downloadData(){
         this.userService.downloadData();
     }

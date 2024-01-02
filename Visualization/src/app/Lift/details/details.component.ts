@@ -49,6 +49,11 @@ export class LiftDetailsComponent {
   liftService = inject(LiftService);
   liftInfo: LiftInfo | undefined;
 
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Campus manager") {
+      window.location.href = "/";
+    }
+  }
 
   constructor() {
     const liftCode = this.route.snapshot.params['id'];

@@ -10,18 +10,23 @@ import { RouterLink } from '@angular/router';
   imports: [CommonModule, RouterLink],
   template: `
     <section class="listing">
-      <h2 class="listing-heading">{{ robotInfo.name }}</h2>
-      <p class="listing-location">Code: {{ robotInfo.code }}</p>
-      <p class="listing-location">Type: {{ robotInfo.type }}</p>
-      <p class="listing-location">Status: {{ robotInfo.enabled }}</p>
+      <h2 class="listing-heading">{{ robotInfo.code }}</h2>
+      <p class="listing-location">Brand: {{ robotInfo.brand }}</p>
+      <p class="listing-location">Model: {{ robotInfo.model }}</p>
       <p class="listing-location">Description: {{ robotInfo.description }}</p>
+      <p class="listing-location">Task type: {{ robotInfo.taskTypeCode }}</p>
     </section>
   `,
-  styleUrls: ['./robot-info.component.css']
+  styleUrls: ['./robottype-info.component.css']
 })
-export class RobotInfoComponent {
+export class RobottypeInfoComponent {
 
   @Input() robotInfo!: RobotTypeInfo;
 
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Fleet manager") {
+      window.location.href = "/";
+    }
+  }
 
 }

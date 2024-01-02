@@ -24,6 +24,10 @@ export class UserInfoComponent {
 
   @Input() userInfo!: UserInfo;
 
-
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "User") {
+      window.location.href = "/";
+    }
+  }
 
 }

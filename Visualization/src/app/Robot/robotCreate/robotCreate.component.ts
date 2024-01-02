@@ -2,16 +2,16 @@ import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { RobotService } from "../../services/robot.service";
-import {RobotTypeService} from "../../services/robotType.service";
-import {FloorInfo} from "../../Floor/floor-info/floorinfo";
-import {FormsModule} from "@angular/forms";
-import {RobotTypeInfo} from "../../RobotType/robot-info/robotTypeInfo";
+import { RobotTypeService } from "../../services/robotType.service";
+import { FloorInfo } from "../../Floor/floor-info/floorinfo";
+import { FormsModule } from "@angular/forms";
+import { RobotTypeInfo } from "../../RobotType/robottype-info/robotTypeInfo";
 
 @Component({
   selector: "app-robot-create",
   standalone: true,
-    imports: [CommonModule, RouterLink, FormsModule],
-  templateUrl: './robotCreate.component.html',
+  imports: [CommonModule, RouterLink, FormsModule],
+  templateUrl: "./robotCreate.component.html",
   styleUrls: ["./robotCreate.component.css"]
 
 })
@@ -26,8 +26,11 @@ export class RobotCreateComponent {
     this.robotTypes = [];
   }
 
-  ngOnInit(){
-    this.listRobotTypes()
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Fleet manager") {
+      window.location.href = "/";
+    } else
+      this.listRobotTypes();
   }
 
   createRobot() {
@@ -36,12 +39,12 @@ export class RobotCreateComponent {
     const type = this.selectedRobotType.type;
     const description = document.getElementsByTagName("textarea")[0].value;
 
-    if (code == '' || name == '' || type == '' || description == '') {
+    if (code == "" || name == "" || type == "" || description == "") {
       alert("Please fill all the fields");
       return;
     }
     this.robotService.createRobot(code, name, type, description).then(() => {
-        alert("Robot created");
+      alert("Robot created");
     }).catch((error) => {
       alert("Robot not created: " + error);
     });
@@ -50,22 +53,22 @@ export class RobotCreateComponent {
 
   public listRobotTypes() {
     this.robotTypeService.listRobotTypes()
-        .then((response: any) => {
-          const responseJson = JSON.parse(response);
-          const robotTypesArray: RobotTypeInfo[] = responseJson.map((robotType: any) => {
-            return {
-              code: robotType.code,
-              brand: robotType.brand,
-              model: robotType.model,
-              description: robotType.description,
-              taskTypeCode: robotType.taskTypeCode
-            };
-          });
-          this.robotTypes = robotTypesArray;
-        })
-        .catch((error) => {
-          console.error("Error listing robotTypes", error);
+      .then((response: any) => {
+        const responseJson = JSON.parse(response);
+        const robotTypesArray: RobotTypeInfo[] = responseJson.map((robotType: any) => {
+          return {
+            code: robotType.code,
+            brand: robotType.brand,
+            model: robotType.model,
+            description: robotType.description,
+            taskTypeCode: robotType.taskTypeCode
+          };
         });
+        this.robotTypes = robotTypesArray;
+      })
+      .catch((error) => {
+        console.error("Error listing robotTypes", error);
+      });
   };
 
 }

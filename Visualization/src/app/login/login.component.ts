@@ -16,7 +16,10 @@ export class LoginComponent {
     console.log(redirectUri);
   }
 
-
+  ngOnInit(): void {
+    localStorage.setItem("role", "");
+    localStorage.setItem("token", "");
+  }
 
   signIn() {
     this.auth.loginWithRedirect({

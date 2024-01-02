@@ -27,9 +27,13 @@ export class FloorCreateComponent {
         this.buildings = [];
     }
 
-    ngOnInit() {
-        this.listBuildings();
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Campus manager") {
+      window.location.href = "/";
+    } else {
+      this.listBuildings();
     }
+  }
 
    createFloor(){
 

@@ -47,6 +47,11 @@ export class FloorDetailsComponent {
   floorService = inject(FloorService);
   floorInfo:  FloorInfo| undefined;
 
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Campus manager") {
+      window.location.href = "/";
+    }
+  }
 
   constructor() {
     const floorId = this.route.snapshot.params['id'];

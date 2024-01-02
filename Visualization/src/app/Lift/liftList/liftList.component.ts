@@ -19,7 +19,9 @@ export class LiftListComponent {
   liftService: LiftService = inject(LiftService);
 
   ngOnInit() {
-    this.liftService.listLifts().then((result) => {
+    if (localStorage.getItem("role") !== "Campus manager") {
+      window.location.href = "/";
+    } else this.liftService.listLifts().then((result) => {
       this.liftService.liftList(result)
       this.liftList = this.liftService.LiftList;
     });

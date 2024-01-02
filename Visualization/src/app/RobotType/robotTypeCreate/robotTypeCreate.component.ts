@@ -15,6 +15,12 @@ import { RobotTypeService } from "../../services/robotType.service";
 export class RobotTypeCreateComponent {
   robotService: RobotTypeService = inject(RobotTypeService);
 
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Fleet manager") {
+      window.location.href = "/";
+    }
+  }
+
   constructor() {
 
   }

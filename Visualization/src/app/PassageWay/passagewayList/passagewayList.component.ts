@@ -10,7 +10,7 @@ import { PassagewayInfo } from "../passageway-info/passagewayinfo";
   selector: "app-passageway-list",
   standalone: true,
   imports: [CommonModule, RouterLink, PassagewayInfoComponent],
-  templateUrl: './passagewayList.component.html',
+  templateUrl: "./passagewayList.component.html",
   styleUrls: ["../passagewayCreate/passagewayCreate.component.css"]
 
 })
@@ -23,12 +23,15 @@ export class PassagewayListComponent {
   constructor() {
   };
 
-    ngOnInit(){
-          this.passagewayService.listPassageways().then((result) => {
-              this.passagewayService.passagewayList(result);
-              this.passagewayList = this.passagewayService.PassagewayList;
-          });
-      }
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Campus manager") {
+      window.location.href = "/";
+    } else
+      this.passagewayService.listPassageways().then((result) => {
+        this.passagewayService.passagewayList(result);
+        this.passagewayList = this.passagewayService.PassagewayList;
+      });
+  }
 
   CallMethod(buildingFrom: string, buildingTo: string, floor: string) {
     if (floor === "" && buildingFrom !== "" && buildingTo !== "") {

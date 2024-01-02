@@ -47,6 +47,12 @@ export class RobotDetailsComponent {
   robotService = inject(RobotService);
   robotInfo:  RobotInfo| undefined;
 
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Fleet manager") {
+      window.location.href = "/";
+    }
+  }
+
   constructor() {
     const robotCode = this.route.snapshot.params['code'];
     this.robotInfo = this.robotService.getRobotByCode(robotCode);

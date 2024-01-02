@@ -17,7 +17,6 @@ import { RouterLink } from "@angular/router";
             </a></li>
             <li><a [routerLink]="['/taskRequest']" data-item='Task Request'>Task Request</a></li>
             <li><a [routerLink]="['/userData']" data-item='User Data'>User Data</a></li>
-              <li><a [routerLink]="['/deleteAccount']" data-item='Delete Account'> Delete Account</a> </li>
           </ul>
         </nav>
       </header>
@@ -37,6 +36,12 @@ import { RouterLink } from "@angular/router";
     styleUrls: ['./home.component.css']
 })
 export class HomeUserComponent {
+
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "User") {
+      window.location.href = "/";
+    }
+  }
 
     constructor() { }
 

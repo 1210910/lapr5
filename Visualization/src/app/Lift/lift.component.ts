@@ -38,16 +38,14 @@ import {RouterLink} from "@angular/router";
 
 export class LiftComponent {
 
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Campus manager") {
+      window.location.href = "/";
+    }
+  }
 
     constructor() {
 
     }
-
-
-
-
-
-
-
 
 }

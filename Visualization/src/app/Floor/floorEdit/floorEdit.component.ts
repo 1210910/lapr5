@@ -1,17 +1,17 @@
-import {Component, inject} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {RouterLink} from "@angular/router";
+import { Component, inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterLink } from "@angular/router";
 
-import {FloorService} from "../../services/floor.service";
-import {BuildingInfo} from "../../Building/building-info/buildingInfo";
-import {FloorInfo} from "../floor-info/floorinfo";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { FloorService } from "../../services/floor.service";
+import { BuildingInfo } from "../../Building/building-info/buildingInfo";
+import { FloorInfo } from "../floor-info/floorinfo";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 @Component({
-  selector: 'app-building-edit',
+  selector: "app-building-edit",
   standalone: true,
   imports: [CommonModule, RouterLink, ReactiveFormsModule, FormsModule],
-  templateUrl: './floorEdit.component.html',
+  templateUrl: "./floorEdit.component.html",
   styleUrls: ["../floorCreate/floorCreate.component.css"]
 
 })
@@ -25,9 +25,12 @@ export class FloorEditComponent {
     this.floors = [];
   }
 
-    ngOnInit() {
-        this.listFloors();
-    }
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Campus manager") {
+      window.location.href = "/";
+    } else
+      this.listFloors();
+  }
 
   editFloor() {
 
@@ -48,24 +51,24 @@ export class FloorEditComponent {
   }
 
   public listFloors() {
-      this.floorService.listFloors()
-          .then((response: any) => {
-            const responseJson = JSON.parse(response);
-            const floorsArray: FloorInfo[] = responseJson.map((floor: any) => {
-              return {
-                floorCode: floor.floorCode,
-                floorNumber: floor.floorNumber,
-                length:floor.length,
-                width: floor.width,
-                description: floor.description
-              };
-            });
-            this.floors = floorsArray;
-          })
-          .catch((error) => {
-            console.error("Error listing floors", error);
-          });
-    };
+    this.floorService.listFloors()
+      .then((response: any) => {
+        const responseJson = JSON.parse(response);
+        const floorsArray: FloorInfo[] = responseJson.map((floor: any) => {
+          return {
+            floorCode: floor.floorCode,
+            floorNumber: floor.floorNumber,
+            length: floor.length,
+            width: floor.width,
+            description: floor.description
+          };
+        });
+        this.floors = floorsArray;
+      })
+      .catch((error) => {
+        console.error("Error listing floors", error);
+      });
+  };
 
 
 }
