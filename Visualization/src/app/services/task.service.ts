@@ -151,9 +151,9 @@ export class TaskService {
       httprequest.onload = function () {
 
         if (httprequest.status === 201) {
-          console.log("Room created");
+          const response = JSON.parse(httprequest.response)
           console.log(httprequest.response)
-          resolve(true);
+          resolve(response as VigilanceTaskInfo);
         } else {
           console.log(httprequest.response);
           const errorResponse = JSON.parse(httprequest.responseText);
@@ -181,11 +181,7 @@ export class TaskService {
         console.error("Token not found. Cannot make the request.");
         reject("Token not found");
         return;
-      }else {
-        console.log("token: "+ token)
       }
-
-
       const jsonMessage = JSON.stringify(
         {
           origName: origName,
@@ -205,15 +201,11 @@ export class TaskService {
       httprequest.onload = function () {
 
         if (httprequest.status === 201) {
-          console.log("Room created");
           console.log(httprequest.response)
-          resolve(true);
+          const response = JSON.parse(httprequest.response)
+          resolve(response as DeliveryTaskInfo);
         } else {
-          console.log(httprequest.response);
           const errorResponse = JSON.parse(httprequest.responseText);
-          //response = httprequest.status;
-          console.log(httprequest.responseText);
-          console.log("Room not created");
           reject(errorResponse.error);
         }
       }

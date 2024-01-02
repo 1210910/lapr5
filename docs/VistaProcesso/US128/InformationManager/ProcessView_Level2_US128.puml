@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title Edit my data (utente)
+
+participant "Information Manager" as MD <<Component>>
+
+?o->> MD : PATCH
+
+activate MD
+?o<<--MD : 204 OK
+
+deactivate MD
+
+
+@enduml

@@ -1,0 +1,9 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+left to right direction
+"Administrador" as nobody
+
+nobody --> (Como administrador do sistema pretendo aprovar ou recusar o registo de um utente)
+
+@enduml
