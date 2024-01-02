@@ -1,0 +1,33 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title Edit my data (utente)
+
+actor "New User" as NU
+participant "View" as view <<component>>
+participant "ViewModel" as viewModel <<component>>
+participant "Service" as service <<component>>
+participant "HttpAdapter" as httpAdapter <<component>>
+
+activate NU
+NU-> view : Navigate to sign page
+activate view
+view -> viewModel : Trigger edit request
+activate viewModel
+viewModel -> service : Request to edit
+activate service
+service -> httpAdapter : Make HTTP Request
+activate httpAdapter
+httpAdapter ->> : HTTP Request (PATCH)
+httpAdapter <<-- : HTTP Response (204)
+httpAdapter --> service : Receive HTTP Response
+deactivate httpAdapter
+service --> viewModel : Receive success response
+deactivate service
+viewModel --> view : Receive success response
+deactivate viewModel
+view --> NU : Successfully edited user
+deactivate view
+@enduml
