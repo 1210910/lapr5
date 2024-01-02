@@ -14,6 +14,9 @@ export class UserNIF extends ValueObject<any> {
     if (!nif1) {
       return null;
     }
+    if(nif1.length<9){
+      throw new Error("NIF property has to be in the portuguese format (9 digits)")
+    }
     if (nif1.length > 9 && this.isValid(nif1)) {
       throw new Error("NIF property has to be in the portuguese format (9 digits)");
     }

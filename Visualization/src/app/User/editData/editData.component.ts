@@ -39,14 +39,31 @@ export class EditDataComponent {
             console.log(this.userInfo);
             }
         ).catch((error) => {
-            alert("Fail Error: " + error);
+            alert("Fail Error: " + error.message);
         });
     }
 
 
 
+
 public async editData(){
-    console.log("Info: "+ this.userInfo);
+    const email = this.userInfo?.email as string;
+    const firstName = document.getElementsByTagName("input")[0].value;
+    const lastName = document.getElementsByTagName("input")[1].value;
+    const phone = Number(document.getElementsByTagName("input")[2].value);
+    const nif = Number(document.getElementsByTagName("input")[3].value);
+
+   if(firstName == "" || lastName == "" || phone == 0){
+    alert("There can be no empty spaces");
+    return;
+   }
+   this.userService.editData(email,firstName, lastName, phone, nif).then((result) => {
+    alert("User data edited successfully");
+
+}).catch((error) => {
+    alert("Fail: " + error);
+});
+
 
 }
 

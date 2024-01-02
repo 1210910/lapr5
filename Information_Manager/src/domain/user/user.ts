@@ -22,55 +22,62 @@ interface UserProps {
 }
 
 export class User extends AggregateRoot<UserProps> {
-  get id (): UniqueEntityID {
+  get id(): UniqueEntityID {
     return this._id;
   }
 
-  get userId (): UserId {
+  get userId(): UserId {
     return UserId.caller(this.id)
   }
 
-  get firstName (): string {
+  get firstName(): string {
     return this.props.firstName
   }
 
-  get lastName (): string {
+  get lastName(): string {
     return this.props.lastName;
   }
 
-  get email (): UserEmail {
+  get email(): UserEmail {
     return this.props.email;
   }
 
-  get phone (): UserPhoneNumber {
+  get phone(): UserPhoneNumber {
     return this.props.phone;
   }
 
-  get nif (): UserNIF {
+  get nif(): UserNIF {
     return this.props.nif;
   }
 
-  get password (): UserPassword {
+  get password(): UserPassword {
     return this.props.password;
   }
 
-  get role (): UserRoles {
+  get role(): UserRoles {
     return this.props.role;
   }
 
-  set phone (value: UserPhoneNumber) {
-      this.props.phone = value;
+  set firstName(value: string) {
+    this.props.firstName = value;
+  }
+  set lastName(value: string) {
+    this.props.lastName = value;
   }
 
-  set nif (value: UserNIF) {
-      this.props.nif = value;
+  set phone(value: UserPhoneNumber) {
+    this.props.phone = value;
   }
 
-  set role (value: UserRoles) {
-      this.props.role = value;
+  set nif(value: UserNIF) {
+    this.props.nif = value;
   }
 
-  private constructor (props: UserProps, id?: UniqueEntityID) {
+  set role(value: UserRoles) {
+    this.props.role = value;
+  }
+
+  private constructor(props: UserProps, id?: UniqueEntityID) {
     super(props, id);
   }
 
@@ -107,4 +114,25 @@ export class User extends AggregateRoot<UserProps> {
       }
     }
   }
+
+  public static edit(props: IUserDTO | any, user: User): Result<User> {
+    try {
+
+      user.firstName = props.firstName ?? user.firstName;
+      user.lastName = props.lastName ?? user.lastName;
+
+      if (props.phone !== undefined && props.phone !== null) {
+        user.phone = UserPhoneNumber.create(props.phone);
+      }
+
+      if (props.nif !== undefined && props.nif !== null) {
+        user.nif = UserNIF.create(props.nif);
+      }
+
+      return Result.ok<User>(user);
+    } catch (err) {
+      return Result.fail<User>(err.message);
+    }
+  }
+
 }

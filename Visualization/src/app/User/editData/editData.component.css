@@ -108,15 +108,27 @@ form .form-row .textarea{
     resize: none;
     padding-top: 10px;
 }
-.input-data label{
+.input-data label {
     position: absolute;
     pointer-events: none;
     bottom: 10px;
-    font-size: 16px;
+    font-size: 14px; /* Adjust font size as needed */
+    color: #8254ff;
     transition: all 0.3s ease;
+
+
 }
+
 .input-data input:focus ~ label,
 .input-data input:valid ~ label {
+    transform: translateY(-20px);
+    font-size: 14px;
+    color: #8254ff;
+}
+
+.input-data textarea:focus ~ label,
+.input-data textarea:valid ~ label,
+.input-data textarea:not(:placeholder-shown):not(:empty) ~ label {
     transform: translateY(-20px);
     font-size: 14px;
     color: #8254ff;
@@ -334,3 +346,10 @@ a {
 .select-container select::-ms-expand {
     display: none;
   }
+
+  .input-datas {
+    width: 100%;
+    height: 40px;
+    margin: 0 20px;
+    position: relative;
+}

@@ -128,6 +128,34 @@ export default class UserService implements IUserService{
     );
   }
 
+public async editUser(userDTO: IUserDTO): Promise<Result<IUserDTO>>{
+
+  try{
+
+  const user = await this.userRepo.findByEmail( userDTO.email );
+    const found = !!user;
+    if (!found) {
+      return Result.fail<IUserDTO>("Can not find user email = " + userDTO.email);
+    }
+    const userOrError = User.edit(userDTO, user);
+    if(userOrError.isFailure){
+      return Result.fail<IUserDTO>(userOrError.errorValue());
+    }
+    const test = userOrError.getValue();
+    const finalUser = await this.userRepo.save(test);
+
+    if (!finalUser){
+      return Result.fail<IUserDTO>("user not saved");
+    }
+
+    const userDTOResult = UserMap.toDTO( test ) as IUserDTO;
+
+    return Result.ok<IUserDTO>( userDTOResult )
+  } catch (e) {
+    throw e;
+  }
+}
+
   public async profile (email: string): Promise<Result<IUserDTO>> {
     const user = await this.userRepo.findByEmail( email );
     const found = !!user;
