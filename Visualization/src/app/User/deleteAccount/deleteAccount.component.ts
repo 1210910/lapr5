@@ -13,21 +13,27 @@ import { UserService } from "../../services/user.service";
     template: `
         <section>
             <header class="brand-name">
-
                 <nav>
                     <ul class="menuItems">
                         <li><a [routerLink]="['/homeUser']">
                             <img class="brand-logo" src="/assets/logoUser.svg" alt="logo" aria-hidden="true">
-                        </a></li>
+                          </a></li>
                     </ul>
-                </nav>
+                  </nav>
             </header>
+        </section>
 
-        </section>
-        <section>
-            <article>
-            </article>
-        </section>
+        <section class="confirmation-section">
+    <div class="title">Are you sure you want to delete your account?</div>
+    <div class="form-row">
+        <div class="submit-btn">
+            <div class="input-data">
+                <div class="inner"></div>
+                <a [routerLink]="['']"><input type="Delete Account" value="Delete Account" (click)="deleteAccount()" > </a>
+            </div>
+        </div>
+    </div>
+</section>
   `,
     styleUrls: ["./deleteAccount.component.css"]
 
@@ -38,11 +44,17 @@ export class DeleteAccountComponent {
     userService: UserService = inject(UserService);
     route: ActivatedRoute = inject(ActivatedRoute);
 
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "User") {
+      window.location.href = "/";
+    }
+  }
+
     constructor() {
 
     }
 
-  /*
+  
   public async deleteAccount(): Promise<void> {
     this.userService.deleteAccount().then((result)=>{
       alert ("User account deleted");
@@ -50,11 +62,4 @@ export class DeleteAccountComponent {
       alert("Fail Error: " + error);
     });
   }
-  */
-
-
-
-
-
-
 }

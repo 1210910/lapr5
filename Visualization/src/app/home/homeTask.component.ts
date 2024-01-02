@@ -38,6 +38,12 @@ import {RouterLink} from "@angular/router";
 
 export class TaskManagerComponent {
 
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Task manager") {
+      window.location.href = "/";
+    }
+  }
+
   constructor() {
   }
 

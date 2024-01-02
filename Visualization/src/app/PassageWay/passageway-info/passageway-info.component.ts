@@ -25,5 +25,10 @@ export class PassagewayInfoComponent {
 
   @Input() passagewayInfo!: PassagewayInfo;
 
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Campus manager") {
+      window.location.href = "/";
+    }
+  }
 
 }

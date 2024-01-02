@@ -8,6 +8,7 @@ import { User } from "../domain/user/user";
 import { UserId } from "../domain/user/userId";
 import { UserEmail } from "../domain/user/userEmail";
 import { UserMap } from "../mappers/UserMap";
+import UserService from '../services/userService';
 
 @Service()
 export default class UserRepo implements IUserRepo {
@@ -47,6 +48,8 @@ export default class UserRepo implements IUserRepo {
       } else {
         userDocument.firstName = user.firstName;
         userDocument.lastName = user.lastName;
+        userDocument.phone  = user.phone.value;
+        userDocument.nif=user.nif.value;
         await userDocument.save();
 
         return user;
@@ -57,7 +60,7 @@ export default class UserRepo implements IUserRepo {
   }
 
   public async findByEmail (email: UserEmail | string): Promise<User> {
-    const query = { email: email.toString() };
+    const query = { email: email };
     const userRecord = await this.userSchema.findOne( query );
 
     if( userRecord != null) {
@@ -82,10 +85,15 @@ export default class UserRepo implements IUserRepo {
   }
 
   public async deleteAccount (email: string): Promise<void> {
-    const query = { email: email.toString() };
-    const userRecord = await this.userSchema.findOne( query );
-    if( userRecord != null) {
-      await this.userSchema.deleteOne( query );
+    try {
+      const user = this.findByEmail(email.valueOf());
+      const id = (await user).id;
+      const query = { domainId : id };
+      const userRecord = await this.userSchema.findOne(query);
+      await this.userSchema.findOneAndDelete(query);
+    } catch (error) {
+      console.error('Error deleting account:', error);
+      throw new Error('Failed to delete account');
     }
   }
 

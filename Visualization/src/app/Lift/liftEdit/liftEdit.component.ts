@@ -25,9 +25,11 @@ export class LiftEditComponent {
     this.lifts = [];
   }
 
-    ngOnInit() {
-        this.listLifts();
-    }
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Campus manager") {
+      window.location.href = "/";
+    } else this.listLifts();
+  }
 
   editLift(){
 

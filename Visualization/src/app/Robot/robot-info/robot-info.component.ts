@@ -21,5 +21,11 @@ export class RobotInfoComponent {
 
   @Input() robotInfo!: RobotInfo;
 
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Fleet manager") {
+      window.location.href = "/";
+    }
+  }
+
 
 }

@@ -72,6 +72,11 @@ export class OrderPathComponent {
     tasks: TaskInfo[];
     isLoading = false;
 
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Task manager") {
+      window.location.href = "/";
+    }
+  }
 
     constructor() {
         this.tasks = [];

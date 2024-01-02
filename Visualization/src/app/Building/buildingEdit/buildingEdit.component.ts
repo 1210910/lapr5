@@ -24,7 +24,9 @@ export class BuildingEditComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.listBuildings();
+    if (localStorage.getItem("role") !== "Campus manager") {
+      window.location.href = "/";
+    } else this.listBuildings();
   }
 
   editBuilding() {

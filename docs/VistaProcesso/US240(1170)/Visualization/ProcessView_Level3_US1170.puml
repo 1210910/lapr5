@@ -6,30 +6,38 @@ skinparam packageStyle rect
 title Create a passageway
 
 actor "Campus Manager" as CM <<Human>>
-participant "Routing" as routing <<component>>
-participant "Component" as comp <<component>>
+participant "View" as view <<component>>
+participant "ViewModel" as viewModel <<component>>
 participant "Service" as service <<component>>
+participant "HttpAdapter" as httpAdapter <<component>>
 
-CM->> routing : wants to create a passageway
+CM -> view : Wants to create a passageway
 activate CM
-activate routing
-routing ->> comp : create passageway
+activate view
+view --> CM : Display form for passageway details
+CM -> view : Enters passageway information
 
-activate comp
-comp ->> service : create passageway
+view -> viewModel : Trigger create passageway with provided information
+
+activate viewModel
+viewModel -> service : Request to create passageway
 
 activate service
-service ->> : Http Request (POST)
-service <<-- : Http Response (201)
+service -> httpAdapter : Make HTTP Request
+activate httpAdapter
+httpAdapter ->> : HTTP Request (POST)
+httpAdapter <<-- : HTTP Response (201)
+httpAdapter --> service : Receive HTTP Response
+deactivate httpAdapter
 
-service -->> comp : success
+service -->> viewModel : Receive success response
 deactivate service
 
-comp -->> routing : success
-deactivate comp
+viewModel -->> view : Receive success response
+deactivate viewModel
 
-CM<<-- routing : success message
-deactivate routing
+view --> CM : Success message
+deactivate view
+
 deactivate CM
-
 @enduml

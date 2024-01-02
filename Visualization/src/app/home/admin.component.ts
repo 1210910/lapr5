@@ -38,6 +38,12 @@ import {RouterLink} from "@angular/router";
 
 export class AdminComponent {
 
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Admin") {
+      window.location.href = "/";
+    }
+  }
+
     constructor() {
     }
 

@@ -1,0 +1,21 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam packageStyle rect
+
+title Create a robot type
+
+actor "Fleet Manager" as FM <<Human>>
+participant "Visualization" as MD <<Component>>
+
+activate FM
+FM->> MD : Navigate to robotTypeCreate page
+
+activate MD
+FM<<--MD : Successfully response
+
+deactivate MD
+
+
+@enduml

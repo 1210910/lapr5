@@ -39,6 +39,13 @@ import {RouterLink} from "@angular/router";
 })
 
 export class HomeCampusComponent {
+
+  ngOnInit() {
+    if (localStorage.getItem("role") !== "Campus manager") {
+      window.location.href = "/";
+    }
+  }
+
   constructor() {
 
   }

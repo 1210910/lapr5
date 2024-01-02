@@ -1,63 +1,145 @@
 <section>
     <header class="brand-name">
-
         <nav>
             <ul class="menuItems">
-                <li><a [routerLink]="['/homeUser']">
-                    <img class="brand-logo" src="/assets/logoUser.svg" alt="logo" aria-hidden="true">
-                </a></li>
+                <li>
+                    <a [routerLink]="['/homeUser']">
+                        <img class="brand-logo" src="/assets/logoUser.svg" alt="logo" aria-hidden="true">
+                    </a>
+                </li>
             </ul>
         </nav>
     </header>
-
 </section>
+
 <section class="body">
     <div class="container">
         <div class="text">
             Insert Data
         </div>
-        <form action="#">
-            <div class="form-row">
-                <div class="input-data">
-                    <input type="text" required>
-                    <div class="underline"></div>
-                    <label for="">Task Code</label>
-                </div>
-                <div class="input-data">
-                    <input type="text" required>
-                    <div class="underline"></div>
-                    <label for="">Task Name</label>
-                </div>
+
+        <div class="form-row">
+            <div class="form-row select-container"> <!-- Adicione a classe select-container aqui -->
+                <label for="taskType">Request type:</label>
+                <select id="taskType" [(ngModel)]="selectedTaskType" (change)="onTaskTypeChange()">
+                    <option value="Delivery">Delivery</option>
+                    <option value="Vigilance">Vigilance</option>
+                </select>
             </div>
-            <div class="form-row">
-                <div class="input-data">
-                    <input type="text" required>
-                    <div class="underline"></div>
-                    <label for="">Max length</label>
-                </div>
-                <div class="input-data">
-                    <input type="text" required>
-                    <div class="underline"></div>
-                    <label for="">Max width</label>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="input-data textarea">
-                    <textarea rows="8" cols="80" required></textarea>
-                    <br />
-                    <div class="underline"></div>
-                    <label for="">Description</label>
-                    <br />
-                    <div class="form-row submit-btn">
+
+            <div [ngSwitch]="selectedTaskType">
+                <!-- Delivery form fields -->
+                <div *ngSwitchCase="'Delivery'">
+                    <div class="form-row">
                         <div class="input-data">
-                            <div class="inner"></div>
-                            <a [routerLink]="['/building']">
-                                <input type="submit" value="submit" (click)="createTaskRequest()" data-cy="createTaskRequestButton" >
-                            </a>
+                            <input type="text" required>
+                            <div class="underline"></div>
+                            <label for=""> Origin Name:</label>
                         </div>
+                        <div class="input-data">
+                            <input type="text" required>
+                            <div class="underline"></div>
+                            <label for=""> Destiny Name:</label>
+                        </div>
+                        <div class="input-data">
+                            <input type="text" required>
+                            <div class="underline"></div>
+                            <label for=""> Origin Phone Number:</label>
+                        </div>
+                        <div class="input-data">
+                            <input type="text" required>
+                            <div class="underline"></div>
+                            <label for=""> Destiny Phone Number:</label>
+                        </div>
+
+                        <div class="input-data">
+                            <input type="text" required>
+                            <div class="underline"></div>
+                            <label for=""> Origin Room:</label>
+                        </div>
+                        <div class="input-data">
+                            <input type="text" required>
+                            <div class="underline"></div>
+                            <label for=""> Destiny Room:</label>
+                        </div>
+                        <div class="form-row-right">
+                            <div class="form-row">
+                                <label for="description">Description:</label>
+                            </div>
+                            <div class="form-row">
+                                <div class="input-data textarea">
+                                    <textarea id="description" rows="6" cols="40" required></textarea>
+                                    <br />
+                                    <div class="underline"></div>
+                                </div>
+                            </div>
+                           
+                        </div>
+                        <div class="input-data">
+                            <input type="text" required>
+                            <div class="underline"></div>
+                            <label for=""> Confirmation Code:</label>
+                        </div>
+                       
+                        <div class="form-row submit-btn">
+                            <div class="input-data">
+                               <div class="inner"></div>
+                                <a 
+                                    [routerLink]="['/homeUser']"><input type="submit" value="submit" (click)="createDeliveryRequest()" > style="width: 100%; height: 100%;
+                                </a>
+                            </div>
+                         </div>
                     </div>
-                  </div>
-              </div>
-        </form>
+                </div>
+
+                <!-- Vigilance form fields -->
+                <div *ngSwitchCase="'Vigilance'">
+                    <div class="form-row">
+                        <div class="input-data">
+                            <input type="text" required>
+                            <div class="underline"></div>
+                            <label for="">Origin Room</label>
+                        </div>
+                        <div class="input-data">
+                            <input type="text" required>
+                            <div class="underline"></div>
+                            <label for=""> Destiny Room</label>
+                        </div>
+                        <div class="input-data">
+                            <input type="text" required>
+                            <div class="underline"></div>
+                            <label for="">Request Name</label>
+                        </div>
+                        <div class="input-data">
+                            <input type="text" required>
+                            <div class="underline"></div>
+                            <label for="">Request Number</label>
+                        </div>
+                        <div class="form-row">
+                            <label for="description">Description:</label>
+                        </div>
+                        <div class="form-row">
+                            <div class="input-data textarea">
+                                <textarea id="description" rows="6" cols="80" required></textarea>
+                                <br />
+                                <div class="underline"></div>
+                            </div>
+                           
+                        </div>
+                        
+                        <div class="form-row submit-btn">
+                            <div class="input-data">
+                               <div class="inner"></div>
+                                <a 
+                                    [routerLink]="['/homeUser']"><input type="submit" value="submit" (click)="createVigilanceRequest()" > style="width: 100%; height: 100%;
+                                </a>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
     </div>
-    </section>
+</section>

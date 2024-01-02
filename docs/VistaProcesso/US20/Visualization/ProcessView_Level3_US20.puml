@@ -3,32 +3,33 @@
 autonumber
 skinparam packageStyle rect
 
-title Create a user account (utente)
+title Create a user account (user)
 
 actor "New User" as NU
-participant "Routing" as routing <<component>>
-participant "Component" as comp <<component>>
+participant "View" as view <<component>>
+participant "ViewModel" as viewModel <<component>>
 participant "Service" as service <<component>>
+participant "HttpAdapter" as httpAdapter <<component>>
 
 activate NU
-NU->> routing : Navigate to sign up page
-activate routing
-routing ->> comp : create user
-
-activate comp
-comp ->> service : create user
-
+NU-> view : Navigate to sign up page
+activate view
+view --> NU : Display form for sign up details
+NU -> view : Enters sign up information
+view -> viewModel : Trigger sign up with provided information
+activate viewModel
+viewModel -> service : Request to create user
 activate service
-service ->> : Http Request
-service <<-- : Http Response
-
-service -->> comp : success
+service -> httpAdapter : Make HTTP Request
+activate httpAdapter
+httpAdapter ->> : HTTP Request (POST)
+httpAdapter <<-- : HTTP Response (201)
+httpAdapter --> service : Receive HTTP Response
+deactivate httpAdapter
+service --> viewModel : Receive success response
 deactivate service
-
-comp -->> routing : success
-deactivate comp
-
-NU<<-- routing : Successfully reponse
-deactivate routing
-
+viewModel --> view : Receive success response
+deactivate viewModel
+view --> NU : Successfully created user
+deactivate view
 @enduml

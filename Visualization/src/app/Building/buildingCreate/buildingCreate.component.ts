@@ -16,6 +16,12 @@ export class BuildingCreateComponent {
 
     buildingService: BuildingService = inject(BuildingService);
 
+    ngOnInit() {
+        if (localStorage.getItem("role") !== "Campus manager") {
+            window.location.href = "/";
+        }
+    }
+
     constructor() {
 
     }

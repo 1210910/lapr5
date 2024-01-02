@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { UserService } from "../services/user.service";
 import { AuthService, User } from "@auth0/auth0-angular";
+import { UserInfo } from "../signUp/User-info/userinfo";
 
 @Component({
   selector: 'app-home',
@@ -21,7 +22,7 @@ import { AuthService, User } from "@auth0/auth0-angular";
 export class HomeComponent {
 
   userService: UserService = inject(UserService);
-  user: any
+  user: any;
   role: string = "";
 
   ngOnInit() {
@@ -33,6 +34,7 @@ export class HomeComponent {
         this.role = user.role;
         // @ts-ignore
         this.user = { ...this.user, ...user };
+        localStorage.setItem("role", user.role);
         this.redirect();
       }).catch((err) => {
         console.log(err);

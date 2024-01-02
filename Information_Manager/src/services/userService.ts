@@ -21,6 +21,7 @@ import { UserEmail } from '../domain/user/userEmail';
 import { Role } from '../domain/role';
 
 import { Result } from "../core/logic/Result";
+import axios from 'axios';
 
 @Service()
 export default class UserService implements IUserService{
@@ -127,6 +128,34 @@ export default class UserService implements IUserService{
     );
   }
 
+public async editUser(userDTO: IUserDTO): Promise<Result<IUserDTO>>{
+
+  try{
+
+  const user = await this.userRepo.findByEmail( userDTO.email );
+    const found = !!user;
+    if (!found) {
+      return Result.fail<IUserDTO>("Can not find user email = " + userDTO.email);
+    }
+    const userOrError = User.edit(userDTO, user);
+    if(userOrError.isFailure){
+      return Result.fail<IUserDTO>(userOrError.errorValue());
+    }
+    const test = userOrError.getValue();
+    const finalUser = await this.userRepo.save(test);
+
+    if (!finalUser){
+      return Result.fail<IUserDTO>("user not saved");
+    }
+
+    const userDTOResult = UserMap.toDTO( test ) as IUserDTO;
+
+    return Result.ok<IUserDTO>( userDTOResult )
+  } catch (e) {
+    throw e;
+  }
+}
+
   public async profile (email: string): Promise<Result<IUserDTO>> {
     const user = await this.userRepo.findByEmail( email );
     const found = !!user;
@@ -140,16 +169,51 @@ export default class UserService implements IUserService{
   }
 
   public async deleteAccount (email: string): Promise<Result<boolean>> {
+    console.log(email);
     const user = await this.userRepo.findByEmail( email );
     const found = !!user;
-
     if (found) {
-      await this.userRepo.deleteAccount( email );
+      await this.userRepo.deleteAccount(email);
       return Result.ok<boolean>(true);
     } else {
       return Result.fail<boolean>("Couldn't find user by email=" + email);
     }
   }
+
+  public async deleteAuth0Account (auth0UserId: string): Promise<Result<IUserDTO>> {
+    try{
+    const token = await this.getAuth0Token();
+    if (token.isFailure) {
+      return Result.fail<IUserDTO>(token.errorValue());
+    }
+    console.log(auth0UserId);
+    const response = await axios.delete('https://dev-3hnosuh6oycbgons.us.auth0.com/api/v2/users/' + auth0UserId, {
+      headers: {
+        'Authorization': 'Bearer ${token.getValue()}',
+        'Content-Type': 'application/json'
+      }
+    });
+
+    return Result.ok<IUserDTO>(UserMap.toDTO(response.data));
+    }
+    catch (e) {
+      return Result.fail<IUserDTO>(e.response);
+    };
+  }
+  
+  private async getAuth0Token (): Promise<Result<string>> { 
+    try{
+      const response = await axios.post('https://dev-3hnosuh6oycbgons.us.auth0.com/oauth/token', {
+        client_id: config.auth0.clientId,
+        client_secret: config.auth0.clientSecret,
+        audience: 'https://dev-3hnosuh6oycbgons.us.auth0.com/api/v2/',
+        grant_type: 'client_credentials'});
+        return Result.ok<string>(response.data.access_token);
+    } catch (e) {
+      return Result.fail<string>(e.response);
+  };
+}
+
 
   private async getRole (email: string): Promise<Result<string>> {
 

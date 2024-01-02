@@ -8,14 +8,18 @@ This document contains the development views for the RobDroneGo project.
 
 The following diagram shows the development view level 2 for the RobDroneGo project.
 
-![Development View Level 2](./images/VistaImplementação-Nível2.svg)
+![Development View Level 2](./VistaImplementação/N2-VI.drawio.png)
 
 ## Level 3 ##
 
 
 The following diagram shows the development view level 3 for the RobDroneGo project.
 
+### Information Manager ###
 
-![Development View Level 3](./images/VistaImplementação-Nível3.svg)
+![D.evelopment View Level 3](./VistaImplementação/N3-VIInformationManager.drawio.png)
 
+### Visualization ###
+
+![D.evelopment View Level 3](./VistaImplementação/N3-VIPlanning.png)
 

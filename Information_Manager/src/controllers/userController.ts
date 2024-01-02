@@ -26,6 +26,25 @@ export async function signUp(req: Request, res: Response, next: NextFunction) {
     }
 }
 
+export async function editUser(req: Request, res: Response, next: NextFunction) {
+      try {
+
+        const authServiceInstance = Container.get(AuthService);
+
+          const userOrError = await authServiceInstance.editUser(req.body as IUserDTO);
+
+          if (userOrError.isFailure) {
+              return res.status(400).json({ error: userOrError.errorValue() });
+          }
+
+          const userDTO = userOrError.getValue();
+          return res.status(200).json(userDTO);
+
+      } catch (e) {
+          return next(e);
+      }
+  };
+
 export async function getProfile(req: Request, res: Response, next: NextFunction) {
     try {
         const authServiceInstance = Container.get(AuthService);
@@ -48,10 +67,12 @@ export async function deleteAccount(req: Request, res: Response, next: NextFunct
     logger.debug('Calling Delete-Account endpoint with body: %o', req.body);
 
     try {
-        //@ts-ignore
-        const { email } = req.auth.email;
         const authServiceInstance = Container.get(AuthService);
-        const result = await authServiceInstance.deleteAccount(email);
+        //@ts-ignore
+        const id = req.auth.id;
+        //@ts-ignore
+        const result = await authServiceInstance.deleteAccount(req.auth.email);
+        authServiceInstance.deleteAuth0Account(id);
 
         if (result.isFailure)
             return res.json().status(403);

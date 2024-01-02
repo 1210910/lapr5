@@ -1,0 +1,38 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title List lifts of a building
+
+actor "Campus Manager" as CM <<Human>>
+participant "View" as view <<component>>
+participant "ViewModel" as viewModel <<component>>
+participant "Service" as service <<component>>
+participant "HttpAdapter" as httpAdapter <<component>>
+
+CM -> view : Navigate to ListLifts page
+activate CM
+activate view
+view -> viewModel : Trigger list lifts of a building
+
+activate viewModel
+viewModel -> service : Request to list lifts of a building
+
+activate service
+service -> httpAdapter : Make HTTP Request
+activate httpAdapter
+httpAdapter ->> : HTTP Request (GET)
+httpAdapter <<-- : HTTP Response (200)
+httpAdapter --> service : Receive HTTP Response
+deactivate httpAdapter
+
+service --> viewModel : Receive HttpResponse
+deactivate service
+viewModel --> view : Receive List
+deactivate viewModel
+
+CM <-- view : Successfully response
+deactivate view
+deactivate CM
+@enduml

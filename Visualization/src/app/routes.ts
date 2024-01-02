@@ -51,6 +51,7 @@ import { AdminComponent } from "./home/admin.component";
 import { CreateUserComponent } from "./signUp/createUser/createUser.component";
 import { TaskComponent } from "./Task/TaskManager/task.component";
 import { ListAllTaskRequestComponent } from "./Task/TaskManager/TaskList/listAllTaskRequest.component";
+import { TaskRequestComponent } from "./User/taskRequest/taskRequest.component";
 import { ListAllTaskComponent } from "./Task/TaskManager/TaskList/listAllTask.component";
 import { TaskApproveRejectComponent } from "./Task/TaskManager/TaskApproveReject/taskApproveReject.component";
 import { TaskManagerComponent } from "./home/homeTask.component";
@@ -342,6 +343,11 @@ const routeConfig: Routes = [
   {
     path: "taskManager",
     component: TaskManagerComponent,
+    title: "Task manager home page"
+  },
+  {
+    path: "taskRequest",
+    component: TaskRequestComponent,
     title: "Task manager home page"
   },
   {

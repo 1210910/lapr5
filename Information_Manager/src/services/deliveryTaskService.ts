@@ -26,7 +26,7 @@ export default class DeliveryTaskService implements IDeliveryTaskService{
 
   public async createDeliveryTask(deliveryTaskDTO: IDeliveryTaskDTO): Promise<Result<IDeliveryTaskDTO>> {
     try {
-
+            
         const agent = new https.Agent({
             rejectUnauthorized: false, // This line makes Axios accept self-signed certificates
         });

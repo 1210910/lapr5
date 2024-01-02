@@ -6,249 +6,368 @@ This document contains the process views for the RobDroneGo project.
 
 
 ## Level 1 ##
-
 The following diagram shows the process level 1 views for the RobDroneGo project.
 
-# US150 #
-![US160](./images/ProcessView_Level1_US150-Create_a_building.svg)
+### US20 ###
+![US20](./images/vp-1-us20-Create%20a%20user%20account%20(utente).svg)
 
+### US110 ###
+![US110](./images/vp-1-us110-Request%20a%20copy%20of%20all%20my%20data%20(utente).svg)
 
-# US160 #
-![US170](./images/ProcessView_Level1_US160-Edit_a_building.svg)
+### US120 ###
+![US120](./images/vp-1-us120-Request%20the%20deletion%20of%20all%20my%20data%20(utente).svg)
 
+### US150 - US1050 ###
+![US150](./images/vp-1-us150-Create%20a%20building.svg)
 
-# US170 #
+### US160 - US1070 ###
+![US170](./images/vp-1-us160-Edit%20a%20building.svg)
 
-![US150](./images/ProcessView_Level1_US170-List_all_buildings.svg)
+### US170 - US1060 ###
+![US170](./images/vp-1-us170-List%20all%20buildings.svg)
 
-# US180 #
+### US180 - US1080 ###
+![US180](./images/vp-1-us180-List%20all%20buildings%20by%20min%20max%20floors.svg)
 
-![US180](./images/ProcessView_Level1_US180-list_all_buildings_by_min_max_floors.svg)
+### US190 - US1090 ###
+![US190](./images/vp-1-us190-Create%20a%20floor%20of%20a%20building.svg)
 
-# US190 #
+### US200 - US1110 ###
+![US200](./images/vp-1-us200-Edit%20information%20of%20a%20floor.svg)
 
-![US190](./images/ProcessView_Level1_US190-create_a_floor_of_a_building.svg)
+### US210 - US1100 ###
+![US210](./images/vp-1-us210-List%20all%20floors%20of%20a%20building.svg)
 
-# US200 #
+### US220 - US1200 ###
+![US220](./images/vp-1-us220-List%20all%20floors%20with%20passageways%20of%20a%20building.svg)
 
-![US190](./images/ProcessView_Level1_US200-Edit_information_of_a_floor.svg)
+### US230 - US1120 ###
+![US230](./images/vp-1-us230-Load%20floor%20map.svg)
 
-# US210 #
+### US240 - US1170 ###
+![US240](./images/vp-1-us240-Create%20a%20passageway.svg)
 
-![US190](./images/ProcessView_Level1_US210-List_all_floors_of_a_building.svg)
+### US250 - US1180 ###
+![US250](./images/vp-1-us250-Edit%20a%20passageway.svg)
 
-# US220 #
+### US260 - US1190 ###
+![US260](./images/vp-1-us260-List%20all%20passageways.svg)
 
-![US190](./images/ProcessView_Level1_US220-List_all_floors_with_passageways_of_a_building.svg)
+### US270 - US1130 ###
+![US270](./images/vp-1-us270-Create%20a%20lift.svg)
 
-# US230 #
+### US280 - US1150 ###
+![US280](./images/vp-1-us280-Edit%20a%20lift.svg)
 
-![US190](./images/ProcessView_Level1_US230-Load_floor_map.svg)
+### US290 - US1140 ###
+![US290](./images/vp-1-us290-List%20lifts%20of%20a%20building.svg)
 
-# US240 #
+### US310 - US1210 ###
+![US300](./images/vp-1-us310-Create%20a%20room%20in%20a%20floor.svg)
 
-![US190](./images/ProcessView_Level1_US240-Create_a_passageway.svg)
+### US350 - US1000 ###
+![US350](./images/vp-1-us350-Create%20a%20robot%20type.svg)
 
-# US250 #
+### US360 - US1010 ###
+![US360](./images/vp-1-us360-Create%20a%20robot.svg)
 
-![US190](./images/ProcessView_Level1_US250-Edit_a_passageway.svg)
+### US370 - US1020 ###
+![US370](./images/vp-1-us370-Inhibit%20a%20robot.svg)
 
-# US260 #
+### US380 - US1030 ###
+![US380](./images/vp-1-us380-list%20all%20robots%20of%20the%20fleet.svg)
 
-![US190](./images/ProcessView_Level1_US260-List_all_passageways.svg)
 
-# US270 #
-
-![US190](./images/ProcessView_Level1_US270-Create_a_lift.svg)
-
-# US280 #
-
-![US190](./images/ProcessView_Level1_US280-Edit_floor_of_a_building.svg)
-
-# US290 #
-
-![US190](./images/ProcessView_Level1_US290-List_all_floors_of_a_building.svg)
-
-# US350 #
-
-![US190](./images/ProcessView_Level1_US350-create_a_robot_type.svg)
-
-# US360 #
-
-![US190](./images/ProcessView_Level1_US360-Create_a_robot.svg)
-
-# US370 #
-
-![US190](./images/ProcessView_Level1_US370-Inhibit_a_robot.svg)
-
-# US380 #
-
-![US190](./images/ProcessView_Level1_US380.svg)
-
-
-## Level 2 ##
-
-The following diagram shows the process level 2 views for the RobDroneGo project.
-
-# US150 #
-![US160](./images/ProcessView_Level2_US150-create_a_building.svg)
-
-
-# US160 #
-![US170](./images/ProcessView_Level2_US160-edit_a_building.svg)
-
-
-# US170 #
-
-![US150](./images/ProcessView_Level2_US170-list_all_buildings.svg)
-
-# US180 #
-
-![US180](./images/ProcessView_Level2_US180-List_all_buildings_min_and_max_floors.svg)
-
-# US190 #
-
-![US190](./images/ProcessView_Level2_US190-createa_a_floor_of_a_building.svg)
-
-# US200 #
-
-![US190](./images/ProcessView_Level2_US200-Edit_information_of_a_floor.svg)
-
-# US210 #
-
-![US190](./images/ProcessView_Level2_US210-List_all_floors_of_a_building.svg)
-
-# US220 #
-
-![US190](./images/ProcessView_Level2_US220-List_all_floors_with_passageways_of_a_building.svg)
-
-# US230 #
-
-![US190](./images/ProcessView_Level2_US230-Load_a_floor_map.svg)
-
-# US240 #
-
-![US190](./images/ProcessView_Level2_US240-Create_a_passageway.svg)
-
-# US250 #
-
-![US190](./images/ProcessView_Level2_US250-Edit_a_passageway.svg)
-
-# US260 #
-
-![US190](./images/ProcessView_Level2_US260-List_all_passageways.svg)
-
-# US270 #
-
-![US190](./images/ProcessView_Level2_US270-Create_a_lift.svg)
-
-# US280 #
-
-![US190](./images/Process_View_Level2_US280-Edit_floor_of_a_building.svg)
-
-# US290 #
-
-![US190](./images/ProcessView_Level2_US290-List_all_floors_of_a_building.svg)
-
-# US350 #
-
-![US190](./images/ProcessView_Level2_US350-create_a_robot_type.svg)
-
-# US360 #
-
-![US190](./images/ProcessView_Level2_US360-Create_a_Robot.svg)
-
-# US370 #
-
-![US190](./images/ProcessView_Level2_US360-Inhibit_a_robot.svg)
-
-# US380 #
-
-![US190](./images/ProcessView_Level2_US380-List_all_robots_of_a_lit.svg)
-
-
-
-
-
-
-
-## Level 3 ##
-
+## Level 2 - Information Management ##
 The following diagram shows the process level 3 views for the RobDroneGo project.
 
-# US150 #
+### US20 ###
+![US20](./images/vp-im2-us20-Create%20a%20user%20account%20(utente).svg)
 
-![US150](./images/Process_View___Level_3-Create_a_building.svg)
+### US110 ###
+![US110](./images/vp-im2-us110-Request%20a%20copy%20of%20all%20my%20data%20(utente).svg)
 
-# US160 #
+### US120 ###
+![US120](./images/vp-im2-us120-Request%20the%20deletion%20of%20all%20my%20data%20(utente).svg)
 
-![US160](./images/Process_View___Level_3-Edit_a_building.svg)
+### US150 ###
+![US150](./images/vp-2-us150-Create%20a%20building.svg)
 
-# US170 #
+### US160 ###
+![US170](./images/vp-2-us160-Edit%20a%20building.svg)
 
-![US170](./images/Process_View___Level_3-List_all_buildings.svg)
+### US170 ###
+![US170](./images/vp-2-us170-List%20all%20buildings.svg)
 
-# US180 #
+### US180 ###
+![US180](./images/vp-2-us180-List%20all%20buildings%20min%20and%20max%20floors.svg)
 
-![US180](./images/Process_View___Level_3-List_all_buildings_with_min_and_max_floors.svg)
+### US190 ###
+![US190](./images/vp-2-us190-Create%20a%20floor%20of%20a%20building.svg)
 
-# US190 #
+### US200 ###
+![US200](./images/vp-2-us200-Edit%20a%20floor.svg)
 
-![US190](./images/Process_View___Level_3-Create_a_floor.svg)
+### US210 ###
+![US210](./images/vp-2-us210-List%20all%20floors%20of%20a%20building.svg)
 
-# US200 #
+### US220 ###
+![US220](./images/vp-2-us220-List%20all%20floors%20with%20passageways%20of%20a%20building.svg)
 
-![US190](./images/Process_View___Level_3-Edit_a_floor.svg)
+### US230 ###
+![US230](./images/vp-2-us230-Create%20a%20FloorMap.svg)
 
-# US210 #
+### US240 ###
+![US240](./images/vp-2-us240-Create%20a%20passageway.svg)
 
-![US190](./images/Process_View___Level_3-List_all_floors.svg)
+### US250 ###
+![US250](./images/vp-2-us250-Edit%20a%20passageway.svg)
 
-# US220 #
+### US260 ###
+![US260](./images/vp-2-us260-List%20all%20passageways.svg)
 
-![US190](./images/Process_View___Level_3-List_all_floors_with_passageways_of_a_building.svg)
+### US270 ###
+![US270](./images/vp-2-us270-Create%20a%20lift.svg)
 
-# US230 #
+### US280 ###
+![US280](./images/vp-2-us280-Edit%20a%20lift.svg)
 
-![US190](./images/Process_View___Level_3-Create_a_floorMap.svg)
+### US290 ###
+![US290](./images/vp-2-us290-List%20lifts%20of%20a%20building.svg)
 
-# US240 #
+### US310 ###
+![US310](./images/vp-2-us310-Create%20a%20room%20in%20a%20floor.svg)
 
-![US190](./images/Process_View___Level_3-Create_a_passageway.svg)
+### US350 ###
+![US350](./images/vp-2-us350-Create%20a%20robot%20type.svg)
 
-# US250 #
+### US360 ###
+![US360](./images/vp-2-us360-Create%20a%20Robot.svg)
 
-![US190](./images/Process_View___Level_3-Edit_a_passageway.svg)
+### US370 ###
+![US370](./images/vp-2-us370-Inhibit%20a%20robot.svg)
 
-# US260 #
+### US380 ###
+![US380](./images/vp-2-us380-List%20all%20robots%20of%20the%20fleet.svg)
 
-![US190](./images/Process_View___Level_3-List_all_passageways.svg)
 
-# US270 #
+## Level 2 -  Visualization ##
+The following diagram shows the process level 3 views for the RobDroneGo project.
 
-![US190](./images/Process_View___Level_3-Create_a_lift.svg)
+### US20 ###
+![US20](./images/vp-v2-us20-Create%20a%20user%20account%20(utente).svg)
 
-# US280 #
+### US110 ###
+![US110](./images/vp-v2-us110-Request%20a%20copy%20of%20all%20my%20data%20(utente).svg)
 
-![US190](./images/Process_View___Level_3-Edit_a_lift.svg)
+### US120 ###
+![US120](./images/vp-v2-us120-Request%20the%20deletion%20of%20all%20my%20data%20(utente).svg)
 
-# US290 #
+### US1050 ###
+![US150](./images/vp-2-us1050-Create%20a%20building.svg)
 
-![US190](./images/Process_View___Level_3-List_lift_of_a_building.svg)
+### US1070 ###
+![US170](./images/vp-2-us1070-Edit%20a%20building.svg)
 
-# US350 #
+### US1060 ###
+![US170](./images/vp-2-us1060-List%20all%20buildings.svg)
 
-![US190](./images/Process_View___Level_3-Create_a_RobotType.svg)
+### US1080 ###
+![US180](./images/vp-2-us1080-List%20buildings%20with%20min%20and%20max%20floors.svg)
 
-# US360 #
+### US1090 ###
+![US190](./images/vp-2-us1090-Create%20a%20floor%20in%20a%20building.svg)
 
-![US190](./images/Process_View___Level_3-Create_a_robot.svg)
+### US1110 ###
+![US200](./images/vp-2-us1110-Edit%20a%20floor.svg)
 
-# US370 #
+### US1100 ###
+![US210](./images/vp-2-us1100-List%20all%20floors%20of%20a%20building.svg)
 
-![US190](./images/Process_View___Level_3-Inhibit_a_robot.svg)
+### US1200 ###
+![US220](./images/vp-2-us1200-List%20all%20floors%20with%20passageways%20of%20a%20building.svg)
 
-# US380 #
+### US1120 ###
+![US230](./images/vp-2-us1120-Create%20a%20Floor%20Map.svg)
 
-![US190](./images/Process_View___Level_3-List_all_robots.svg)
+### US1170 ###
+![US240](./images/vp-2-us1170-Create%20a%20passageway.svg)
 
+### US1180 ###
+![US250](./images/vp-2-us1180-Edit%20a%20passageway.svg)
+
+### US1190 ###
+![US260](./images/vp-2-us1190-List%20all%20passageways.svg)
+
+### US1130 ###
+![US270](./images/vp-2-us1130-Create%20a%20lift.svg)
+
+### US1150 ###
+![US280](./images/vp-2-us1150-Edit%20a%20lift.svg)
+
+### US1140 ###
+![US290](./images/vp-2-us1140-List%20lifts%20of%20a%20building.svg)
+
+### US1210 ###
+![US300](./images/vp-2-us1210-Create%20a%20room%20in%20a%20floor.svg)
+
+### US1000 ###
+![US350](./images/vp-2-us1000-Create%20a%20robot%20type.svg)
+
+### US1010 ###
+![US360](./images/vp-2-us1010-Create%20a%20robot.svg)
+
+### US1020 ###
+![US370](./images/vp-2-us1020-Inhibit%20a%20robot.svg)
+
+### US1030 ###
+![US380](./images/vp-2-us1030-List%20all%20robots%20of%20the%20fleet.svg)
+
+
+## Level 3 - Information Management ##
+The following diagram shows the process level 3 views for the RobDroneGo project.
+
+### US20 ###
+![US20](./images/vp-im3-us20-Create%20a%20user%20account%20(utente).svg)
+
+### US110 ###
+![US110](./images/vp-im3-us110-Create%20a%20user%20account%20(utente).svg)
+
+### US120 ###
+![US120](./images/vp-im3-us120-Request%20the%20deletion%20of%20all%20my%20data%20(utente).svg)
+
+### US150 ###
+![US150](./images/vp-3-us150-Create%20a%20building.svg)
+
+### US160 ###
+![US170](./images/vp-3-us160-Edit%20a%20building.png)
+
+### US170 ###
+![US170](./images/vp-3-us170-List%20all%20buildings.svg)
+
+### US180 ###
+![US180](./images/vp-3-us180-List%20all%20buildings%20min%20and%20max%20floors.svg)
+
+### US190 ###
+![US190](./images/vp-3-us190-Create%20a%20floor%20of%20a%20building.svg)
+
+### US200 ###
+![US200](./images/vp-3-us200-Edit%20a%20floor.svg)
+
+### US210 ###
+![US210](./images/vp-3-us210-List%20all%20floors%20of%20a%20building.svg)
+
+### US220 ###
+![US220](./images/vp-3-us220-List%20all%20floors%20with%20passageways%20of%20a%20building.svg)
+
+### US230 ###
+![US230](./images/vp-3-us230-Create%20a%20FloorMap.svg)
+
+### US240 ###
+![US240](./images/vp-3-us240-Create%20a%20passageway.svg)
+
+### US250 ###
+![US250](./images/vp-3-us250-Edit%20a%20passageway.svg)
+
+### US260 ###
+![US260](./images/vp-3-us260-List%20all%20passageways.svg)
+
+### US270 ###
+![US270](./images/vp-3-us270-Create%20a%20lift.svg)
+
+### US280 ###
+![US280](./images/vp-3-us280-Edit%20a%20lift.svg)
+
+### US290 ###
+![US290](./images/vp-3-us290-List%20all%20lifts%20of%20a%20building.svg)
+
+### US310 ###
+![US310](./images/vp-3-us310-Create%20a%20room%20in%20a%20floor.svg)
+
+### US350 ###
+![US350](./images/vp-3-us350-Create%20a%20robot%20type.svg)
+
+### US360 ###
+![US360](./images/vp-3-us360-Create%20a%20robot.svg)
+
+### US370 ###
+![US370](./images/vp-3-us370-Inhibit%20a%20robot.svg)
+
+### US380 ###
+![US380](./images/vp-3-us380-list%20all%20robot%20of%20the%20fleet.svg)
+
+
+## Level 3 -  Visualization ##
+The following diagram shows the process level 3 views for the RobDroneGo project.
+
+### US20 ###
+![US20](./images/vp-v3-us20-Create%20a%20user%20account%20(user).svg)
+
+### US110 ###
+![US110](./images/vp-v3-us110-Request%20the%20copy%20of%20all%20my%20data%20(user).svg)
+
+### US120 ###
+![US120](./images/vp-v3-us120-Request%20the%20deletion%20of%20all%20my%20data%20(user).svg)
+
+### US1050 ###
+![US150](./images/vp-3-us1050-Create%20a%20building.svg)
+
+### US1070 ###
+![US170](./images/vp-3-us1070-Edit%20a%20building.svg)
+
+### US1060 ###
+![US170](./images/vp-3-us1060-List%20all%20buildings.svg)
+
+### US1080 ###
+![US180](./images/vp-3-us1080-List%20buildings%20with%20min%20and%20max%20floors.svg)
+
+### US1090 ###
+![US190](./images/vp-3-us1090-Create%20a%20floor%20in%20a%20building.svg)
+
+### US1110 ###
+![US200](./images/vp-3-us1110-Edit%20a%20floor.svg)
+
+### US1100 ###
+![US200](./images/vp-3-us1100-List%20all%20floors%20of%20a%20building.svg)
+
+### US1100 ###
+![US210](./images/vp-3-us1110-Edit%20a%20floor.svg)
+
+### US1200 ###
+![US220](./images/vp-3-us1200-List%20all%20floors%20with%20passageways%20of%20a%20building.svg)
+
+### US1120 ###
+![US230](./images/vp-3-us1120-Create%20a%20FloorMap.svg)
+
+### US1170 ###
+![US240](./images/vp-3-us1170-Create%20a%20passageway.svg)
+
+### US1180 ###
+![US250](./images/vp-3-us1180-Edit%20a%20passageway.svg)
+
+### US1190 ###
+![US260](./images/vp-3-us1190-List%20all%20passageways.svg)
+
+### US1130 ###
+![US270](./images/vp-3-us1130-Create%20a%20lift.svg)
+
+### US1150 ###
+![US280](./images/vp-3-us1150-Edit%20a%20lift.svg)
+
+### US1140 ###
+![US290](./images/vp-3-us1140-List%20lifts%20of%20a%20building.svg)
+
+### US1210 ###
+![US300](./images/vp-3-us1210-Create%20a%20room%20in%20a%20floor.svg)
+
+### US1000 ###
+![US350](./images/vp-3-us1000-Create%20a%20robot%20type.svg)
+
+### US1010 ###
+![US360](./images/vp-3-us1010-Create%20a%20robot.svg)
+
+### US1020 ###
+![US370](./images/vp-3-us1020-Inhibit%20a%20robot.svg)
+
+### US1030 ###
+![US380](./images/vp-3-us1030-list%20all%20robots%20of%20the%20fleet.svg)

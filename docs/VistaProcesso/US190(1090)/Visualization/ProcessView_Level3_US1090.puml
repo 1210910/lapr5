@@ -1,0 +1,43 @@
+@startuml Process View - Level 3
+
+autonumber
+skinparam packageStyle rect
+
+title Create a floor in a building
+
+actor "Campus Manager" as CM <<Human>>
+participant "View" as view <<component>>
+participant "ViewModel" as viewModel <<component>>
+participant "Service" as service <<component>>
+participant "HttpAdapter" as httpAdapter <<component>>
+
+activate CM
+CM -> view : Navigate to createFloor page
+activate view
+view --> CM : Display form for floor details
+CM -> view : Enters floor information
+
+view -> viewModel : Trigger create floor with provided information
+
+activate viewModel
+viewModel -> service : Request to create floor
+
+activate service
+service -> httpAdapter : Make HTTP Request
+activate httpAdapter
+httpAdapter ->> : HTTP Request (POST)
+httpAdapter <<-- : HTTP Response (201)
+httpAdapter --> service : Receive HTTP Response
+deactivate httpAdapter
+
+service --> viewModel : Receive success response
+deactivate service
+
+viewModel --> view : Receive success response
+deactivate viewModel
+
+view --> CM : Successfully response
+deactivate view
+
+deactivate CM
+@enduml
