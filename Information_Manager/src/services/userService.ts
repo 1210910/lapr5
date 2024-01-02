@@ -27,7 +27,6 @@ import axios from 'axios';
 export default class UserService implements IUserService{
   constructor(
       @Inject(config.repos.user.name) private userRepo : IUserRepo,
-      @Inject('logger') private logger,
   ) {}
 
 
@@ -74,7 +73,6 @@ export default class UserService implements IUserService{
 
       const userResult = userOrError.getValue();
 
-      this.logger.silly('Generating JWT');
       const token = this.generateToken(userResult);
 
       //this.logger.silly('Sending welcome email');
@@ -88,7 +86,6 @@ export default class UserService implements IUserService{
       return Result.ok<{userDTO: IUserDTO, token: string}>( {userDTO: userDTOResult, token: token} )
 
     } catch (e) {
-      this.logger.error(e);
       throw e;
     }
   }
@@ -107,7 +104,6 @@ export default class UserService implements IUserService{
      * because it doesn't have _the secret_ to sign it
      * more information here: https://softwareontheroad.com/you-dont-need-passport
      */
-    this.logger.silly(`Sign JWT for userId: ${user._id}`);
 
     const id = user.id.toString();
     const email = user.email.value;
