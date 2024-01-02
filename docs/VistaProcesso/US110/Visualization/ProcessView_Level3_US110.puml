@@ -3,32 +3,31 @@
 autonumber
 skinparam packageStyle rect
 
-title Request a copy of all my data (utente)
+title Request the copy of all my data (user)
 
-actor "User" as NU
-participant "Routing" as routing <<component>>
-participant "Component" as comp <<component>>
+actor "New User" as NU
+participant "View" as view <<component>>
+participant "ViewModel" as viewModel <<component>>
 participant "Service" as service <<component>>
+participant "HttpAdapter" as httpAdapter <<component>>
 
 activate NU
-NU->> routing : Navigate to sign up page
-activate routing
-routing ->> comp : create user
-
-activate comp
-comp ->> service : create user
-
+NU-> view : Navigate to copy data page
+activate view
+view -> viewModel : Trigger copy data request
+activate viewModel
+viewModel -> service : Request to copy data
 activate service
-service ->> : Http Request
-service <<-- : Http Response
-
-service -->> comp : success
+service -> httpAdapter : Make HTTP Request
+activate httpAdapter
+httpAdapter ->> : HTTP Request (GET)
+httpAdapter <<-- : HTTP Response (200)
+httpAdapter --> service : Receive HTTP Response
+deactivate httpAdapter
+service --> viewModel : Receive success response
 deactivate service
-
-comp -->> routing : success
-deactivate comp
-
-NU<<-- routing : Successfully reponse
-deactivate routing
-
+viewModel --> view : Receive success response
+deactivate viewModel
+view --> NU : Successfully data copying
+deactivate view
 @enduml
